@@ -38,6 +38,7 @@ export function DashboardWidgets() {
   const [loopMode, setLoopMode] = useState<"none" | "track" | "playlist">("playlist");
   const [showPlaylist, setShowPlaylist] = useState(false);
   const [trackUrls, setTrackUrls] = useState<Record<number, string>>({});
+  const [trackArtworks, setTrackArtworks] = useState<Record<number, string>>({});
   const [isLoadingTrack, setIsLoadingTrack] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -60,11 +61,21 @@ export function DashboardWidgets() {
       fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`)
         .then((res) => res.json())
         .then((data) => {
-          if (data.results && data.results[0] && data.results[0].previewUrl) {
-            setTrackUrls((prev) => ({
-              ...prev,
-              [index]: data.results[0].previewUrl,
-            }));
+          if (data.results && data.results[0]) {
+            if (data.results[0].previewUrl) {
+              setTrackUrls((prev) => ({
+                ...prev,
+                [index]: data.results[0].previewUrl,
+              }));
+            }
+            if (data.results[0].artworkUrl100) {
+              // Convert 100x100 artwork to higher quality 300x300 image
+              const highResArtwork = data.results[0].artworkUrl100.replace("100x100bb", "300x300bb");
+              setTrackArtworks((prev) => ({
+                ...prev,
+                [index]: highResArtwork,
+              }));
+            }
           }
         })
         .catch((err) => console.error("Error fetching preview for " + item.title, err));
@@ -252,17 +263,32 @@ export function DashboardWidgets() {
             <motion.div
               animate={{ rotate: isPlaying ? 360 : 0 }}
               transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-              className="relative flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-tr from-cyan-950 to-neutral-900 border-2 border-cyan-500/30 p-1 shadow-2xl shrink-0"
+              className="relative flex h-32 w-32 items-center justify-center rounded-full bg-neutral-950 border-2 border-cyan-500/30 p-0.5 shadow-2xl shrink-0 overflow-hidden"
             >
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-neutral-950">
-                {/* Center hole */}
-                <div className="absolute h-8 w-8 rounded-full bg-neutral-900 border border-cyan-500/20 flex items-center justify-center">
-                  <div className="h-2 w-2 rounded-full bg-[#08090b]" />
+              {/* Vinyl Groove Lines Overlaid on Image */}
+              <div className="absolute inset-0 rounded-full border border-white/5 pointer-events-none z-10" />
+              <div className="absolute inset-2 rounded-full border border-black/40 pointer-events-none z-10" />
+              <div className="absolute inset-4 rounded-full border border-black/35 pointer-events-none z-10" />
+              <div className="absolute inset-8 rounded-full border border-black/25 pointer-events-none z-10" />
+              <div className="absolute inset-12 rounded-full border border-black/15 pointer-events-none z-10" />
+              
+              {/* Album Art Image */}
+              {trackArtworks[currentTrackIndex] ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={trackArtworks[currentTrackIndex]}
+                  alt={`${track.title} cover`}
+                  className="h-full w-full rounded-full object-cover pointer-events-none"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center rounded-full bg-neutral-950">
+                  <Music className="h-8 w-8 text-cyan-400/40" />
                 </div>
-                {/* Vinyl groovelines */}
-                <div className="absolute inset-4 rounded-full border border-neutral-900/50" />
-                <div className="absolute inset-8 rounded-full border border-neutral-900/30" />
-                <Music className="h-8 w-8 text-cyan-400/40" />
+              )}
+
+              {/* Vinyl center hole */}
+              <div className="absolute h-8 w-8 rounded-full bg-neutral-950/90 border border-white/20 flex items-center justify-center z-20">
+                <div className="h-2.5 w-2.5 rounded-full bg-[#08090b] border border-cyan-500/30" />
               </div>
             </motion.div>
           </div>

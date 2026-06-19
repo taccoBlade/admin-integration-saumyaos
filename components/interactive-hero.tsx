@@ -332,7 +332,7 @@ export function InteractiveHero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-white font-semibold tracking-tight text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.04] mb-6"
+          className="text-white font-semibold tracking-tight text-3xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.04] mb-6"
         >
           <span className="block font-playfair italic font-normal text-cyan-400">
             Engineering systems.
@@ -384,9 +384,9 @@ export function InteractiveHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1 }}
-          className="pointer-events-auto mt-12 border border-white/5 bg-white/[0.02] backdrop-blur-md px-6 py-4 rounded-2xl shadow-glass"
+          className="pointer-events-auto mt-8 sm:mt-12 w-full sm:w-auto border border-white/5 bg-white/[0.02] backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 rounded-2xl shadow-glass"
         >
-          <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-4 sm:gap-8 text-slate-500 font-mono text-[10px] tracking-wider uppercase">
+          <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-center gap-3 sm:gap-8 text-slate-500 font-mono text-[9px] sm:text-[10px] tracking-wider uppercase">
             <div
               onClick={() => scrollToSection("projects")}
               className="flex flex-col items-center gap-0.5 px-3 py-1 cursor-pointer group hover:text-cyan-400 transition-colors"
@@ -441,7 +441,7 @@ export function InteractiveHero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none"
+        className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex-col items-center gap-2 pointer-events-none"
       >
         <span className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-mono">
           Scroll

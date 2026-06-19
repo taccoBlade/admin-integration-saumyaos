@@ -12,7 +12,7 @@ export function SkillsNetwork({ skills }: { skills: Skill[] }) {
         <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Skills Network</h3>
       </div>
 
-      <div className="relative w-full h-[400px] border border-white/10 rounded-3xl bg-[#08090b]/50 backdrop-blur-sm overflow-hidden flex flex-wrap gap-4 p-8 content-center justify-center">
+      <div className="relative w-full min-h-[350px] md:h-[450px] border border-white/10 rounded-3xl bg-[#08090b]/50 backdrop-blur-sm overflow-hidden flex flex-wrap gap-2.5 sm:gap-4 p-6 sm:p-8 items-center justify-center pb-16">
         {/* Background grid */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30" />
         
@@ -33,9 +33,9 @@ export function SkillsNetwork({ skills }: { skills: Skill[] }) {
               whileHover={{ scale: 1.05, zIndex: 10 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className={`relative cursor-pointer flex items-center px-4 py-2 rounded-full border backdrop-blur-md transition-colors hover:bg-white/10 ${colorClass}`}
+              className={`relative cursor-pointer flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border backdrop-blur-md transition-colors hover:bg-white/10 ${colorClass}`}
               style={{
-                fontSize: `${Math.max(0.8, skill.strength * 0.12)}rem`,
+                fontSize: `calc(${Math.max(0.72, skill.strength * 0.1)}rem + 0.1vw)`,
               }}
             >
               {skill.name}
