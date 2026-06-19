@@ -1,0 +1,35 @@
+{
+  "project_name": "Academic Hub Restoration",
+  "problem_statement": "Digital initiative involving the restoration and redevelopment of a multidisciplinary academic resource platform to improve information organization and knowledge accessibility.",
+  "domain": "Software Engineering",
+  "subdomain": "Digital Platforms",
+  "technologies": ["Next.js", "TypeScript", "TailwindCSS", "PostgreSQL"],
+  "engineering_concepts": ["Information organization", "Knowledge accessibility", "System restoration"],
+  "hardware_components": [],
+  "software_components": ["Resource database", "Search index", "User authentication"],
+  "research_areas": ["Multidisciplinary resource classification"],
+  "challenges": ["Organizing legacy academic resources", "Maintaining high search performance with thousands of documents"],
+  "outcomes": "Restored and deployed a secure, searchable knowledge base serving 500+ student users.",
+  "metrics": {
+    "active_users": "500+",
+    "search_latency": "<100ms"
+  },
+  "timeline": "Jan 2025 - Dec 2025",
+  "screenshots": [],
+  "architecture_diagrams": [],
+  "lessons_learned": ["Decoupling relational search indexes from database lookups significantly mitigates latency spikes during peak academic usage."],
+  "related_projects": [],
+
+  "id": "academic-hub-restoration",
+  "title": "Academic Hub Restoration",
+  "description": "Digital initiative involving the restoration and redevelopment of a multidisciplinary academic resource platform to improve information organization and knowledge accessibility.",
+  "year": 2025,
+  "status": "Completed",
+  "complexityScore": "Fundamental",
+  "overview": "Digital initiative involving the restoration and redevelopment of a multidisciplinary academic resource platform to improve information organization and knowledge accessibility.",
+  "gallery": [],
+  "detailedOverview": "Restored and deployed a secure, searchable knowledge base serving 500+ student users.",
+  "engineeringInsights": ["Information organization", "Knowledge accessibility", "System restoration"],
+  "keyOutcomes": ["500+ active users", "<100ms search latency"],
+  "lessonsLearned": ["Decoupling relational search indexes from database lookups significantly mitigates latency spikes during peak academic usage."]
+}

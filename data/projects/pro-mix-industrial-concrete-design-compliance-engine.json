@@ -1,0 +1,59 @@
+{
+  "project_name": "PRO-MIX: Industrial Concrete Design & Compliance Engine",
+  "problem_statement": "PRO-MIX is an advanced, web-based concrete mix design and auditing platform. It is engineered to perform rigorous mix proportion calculations for both standard Normal Concrete and experimental Geopolymer Concrete, ensuring mathematical precision, cost optimization, and environmental sustainability tracking. \u26a0\ufe0f **Disclaimer:** This software is designed for educational, research, and theoretical modeling purposes. It is not intended for direct site use without professional engineering validation. *   **Dual Computation Engines**:",
+  "domain": "Material Engineering",
+  "subdomain": "Concrete Technology",
+  "technologies": [
+    "Python",
+    "Flask",
+    "Chart.js"
+  ],
+  "engineering_concepts": [
+    "IS 456 Compliance Auditing",
+    "Particle Packing Optimization",
+    "IS 10262 Mix Design Standards"
+  ],
+  "hardware_components": [],
+  "software_components": [
+    "Computation Engines (Volume/Mass-based)",
+    "AI Mix Optimization Core"
+  ],
+  "research_areas": [
+    "Analysis of Concrete Technology paradigms"
+  ],
+  "challenges": [
+    "- Ran edge-case tests in `tests/test_challenger_edge_cases.",
+    "Match: YES\n\n---\n\n## DEVIATIONS\n\nDeviation: None\nImpact: N/A\nRecommendation: N/A\n\n---\n\n## FINAL COMPLIANCE STATUS\n\nCOMPLIANT\n\n\n# Pytest suite for verifying edge cases and overrides in calculations\n# Written by teamwork_preview_challenger\n\nimport pytest\nimport os\nimport sys\n\n# Add project root to path\nsys."
+  ],
+  "outcomes": "Successful deployment and verification of the PRO-MIX: Industrial Concrete Design & Compliance Engine system.",
+  "metrics": {
+    "accuracy_and_performance": "10% reduction",
+    "evaluation_scores": "11/11, 44/40, 36/40"
+  },
+  "timeline": "Jan 2026 - Present",
+  "screenshots": [],
+  "architecture_diagrams": [],
+  "lessons_learned": [
+    "Iterative unit testing is critical when dealing with physical sensors."
+  ],
+  "related_projects": [],
+  "id": "pro-mix-industrial-concrete-design-compliance-engine",
+  "title": "PRO-MIX: Industrial Concrete Design & Compliance Engine",
+  "description": "PRO-MIX is an advanced, web-based concrete mix design and auditing platform. It is engineered to perform rigorous mix proportion calculations for both standard Normal Concrete and experimental Geopolymer Concrete, ensuring mathematical precision, cost optimization, and environmental sustainability t",
+  "year": 2026,
+  "status": "Completed",
+  "complexityScore": "Advanced",
+  "overview": "PRO-MIX is an advanced, web-based concrete mix design and auditing platform. It is engineered to perform rigorous mix proportion calculations for both standard Normal Concrete and experimental Geopolymer Concrete, ensuring mathematical precision, cost optimization, and environmental sustainability tracking. \u26a0\ufe0f **Disclaimer:** This software is designed for educational, research, and theoretical modeling purposes. It is not intended for direct site use without professional engineering validation. *   **Dual Computation Engines**:",
+  "gallery": [],
+  "detailedOverview": "Successful deployment and verification of the PRO-MIX: Industrial Concrete Design & Compliance Engine system.",
+  "engineeringInsights": [
+    "IS 456 Compliance Auditing",
+    "Particle Packing Optimization",
+    "IS 10262 Mix Design Standards"
+  ],
+  "keyOutcomes": [
+    "10% reduction",
+    "11/11, 44/40, 36/40"
+  ],
+  "lessonsLearned": []
+}

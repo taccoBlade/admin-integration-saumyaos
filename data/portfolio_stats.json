@@ -1,0 +1,35 @@
+{
+  "total_projects": 5,
+  "total_domains": 4,
+  "total_technologies": 12,
+  "total_hardware": 6,
+  "total_logbook_entries": 2,
+  "domains_list": [
+    "Software Engineering",
+    "Material Engineering",
+    "Geotechnical Engineering",
+    "Transportation Infrastructure"
+  ],
+  "technologies_list": [
+    "LaTeX",
+    "Data Analysis",
+    "Chart.js",
+    "OpenCV",
+    "Python",
+    "Arduino C++",
+    "NumPy",
+    "Scikit-learn",
+    "Pandas",
+    "Socket.IO",
+    "Flask",
+    "MQTT Protocol"
+  ],
+  "hardware_list": [
+    "LiDAR Scanner",
+    "RTK-GPS Module",
+    "ESP32 Microcontroller",
+    "Soil Moisture Sensor",
+    "Accelerometer",
+    "ESP32-CAM Board"
+  ]
+}

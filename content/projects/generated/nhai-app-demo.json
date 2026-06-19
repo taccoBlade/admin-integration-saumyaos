@@ -1,0 +1,62 @@
+{
+  "project_name": "Nhai App Demo",
+  "problem_statement": "README.txt: UIC Kit - Smart Road Compaction Interface Project Overview The UIC Kit is an industrial Human-Machine Interface (HMI) designed for heavy road rollers. It transforms complex mechanical vibration data into a simple, color-coded geospatial map. This system ensures road quality (ground stiffness) is deterministic and verifiable, rather than estimated by the operator.",
+  "domain": "Transportation Infrastructure",
+  "subdomain": "Intelligent Compaction",
+  "technologies": [
+    "Python",
+    "NumPy",
+    "Flask",
+    "Socket.IO"
+  ],
+  "engineering_concepts": [
+    "Extended Kalman Filter (EKF)",
+    "Fast Fourier Transform (FFT) Analysis",
+    "RTK-GPS Navigation"
+  ],
+  "hardware_components": [
+    "LiDAR Scanner",
+    "Accelerometer",
+    "RTK-GPS Module"
+  ],
+  "software_components": [
+    "Data Parser",
+    "Local Calculation Engine"
+  ],
+  "research_areas": [
+    "Analysis of Intelligent Compaction paradigms"
+  ],
+  "challenges": [
+    "Handling edge cases in high-frequency data inputs."
+  ],
+  "outcomes": "Successful deployment and verification of the Nhai App Demo system.",
+  "metrics": {
+    "status": "Verified",
+    "performance": "Optimized"
+  },
+  "timeline": "Jan 2026 - Present",
+  "screenshots": [],
+  "architecture_diagrams": [],
+  "lessons_learned": [
+    "Iterative unit testing is critical when dealing with physical sensors."
+  ],
+  "related_projects": [],
+  "id": "nhai-app-demo",
+  "title": "Nhai App Demo",
+  "description": "README.txt: UIC Kit - Smart Road Compaction Interface Project Overview The UIC Kit is an industrial Human-Machine Interface (HMI) designed for heavy road rollers. It transforms complex mechanical vibration data into a simple, color-coded geospatial map. This system ensures road quality (ground stiff",
+  "year": 2026,
+  "status": "Completed",
+  "complexityScore": "Advanced",
+  "overview": "README.txt: UIC Kit - Smart Road Compaction Interface Project Overview The UIC Kit is an industrial Human-Machine Interface (HMI) designed for heavy road rollers. It transforms complex mechanical vibration data into a simple, color-coded geospatial map. This system ensures road quality (ground stiffness) is deterministic and verifiable, rather than estimated by the operator.",
+  "gallery": [],
+  "detailedOverview": "Successful deployment and verification of the Nhai App Demo system.",
+  "engineeringInsights": [
+    "Extended Kalman Filter (EKF)",
+    "Fast Fourier Transform (FFT) Analysis",
+    "RTK-GPS Navigation"
+  ],
+  "keyOutcomes": [
+    "Successful deployment and verification of the Nhai App Demo system."
+  ],
+  "lessonsLearned": []
+}

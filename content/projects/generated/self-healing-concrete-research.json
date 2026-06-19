@@ -1,0 +1,35 @@
+{
+  "project_name": "Self-Healing Concrete Research",
+  "problem_statement": "Research investigating advanced concrete systems capable of improving long-term durability and mitigating cracks to reduce maintenance requirements.",
+  "domain": "Material Engineering",
+  "subdomain": "Concrete Research",
+  "technologies": ["Python", "Data Analysis", "LaTeX"],
+  "engineering_concepts": ["Crack mitigation concepts", "Sustainable infrastructure", "Material performance analysis"],
+  "hardware_components": [],
+  "software_components": ["Concrete health simulation models"],
+  "research_areas": ["Advanced concrete durability", "Bio-concrete sealing mechanisms"],
+  "challenges": ["Optimizing healing agent distribution", "Measuring crack sealing efficiency over time"],
+  "outcomes": "Formulated theoretical models showing a 25% increase in concrete lifespan under continuous stress.",
+  "metrics": {
+    "lifespan_increase": "25%",
+    "healing_capacity": "0.2mm cracks"
+  },
+  "timeline": "Jan 2026 - Present",
+  "screenshots": [],
+  "architecture_diagrams": [],
+  "lessons_learned": ["Particle size of healing agent significantly affects the hydration reaction of cement matrix."],
+  "related_projects": [],
+
+  "id": "self-healing-concrete-research",
+  "title": "Self-Healing Concrete Research",
+  "description": "Research investigating advanced concrete systems capable of improving long-term durability and mitigating cracks to reduce maintenance requirements.",
+  "year": 2026,
+  "status": "Research",
+  "complexityScore": "Intermediate",
+  "overview": "Research investigating advanced concrete systems capable of improving long-term durability and mitigating cracks to reduce maintenance requirements.",
+  "gallery": [],
+  "detailedOverview": "Formulated theoretical models showing a 25% increase in concrete lifespan under continuous stress.",
+  "engineeringInsights": ["Crack mitigation concepts", "Sustainable infrastructure", "Material performance analysis"],
+  "keyOutcomes": ["25% increase in concrete lifespan under continuous stress", "0.2mm crack healing capacity"],
+  "lessonsLearned": ["Particle size of healing agent significantly affects the hydration reaction of cement matrix."]
+}

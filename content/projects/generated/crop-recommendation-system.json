@@ -1,0 +1,35 @@
+{
+  "project_name": "Crop Recommendation System",
+  "problem_statement": "Machine-learning based project integrating environmental and agricultural parameters to generate data-driven crop recommendations for decision support.",
+  "domain": "Software Engineering",
+  "subdomain": "Machine Learning",
+  "technologies": ["Python", "Scikit-learn", "Pandas", "Flask"],
+  "engineering_concepts": ["Predictive modeling", "Decision support systems", "Feature engineering", "Agricultural data analytics"],
+  "hardware_components": [],
+  "software_components": ["ML prediction engine", "Web API dashboard"],
+  "research_areas": ["Precision agriculture modeling"],
+  "challenges": ["Dealing with noisy soil and climate data", "Ensuring high classification accuracy across diverse crop types"],
+  "outcomes": "Built and validated a Random Forest model with 95% accuracy in crop recommendation.",
+  "metrics": {
+    "prediction_accuracy": "95%",
+    "supported_crops": "12 types"
+  },
+  "timeline": "Jan 2025 - Jun 2025",
+  "screenshots": [],
+  "architecture_diagrams": [],
+  "lessons_learned": ["Feature scaling and normalization are critical when combining divergent variables like soil pH and rainfall values."],
+  "related_projects": [],
+
+  "id": "crop-recommendation-system",
+  "title": "Crop Recommendation System",
+  "description": "Machine-learning based project integrating environmental and agricultural parameters to generate data-driven crop recommendations for decision support.",
+  "year": 2025,
+  "status": "Completed",
+  "complexityScore": "Fundamental",
+  "overview": "Machine-learning based project integrating environmental and agricultural parameters to generate data-driven crop recommendations for decision support.",
+  "gallery": [],
+  "detailedOverview": "Built and validated a Random Forest model with 95% accuracy in crop recommendation.",
+  "engineeringInsights": ["Predictive modeling", "Decision support systems", "Feature engineering", "Agricultural data analytics"],
+  "keyOutcomes": ["95% prediction accuracy", "12 crop types supported"],
+  "lessonsLearned": ["Feature scaling and normalization are critical when combining divergent variables like soil pH and rainfall values."]
+}
