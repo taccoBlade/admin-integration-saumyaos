@@ -17,13 +17,16 @@ export function SkillsNetwork({ skills }: { skills: Skill[] }) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30" />
         
         {skills.map((skill, index) => {
-          const isEngineering = skill.category === "Engineering";
-          const isTech = skill.category === "Technology";
-          const colorClass = isEngineering 
-            ? "border-cyan-500/40 bg-cyan-500/10 text-cyan-300" 
-            : isTech 
-              ? "border-violet-500/40 bg-violet-500/10 text-violet-300"
-              : "border-amber-500/40 bg-amber-500/10 text-amber-300";
+          let colorClass = "border-neutral-500/40 bg-neutral-500/10 text-neutral-300 hover:bg-neutral-500/20 hover:border-neutral-500/60";
+          if (skill.category === "Engineering") {
+            colorClass = "border-cyan-500/40 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-500/60";
+          } else if (skill.category === "Technology") {
+            colorClass = "border-violet-500/40 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 hover:border-violet-500/60";
+          } else if (skill.category === "Markets") {
+            colorClass = "border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/60";
+          } else if (skill.category === "Creative") {
+            colorClass = "border-rose-500/40 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:border-rose-500/60";
+          }
 
           return (
             <motion.div
@@ -33,7 +36,7 @@ export function SkillsNetwork({ skills }: { skills: Skill[] }) {
               whileHover={{ scale: 1.05, zIndex: 10 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
-              className={`relative cursor-pointer flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border backdrop-blur-md transition-colors hover:bg-white/10 ${colorClass}`}
+              className={`relative cursor-pointer flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border backdrop-blur-md transition-colors ${colorClass}`}
               style={{
                 fontSize: `calc(${Math.max(0.72, skill.strength * 0.1)}rem + 0.1vw)`,
               }}

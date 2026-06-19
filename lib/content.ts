@@ -99,16 +99,21 @@ export function getTimelineEvents(): TimelineEvent[] {
 
 export function getSkills(): Skill[] {
   const baseSkills: { name: string; category: Skill["category"]; baseStrength: number }[] = [
-    { name: "Civil Engineering", category: "Engineering", baseStrength: 8 },
-    { name: "Geotechnical Engineering", category: "Engineering", baseStrength: 7 },
-    { name: "Concrete Technology", category: "Engineering", baseStrength: 7 },
-    { name: "Machine Learning", category: "Technology", baseStrength: 6 },
-    { name: "Computer Vision", category: "Technology", baseStrength: 6 },
-    { name: "Next.js", category: "Technology", baseStrength: 7 },
-    { name: "ESP32", category: "Technology", baseStrength: 6 },
-    { name: "IoT", category: "Technology", baseStrength: 6 },
-    { name: "Portfolio Analysis", category: "Markets", baseStrength: 8 },
-    { name: "Video Editing", category: "Creative", baseStrength: 8 }
+    { name: "Civil Engineering", category: "Engineering", baseStrength: 9 },
+    { name: "Qgis and drone mapping", category: "Technology", baseStrength: 8 },
+    { name: "Concrete Technology", category: "Engineering", baseStrength: 9 },
+    { name: "Concrete Mix Design", category: "Engineering", baseStrength: 8 },
+    { name: "Construction Materials", category: "Engineering", baseStrength: 7 },
+    { name: "Surveying", category: "Engineering", baseStrength: 7 },
+    { name: "Engineering Drawing", category: "Engineering", baseStrength: 7 },
+    { name: "Research & Development", category: "Markets", baseStrength: 8 },
+    { name: "Technical Documentation", category: "Creative", baseStrength: 8 },
+    { name: "Data Interpretation", category: "Technology", baseStrength: 8 },
+    { name: "Problem Solving", category: "Markets", baseStrength: 8 },
+    { name: "Intelligent Compaction", category: "Engineering", baseStrength: 8 },
+    { name: "Video Editing", category: "Creative", baseStrength: 9 },
+    { name: "Photography", category: "Creative", baseStrength: 7 },
+    { name: "Content Creation", category: "Creative", baseStrength: 8 }
   ];
 
   const projects = getProjects();
@@ -125,48 +130,67 @@ export function getSkills(): Skill[] {
     });
   });
 
-  // Helper to slugify tags
-  const slugifyTag = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-
-  // Process projects to map relationships and discover new skills
+  // Process projects to map relationships
   projects.forEach(proj => {
-    // Check technologies array
-    proj.technologies.forEach(tech => {
-      const key = tech.toLowerCase();
-      if (skillsMap.has(key)) {
-        const skill = skillsMap.get(key)!;
+    const projRecord = proj as unknown as Record<string, unknown>;
+    const subdomain = typeof projRecord.subdomain === "string" ? projRecord.subdomain : "";
+    const engineeringConcepts = Array.isArray(projRecord.engineering_concepts)
+      ? projRecord.engineering_concepts.map(String)
+      : [];
+    const researchAreas = Array.isArray(projRecord.research_areas)
+      ? projRecord.research_areas.map(String)
+      : [];
+
+    const projectText = [
+      proj.title,
+      proj.description,
+      proj.domain,
+      proj.overview,
+      ...(proj.technologies || []),
+      ...(proj.engineeringInsights || []),
+      subdomain,
+      ...engineeringConcepts,
+      ...researchAreas
+    ].join(" ").toLowerCase();
+
+    skillsMap.forEach((skill) => {
+      const name = skill.name.toLowerCase();
+      let isMatch = false;
+
+      if (projectText.includes(name)) {
+        isMatch = true;
+      } else {
+        // Custom keyword mapping to match projects to skills
+        const keywordsMap: Record<string, string[]> = {
+          "civil engineering": ["civil", "concrete", "soil", "compaction", "geotechnical"],
+          "qgis and drone mapping": ["qgis", "drone", "gis", "mapping", "surveying", "aerial"],
+          "concrete technology": ["concrete", "cement", "pro-mix", "self-healing"],
+          "concrete mix design": ["mix design", "pro-mix", "10262"],
+          "construction materials": ["materials", "aggregate", "sand", "cement", "concrete"],
+          "surveying": ["surveying", "leveling", "theodolite", "gps", "drone", "gis"],
+          "engineering drawing": ["drawing", "cad", "autocad", "drafting", "blueprint"],
+          "research & development": ["research", "development", "thesis", "experiment", "novel"],
+          "technical documentation": ["documentation", "report", "paper", "insights", "compliance"],
+          "data interpretation": ["data", "analysis", "interpretation", "charts", "graph", "accuracy"],
+          "problem solving": ["problem", "solving", "optimization", "engine", "algorithm"],
+          "intelligent compaction": ["compaction", "roller", "highways", "soil"],
+          "video editing": ["video", "editing", "premiere", "resolve"],
+          "photography": ["photography", "photo", "camera"],
+          "content creation": ["content", "creation", "writing", "blog", "logbook"]
+        };
+
+        const keywords = keywordsMap[name] || [];
+        if (keywords.some(kw => projectText.includes(kw))) {
+          isMatch = true;
+        }
+      }
+
+      if (isMatch) {
         if (!skill.relatedProjects.includes(proj.id)) {
           skill.relatedProjects.push(proj.id);
         }
-      } else {
-        // Dynamically add a new skill
-        let category: Skill["category"] = "Technology";
-        const civilTerms = ["civil", "concrete", "geotechnical", "soil", "mix design", "materials", "structures", "structural"];
-        const marketTerms = ["market", "investing", "trading", "finance", "equity", "capital", "portfolio"];
-        const creativeTerms = ["editing", "video", "photo", "writing", "story", "design", "cinematography"];
-
-        if (civilTerms.some(t => key.includes(t))) category = "Engineering";
-        else if (marketTerms.some(t => key.includes(t))) category = "Markets";
-        else if (creativeTerms.some(t => key.includes(t))) category = "Creative";
-
-        skillsMap.set(key, {
-          id: `skill-dyn-${slugifyTag(tech)}`,
-          name: tech,
-          category,
-          relatedProjects: [proj.id],
-          strength: 5
-        });
       }
     });
-
-    // Check domain mapping
-    const domainKey = proj.domain.toLowerCase();
-    if (skillsMap.has(domainKey)) {
-      const skill = skillsMap.get(domainKey)!;
-      if (!skill.relatedProjects.includes(proj.id)) {
-        skill.relatedProjects.push(proj.id);
-      }
-    }
   });
 
   // Re-calculate strength based on the number of related projects
@@ -183,3 +207,4 @@ export function getSkills(): Skill[] {
   // Sort by strength descending
   return finalSkills.sort((a, b) => b.strength - a.strength);
 }
+
