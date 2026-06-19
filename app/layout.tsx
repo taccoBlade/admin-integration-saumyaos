@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { PageTransition } from "@/components/page-transition";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,6 +43,7 @@ export default function RootLayout({
       >
         <Header />
         <PageTransition>{children}</PageTransition>
+        <Analytics />
       </body>
     </html>
   );
