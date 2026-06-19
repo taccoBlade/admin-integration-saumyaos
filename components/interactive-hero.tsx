@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import stats from "../data/portfolio_stats.json";
 
 const SPOTLIGHT_R = 250;
 
@@ -379,59 +378,40 @@ export function InteractiveHero() {
           </button>
         </motion.div>
 
-        {/* Metrics Row */}
+        {/* Metrics/Anchors Row */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1 }}
-          className="pointer-events-auto mt-8 sm:mt-12 w-full sm:w-auto border border-white/5 bg-white/[0.02] backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 rounded-2xl shadow-glass"
+          className="pointer-events-auto mt-8 sm:mt-12 w-full sm:max-w-xl border border-white/5 bg-white/[0.02] backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 rounded-2xl shadow-glass"
         >
-          <div className="grid grid-cols-2 sm:flex sm:items-center sm:justify-center gap-3 sm:gap-8 text-slate-500 font-mono text-[9px] sm:text-[10px] tracking-wider uppercase">
-            <div
-              onClick={() => scrollToSection("projects")}
-              className="flex flex-col items-center gap-0.5 px-3 py-1 cursor-pointer group hover:text-cyan-400 transition-colors"
-            >
-              <span className="text-white font-semibold text-sm sm:text-base group-hover:scale-105 transition-transform">
-                {stats.total_projects}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3 sm:gap-6 text-slate-400 font-mono text-[9px] sm:text-[10px] tracking-wider uppercase">
+            
+            <div className="flex items-center gap-2 px-3 py-1 justify-center sm:justify-start">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="text-white font-semibold text-[10px]">
+                NHAI Innovation Project
               </span>
-              <span>Projects Built</span>
             </div>
 
-            <div className="hidden sm:block h-6 w-px bg-white/10" />
+            <div className="hidden sm:block h-4 w-px bg-white/10" />
 
-            <div
-              onClick={() => scrollToSection("projects")}
-              className="flex flex-col items-center gap-0.5 px-3 py-1 cursor-pointer group hover:text-violet-400 transition-colors"
-            >
-              <span className="text-white font-semibold text-sm sm:text-base group-hover:scale-105 transition-transform">
-                {stats.total_domains}
+            <div className="flex items-center gap-2 px-3 py-1 justify-center sm:justify-start">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
+              <span className="text-white font-semibold text-[10px]">
+                Civil Engineering @ PDEU
               </span>
-              <span>Research Domains</span>
             </div>
 
-            <div className="hidden sm:block h-6 w-px bg-white/10" />
+            <div className="hidden sm:block h-4 w-px bg-white/10" />
 
-            <div
-              onClick={() => scrollToSection("about")}
-              className="flex flex-col items-center gap-0.5 px-3 py-1 cursor-pointer group hover:text-amber-400 transition-colors"
-            >
-              <span className="text-white font-semibold text-sm sm:text-base group-hover:scale-105 transition-transform">
-                {stats.total_technologies}
+            <div className="flex items-center gap-2 px-3 py-1 justify-center sm:justify-start">
+              <span className="h-1.5 w-1.5 rounded-full bg-violet-500 shrink-0" />
+              <span className="text-white font-semibold text-[10px]">
+                Infrastructure Systems
               </span>
-              <span>Technologies</span>
             </div>
 
-            <div className="hidden sm:block h-6 w-px bg-white/10" />
-
-            <div
-              onClick={() => scrollToSection("about")}
-              className="flex flex-col items-center gap-0.5 px-3 py-1 cursor-pointer group hover:text-emerald-400 transition-colors"
-            >
-              <span className="text-white font-semibold text-sm sm:text-base group-hover:scale-105 transition-transform">
-                {stats.total_hardware}
-              </span>
-              <span>Hardware Systems</span>
-            </div>
           </div>
         </motion.div>
       </div>
