@@ -9,12 +9,15 @@ import { Menu, X } from "lucide-react";
 const navItems = [
   { label: "Professional", href: "/" },
   { label: "Personal", href: "/personal" },
+  { label: "Archive", href: "/archive" },
   { label: "Contact", href: "/contact" },
 ];
 
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  if (pathname === "/lithos") return null;
 
   return (
     <>

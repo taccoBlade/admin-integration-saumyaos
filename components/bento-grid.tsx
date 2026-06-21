@@ -337,7 +337,7 @@ export function BentoGrid() {
             </div>
             <h4 className="text-lg font-semibold text-white mb-2">Concrete Technology</h4>
             <p className="text-sm text-slate-400 leading-relaxed">
-              Formulating sustainable concrete mix designs (IS 10262), fly ash/GGBS proportioning, and self-healing concrete research.
+              Formulating sustainable concrete mix designs (IS 10262) and fly ash/GGBS proportioning.
             </p>
           </div>
 

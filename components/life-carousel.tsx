@@ -1,17 +1,27 @@
 "use client";
 
-import { useRef } from "react";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 /* ─── Card Data ─── */
-const CARDS = [
+export const CARDS = [
   {
     category: "Academic",
     title: "Engineering",
     description: "Civil engineering, geotechnical research, fiber-optic sensor design.",
     gradient: "from-cyan-900/80 to-slate-950",
     accent: "bg-cyan-600",
+    dossier: {
+      subTitle: "STRUCTURAL & GEOTECHNICAL DISCIPLINE",
+      stats: [
+        { label: "CORE FIELDS", value: "Geotechnical, Structural, Sensors" },
+        { label: "CURRENT FOCUS", value: "Smart Infrastructure Telemetry" },
+        { label: "LATEST RESEARCH", value: "Soil Consolidation Rates" },
+        { label: "MISSION STATUS", value: "Active Research" }
+      ],
+      philosophy: "First Principles > Empirical Shortcuts"
+    }
   },
   {
     category: "Finance",
@@ -19,6 +29,16 @@ const CARDS = [
     description: "Swing trading, data-driven market analysis, building wealth systems.",
     gradient: "from-emerald-900/80 to-slate-950",
     accent: "bg-emerald-600",
+    dossier: {
+      subTitle: "QUANTITATIVE RISK & CAPITAL GROWTH",
+      stats: [
+        { label: "STYLE", value: "Swing Trading" },
+        { label: "STRATEGY", value: "Data-driven Market Analysis" },
+        { label: "METRICS", value: "Wealth Systems Build" },
+        { label: "RISK TOLERANCE", value: "Strict Portfolio Controls" }
+      ],
+      philosophy: "Protect Capital, Let Winners Run"
+    }
   },
   {
     category: "Creative",
@@ -26,6 +46,16 @@ const CARDS = [
     description: "Editing video content, narrative pacing, sound design, and storytelling.",
     gradient: "from-rose-900/80 to-slate-950",
     accent: "bg-rose-600",
+    dossier: {
+      subTitle: "NARRATIVE ARCHITECTURE & EDITING",
+      stats: [
+        { label: "TOOLS", value: "Premiere Pro, Lightroom, S24 Ultra" },
+        { label: "CURRENT PROJECT", value: "Cinematic Motorcycle Film" },
+        { label: "FORMAT", value: "Vertical & Horizontal Storytelling" },
+        { label: "AUDIO PARADIGM", value: "Sound Design & Narrative Pacing" }
+      ],
+      philosophy: "Pacing is the heart of story."
+    }
   },
   {
     category: "Physical",
@@ -33,6 +63,33 @@ const CARDS = [
     description: "Daily running discipline, strength training, and focus cycles.",
     gradient: "from-amber-900/80 to-slate-950",
     accent: "bg-amber-600",
+    dossier: {
+      subTitle: "ENDURANCE & PHYSICAL DISCIPLINE",
+      stats: [
+        { label: "BODYWEIGHT", value: "73.5 KG" },
+        { label: "DAILY DISCIPLINE", value: "Running & Focus Cycles" },
+        { label: "RUNNING TARGET", value: "10 KM / Day" },
+        { label: "ACTIVE STATUS", value: "Operational" }
+      ],
+      philosophy: "Discipline > Motivation"
+    }
+  },
+  {
+    category: "Adventure",
+    title: "Riding",
+    description: "Long-distance motorcycle touring, mechanical custom builds.",
+    gradient: "from-orange-900/80 to-slate-950",
+    accent: "bg-orange-600",
+    dossier: {
+      subTitle: "MECHANICAL CONCURRENCY & ADVENTURE",
+      stats: [
+        { label: "MACHINE", value: "Super Meteor 650" },
+        { label: "LONGEST RIDE", value: "1,650 KM" },
+        { label: "FAVOURITE ROUTE", value: "Rann of Kutch" },
+        { label: "BUILD STATUS", value: "Stage 1 Complete" }
+      ],
+      philosophy: "Focus forward, adjust the lean."
+    }
   },
   {
     category: "Curiosity",
@@ -40,7 +97,17 @@ const CARDS = [
     description: "Exploring artificial intelligence, building automation, and learning emerging tech.",
     gradient: "from-violet-900/80 to-slate-950",
     accent: "bg-violet-600",
-  },
+    dossier: {
+      subTitle: "AUTOMATION & SYSTEMS ARCHITECTURE",
+      stats: [
+        { label: "TECH STACK", value: "LLMs, Automation, Neural Nets" },
+        { label: "CURRENT FOCUS", value: "Agentic Workflows" },
+        { label: "PLATFORM", value: "Next.js, Python, Vercel" },
+        { label: "SYSTEM STATE", value: "Continuous Learning" }
+      ],
+      philosophy: "Automate everything that is repetitive."
+    }
+  }
 ];
 
 /* ─── Card Background SVG Schematic Overlay ─── */
@@ -416,6 +483,65 @@ function CardBackground({ title }: { title: string }) {
       </svg>
     );
   }
+  
+  if (title === "Riding") {
+    return (
+      <svg viewBox="0 0 384 640" className="absolute inset-0 w-full h-full opacity-40 group-hover:opacity-85 stroke-orange-400 fill-none pointer-events-none transition-all duration-500">
+        <defs>
+          <filter id="orange-glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        
+        {/* Speedometer Arc */}
+        <circle cx="192" cy="180" r="50" className="stroke-orange-500/10" strokeWidth="2" />
+        <path d="M 152 210 A 50 50 0 1 1 232 210" className="stroke-orange-500" strokeWidth="2" strokeLinecap="round" filter="url(#orange-glow)" />
+        <line x1="192" y1="180" x2="225" y2="150" strokeWidth="3" className="stroke-orange-500" strokeLinecap="round" filter="url(#orange-glow)" />
+        <text x="192" y="195" className="fill-orange-450 font-mono text-[10px] font-bold" textAnchor="middle">95 KM/H</text>
+        <text x="192" y="205" className="fill-slate-500 font-mono text-[5px]" textAnchor="middle">GEAR 6 // 5200 RPM</text>
+
+        {/* Compass HUD circle */}
+        <circle cx="192" cy="180" r="70" className="stroke-orange-500/5" strokeWidth="1" strokeDasharray="3 3" />
+        <text x="192" y="102" className="fill-orange-500/40 font-mono text-[6px]" textAnchor="middle">N 0°</text>
+        <text x="192" y="260" className="fill-orange-500/40 font-mono text-[6px]" textAnchor="middle">S 180°</text>
+
+        {/* GPS coordinates & route telemetry */}
+        <text x="45" y="90" className="fill-orange-450/70 font-mono text-[9px] tracking-wider">ROUTE: RANN OF KUTCH</text>
+        <text x="45" y="105" className="fill-slate-500 font-mono text-[7px]">COORD: 23.8000° N, 69.7500° E</text>
+
+        {/* Elevation profile/road slope */}
+        <g className="opacity-30">
+          <path d="M 40 450 L 100 450 L 140 410 L 220 410 L 260 450 L 344 450" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="140" cy="410" r="2" className="fill-orange-400" />
+          <circle cx="220" cy="410" r="2" className="fill-orange-400" />
+          <text x="180" y="400" className="fill-slate-500 font-mono text-[5px]" textAnchor="middle">KALA DUNGAR HILL CLIMB</text>
+        </g>
+
+        {/* Motorcycle silhouette/wheel base schematic */}
+        <g className="opacity-20 stroke-orange-500/30">
+          {/* Rear Wheel */}
+          <circle cx="110" cy="520" r="30" strokeWidth="1.5" />
+          <circle cx="110" cy="520" r="12" strokeWidth="0.8" />
+          {/* Front Wheel */}
+          <circle cx="274" cy="520" r="30" strokeWidth="1.5" />
+          <circle cx="274" cy="520" r="12" strokeWidth="0.8" />
+          {/* Frame */}
+          <path d="M 110 520 L 160 520 L 190 480 L 245 480 L 274 520 M 160 520 L 190 480 L 240 520 M 190 480 L 210 440 L 245 480" strokeWidth="1.2" />
+          {/* Engine block representation */}
+          <rect x="160" y="490" width="30" height="25" rx="3" strokeWidth="0.8" />
+          <line x1="165" y1="495" x2="185" y2="495" strokeWidth="0.6" />
+          <line x1="165" y1="500" x2="185" y2="500" strokeWidth="0.6" />
+          <line x1="165" y1="505" x2="185" y2="505" strokeWidth="0.6" />
+          
+          <text x="192" y="565" className="fill-orange-500/40 font-mono text-[5px]" textAnchor="middle">CHASSIS REF: RE_METEOR_650</text>
+        </g>
+      </svg>
+    );
+  }
   return null;
 }
 
@@ -435,8 +561,20 @@ const cardVariants = {
   },
 };
 
-export function LifeCarousel() {
+export interface LifeCarouselProps {
+  activeDossier?: typeof CARDS[number] | null;
+  setActiveDossier?: (card: typeof CARDS[number] | null) => void;
+}
+
+export function LifeCarousel({
+  activeDossier: propActiveDossier,
+  setActiveDossier: propSetActiveDossier,
+}: LifeCarouselProps = {}) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [localActiveDossier, setLocalActiveDossier] = useState<typeof CARDS[number] | null>(null);
+
+  const activeDossier = propActiveDossier !== undefined ? propActiveDossier : localActiveDossier;
+  const setActiveDossier = propSetActiveDossier !== undefined ? propSetActiveDossier : setLocalActiveDossier;
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -445,20 +583,23 @@ export function LifeCarousel() {
   };
 
   return (
-    <section className="relative mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <section className="relative mx-auto w-full max-w-7xl px-4 py-4 sm:py-6 md:py-8 sm:px-6 lg:px-8">
       {/* ── Section Header ── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.6 }}
-        className="mb-10"
+        className="mb-10 text-center"
       >
-        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Components of Saumya&apos;s Life
+        <span className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 font-bold">
+          02 — DYNAMIC DRIVES
+        </span>
+        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mt-2 font-mono">
+          What Drives Me
         </h2>
-        <p className="mt-2 max-w-lg text-sm text-slate-400">
-          Each card represents a dimension — together they build the complete picture.
+        <p className="mt-2 text-sm text-slate-400">
+          Dimensions that influence my focus, curiosity, and discipline. Click any card to load its classified dossier.
         </p>
       </motion.div>
 
@@ -494,7 +635,8 @@ export function LifeCarousel() {
             <motion.div
               key={card.title}
               variants={cardVariants}
-              className="group relative h-80 w-56 flex-shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-neutral-900 md:h-[40rem] md:w-96"
+              onClick={() => setActiveDossier(card)}
+              className="group relative h-80 w-56 flex-shrink-0 cursor-pointer overflow-hidden rounded-3xl bg-neutral-900 md:h-[40rem] md:w-96 border border-white/5 hover:border-white/20 transition-all duration-300"
             >
               {/* ── Background gradient fill ── */}
               <div
@@ -525,6 +667,14 @@ export function LifeCarousel() {
                 <p className="mt-2 text-xs leading-relaxed text-slate-300 md:text-sm transition-all duration-500 line-clamp-1 group-hover:line-clamp-none">
                   {card.description}
                 </p>
+
+                {/* Open Dossier indicator */}
+                <div className="mt-4 flex items-center gap-1.5 opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                  <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${card.accent}`} />
+                  <span className="text-[9px] font-mono tracking-widest text-slate-300 uppercase">
+                    [ Open Dossier ]
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -533,6 +683,97 @@ export function LifeCarousel() {
         {/* ── Right-side gradient fade ── */}
         <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[#08090b] to-transparent sm:w-32" />
       </div>
+
+      {/* ── Dossier Modal ── */}
+      <AnimatePresence>
+        {activeDossier && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveDossier(null)}
+              className="absolute inset-0 bg-black/90 backdrop-blur-md"
+            />
+
+            {/* Dossier Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ type: "spring", duration: 0.4 }}
+              className="relative w-full max-w-xl bg-neutral-950 border border-white/10 rounded-3xl p-6 md:p-8 overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.02)] max-h-[85vh] overflow-y-auto"
+            >
+              {/* Dynamic Accent Glow corresponding to the active card */}
+              <div className={`absolute top-0 left-0 w-full h-1.5 ${activeDossier.accent}`} />
+              <div className={`absolute -top-40 -left-40 w-80 h-80 rounded-full blur-[120px] opacity-10 pointer-events-none ${activeDossier.accent}`} />
+
+              {/* High-tech grid overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-40" />
+
+              {/* Modal Header */}
+              <div className="relative z-10 flex items-start justify-between border-b border-white/10 pb-4 mb-6">
+                <div>
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-slate-500">
+                    CLASSIFIED DOSSIER // SECURE ACCESS
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-bold font-mono text-white mt-1 uppercase tracking-tight flex items-center gap-2">
+                    <span className={`inline-block w-2.5 h-2.5 rounded-full animate-pulse ${activeDossier.accent}`} />
+                    {activeDossier.title}
+                  </h3>
+                  <p className="text-[10px] font-mono text-slate-400 mt-1 uppercase tracking-wider">
+                    {activeDossier.dossier.subTitle}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setActiveDossier(null)}
+                  className="p-2 rounded-full border border-white/10 hover:border-white/30 bg-white/[0.02] text-slate-400 hover:text-white transition-all active:scale-95"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Dossier Content Grid */}
+              <div className="relative z-10 space-y-6">
+                {/* Stats Table */}
+                <div className="border border-white/5 bg-white/[0.01] rounded-2xl p-4 md:p-6 font-mono space-y-4">
+                  <div className="flex justify-between border-b border-white/5 pb-2 text-[9px] text-slate-500 uppercase tracking-widest">
+                    <span>PARAMETER</span>
+                    <span>METRIC STATUS</span>
+                  </div>
+                  <div className="divide-y divide-white/5">
+                    {activeDossier.dossier.stats.map((stat, sIdx) => (
+                      <div key={sIdx} className="flex justify-between py-3 text-xs md:text-sm">
+                        <span className="text-slate-400 font-medium tracking-wide">{stat.label}</span>
+                        <span className="text-white font-bold text-right tracking-tight">{stat.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Core Philosophy Section */}
+                {activeDossier.dossier.philosophy && (
+                  <div className={`border-l-2 ${activeDossier.accent.replace('bg-', 'border-')} bg-white/[0.01] rounded-r-2xl p-4`}>
+                    <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block mb-1">
+                      CORE OPERATING PHILOSOPHY
+                    </span>
+                    <p className="text-slate-200 font-mono italic text-xs md:text-sm leading-relaxed">
+                      &quot;{activeDossier.dossier.philosophy}&quot;
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Tactical footer decorations */}
+              <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-[8px] font-mono text-slate-600 tracking-wider">
+                <span>SYSTEM_LOG: SESSION_INIT</span>
+                <span>SECURITY_AUTH_VERIFIED</span>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

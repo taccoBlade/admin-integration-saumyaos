@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin } from "lucide-react";
+import { OSProvider } from "@/lib/os-context";
+import { Mail, MapPin, ArrowRight } from "lucide-react";
+import { InteractiveParticleBackground } from "@/components/interactive-particle-background";
 
-/* ── Inline SVG icons for socials (lucide-react v1.x removed these names) ── */
+/* ── Inline SVG icons for socials ── */
 function LinkedinIcon({ className }: { className?: string }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -24,120 +25,142 @@ function GithubIcon({ className }: { className?: string }) {
   );
 }
 
-
-
 export default function ContactPage() {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <main className="min-h-screen bg-[#08090b] text-white overflow-x-hidden">
-      {/* Grid SVG background */}
-      <div className="w-full absolute left-0 top-0 min-h-full pointer-events-none opacity-[0.03]">
-        <div
-          className="w-full h-full min-h-screen"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
+    <OSProvider>
+      <ContactPageContent />
+    </OSProvider>
+  );
+}
+
+function ContactPageContent() {
+  return (
+    <main className="min-h-screen bg-[#08090b] text-white overflow-hidden relative select-none">
+      {/* Dynamic Repulsion Particles Backdrop */}
+      <InteractiveParticleBackground />
+
+      {/* Cybernetic grid overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none z-0" />
+
+      {/* Radial ambient glow behind the text */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-0">
+        <div className="h-[450px] w-[450px] rounded-full filter blur-[130px] bg-cyan-500/10 opacity-30 animate-pulse" />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6">
+      {/* Cyberpunk corner bracket HUD decorations */}
+      <div className="absolute top-28 left-8 z-15 w-6 h-6 border-l border-t border-white/10 pointer-events-none hidden md:block" />
+      <div className="absolute top-28 right-8 z-15 w-6 h-6 border-r border-t border-white/10 pointer-events-none hidden md:block" />
+      <div className="absolute bottom-12 left-8 z-15 w-6 h-6 border-l border-b border-white/10 pointer-events-none hidden md:block" />
+      <div className="absolute bottom-12 right-8 z-15 w-6 h-6 border-r border-b border-white/10 pointer-events-none hidden md:block" />
+
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-28 pb-16 px-6">
+        
         {/* Status Indicator */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex items-center gap-2 text-cyan-400 font-mono text-sm mb-8"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-center gap-2 border border-cyan-500/20 bg-cyan-500/5 px-4 py-1.5 rounded-full text-cyan-400 font-mono text-xs uppercase tracking-widest mb-6"
         >
-          <span className="relative flex h-2.5 w-2.5">
+          <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
           </span>
           Available for opportunities
         </motion.div>
 
         {/* Main Heading */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-semibold text-center tracking-tight mb-6"
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-mono font-extrabold text-center tracking-tighter mb-4 select-none uppercase leading-none"
         >
           Let&apos;s build something
           <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 filter drop-shadow-[0_2px_10px_rgba(34,211,238,0.15)]">
             extraordinary
           </span>
         </motion.h1>
 
         {/* Subtitle */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-neutral-400 text-center text-base sm:text-lg max-w-xl mb-12 leading-relaxed"
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-neutral-400 text-center text-xs sm:text-sm md:text-base max-w-xl mb-10 leading-relaxed font-mono"
         >
-          Whether it&apos;s infrastructure innovation, market analysis, or creative
-          collaboration — I&apos;m always looking for new challenges.
+          Whether it&apos;s infrastructure telemetry, market velocity modeling, or creative storytelling — I&apos;m always scanning for new challenges.
         </motion.p>
 
         {/* Animated CTA Button */}
         <motion.a
           href="mailto:saumyaparekh937@gmail.com"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="relative px-8 py-4 rounded-full bg-white/95 text-black font-semibold text-base overflow-hidden flex items-center justify-center group mb-16 cursor-pointer"
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+
+          className="relative px-8 py-3.5 rounded-xl border border-white/10 bg-white/[0.02] text-white hover:text-[#08090b] hover:bg-white hover:border-white transition-all duration-350 font-bold font-mono text-xs overflow-hidden flex items-center justify-center gap-2 group mb-12 cursor-pointer active:scale-95"
         >
-          <span
-            className={`transition-transform duration-500 ${
-              isHovered ? "translate-x-40" : "translate-x-0"
-            }`}
-          >
-            Write a Letter
-          </span>
-          <div
-            className={`absolute inset-0 flex items-center justify-center transition-transform duration-500 text-2xl ${
-              isHovered ? "translate-x-0" : "-translate-x-40"
-            }`}
-          >
-            <Mail className="w-6 h-6 text-[#08090b]" />
-          </div>
+          <span>WRITE A LETTER</span>
+          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </motion.a>
 
-        {/* Info Cards */}
+        {/* Glassmorphic Info Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl w-full mb-16"
+          transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-2xl w-full mb-12"
         >
-          <div className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-cyan-500/20 transition-colors">
-            <MapPin className="w-5 h-5 text-cyan-400 mb-1" />
-            <span className="text-sm font-medium text-white">Ahmedabad</span>
-            <span className="text-xs text-neutral-500">Gujarat, India</span>
+          {/* Card 1: Ahmedabad */}
+          <div className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-cyan-500/30 hover:shadow-[0_4px_20px_rgba(34,211,238,0.06)] transition-all duration-300 relative group overflow-hidden">
+            <div className="absolute top-1.5 left-2 text-[6px] text-slate-500 font-mono tracking-widest">[LOC_REF]</div>
+            <MapPin className="w-5 h-5 text-cyan-400 mt-2 transition-transform group-hover:scale-110" />
+            <div className="text-center space-y-1">
+              <span className="text-xs font-semibold text-white uppercase tracking-tight block">Ahmedabad</span>
+              <span className="text-[9px] text-slate-400 font-mono">Gujarat, India</span>
+            </div>
+            <div className="w-full text-center border-t border-white/5 pt-2 mt-1 text-[6.5px] text-slate-600 font-mono uppercase tracking-wider">
+              LAT: 23.0225° N
+            </div>
           </div>
-          <div className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-cyan-500/20 transition-colors">
-            <Mail className="w-5 h-5 text-cyan-400 mb-1" />
-            <span className="text-sm font-medium text-white">Email</span>
-            <span className="text-xs text-neutral-500">saumyaparekh937@gmail.com</span>
-          </div>
-          <div className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-cyan-500/20 transition-colors">
-            <span className="text-cyan-400 text-lg mb-1">🎓</span>
-            <span className="text-sm font-medium text-white">PDEU</span>
-            <span className="text-xs text-neutral-500">Civil Engineering</span>
+
+          {/* Card 2: Email */}
+          <a 
+            href="mailto:saumyaparekh937@gmail.com" 
+            className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-cyan-500/30 hover:shadow-[0_4px_20px_rgba(34,211,238,0.06)] transition-all duration-300 relative group overflow-hidden cursor-pointer"
+          >
+            <div className="absolute top-1.5 left-2 text-[6px] text-slate-500 font-mono tracking-widest">[COMMS_REF]</div>
+            <Mail className="w-5 h-5 text-cyan-400 mt-2 transition-transform group-hover:scale-110" />
+            <div className="text-center space-y-1">
+              <span className="text-xs font-semibold text-white uppercase tracking-tight block">Email</span>
+              <span className="text-[9px] text-slate-400 font-mono break-all max-w-[150px] block">saumyaparekh937@gmail.com</span>
+            </div>
+            <div className="w-full text-center border-t border-white/5 pt-2 mt-1 text-[6.5px] text-slate-600 font-mono uppercase tracking-wider">
+              SYNC STATUS: STANDBY
+            </div>
+          </a>
+
+          {/* Card 3: PDEU */}
+          <div className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-cyan-500/30 hover:shadow-[0_4px_20px_rgba(34,211,238,0.06)] transition-all duration-300 relative group overflow-hidden">
+            <div className="absolute top-1.5 left-2 text-[6px] text-slate-500 font-mono tracking-widest">[EDU_REF]</div>
+            <span className="text-cyan-400 text-lg mt-2 select-none group-hover:scale-110 transition-transform">🎓</span>
+            <div className="text-center space-y-1">
+              <span className="text-xs font-semibold text-white uppercase tracking-tight block">PDEU</span>
+              <span className="text-[9px] text-slate-400 font-mono">Civil Engineering</span>
+            </div>
+            <div className="w-full text-center border-t border-white/5 pt-2 mt-1 text-[6.5px] text-slate-600 font-mono uppercase tracking-wider">
+              MAJOR: INFRASTRUCTURE
+            </div>
           </div>
         </motion.div>
 
         {/* Social Links */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.1 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="flex gap-6 items-center"
         >
           {[
@@ -149,13 +172,14 @@ export default function ContactPage() {
               href={social.href}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 text-neutral-400 hover:text-cyan-400 transition-colors text-sm font-medium group"
+              className="flex items-center gap-2 text-neutral-400 hover:text-cyan-400 transition-colors text-xs font-mono font-bold uppercase tracking-wider group"
             >
-              <social.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              <span className="hidden sm:inline">{social.label}</span>
+              <social.icon className="w-4.5 h-4.5 group-hover:scale-110 transition-transform text-slate-400 group-hover:text-cyan-400" />
+              <span>{social.label}</span>
             </a>
           ))}
         </motion.div>
+
       </div>
     </main>
   );

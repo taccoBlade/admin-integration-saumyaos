@@ -164,7 +164,7 @@ export function getSkills(): Skill[] {
         const keywordsMap: Record<string, string[]> = {
           "civil engineering": ["civil", "concrete", "soil", "compaction", "geotechnical"],
           "qgis and drone mapping": ["qgis", "drone", "gis", "mapping", "surveying", "aerial"],
-          "concrete technology": ["concrete", "cement", "pro-mix", "self-healing"],
+          "concrete technology": ["concrete", "cement", "pro-mix"],
           "concrete mix design": ["mix design", "pro-mix", "10262"],
           "construction materials": ["materials", "aggregate", "sand", "cement", "concrete"],
           "surveying": ["surveying", "leveling", "theodolite", "gps", "drone", "gis"],

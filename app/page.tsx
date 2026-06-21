@@ -62,9 +62,8 @@ export default function Home() {
           <div className="lg:col-span-8">
             <div className="space-y-4">
               {[
-                { num: "01", title: "Sustainable Concrete Technology", desc: "Modeling particle packing density and analyzing geopolymer binders to minimize concrete carbon footprints while maximizing mechanical resilience." },
-                { num: "02", title: "Infrastructure Monitoring (IoT integration)", desc: "Developing ESP32 and automated sensor matrices for real-time deflection, strain, and temperature tracking in structural components." },
-                { num: "03", title: "Geotechnical Data Systems", desc: "Building pipelines and visualizers for borehole data and soil consolidation modeling to predict settlement profiles." }
+                { num: "01", title: "Infrastructure Monitoring (IoT integration)", desc: "Developing ESP32 and automated sensor matrices for real-time deflection, strain, and temperature tracking in structural components." },
+                { num: "02", title: "Geotechnical Data Systems", desc: "Building pipelines and visualizers for borehole data and soil consolidation modeling to predict settlement profiles." }
               ].map((dir, idx) => (
                 <div key={idx} className="flex gap-4 sm:gap-6 p-6 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.02] hover:border-white/10 transition-all items-start">
                   <span className="font-mono text-lg font-bold text-violet-400 tracking-tight">{dir.num}</span>
