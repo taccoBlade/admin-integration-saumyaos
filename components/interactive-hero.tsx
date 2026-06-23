@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const SPOTLIGHT_R = 250;
 
@@ -370,12 +371,12 @@ export function InteractiveHero() {
           >
             View Projects
           </button>
-          <button
-            onClick={() => scrollToSection("about")}
-            className="bg-white/5 backdrop-blur-md border border-white/10 text-white text-sm font-semibold px-8 py-3 rounded-full hover:bg-white/10 hover:border-white/20 transition-all"
+          <Link
+            href="/personal"
+            className="bg-white/5 backdrop-blur-md border border-white/10 text-white text-sm font-semibold px-8 py-3 rounded-full hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center"
           >
             About Me
-          </button>
+          </Link>
         </motion.div>
 
         {/* Metrics/Anchors Row */}
