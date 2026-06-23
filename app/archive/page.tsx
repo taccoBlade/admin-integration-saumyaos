@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Music, Play, Pause, X, MapPin, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, Music, Play, Pause, X, MapPin, Calendar, Clock, Activity, ShieldAlert, Orbit, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { sysAudio } from "@/lib/audio-engine";
 
 /* ─── DATA MODELS ─── */
 interface PolaroidMemory {
@@ -36,7 +37,7 @@ const ERAS: EraData[] = [
     version: "v1.0",
     title: "Foundation Era",
     subtitle: "Ahmedabad Schooling & Early Focus",
-    dates: "2006 — 2023",
+    dates: "2006 — 2022",
     status: "ARCHIVED // BUILD_STABLE",
     focus: "Visual framing, physics curiosity, initial mechanical fascination",
     gradientClass: "from-slate-900 via-neutral-950 to-zinc-900",
@@ -68,10 +69,10 @@ const ERAS: EraData[] = [
   {
     version: "v2.0",
     title: "Exploration Era",
-    subtitle: "PDEU Civil Engineering Entry",
-    dates: "2023 — 2024",
-    status: "ARCHIVED // BUILD_STABLE",
-    focus: "Hostel life adapt, structural testing, and index calculations",
+    subtitle: "PDEU Civil Engineering & The Rebuild",
+    dates: "2023",
+    status: "ARCHIVED // REBUILDING_SYSTEM",
+    focus: "Hostel life adapt, structural testing, and Jaundice recovery",
     gradientClass: "from-emerald-950 via-slate-950 to-neutral-950",
     soundtrack: {
       title: "Intro",
@@ -95,6 +96,15 @@ const ERAS: EraData[] = [
         coordinates: "23.1583° N, 72.6586° E",
         lore: "Assembling a scale model wooden truss. Loaded with sand weights until sudden elastic buckling of the main compression cord occurred at 48.5 kg.",
         whyItMattered: "First physical encounter with structural failure mechanics and mathematical limits."
+      },
+      {
+        title: "The Rebuild (Jaundice Setback)",
+        image: "https://images.unsplash.com/photo-1584030373081-f37b7bb4fa8e?q=80&w=600&auto=format&fit=crop",
+        date: "15 Jan 2023",
+        location: "Ahmedabad Clinic",
+        coordinates: "23.0225° N, 72.5714° E",
+        lore: "Diagnosed with acute Jaundice. Severe liver metric elevations. Energy reserves dropped to zero, resulting in a forced 6-week complete bed rest and a loss of 11kg of bodyweight.",
+        whyItMattered: "The absolute physical reset. Tested mental durability and forced me to rebuild daily recovery baselines from absolute zero."
       }
     ]
   },
@@ -102,9 +112,9 @@ const ERAS: EraData[] = [
     version: "v3.0",
     title: "Strength Era",
     subtitle: "Discipline Calibration & Heavy Pulls",
-    dates: "2024 — 2025",
+    dates: "2024",
     status: "ARCHIVED // PERFORMANCE_OK",
-    focus: "Spinal loading limits, structural consistency, and routine testing",
+    focus: "Spinal loading limits, structural consistency, and progressive overload",
     gradientClass: "from-amber-950 via-slate-950 to-stone-950",
     soundtrack: {
       title: "Till I Collapse",
@@ -114,16 +124,25 @@ const ERAS: EraData[] = [
       {
         title: "The 210kg Deadlift PR",
         image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=600&auto=format&fit=crop",
-        date: "22 Mar 2026",
+        date: "22 Mar 2024",
         location: "Gym Sector 7",
         coordinates: "23.0122° N, 72.5204° E",
-        lore: "Spindle load: 210 KG. Absolute alignment of the posterior chain, raw mechanical leverage, pulling steel off the rubber platform.",
+        lore: "Spindle load: 210 KG. Absolute alignment of the posterior chain, raw mechanical leverage, pulling steel off the platform.",
         whyItMattered: "Physical validation of first principles. Taught me that discipline outweighs temporary motivation."
+      },
+      {
+        title: "Recovery Routine",
+        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=600&auto=format&fit=crop",
+        date: "12 Jun 2023",
+        location: "Home Platform",
+        coordinates: "23.0300° N, 72.5800° E",
+        lore: "Beginning progressive overload and high-frequency mobility cycles. Tracking daily caloric intake and logging sleep intervals to rebuild liver and muscular capacity.",
+        whyItMattered: "The transitional adaptation. Showed me that structural routines can overcome any major physiological setback."
       },
       {
         title: "Consistency Routine",
         image: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=600&auto=format&fit=crop",
-        date: "10 Oct 2025",
+        date: "10 Oct 2024",
         location: "Training Zone Platform",
         coordinates: "23.0501° N, 72.5602° E",
         lore: "Daily morning wakeups. Training focus shift from strength testing to routine durability. Establishing focus blocks under physical fatigue.",
@@ -135,7 +154,7 @@ const ERAS: EraData[] = [
     version: "v4.0",
     title: "Cruiser Era",
     subtitle: "Super Meteor 650 & Open Highways",
-    dates: "2025 — 2026",
+    dates: "2025",
     status: "ARCHIVED // ENGINE_LIVE",
     focus: "Parallel-twin cooling, adventure cruising, and geographic exploration",
     gradientClass: "from-orange-950 via-neutral-950 to-slate-950",
@@ -203,128 +222,143 @@ const ERAS: EraData[] = [
 interface ConstNode {
   id: string;
   label: string;
+  subtitle: string;
   category: string;
   pctX: number;
   pctY: number;
   phase: number;
-  traitCascade: string[]; // e.g. ["210kg Deadlift", "Unbreakable Discipline", "PRO-MIX", "Late Night Study"]
+  density: number; // For simulation particle density representation
+  traitCascade: string[];
   polaroidData: PolaroidMemory;
 }
 
 const CONSTELLATION_NODES: ConstNode[] = [
   {
-    id: "deadlift-node",
-    label: "210kg Deadlift",
-    category: "STRENGTH",
-    pctX: 0.25,
-    pctY: 0.30,
+    id: "foundation-node",
+    label: "THE FOUNDATION",
+    subtitle: "PDEU Years / 2018 - 2022",
+    category: "ACADEMIC",
+    pctX: 0.15,
+    pctY: 0.25,
     phase: 0.5,
-    traitCascade: ["210kg Deadlift", "Unbreakable Discipline", "PRO-MIX Compiler", "Late Night Study"],
-    polaroidData: ERAS[2].memories[0]
-  },
-  {
-    id: "discipline-node",
-    label: "Unbreakable Discipline",
-    category: "TRAIT",
-    pctX: 0.38,
-    pctY: 0.45,
-    phase: 2.1,
-    traitCascade: ["Unbreakable Discipline", "PRO-MIX Compiler", "Late Night Study"],
-    polaroidData: ERAS[2].memories[1]
-  },
-  {
-    id: "promix-node",
-    label: "PRO-MIX Compiler",
-    category: "PROJECT",
-    pctX: 0.50,
-    pctY: 0.55,
-    phase: 4.2,
-    traitCascade: ["PRO-MIX Compiler", "Late Night Study", "Civil Engineering"],
-    polaroidData: ERAS[4].memories[0]
-  },
-  {
-    id: "study-node",
-    label: "Late Night Study",
-    category: "HABIT",
-    pctX: 0.45,
-    pctY: 0.75,
-    phase: 1.1,
-    traitCascade: ["Late Night Study", "Civil Engineering"],
+    density: 500,
+    traitCascade: ["THE FOUNDATION", "Truss Buckling Test", "Hostel Desk v1.0"],
     polaroidData: ERAS[1].memories[0]
   },
   {
-    id: "civil-node",
-    label: "Civil Engineering",
-    category: "ACADEMIC",
-    pctX: 0.28,
-    pctY: 0.70,
-    phase: 5.3,
-    traitCascade: ["Civil Engineering", "NHAI Compaction Run"],
-    polaroidData: ERAS[1].memories[1]
+    id: "rebuild-node",
+    label: "THE REBUILD",
+    subtitle: "Jaundice Setback / Early 2023",
+    category: "SETBACK",
+    pctX: 0.25,
+    pctY: 0.45,
+    phase: 2.1,
+    density: 400,
+    traitCascade: ["THE REBUILD (Jaundice)", "Severe Weight Loss (-11kg)", "Daily Bed Rest"],
+    polaroidData: ERAS[1].memories[2]
   },
   {
-    id: "nhai-node",
-    label: "NHAI Compaction Run",
-    category: "FIELD",
-    pctX: 0.15,
-    pctY: 0.80,
-    phase: 3.5,
-    traitCascade: ["NHAI Compaction Run"],
-    polaroidData: ERAS[4].memories[1]
+    id: "recovery-node",
+    label: "RECOVERY ROUTINE",
+    subtitle: "Adaptation / Mid 2023",
+    category: "TRAIT",
+    pctX: 0.35,
+    pctY: 0.65,
+    phase: 4.2,
+    density: 600,
+    traitCascade: ["RECOVERY ROUTINE", "Calorie Tracking", "Mobility Drills"],
+    polaroidData: ERAS[2].memories[1]
   },
   {
-    id: "meteor-node",
-    label: "Super Meteor 650",
+    id: "strength-node",
+    label: "PROVING STRENGTH",
+    subtitle: "210 KG Deadlift / Late 2023",
+    category: "STRENGTH",
+    pctX: 0.50,
+    pctY: 0.50,
+    phase: 1.1,
+    density: 1200,
+    traitCascade: ["PROVING STRENGTH (210kg)", "Posterior Chain Mechanics", "Consistent Lift"],
+    polaroidData: ERAS[2].memories[0]
+  },
+  {
+    id: "freedom-node",
+    label: "FIRST FREEDOM",
+    subtitle: "Super Meteor 650 / 2024",
     category: "RIDE",
     pctX: 0.70,
-    pctY: 0.30,
+    pctY: 0.35,
     phase: 0.8,
-    traitCascade: ["Super Meteor 650", "Kutch Road Trip", "Cinematography Node"],
+    density: 1800,
+    traitCascade: ["FIRST FREEDOM (Meteor)", "Cruising salt flats", "12,450 km Travel Log"],
     polaroidData: ERAS[3].memories[0]
   },
   {
-    id: "kutch-node",
-    label: "Kutch Road Trip",
-    category: "MEMORY",
-    pctX: 0.85,
-    pctY: 0.40,
-    phase: 2.7,
-    traitCascade: ["Kutch Road Trip", "Cinematography Node"],
-    polaroidData: ERAS[3].memories[1]
-  },
-  {
-    id: "cinema-node",
-    label: "Cinematography Node",
+    id: "seeing-node",
+    label: "SEEING DIFFERENTLY",
+    subtitle: "Photography / 2024 - 2025",
     category: "CREATIVE",
-    pctX: 0.78,
-    pctY: 0.60,
-    phase: 4.9,
-    traitCascade: ["Cinematography Node", "First Camera Focus"],
+    pctX: 0.85,
+    pctY: 0.50,
+    phase: 2.7,
+    density: 600,
+    traitCascade: ["SEEING DIFFERENTLY", "Visual Pacing", "DSLR Aperture Limits"],
     polaroidData: ERAS[0].memories[0]
   },
   {
-    id: "camera-node",
-    label: "First Camera Focus",
-    category: "VISION",
-    pctX: 0.60,
-    pctY: 0.70,
+    id: "systems-node",
+    label: "SYSTEMS THINKING",
+    subtitle: "PRO-MIX Compliance / 2025",
+    category: "PROJECT",
+    pctX: 0.55,
+    pctY: 0.75,
+    phase: 5.3,
+    density: 700,
+    traitCascade: ["SYSTEMS THINKING", "Binder Compaction", "Geotech Software"],
+    polaroidData: ERAS[4].memories[0]
+  },
+  {
+    id: "current-node",
+    label: "CURRENT BUILD",
+    subtitle: "Saumya.OS v5.0 / 2026",
+    category: "SYSTEM",
+    pctX: 0.75,
+    pctY: 0.80,
+    phase: 3.5,
+    density: 800,
+    traitCascade: ["CURRENT BUILD v5.0", "Next.js Web HUD", "Automated Compaction"],
+    polaroidData: ERAS[4].memories[1]
+  },
+  {
+    id: "blackbox-node",
+    label: "[REDACTED]",
+    subtitle: "Corrupted Sector / Unknown Event",
+    category: "REDACTED",
+    pctX: 0.90,
+    pctY: 0.15,
     phase: 1.6,
-    traitCascade: ["First Camera Focus"],
-    polaroidData: ERAS[0].memories[1]
+    density: 300,
+    traitCascade: ["UNKNOWN SOURCE", "[REDACTED] SECTOR DATA", "UNAUTHORIZED SECTOR"],
+    polaroidData: {
+      title: "[REDACTED]",
+      image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
+      date: "??/??/????",
+      location: "CLASSIFIED",
+      coordinates: "0.0000° N, 0.0000° E",
+      lore: "",
+      whyItMattered: ""
+    }
   }
 ];
 
 const CONSTELLATION_EDGES = [
-  { from: "deadlift-node", to: "discipline-node" },
-  { from: "discipline-node", to: "promix-node" },
-  { from: "promix-node", to: "study-node" },
-  { from: "study-node", to: "civil-node" },
-  { from: "civil-node", to: "nhai-node" },
-  
-  { from: "meteor-node", to: "kutch-node" },
-  { from: "kutch-node", to: "cinema-node" },
-  { from: "cinema-node", to: "camera-node" },
-  { from: "promix-node", to: "cinema-node" } // connection between groups
+  { from: "foundation-node", to: "rebuild-node" },
+  { from: "rebuild-node", to: "recovery-node" },
+  { from: "recovery-node", to: "strength-node" },
+  { from: "strength-node", to: "freedom-node" },
+  { from: "freedom-node", to: "seeing-node" },
+  { from: "strength-node", to: "systems-node" },
+  { from: "systems-node", to: "current-node" }
 ];
 
 /* ─── HELPER COMPONENTS ─── */
@@ -367,8 +401,186 @@ function GlitchText({ text }: { text: string }) {
   return <span>{displayText}</span>;
 }
 
+function SlideshowGlitch() {
+  const images = [
+    "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=600&auto=format&fit=crop"
+  ];
+  
+  const [index, setIndex] = useState(0);
+  const [glitchStyle, setGlitchStyle] = useState<React.CSSProperties>({});
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+      if (Math.random() > 0.4) {
+        setGlitchStyle({
+          transform: `skew(${(Math.random() - 0.5) * 15}deg) translate(${(Math.random() - 0.5) * 10}px, ${(Math.random() - 0.5) * 6}px) scale(${1 + Math.random() * 0.08})`,
+          opacity: 0.45 + Math.random() * 0.5,
+          filter: Math.random() > 0.6 ? "invert(1)" : "none"
+        });
+      } else {
+        setGlitchStyle({
+          transform: "none",
+          opacity: 0.85,
+          filter: "none"
+        });
+      }
+    }, 140);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={images[index]}
+      alt="Sector Glitch"
+      className="w-full h-full object-cover grayscale brightness-90 transition-transform duration-75"
+      style={glitchStyle}
+    />
+  );
+}
+
 export default function ArchivePage() {
-  const [activeTab, setActiveTab] = useState<"timeline" | "constellation">("timeline");
+  const [activeTab, setActiveTab] = useState<"timeline" | "constellation" | "simulation">("timeline");
+  const [isSimulationLocked, setIsSimulationLocked] = useState(true);
+  const [isDecrypting, setIsDecrypting] = useState(false);
+  const [decryptLog, setDecryptLog] = useState<string[]>([]);
+  const [activeTimeline, setActiveTimeline] = useState<"A" | "B" | "C">("A");
+  const [isReplaying, setIsReplaying] = useState(false);
+  const [replayIndex, setReplayIndex] = useState(-1);
+  const [replayCountdown, setReplayCountdown] = useState(0);
+  const [activeSimulationNode, setActiveSimulationNode] = useState<ConstNode | null>(null);
+
+  const activeTimelineRef = useRef(activeTimeline);
+  const activeNodeRef = useRef(activeSimulationNode);
+  const isReplayingRef = useRef(isReplaying);
+  const replayIndexRef = useRef(replayIndex);
+
+  useEffect(() => { activeTimelineRef.current = activeTimeline; }, [activeTimeline]);
+  useEffect(() => { activeNodeRef.current = activeSimulationNode; }, [activeSimulationNode]);
+  useEffect(() => { isReplayingRef.current = isReplaying; }, [isReplaying]);
+  useEffect(() => { replayIndexRef.current = replayIndex; }, [replayIndex]);
+
+  const getReplayPath = useCallback((timeline: "A" | "B" | "C") => {
+    if (timeline === "B") {
+      return ["foundation-node", "rebuild-node", "recovery-node", "strength-node", "systems-node", "current-node"];
+    }
+    if (timeline === "C") {
+      return ["foundation-node", "rebuild-node", "recovery-node", "current-node"];
+    }
+    return ["foundation-node", "rebuild-node", "recovery-node", "strength-node", "freedom-node", "seeing-node", "systems-node", "current-node"];
+  }, []);
+
+  // Sync chime sounds when active node changes in autopilot
+  const lastIndexRef = useRef(-1);
+  useEffect(() => {
+    if (!isReplaying) {
+      lastIndexRef.current = -1;
+      return;
+    }
+    if (replayIndex !== lastIndexRef.current) {
+      lastIndexRef.current = replayIndex;
+      const path = getReplayPath(activeTimeline);
+      if (replayIndex >= 0 && replayIndex < path.length) {
+        const nodeId = path[replayIndex];
+        const node = CONSTELLATION_NODES.find(n => n.id === nodeId);
+        if (node) {
+          let freq = 440;
+          if (node.id === "foundation-node") freq = 261.63;
+          else if (node.id === "rebuild-node") freq = 196.00;
+          else if (node.id === "recovery-node") freq = 293.66;
+          else if (node.id === "strength-node") freq = 329.63;
+          else if (node.id === "freedom-node") freq = 392.00;
+          else if (node.id === "systems-node") freq = 440.00;
+          else if (node.id === "current-node") freq = 523.25;
+          sysAudio.playBell(freq, Date.now() / 1000, 1.2);
+        }
+      } else if (replayIndex === path.length) {
+        sysAudio.playBootChime();
+      }
+    }
+  }, [replayIndex, isReplaying, activeTimeline, getReplayPath]);
+
+  // Autopilot cinematic ticker
+  useEffect(() => {
+    if (!isReplaying) return;
+
+    setReplayIndex(-1);
+    setReplayCountdown(18);
+
+    const startTime = Date.now();
+    const path = getReplayPath(activeTimeline);
+
+    const interval = setInterval(() => {
+      const elapsed = (Date.now() - startTime) / 1000;
+      const remaining = Math.max(0, 18 - elapsed);
+      setReplayCountdown(Math.ceil(remaining));
+
+      if (elapsed >= 18) {
+        setIsReplaying(false);
+        setReplayIndex(-1);
+        setActiveSimulationNode(null);
+        clearInterval(interval);
+        return;
+      }
+
+      if (elapsed < 2) {
+        setReplayIndex(-1);
+        setActiveSimulationNode(null);
+      } else if (elapsed >= 16) {
+        setReplayIndex(path.length);
+        setActiveSimulationNode(null);
+      } else {
+        const progressFraction = (elapsed - 2) / 14;
+        const idx = Math.floor(progressFraction * path.length);
+        const clampedIdx = Math.min(path.length - 1, Math.max(0, idx));
+        setReplayIndex(clampedIdx);
+
+        const targetId = path[clampedIdx];
+        const targetNode = CONSTELLATION_NODES.find(n => n.id === targetId);
+        if (targetNode) {
+          setActiveSimulationNode(targetNode);
+        }
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isReplaying, activeTimeline, getReplayPath]);
+
+  const handleDecryptSimulation = () => {
+    sysAudio.playSwitch();
+    setIsDecrypting(true);
+    setDecryptLog([]);
+
+    const logs = [
+      "INITIALIZING CAUSALITY DECRYPTION PROTOCOL...",
+      "FETCHING SECTOR KEYS: PRIMARY_BUILD_v5.0...",
+      "CRACKING CYCLIC REDUNDANCY CHECKS... [OK]",
+      "DESTRUCTURING TIMELINE CAUSAL LINKS... [OK]",
+      "SYNCHRONIZING GRAPH VELOCITIES: 60FPS...",
+      "CALIBRATING SPRING CONSTANTS: K_STIFFNESS=0.08...",
+      "MOUNTING TELEMETRY ENGINE... [OK]",
+      "WARNING: DETECTED PARALLEL TIMELINE PATHWAYS...",
+      "SUCCESS: LIFE.EXE SIMULATION DECRYPTED."
+    ];
+
+    logs.forEach((log, index) => {
+      setTimeout(() => {
+        setDecryptLog((prev) => [...prev, log]);
+        sysAudio.playClick();
+        if (index === logs.length - 1) {
+          setTimeout(() => {
+            setIsSimulationLocked(false);
+            setIsDecrypting(false);
+          }, 500);
+        }
+      }, (index + 1) * 200);
+    });
+  };
   
   // Timeline Mode States
   const [selectedEraIndex, setSelectedEraIndex] = useState(ERAS.length - 1); // default v5.0
@@ -383,6 +595,8 @@ export default function ArchivePage() {
   // Constellation Canvas References
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const constellationMouse = useRef({ x: -1000, y: -1000 });
+  const simulationCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const simulationMouse = useRef({ x: -1000, y: -1000 });
   const hoveredNodeRef = useRef<ConstNode | null>(null);
   const [hoveredConstNode, setHoveredConstNode] = useState<ConstNode | null>(null);
   const [hyperspaceNode, setHyperspaceNode] = useState<{ x: number; y: number } | null>(null);
@@ -1089,6 +1303,634 @@ export default function ArchivePage() {
     };
   }, [activeTab]);
 
+  // 3D Life Simulation Canvas Logic
+  useEffect(() => {
+    if (activeTab !== "simulation" || isSimulationLocked) return;
+
+    const canvas = simulationCanvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+
+    const handleResize = () => {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    // Initial 3D node coordinates mapping
+    const simNodes = CONSTELLATION_NODES.map((node) => {
+      let x = 0, y = 0, z = 0;
+      if (node.id === "foundation-node") { x = -280; y = -120; z = -80; }
+      else if (node.id === "rebuild-node") { x = -200; y = -40; z = -40; }
+      else if (node.id === "recovery-node") { x = -100; y = 40; z = 0; }
+      else if (node.id === "strength-node") { x = 0; y = 0; z = 40; }
+      else if (node.id === "freedom-node") { x = 140; y = -80; z = 80; }
+      else if (node.id === "seeing-node") { x = 240; y = -40; z = 120; }
+      else if (node.id === "systems-node") { x = 100; y = 120; z = 40; }
+      else if (node.id === "current-node") { x = 200; y = 140; z = 0; }
+      else if (node.id === "blackbox-node") { x = 320; y = -180; z = -150; }
+
+      // Generate orbital particles for each node
+      const numOrbits = Math.floor(node.density / 20);
+      const orbitParticles = Array.from({ length: numOrbits }).map(() => {
+        const radius = 25 + Math.random() * 35;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 0.015 + Math.random() * 0.025;
+        const yOffset = (Math.random() - 0.5) * 12;
+        
+        let color = "rgba(34, 211, 238, 0.4)"; // Cyan default
+        if (node.category === "STRENGTH") color = "rgba(251, 191, 36, 0.4)"; // Gold
+        else if (node.category === "SETBACK") color = "rgba(239, 68, 68, 0.5)"; // Red
+        else if (node.category === "SYSTEM") color = "rgba(34, 211, 238, 0.5)"; // Cyan
+        else if (node.category === "REDACTED") color = "rgba(255, 255, 255, 0.35)"; // White
+        
+        return { radius, angle, speed, yOffset, color };
+      });
+
+      return {
+        ...node,
+        x, y, z,
+        vx: 0, vy: 0, vz: 0,
+        baseX: x, baseY: y, baseZ: z,
+        exploded: false,
+        orbitParticles,
+        alpha: 1.0,
+        color: node.category === "STRENGTH" 
+          ? "#fbbf24" 
+          : node.category === "SETBACK" 
+            ? "#ef4444" 
+            : node.category === "REDACTED" 
+              ? "#ffffff" 
+              : "#22d3ee"
+      };
+    });
+
+    interface Spark {
+      x: number; y: number; z: number;
+      vx: number; vy: number; vz: number;
+      color: string;
+      size: number;
+      life: number;
+    }
+    let sparks: Spark[] = [];
+
+    // Camera variables
+    let rotX = 0.2;
+    let rotY = -0.45;
+    let cameraZ = 550;
+    let targetZoom = 0.85;
+
+    let lookAtX = 0;
+    let lookAtY = 0;
+    let lookAtZ = 0;
+
+    let targetLookAtX = 0;
+    let targetLookAtY = 0;
+    let targetLookAtZ = 0;
+
+    let shakeAmount = 0;
+
+    // Timeline state detection inside loop
+    let lastTimeline = activeTimelineRef.current;
+
+    // Mouse drag rotation handling
+    let isDragging = false;
+    let startMouseX = 0;
+    let startMouseY = 0;
+    let startRotX = rotX;
+    let startRotY = rotY;
+
+    const handleCanvasMouseDown = (e: MouseEvent) => {
+      // Find projected node under click first
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      let clickedNode: (typeof simNodes)[0] | null = null;
+      
+      // Look at simulated nodes projected screen coords
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const fov = 400;
+
+      // Filter active non-exploded nodes to see if one was clicked
+      const clickCandidates = simNodes.filter(n => !n.exploded);
+
+      // Project and find
+      for (const node of clickCandidates) {
+        const rx_rel = node.x - lookAtX;
+        const ry_rel = node.y - lookAtY;
+        const rz_rel = node.z - lookAtZ;
+
+        // Yaw
+        const x1 = rx_rel * Math.cos(rotY) - rz_rel * Math.sin(rotY);
+        const z1 = rx_rel * Math.sin(rotY) + rz_rel * Math.cos(rotY);
+
+        // Pitch
+        const y2 = ry_rel * Math.cos(rotX) - z1 * Math.sin(rotX);
+        const z2 = ry_rel * Math.sin(rotX) + z1 * Math.cos(rotX);
+
+        const scale = fov / (z2 + cameraZ);
+        if (scale > 0) {
+          const screenX = centerX + x1 * scale;
+          const screenY = centerY + y2 * scale;
+          
+          const dx = screenX - mouseX;
+          const dy = screenY - mouseY;
+          if (Math.sqrt(dx*dx + dy*dy) < 35) {
+            clickedNode = node;
+            break;
+          }
+        }
+      }
+
+      if (clickedNode) {
+        sysAudio.playSwitch();
+        shakeAmount = clickedNode.id === "blackbox-node" ? 22 : 12;
+        setActiveSimulationNode(clickedNode);
+      } else {
+        isDragging = true;
+        startMouseX = e.clientX;
+        startMouseY = e.clientY;
+        startRotX = rotX;
+        startRotY = rotY;
+      }
+    };
+
+    const handleCanvasMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      simulationMouse.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      };
+
+      if (isDragging) {
+        const dx = e.clientX - startMouseX;
+        const dy = e.clientY - startMouseY;
+        rotY = startRotY + dx * 0.005;
+        rotX = Math.max(-1.3, Math.min(1.3, startRotX + dy * 0.005));
+      }
+    };
+
+    const handleCanvasMouseUp = () => {
+      isDragging = false;
+    };
+
+    const handleCanvasWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      cameraZ = Math.max(250, Math.min(1000, cameraZ + e.deltaY * 0.5));
+    };
+
+    canvas.addEventListener("mousedown", handleCanvasMouseDown);
+    canvas.addEventListener("mousemove", handleCanvasMouseMove);
+    canvas.addEventListener("mouseup", handleCanvasMouseUp);
+    canvas.addEventListener("mouseleave", handleCanvasMouseUp);
+    canvas.addEventListener("wheel", handleCanvasWheel, { passive: false });
+
+    // Function to trigger a particle explosion
+    const triggerExplosion = (x: number, y: number, z: number, color: string) => {
+      sysAudio.playGearClunk();
+      for (let i = 0; i < 150; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 2 - 1);
+        const speed = 2 + Math.random() * 5.5;
+        sparks.push({
+          x, y, z,
+          vx: Math.sin(phi) * Math.cos(theta) * speed,
+          vy: Math.sin(phi) * Math.sin(theta) * speed,
+          vz: Math.cos(phi) * speed,
+          color,
+          size: 1.0 + Math.random() * 2.0,
+          life: 1.0
+        });
+      }
+    };
+
+    // Render loop
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const time = Date.now();
+
+      // Check for timeline changes to trigger explosions
+      const currentTimeline = activeTimelineRef.current;
+      if (currentTimeline !== lastTimeline) {
+        simNodes.forEach((node) => {
+          const wasExploded = node.exploded;
+          let shouldBeExploded = false;
+          if (currentTimeline === "B" && node.id === "freedom-node") shouldBeExploded = true;
+          if (currentTimeline === "C" && node.id === "strength-node") shouldBeExploded = true;
+
+          if (shouldBeExploded && !wasExploded) {
+            triggerExplosion(node.x, node.y, node.z, node.color);
+          }
+        });
+        lastTimeline = currentTimeline;
+      }
+
+      // 1. UPDATE PHYSICS (SPRING FORCES & TIMELINE ALIGNMENTS)
+      simNodes.forEach((node) => {
+        const targetX = node.baseX;
+        let targetY = node.baseY;
+        const targetZ = node.baseZ;
+        let targetAlpha = 1.0;
+
+        let shouldBeExploded = false;
+        if (currentTimeline === "B") {
+          if (node.id === "freedom-node") {
+            shouldBeExploded = true;
+          } else if (node.id === "seeing-node") {
+            targetY = node.baseY + 180;
+            targetAlpha = 0.15;
+          }
+        } else if (currentTimeline === "C") {
+          if (node.id === "strength-node") {
+            shouldBeExploded = true;
+          } else if (node.id === "recovery-node") {
+            targetAlpha = 0.35;
+          } else if (["freedom-node", "seeing-node", "systems-node", "current-node"].includes(node.id)) {
+            targetY = node.baseY + 180;
+            targetAlpha = 0.15;
+          }
+        }
+
+        node.exploded = shouldBeExploded;
+
+        // Apply Spring pulls if connected to the centered node
+        const activeNode = activeNodeRef.current;
+        if (activeNode && activeNode.id !== node.id && !node.exploded) {
+          const simActive = simNodes.find(n => n.id === activeNode.id);
+          if (simActive) {
+            const isConnected = CONSTELLATION_EDGES.some(edge => 
+              (edge.from === node.id && edge.to === activeNode.id) || 
+              (edge.to === node.id && edge.from === activeNode.id)
+            );
+            if (isConnected) {
+              const dx = simActive.x - node.x;
+              const dy = simActive.y - node.y;
+              const dz = simActive.z - node.z;
+              const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+            const rest = 80;
+            if (dist > rest) {
+              const pull = (dist - rest) * 0.05;
+              node.vx += (dx / dist) * pull;
+              node.vy += (dy / dist) * pull;
+              node.vz += (dz / dist) * pull;
+            }
+          }
+        }
+      }
+
+        // Float drift
+        const driftX = Math.sin(time / 1400 + node.phase) * 0.12;
+        const driftY = Math.cos(time / 1600 + node.phase) * 0.10;
+        const driftZ = Math.sin(time / 1800 + node.phase) * 0.12;
+
+        if (!node.exploded) {
+          const fx = (targetX - node.x) * 0.04;
+          const fy = (targetY - node.y) * 0.04;
+          const fz = (targetZ - node.z) * 0.04;
+          node.vx += fx + driftX;
+          node.vy += fy + driftY;
+          node.vz += fz + driftZ;
+        } else {
+          node.vx += (targetX - node.x) * 0.005;
+          node.vy += (targetY + 200 - node.y) * 0.005;
+          node.vz += (targetZ - node.z) * 0.005;
+        }
+
+        node.vx *= 0.85;
+        node.vy *= 0.85;
+        node.vz *= 0.85;
+
+        node.x += node.vx;
+        node.y += node.vy;
+        node.z += node.vz;
+
+        node.alpha += (targetAlpha - node.alpha) * 0.1;
+      });
+
+      // Update explosion sparks
+      sparks.forEach((spark) => {
+        spark.x += spark.vx;
+        spark.y += spark.vy;
+        spark.z += spark.vz;
+        spark.vx *= 0.96;
+        spark.vy *= 0.96;
+        spark.vz *= 0.96;
+        spark.life -= 0.015;
+      });
+      sparks = sparks.filter(s => s.life > 0);
+
+      // 2. CAMERA AND INTERPOLATIONS
+      const isReplaying = isReplayingRef.current;
+      const replayIndex = replayIndexRef.current;
+
+      if (isReplaying) {
+        const path = getReplayPath(currentTimeline);
+        if (replayIndex === -1) {
+          targetLookAtX = 0; targetLookAtY = 0; targetLookAtZ = 0;
+          targetZoom = 0.55;
+          rotY = time * 0.0001;
+          rotX = 0.22;
+        } else if (replayIndex === path.length) {
+          targetLookAtX = 0; targetLookAtY = 0; targetLookAtZ = 0;
+          targetZoom = 0.45;
+          rotY = time * 0.0002;
+          rotX = 0.25;
+        } else {
+          const targetNodeId = path[replayIndex];
+          const targetNode = simNodes.find(n => n.id === targetNodeId);
+          if (targetNode) {
+            targetLookAtX = targetNode.x;
+            targetLookAtY = targetNode.y;
+            targetLookAtZ = targetNode.z;
+            targetZoom = 1.35;
+            rotY = time * 0.0003 + replayIndex * 0.55;
+            rotX = 0.15;
+          }
+        }
+      } else {
+        const activeNode = activeNodeRef.current;
+        if (activeNode) {
+          const simN = simNodes.find(n => n.id === activeNode.id);
+          if (simN) {
+            targetLookAtX = simN.x;
+            targetLookAtY = simN.y;
+            targetLookAtZ = simN.z;
+            targetZoom = 1.15;
+          }
+        } else {
+          targetLookAtX = 0;
+          targetLookAtY = 0;
+          targetLookAtZ = 0;
+          targetZoom = 0.85;
+        }
+      }
+
+      lookAtX += (targetLookAtX - lookAtX) * 0.07;
+      lookAtY += (targetLookAtY - lookAtY) * 0.07;
+      lookAtZ += (targetLookAtZ - lookAtZ) * 0.07;
+
+      if (isReplaying) {
+        cameraZ += ((600 / targetZoom) - cameraZ) * 0.04;
+      } else if (!isDragging) {
+        cameraZ += ((600 / targetZoom) - cameraZ) * 0.06;
+      }
+
+      if (shakeAmount > 0) {
+        shakeAmount *= 0.9;
+        if (shakeAmount < 0.1) shakeAmount = 0;
+      }
+
+      ctx.save();
+      if (shakeAmount > 0) {
+        const shakeX = (Math.random() - 0.5) * shakeAmount;
+        const shakeY = (Math.random() - 0.5) * shakeAmount;
+        ctx.translate(shakeX, shakeY);
+      }
+
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const fov = 400;
+
+      // Draw Grid Floor in 3D
+      ctx.strokeStyle = "rgba(34, 211, 238, 0.03)";
+      ctx.lineWidth = 0.6;
+      const gridCount = 8;
+      const gridSpacing = 80;
+      for (let i = -gridCount; i <= gridCount; i++) {
+        const xStart = i * gridSpacing - lookAtX;
+        const zStart = -gridCount * gridSpacing - lookAtZ;
+        const xEnd = i * gridSpacing - lookAtX;
+        const zEnd = gridCount * gridSpacing - lookAtZ;
+        const yFloor = 180 - lookAtY;
+
+        const sx_y = xStart * Math.cos(rotY) - zStart * Math.sin(rotY);
+        const sz_y = xStart * Math.sin(rotY) + zStart * Math.cos(rotY);
+        const sy_x = yFloor * Math.cos(rotX) - sz_y * Math.sin(rotX);
+        const sz_x = yFloor * Math.sin(rotX) + sz_y * Math.cos(rotX);
+
+        const ex_y = xEnd * Math.cos(rotY) - zEnd * Math.sin(rotY);
+        const ez_y = xEnd * Math.sin(rotY) + zEnd * Math.cos(rotY);
+        const ey_x = yFloor * Math.cos(rotX) - ez_y * Math.sin(rotX);
+        const ez_x = yFloor * Math.sin(rotX) + ez_y * Math.cos(rotX);
+
+        const startScale = fov / (sz_x + cameraZ);
+        const endScale = fov / (ez_x + cameraZ);
+
+        if (startScale > 0 && endScale > 0) {
+          ctx.beginPath();
+          ctx.moveTo(centerX + sx_y * startScale, centerY + sy_x * startScale);
+          ctx.lineTo(centerX + ex_y * endScale, centerY + ey_x * endScale);
+          ctx.stroke();
+        }
+      }
+
+      // Draw Connection Lines between nodes
+      CONSTELLATION_EDGES.forEach((edge) => {
+        const fromN = simNodes.find(n => n.id === edge.from);
+        const toN = simNodes.find(n => n.id === edge.to);
+        if (!fromN || !toN) return;
+
+        if (fromN.exploded && currentTimeline !== "A") return;
+        if (toN.exploded && currentTimeline !== "A") return;
+
+        const rx1 = fromN.x - lookAtX;
+        const ry1 = fromN.y - lookAtY;
+        const rz1 = fromN.z - lookAtZ;
+
+        const rx2 = toN.x - lookAtX;
+        const ry2 = toN.y - lookAtY;
+        const rz2 = toN.z - lookAtZ;
+
+        const ax_y = rx1 * Math.cos(rotY) - rz1 * Math.sin(rotY);
+        const az_y = rx1 * Math.sin(rotY) + rz1 * Math.cos(rotY);
+        const ay_x = ry1 * Math.cos(rotX) - az_y * Math.sin(rotX);
+        const az_x = ry1 * Math.sin(rotX) + az_y * Math.cos(rotX);
+
+        const bx_y = rx2 * Math.cos(rotY) - rz2 * Math.sin(rotY);
+        const bz_y = rx2 * Math.sin(rotY) + rz2 * Math.cos(rotY);
+        const by_x = ry2 * Math.cos(rotX) - bz_y * Math.sin(rotX);
+        const bz_x = ry2 * Math.sin(rotX) + bz_y * Math.cos(rotX);
+
+        const scaleA = fov / (az_x + cameraZ);
+        const scaleB = fov / (bz_x + cameraZ);
+
+        if (scaleA > 0 && scaleB > 0) {
+          ctx.beginPath();
+          ctx.moveTo(centerX + ax_y * scaleA, centerY + ay_x * scaleA);
+          ctx.lineTo(centerX + bx_y * scaleB, centerY + by_x * scaleB);
+
+          const activeNode = activeNodeRef.current;
+          const isHighlighted = activeNode && (fromN.id === activeNode.id || toN.id === activeNode.id);
+          
+          const alphaLine = Math.min(fromN.alpha, toN.alpha);
+
+          if (isHighlighted) {
+            ctx.strokeStyle = `rgba(34, 211, 238, ${alphaLine * 0.75})`;
+            ctx.lineWidth = 1.8;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "#22d3ee";
+          } else {
+            ctx.strokeStyle = `rgba(255, 255, 255, ${alphaLine * 0.08})`;
+            ctx.lineWidth = 0.7;
+            ctx.shadowBlur = 0;
+          }
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+      });
+
+      // Draw Orbit Particles revolving around each node
+      simNodes.forEach((node) => {
+        if (node.exploded && currentTimeline !== "A") return;
+
+        node.orbitParticles.forEach((part) => {
+          part.angle += part.speed;
+
+          const ox = Math.cos(part.angle) * part.radius;
+          const oz = Math.sin(part.angle) * part.radius;
+          const oy = part.yOffset;
+
+          const ax = node.x + ox - lookAtX;
+          const ay = node.y + oy - lookAtY;
+          const az = node.z + oz - lookAtZ;
+
+          const rx = ax * Math.cos(rotY) - az * Math.sin(rotY);
+          const rz = ax * Math.sin(rotY) + az * Math.cos(rotY);
+          const ry = ay * Math.cos(rotX) - rz * Math.sin(rotX);
+          const rz_final = ay * Math.sin(rotX) + rz * Math.cos(rotX);
+
+          const scale = fov / (rz_final + cameraZ);
+          if (scale > 0) {
+            ctx.fillStyle = part.color;
+            ctx.beginPath();
+            ctx.arc(centerX + rx * scale, centerY + ry * scale, 0.8 * scale, 0, Math.PI * 2);
+            ctx.globalAlpha = node.alpha;
+            ctx.fill();
+            ctx.globalAlpha = 1.0;
+          }
+        });
+      });
+
+      // Draw Node typography labels and core indicators
+      simNodes.forEach((node) => {
+        if (node.exploded && currentTimeline !== "A") return;
+
+        const rx = node.x - lookAtX;
+        const ry = node.y - lookAtY;
+        const rz = node.z - lookAtZ;
+
+        const x1 = rx * Math.cos(rotY) - rz * Math.sin(rotY);
+        const z1 = rx * Math.sin(rotY) + rz * Math.cos(rotY);
+        const y2 = ry * Math.cos(rotX) - z1 * Math.sin(rotX);
+        const z2 = ry * Math.sin(rotX) + z1 * Math.cos(rotX);
+
+        const scale = fov / (z2 + cameraZ);
+        if (scale > 0) {
+          const screenX = centerX + x1 * scale;
+          const screenY = centerY + y2 * scale;
+
+          const activeNode = activeNodeRef.current;
+          const isSelected = activeNode && activeNode.id === node.id;
+
+          ctx.beginPath();
+          ctx.arc(screenX, screenY, (isSelected ? 6.5 : 3.5) * scale, 0, Math.PI * 2);
+          ctx.fillStyle = node.color;
+          ctx.globalAlpha = node.alpha;
+          
+          if (isSelected) {
+            ctx.shadowBlur = 12 * scale;
+            ctx.shadowColor = node.color;
+          }
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 1.0;
+
+          if (isSelected) {
+            ctx.save();
+            ctx.strokeStyle = node.color;
+            ctx.lineWidth = 0.8;
+            ctx.globalAlpha = node.alpha;
+            
+            const rAngle = time / 600;
+            ctx.beginPath();
+            ctx.arc(screenX, screenY, 14 * scale, rAngle, rAngle + Math.PI * 0.4);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(screenX, screenY, 14 * scale, rAngle + Math.PI, rAngle + Math.PI * 1.4);
+            ctx.stroke();
+            ctx.restore();
+          }
+
+          // Node Text Labels
+          ctx.font = `bold ${isSelected ? 11 : 9.5}px monospace`;
+          ctx.fillStyle = isSelected ? "#ffffff" : "rgba(255,255,255,0.6)";
+          ctx.textAlign = "center";
+          ctx.globalAlpha = node.alpha;
+          
+          ctx.fillText(node.label, screenX, screenY - 14 * scale);
+
+          // Subtitle
+          ctx.font = `${isSelected ? 8.5 : 7.5}px monospace`;
+          ctx.fillStyle = isSelected ? node.color : "rgba(255,255,255,0.3)";
+          ctx.fillText(node.subtitle, screenX, screenY + 16 * scale);
+
+          // Density Indicator
+          ctx.font = "6.5px monospace";
+          ctx.fillStyle = "rgba(255,255,255,0.2)";
+          ctx.fillText(`[ DENSITY: ${node.density}p ]`, screenX, screenY + 25 * scale);
+
+          ctx.globalAlpha = 1.0;
+        }
+      });
+
+      // Draw Explosion Sparks
+      sparks.forEach((spark) => {
+        const rx = spark.x - lookAtX;
+        const ry = spark.y - lookAtY;
+        const rz = spark.z - lookAtZ;
+
+        const x1 = rx * Math.cos(rotY) - rz * Math.sin(rotY);
+        const z1 = rx * Math.sin(rotY) + rz * Math.cos(rotY);
+        const y2 = ry * Math.cos(rotX) - z1 * Math.sin(rotX);
+        const z2 = ry * Math.sin(rotX) + z1 * Math.cos(rotX);
+
+        const scale = fov / (z2 + cameraZ);
+        if (scale > 0) {
+          ctx.fillStyle = spark.color;
+          ctx.beginPath();
+          ctx.arc(centerX + x1 * scale, centerY + y2 * scale, spark.size * scale, 0, Math.PI * 2);
+          ctx.globalAlpha = spark.life;
+          ctx.fill();
+          ctx.globalAlpha = 1.0;
+        }
+      });
+
+      ctx.restore();
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", handleResize);
+      canvas.removeEventListener("mousedown", handleCanvasMouseDown);
+      canvas.removeEventListener("mousemove", handleCanvasMouseMove);
+      canvas.removeEventListener("mouseup", handleCanvasMouseUp);
+      canvas.removeEventListener("mouseleave", handleCanvasMouseUp);
+      canvas.removeEventListener("wheel", handleCanvasWheel);
+    };
+  }, [activeTab, isSimulationLocked, getReplayPath]);
+
   return (
     <main className={`relative min-h-screen text-white overflow-x-hidden font-mono select-none transition-all duration-1000 bg-gradient-to-b ${eraBgStyle}`}>
       {/* Grainy Noise Overlay */}
@@ -1146,7 +1988,7 @@ export default function ArchivePage() {
               LIFE.ARCHIVE // VER_HISTORY
             </span>
             <h1 className="text-sm font-bold tracking-tight text-white uppercase mt-0.5">
-              Museum of the Self
+              Version History of a Human
             </h1>
           </div>
         </div>
@@ -1154,7 +1996,7 @@ export default function ArchivePage() {
         {/* Magnetic View Mode Toggle Switch */}
         <div className="relative flex items-center gap-1.5 p-1 bg-neutral-950/60 border border-white/15 backdrop-blur-md rounded-full overflow-hidden">
           <button
-            onClick={() => setActiveTab("timeline")}
+            onClick={() => { sysAudio.playSwitch(); setActiveTab("timeline"); }}
             className={`relative z-10 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-colors duration-300 uppercase ${
               activeTab === "timeline" ? "text-black" : "text-slate-400 hover:text-white"
             }`}
@@ -1169,7 +2011,7 @@ export default function ArchivePage() {
             Temporal Timeline
           </button>
           <button
-            onClick={() => setActiveTab("constellation")}
+            onClick={() => { sysAudio.playSwitch(); setActiveTab("constellation"); }}
             className={`relative z-10 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-colors duration-300 uppercase ${
               activeTab === "constellation" ? "text-black" : "text-slate-400 hover:text-white"
             }`}
@@ -1182,6 +2024,26 @@ export default function ArchivePage() {
               />
             )}
             Neural Constellation
+          </button>
+          <button
+            onClick={() => { sysAudio.playSwitch(); setActiveTab("simulation"); }}
+            className={`relative z-10 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-wider transition-colors duration-300 uppercase flex items-center gap-1.5 ${
+              activeTab === "simulation" 
+                ? "text-black" 
+                : isSimulationLocked 
+                  ? "text-slate-500 hover:text-slate-350" 
+                  : "text-slate-400 hover:text-white"
+            }`}
+          >
+            {activeTab === "simulation" && (
+              <motion.span
+                layoutId="activeTabPill"
+                className="absolute inset-0 bg-white rounded-full z-[-1]"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            {isSimulationLocked && <span className="text-[9px]">🔒</span>}
+            Life Simulation
           </button>
         </div>
       </div>
@@ -1430,6 +2292,452 @@ export default function ArchivePage() {
                 background: "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(6,182,212,0.8) 40%, rgba(6,7,9,1) 90%)"
               }}
             />
+          )}
+        </div>
+      )}
+
+      {/* ── Mode 3: Life Simulation View ── */}
+      {activeTab === "simulation" && (
+        <div className="relative z-10 w-full h-[calc(100vh-140px)] flex flex-col pointer-events-auto overflow-hidden">
+          {isSimulationLocked ? (
+            <div className="flex-1 flex items-center justify-center p-6 bg-black/30">
+              <div className="w-full max-w-xl border border-cyan-500/30 bg-neutral-950/90 backdrop-blur-md rounded-2xl p-6 shadow-[0_0_50px_rgba(6,182,212,0.1)] flex flex-col gap-6">
+                <div className="flex items-center justify-between border-b border-cyan-500/20 pb-3">
+                  <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                    SECURE_LINK // CAUSALITY_DECRYPTOR
+                  </span>
+                  <span className="text-[9px] text-slate-500">SYSTEM.EXE v1.08</span>
+                </div>
+
+                <div className="flex-1 min-h-[220px] bg-black/60 border border-white/5 rounded-xl p-4 font-mono text-[10px] text-slate-400 overflow-y-auto space-y-2">
+                  <div>SAUMYA.OS ACCESS PORT: RESTRICTED.</div>
+                  <div>DECRYPTION LEVEL 3 SECURITY CLEARANCE REQUIRED.</div>
+                  <div className="text-amber-500/80">WARNING: UNRESOLVED TIMELINES DETECTED IN SECTORS B & C.</div>
+                  {decryptLog.map((log, idx) => (
+                    <div key={idx} className={idx === decryptLog.length - 1 ? "text-cyan-400 font-bold" : "text-slate-350"}>
+                      &gt; {log}
+                    </div>
+                  ))}
+                  {isDecrypting && (
+                    <div className="text-cyan-400 animate-pulse mt-2">
+                      DECRYPTING [{(decryptLog.length * 11).toString().padStart(2, "0")}%]...
+                    </div>
+                  )}
+                </div>
+
+                {!isDecrypting && (
+                  <button
+                    onClick={handleDecryptSimulation}
+                    className="w-full py-3 rounded-xl border border-cyan-400 bg-cyan-500/10 text-cyan-300 hover:text-white hover:bg-cyan-500/20 hover:border-white shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-all font-bold tracking-widest text-xs uppercase"
+                  >
+                    [ DECRYPT LIFE.EXE ]
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex-1 relative w-full h-full flex flex-col lg:flex-row overflow-hidden select-none">
+              
+              {/* Autopilot overlay / title cards */}
+              <AnimatePresence>
+                {isReplaying && replayIndex === -1 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-40 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6"
+                  >
+                    <div className="text-center space-y-4">
+                      <span className="text-[10px] text-cyan-400 tracking-[0.3em] font-bold block uppercase animate-pulse">
+                        INITIALIZING AUTOPILOT OVERVIEW
+                      </span>
+                      <h2 className="text-3xl md:text-5xl font-black text-white tracking-widest uppercase font-mono">
+                        SAUMYA.OS
+                      </h2>
+                      <p className="text-slate-500 text-xs tracking-wider uppercase font-mono max-w-sm mx-auto leading-relaxed">
+                        VERSION HISTORY // LIFE.EXE SIMULATION IN PROGRESS...
+                      </p>
+                      <div className="w-48 h-1 bg-white/10 mx-auto rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: "100%" }}
+                          transition={{ duration: 2.0, ease: "linear" }}
+                          className="h-full bg-cyan-400"
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Autopilot outro overlay / pull back card */}
+              <AnimatePresence>
+                {isReplaying && replayIndex >= getReplayPath(activeTimeline).length && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-40 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center p-6"
+                  >
+                    <div className="text-center space-y-4">
+                      <h2 className="text-2xl font-bold text-cyan-400 tracking-wider uppercase font-mono animate-pulse">
+                        SIMULATION RE-COMPILING
+                      </h2>
+                      <p className="text-slate-400 text-xs tracking-wider uppercase font-mono max-w-md mx-auto leading-relaxed">
+                        PULLING BACK TO WHOLE UNIVERSE CORE. ACTIVE TIMELINE: TIMELINE_{activeTimeline}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Sidebar Left: Timeline Selector & Autopilot controls */}
+              <div className="lg:w-80 w-full bg-neutral-950/80 border-b lg:border-b-0 lg:border-r border-white/10 backdrop-blur-md p-5 flex flex-col gap-6 z-20 overflow-y-auto">
+                <div className="space-y-1">
+                  <span className="text-[8px] text-cyan-400 font-bold uppercase tracking-widest block">
+                    CAUSALITY CONFIG
+                  </span>
+                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                    Timeline Branch Manager
+                  </h3>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={() => { sysAudio.playSwitch(); setActiveTimeline("A"); setActiveSimulationNode(null); }}
+                    className={`text-left p-3.5 rounded-xl border transition-all ${
+                      activeTimeline === "A"
+                        ? "border-cyan-500/50 bg-cyan-500/10 text-white shadow-[0_0_15px_rgba(6,182,212,0.1)]"
+                        : "border-white/5 bg-white/[0.01] text-slate-400 hover:border-white/15 hover:text-slate-200"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold tracking-wider uppercase">TIMELINE A</span>
+                      {activeTimeline === "A" && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />}
+                    </div>
+                    <span className="text-[11px] font-bold block mt-1 uppercase text-slate-200">
+                      Primary Build
+                    </span>
+                    <p className="text-[9px] text-slate-500 mt-1 leading-normal uppercase">
+                      All milestones intact. Motorcycling, heavy lifts, and compiler builds operating at peak telemetry.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => { sysAudio.playSwitch(); setActiveTimeline("B"); setActiveSimulationNode(null); }}
+                    className={`text-left p-3.5 rounded-xl border transition-all ${
+                      activeTimeline === "B"
+                        ? "border-amber-500/50 bg-amber-500/10 text-white shadow-[0_0_15px_rgba(245,158,11,0.1)]"
+                        : "border-white/5 bg-white/[0.01] text-slate-400 hover:border-white/15 hover:text-slate-200"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold tracking-wider uppercase">TIMELINE B</span>
+                      {activeTimeline === "B" && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />}
+                    </div>
+                    <span className="text-[11px] font-bold block mt-1 uppercase text-slate-200">
+                      Alternate Ride
+                    </span>
+                    <p className="text-[9px] text-slate-500 mt-1 leading-normal uppercase">
+                      FIRST FREEDOM (Cruiser) erased. Bike KMs and road trips drop to zero. Camera focus shifted.
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => { sysAudio.playSwitch(); setActiveTimeline("C"); setActiveSimulationNode(null); }}
+                    className={`text-left p-3.5 rounded-xl border transition-all ${
+                      activeTimeline === "C"
+                        ? "border-red-500/50 bg-red-500/10 text-white shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                        : "border-white/5 bg-white/[0.01] text-slate-400 hover:border-white/15 hover:text-slate-200"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold tracking-wider uppercase">TIMELINE C</span>
+                      {activeTimeline === "C" && <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping" />}
+                    </div>
+                    <span className="text-[11px] font-bold block mt-1 uppercase text-slate-200">
+                      Physical Baseline
+                    </span>
+                    <p className="text-[9px] text-slate-500 mt-1 leading-normal uppercase">
+                      PROVING STRENGTH (210kg) erased. Severe recovery limiters. Systems building capabilities degraded.
+                    </p>
+                  </button>
+                </div>
+
+                <div className="border-t border-white/10 pt-4 mt-auto">
+                  {!isReplaying ? (
+                    <button
+                      onClick={() => { sysAudio.playSwitch(); setIsReplaying(true); }}
+                      className="w-full py-2.5 rounded-xl border border-cyan-400/50 bg-cyan-500/10 hover:bg-cyan-500/20 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all text-[10px] font-bold tracking-widest uppercase flex items-center justify-center gap-2"
+                    >
+                      <Play className="w-3.5 h-3.5 fill-cyan-400/20" />
+                      REPLAY LIFE.EXE
+                    </button>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between text-[9px] text-slate-400">
+                        <span>AUTOPILOT TRAILER IN PROGRESS...</span>
+                        <span className="font-bold text-cyan-400">{replayCountdown}S REMAINING</span>
+                      </div>
+                      <button
+                        onClick={() => { sysAudio.playSwitch(); setIsReplaying(false); }}
+                        className="w-full py-2.5 rounded-xl border border-red-500/40 bg-red-500/10 hover:bg-red-500/20 text-red-300 hover:text-white transition-all text-[10px] font-bold tracking-widest uppercase flex items-center justify-center gap-2"
+                      >
+                        <Pause className="w-3.5 h-3.5" />
+                        ABORT TRAILER
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Center Screen: 3D canvas container */}
+              <div className="flex-1 relative h-full bg-black/10 min-h-[300px]">
+                <canvas
+                  ref={simulationCanvasRef}
+                  className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing z-10"
+                />
+
+                <div className="absolute top-4 right-4 z-20 pointer-events-none bg-neutral-950/70 border border-white/5 backdrop-blur-md rounded-xl p-3 text-[8.5px] text-slate-400 space-y-1 font-mono uppercase">
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                    <span>STABLE NODES</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                    <span>STRENGTH TELEMETRY</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                    <span>SETBACK EVENTS</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                    <span>[REDACTED] SECTOR</span>
+                  </div>
+                  <div className="text-[7.5px] border-t border-white/5 pt-1.5 mt-1.5 text-slate-500">
+                    DRAG CANVAS TO ROTATE // WHEEL TO ZOOM // CLICK NODE TO FOCUS
+                  </div>
+                </div>
+              </div>
+
+              {/* Sidebar Right: Telemetry HUD Panel */}
+              <div className="lg:w-96 w-full bg-neutral-950/80 border-t lg:border-t-0 lg:border-l border-white/10 backdrop-blur-md p-6 flex flex-col gap-6 z-20 overflow-y-auto">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <span className="text-[9px] text-cyan-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                    <Activity className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+                    HUMAN.OS // SYSTEM_TELEMETRY
+                  </span>
+                  <span className="text-[8.5px] text-slate-500">
+                    TIMELINE_{activeTimeline}
+                  </span>
+                </div>
+
+                <div className="flex-1 space-y-5">
+                  {activeSimulationNode ? (
+                    activeSimulationNode.id === "blackbox-node" ? (
+                      <div className="space-y-4">
+                        <div className="border border-red-500/30 bg-red-500/5 rounded-xl p-4 text-center space-y-2">
+                          <ShieldAlert className="w-8 h-8 text-red-500 animate-bounce mx-auto" />
+                          <h4 className="text-sm font-bold text-red-500 uppercase tracking-widest">
+                            ACCESS DENIED
+                          </h4>
+                          <p className="text-[9px] text-red-400 font-mono">
+                            SECTOR CORRUPTED // AUTHENTICATION ERROR // DATA DEGRADATION DETECTED
+                          </p>
+                        </div>
+
+                        <div className="aspect-[4/3] w-full bg-black rounded-xl border border-white/10 overflow-hidden relative">
+                          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:8px_8px] pointer-events-none z-10" />
+                          <SlideshowGlitch />
+                        </div>
+                        
+                        <div className="border-l-2 border-red-500/50 bg-white/[0.01] p-3 text-[9.5px] text-slate-400 leading-normal uppercase">
+                          No text, description, or logs exist for this sector in the primary timeline archives.
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <div>
+                          <span className="text-[8.5px] font-bold text-cyan-400 uppercase tracking-wider block">
+                            NODE SPECIFICATION
+                          </span>
+                          <h4 className="text-base font-bold text-white uppercase tracking-tight mt-0.5">
+                            {activeSimulationNode.label}
+                          </h4>
+                          <p className="text-[9px] text-slate-400 font-mono mt-0.5">
+                            {activeSimulationNode.subtitle}
+                          </p>
+                        </div>
+
+                        <div className="aspect-[4/3] w-full bg-black rounded-xl border border-white/10 overflow-hidden relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={activeSimulationNode.polaroidData.image}
+                            alt={activeSimulationNode.label}
+                            className="w-full h-full object-cover grayscale contrast-110 opacity-80"
+                          />
+                          <div className="absolute bottom-3 left-3 bg-black/80 px-2 py-0.5 border border-white/10 rounded text-[7.5px] text-slate-400">
+                            {activeSimulationNode.polaroidData.date}
+                          </div>
+                        </div>
+
+                        <div className="space-y-3 border-t border-white/5 pt-3 text-[10px] text-slate-350">
+                          <div className="flex justify-between py-1 border-b border-white/5 font-mono text-[9px]">
+                            <span className="text-slate-500">SECTOR LOCATION</span>
+                            <span className="text-white font-bold">{activeSimulationNode.polaroidData.location}</span>
+                          </div>
+                          <div className="flex justify-between py-1 border-b border-white/5 font-mono text-[9px]">
+                            <span className="text-slate-500">GEOGRAPHIC COORDS</span>
+                            <span className="text-white font-bold">{activeSimulationNode.polaroidData.coordinates}</span>
+                          </div>
+                          <div className="space-y-1 py-1">
+                            <span className="text-slate-500 text-[9px] block">CAUSAL LORE RECORD</span>
+                            <p className="text-slate-200 leading-normal italic text-[9.5px]">
+                              &quot;{activeSimulationNode.polaroidData.lore}&quot;
+                            </p>
+                          </div>
+                          <div className="border-l-2 border-cyan-500/50 bg-white/[0.01] p-3 text-[9.5px] text-slate-300 leading-normal">
+                            <span className="text-slate-500 text-[8px] font-bold block uppercase tracking-wider mb-1">
+                              WHY IT MATTERED
+                            </span>
+                            {activeSimulationNode.polaroidData.whyItMattered}
+                          </div>
+                        </div>
+
+                        {["freedom-node", "strength-node", "rebuild-node"].includes(activeSimulationNode.id) && (
+                          <div className="pt-2 border-t border-white/5">
+                            <button
+                              onClick={() => {
+                                sysAudio.playGearClunk();
+                                if (activeSimulationNode.id === "freedom-node") {
+                                  setActiveTimeline("B");
+                                } else {
+                                  setActiveTimeline("C");
+                                }
+                                setActiveSimulationNode(null);
+                              }}
+                              className="w-full py-2 px-3 rounded-lg border border-red-500/40 bg-red-500/5 hover:bg-red-500/15 hover:border-red-500 text-red-400 hover:text-white transition-all text-[8.5px] font-bold tracking-widest uppercase flex items-center justify-center gap-1.5"
+                            >
+                              <Trash2 className="w-3 h-3 text-red-400" />
+                              [ WHAT IF THIS NEVER HAPPENED? ]
+                            </button>
+                            <span className="text-[7.5px] text-slate-500 font-mono mt-1 text-center block leading-relaxed">
+                              WARNING: DELETING THIS CORE NODE WILL COLLAPSE ALL DOWNSTREAM CAUSAL EVENTS AND ADJUST STATISTICS IN REAL-TIME.
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  ) : (
+                    <div className="h-48 flex flex-col items-center justify-center text-center p-4 border border-dashed border-white/15 rounded-2xl">
+                      <Orbit className="w-7 h-7 text-slate-600 animate-spin-slow mb-3" />
+                      <span className="text-[9px] text-slate-500 uppercase tracking-widest">
+                        Awaiting Node Focus
+                      </span>
+                      <p className="text-[8px] text-slate-600 mt-1 max-w-[200px] leading-normal uppercase">
+                        Select a floating typography checkpoint inside the 3D grid space to analyze its causality details.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="border-t border-white/10 pt-4 space-y-3 font-mono text-[9px]">
+                  <span className="text-[8px] text-slate-500 uppercase tracking-widest block">
+                    TELEMETRY STATS ENGINE
+                  </span>
+                  
+                  <div className="grid grid-cols-2 gap-2 text-[9px]">
+                    <div className="bg-white/[0.01] border border-white/5 p-2 rounded-lg">
+                      <span className="text-slate-500 uppercase block text-[7.5px]">DAYS LIVED</span>
+                      <span className="text-white font-bold text-xs">6,570 DAYS</span>
+                    </div>
+
+                    <div className="bg-white/[0.01] border border-white/5 p-2 rounded-lg">
+                      <span className="text-slate-500 uppercase block text-[7.5px]">BIKE KMS</span>
+                      <motion.span 
+                        key={activeTimeline === "B" ? "bike-b" : "bike-a"}
+                        initial={{ scale: 0.9, opacity: 0.5 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className={`font-bold text-xs ${activeTimeline === "B" ? "text-red-400 line-through" : "text-white"}`}
+                      >
+                        {activeTimeline === "B" ? "0 KM" : "12,450 KM"}
+                      </motion.span>
+                    </div>
+
+                    <div className="bg-white/[0.01] border border-white/5 p-2 rounded-lg">
+                      <span className="text-slate-500 uppercase block text-[7.5px]">ROAD TRIPS</span>
+                      <motion.span 
+                        key={activeTimeline === "B" ? "trips-b" : "trips-a"}
+                        initial={{ scale: 0.9, opacity: 0.5 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className={`font-bold text-xs ${activeTimeline === "B" ? "text-red-400 line-through" : "text-white"}`}
+                      >
+                        {activeTimeline === "B" ? "0 TRIPS" : "18 TRIPS"}
+                      </motion.span>
+                    </div>
+
+                    <div className="bg-white/[0.01] border border-white/5 p-2 rounded-lg">
+                      <span className="text-slate-500 uppercase block text-[7.5px]">TOTAL PRs</span>
+                      <motion.span 
+                        key={activeTimeline === "C" ? "prs-b" : "prs-a"}
+                        initial={{ scale: 0.9, opacity: 0.5 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className={`font-bold text-xs ${activeTimeline === "C" ? "text-red-400 line-through" : "text-white"}`}
+                      >
+                        {activeTimeline === "C" ? "0 PRs" : "5 PRs"}
+                      </motion.span>
+                    </div>
+
+                    <div className="bg-white/[0.01] border border-white/5 p-2 rounded-lg">
+                      <span className="text-slate-500 uppercase block text-[7.5px]">PROJECTS</span>
+                      <motion.span 
+                        key={activeTimeline === "C" ? "proj-b" : "proj-a"}
+                        initial={{ scale: 0.9, opacity: 0.5 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className={`font-bold text-xs ${activeTimeline === "C" ? "text-amber-500" : "text-white"}`}
+                      >
+                        {activeTimeline === "C" ? "7 SYSTEMS" : "12 SYSTEMS"}
+                      </motion.span>
+                    </div>
+
+                    <div className="bg-white/[0.01] border border-white/5 p-2 rounded-lg">
+                      <span className="text-slate-500 uppercase block text-[7.5px]">PHOTO SESSIONS</span>
+                      <motion.span 
+                        key={activeTimeline === "B" ? "photo-b" : "photo-a"}
+                        initial={{ scale: 0.9, opacity: 0.5 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className={`font-bold text-xs ${activeTimeline === "B" ? "text-amber-500" : "text-white"}`}
+                      >
+                        {activeTimeline === "B" ? "12 SESS" : "37 SESS"}
+                      </motion.span>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/[0.01] border border-white/5 p-2.5 rounded-lg flex items-center justify-between">
+                    <span className="text-slate-500 uppercase text-[7.5px]">OS CORE BUILD STATUS</span>
+                    <motion.span 
+                      key={activeTimeline}
+                      initial={{ scale: 0.95 }}
+                      animate={{ scale: 1 }}
+                      className={`font-bold text-[9px] px-2 py-0.5 rounded tracking-wide ${
+                        activeTimeline === "A" 
+                          ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" 
+                          : activeTimeline === "B"
+                            ? "bg-amber-500/10 text-amber-400 border border-amber-500/20 animate-pulse"
+                            : "bg-red-500/10 text-red-400 border border-red-500/20 animate-pulse"
+                      }`}
+                    >
+                      {activeTimeline === "A" && "v5.0 (STABLE)"}
+                      {activeTimeline === "B" && "v5.0 (METEOR_OFFLINE)"}
+                      {activeTimeline === "C" && "v5.0 (DEGRADED)"}
+                    </motion.span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           )}
         </div>
       )}

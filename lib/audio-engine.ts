@@ -366,7 +366,7 @@ class AudioEngine {
     }
   }
 
-  private playBell(freq: number, time: number, duration: number) {
+  playBell(freq: number, time: number, duration: number) {
     if (!this.ctx) return;
 
     const osc = this.ctx.createOscillator();
