@@ -28,17 +28,17 @@ interface TerrainLandmark {
 
 const LANDMARKS: TerrainLandmark[] = [
   {
-    id: "engineering",
-    label: "Engineering",
-    category: "ACADEMIC",
+    id: "music",
+    label: "Music & Frequencies",
+    category: "REFLECTION",
     gridX: -8,
     gridY: 6,
     color: "#22d3ee", // cyan
-    type: "Structural Systems",
-    location: "Geotechnical Labs",
-    telemetry: "Strain Gauge Sync",
-    status: "Operational",
-    description: "Analyzing soil consolidation models and configuring fiber-optic sensor displacement curves."
+    type: "Ambient Soundscapes",
+    location: "Reflective Space",
+    telemetry: "Acoustic Calibration",
+    status: "Active Listening",
+    description: "Curating ambient soundscapes and progressive tracks to calibrate cognitive focus during deep work."
   },
   {
     id: "markets & investing",
@@ -47,63 +47,63 @@ const LANDMARKS: TerrainLandmark[] = [
     gridX: 6,
     gridY: -8,
     color: "#10b981", // emerald
-    type: "Quantitative Capital",
-    location: "Portfolio Desk",
-    telemetry: "Risk Velocity Beta",
-    status: "Surveillance Active",
-    description: "Structuring capital allocation profiles and tracking market velocity indicators."
+    type: "Capital Strategy",
+    location: "Personal Desk",
+    telemetry: "Quantitative Systems",
+    status: "Active Tracking",
+    description: "Structuring capital allocation models and managing swing trading risk profiles."
   },
   {
-    id: "content creation",
-    label: "Content Creation",
+    id: "photography",
+    label: "Photography",
     category: "CREATIVE",
     gridX: 0,
     gridY: 0,
     color: "#f43f5e", // rose
-    type: "Cinematics Node",
-    location: "Overlook Tower",
-    telemetry: "Narrative Pacing Cut",
-    status: "Rendering Film",
-    description: "Assembling narrative blocks and tuning frequencies to draft a visual journey log."
+    type: "Visual Cinematics",
+    location: "Journey Logs",
+    telemetry: "Framing & Composition",
+    status: "Active Capture",
+    description: "Framing natural and built geometry, editing visual pacing, and documenting journeys."
   },
   {
     id: "fitness",
-    label: "Fitness",
+    label: "Fitness & Endurance",
     category: "PHYSICAL",
     gridX: 8,
     gridY: 8,
     color: "#fbbf24", // amber
-    type: "Strength Benchmark",
-    location: "Discipline Summit",
-    telemetry: "Load Pull Log 210KG",
-    status: "Sync Complete",
-    description: "Testing spinal loading limits and executing consistent daily endurance cycles."
+    type: "Endurance & Lift",
+    location: "Training Zone",
+    telemetry: "Consistent Routine",
+    status: "Active Discipline",
+    description: "Testing physical resilience through daily running cycles and progressive strength training."
   },
   {
-    id: "riding",
-    label: "Riding",
+    id: "motorcycling",
+    label: "Motorcycling",
     category: "ADVENTURE",
     gridX: 10,
     gridY: -4,
     color: "#f97316", // orange
-    type: "Cruiser Telemetry",
-    location: "Kutch Desert Ridge",
-    telemetry: "Parallel Twin Temp",
-    status: "Operational",
-    description: "Exploring open highway coordinates and evaluating cruiser mechanical feedback."
+    type: "Cruiser Touring",
+    location: "Open Highway",
+    telemetry: "Super Meteor 650",
+    status: "Active Riding",
+    description: "Exploring remote geographies and experiencing the mechanical feedback of long-distance cruising."
   },
   {
-    id: "learning & ai",
-    label: "Learning & AI",
+    id: "learning",
+    label: "Learning & Systems",
     category: "CURIOSITY",
     gridX: -10,
     gridY: -8,
     color: "#8b5cf6", // violet
-    type: "Cognitive Automation",
-    location: "Agentic Sandbox",
-    telemetry: "State Pipeline Run",
-    status: "Learning Sync",
-    description: "Compiling system-agent configurations and implementing neural automation models."
+    type: "Cognitive Inquiry",
+    location: "Emerging Tech",
+    telemetry: "Systems Architecture",
+    status: "Active Learning",
+    description: "Exploring automation frameworks, systems logic, and emerging software libraries."
   }
 ];
 
@@ -134,10 +134,10 @@ export function PersonalHero({ setActiveDossier }: PersonalHeroProps) {
           <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
           
           <div className="flex items-center justify-between text-[9px] tracking-widest text-slate-500 uppercase z-10">
-            <span>[STATUS: ACTIVE_MANUAL // BUILD_v4.2]</span>
+            <span>[ PERSONAL LOG // INITIATED ]</span>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full animate-ping" style={{ backgroundColor: theme.accent }} />
-              <span className="font-bold" style={{ color: theme.accent }}>SYSTEM_CORE_LIVE</span>
+              <span className="font-bold" style={{ color: theme.accent }}>LIVE</span>
             </div>
           </div>
 
@@ -151,22 +151,22 @@ export function PersonalHero({ setActiveDossier }: PersonalHeroProps) {
               </span>
               <span className="text-slate-600 font-normal">{"//"}</span>
               <span className="px-2.5 py-1 rounded border bg-white/5 uppercase transition-all duration-350" style={{ borderColor: theme.accent + "40", color: theme.accent }}>
-                Systems Builder
+                Systems Thinker
               </span>
               <span className="text-slate-600 font-normal">{"//"}</span>
               <span className="px-2.5 py-1 rounded border bg-white/5 uppercase transition-all duration-350" style={{ borderColor: theme.accent + "40", color: theme.accent }}>
-                Motorcycle Explorer
+                Motorcycle Cruiser
               </span>
             </div>
 
             <p className="mt-6 text-sm sm:text-base md:text-lg text-slate-300 leading-relaxed max-w-xl font-sans font-medium">
-              I design physical systems, digital systems, and everything in between. Bridging geotechnical analysis, software compiler engineering, and mechanical cruising.
+              I am a Civil Engineer building digital tools for infrastructure problems. Bridging geotechnical analysis, site monitoring automation, and mechanical cruising.
             </p>
           </div>
 
           <div className="border-t border-white/5 pt-4 flex items-center justify-between text-[8px] sm:text-[9px] font-mono text-slate-500 z-10">
-            <span>DIRECTIVE // CROSS_DISCIPLINARY</span>
-            <span className="italic text-slate-400">Interact with the 3D map to load dossiers.</span>
+            <span>EXPLORING BEYOND CONSTRAINTS</span>
+            <span className="italic text-slate-400">Interact with the map landmarks to explore.</span>
           </div>
         </motion.div>
 
@@ -656,10 +656,10 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
       <div className="flex justify-between items-start z-20 pointer-events-none">
         <div>
           <span className="text-[7.5px] text-cyan-400 font-bold uppercase tracking-wider block">
-            SECURE_MAP // MODULE_04
+            MAP OVERVIEW // PERSONAL SPACE
           </span>
           <h2 className="text-[10px] font-bold text-white uppercase font-mono tracking-tight mt-0.5">
-            Topography Monolith
+            Landscape of Interests
           </h2>
         </div>
         <span className="text-[8px] text-slate-500 font-mono tracking-widest uppercase">
@@ -706,7 +706,7 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
               exit={{ opacity: 0 }}
               className="text-slate-500 text-center py-2"
             >
-              * Hover nodes for telemetry *
+              * Hover landmarks to explore *
             </motion.div>
           )}
         </AnimatePresence>

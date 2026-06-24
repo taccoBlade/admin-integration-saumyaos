@@ -7,20 +7,20 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 /* ─── Card Data ─── */
 export const CARDS = [
   {
-    category: "Academic",
-    title: "Engineering",
-    description: "Civil engineering, geotechnical research, fiber-optic sensor design.",
+    category: "Reflection",
+    title: "Music",
+    description: "Tuning into ambient, lofi, and progressive soundscapes to calibrate focus and reflect.",
     gradient: "from-cyan-900/80 to-slate-950",
     accent: "bg-cyan-600",
     dossier: {
-      subTitle: "STRUCTURAL & GEOTECHNICAL DISCIPLINE",
+      subTitle: "ACOUSTIC SPACES & FOCUS CALIBRATION",
       stats: [
-        { label: "CORE FIELDS", value: "Geotechnical, Structural, Sensors" },
-        { label: "CURRENT FOCUS", value: "Smart Infrastructure Telemetry" },
-        { label: "LATEST RESEARCH", value: "Soil Consolidation Rates" },
-        { label: "MISSION STATUS", value: "Active Research" }
+        { label: "GENRES", value: "Ambient, Progressive, Lofi" },
+        { label: "ROLE", value: "Focus calibration, active rest" },
+        { label: "PLAYLISTS", value: "Lock-In, Ride, and Chill" },
+        { label: "SOUND ENGINE", value: "Web Audio Synthesized Chords" }
       ],
-      philosophy: "First Principles > Empirical Shortcuts"
+      philosophy: "Frequencies shape focus."
     }
   },
   {
@@ -30,29 +30,29 @@ export const CARDS = [
     gradient: "from-emerald-900/80 to-slate-950",
     accent: "bg-emerald-600",
     dossier: {
-      subTitle: "QUANTITATIVE RISK & CAPITAL GROWTH",
+      subTitle: "RISK STRATEGY & CAPITAL COMPACTION",
       stats: [
         { label: "STYLE", value: "Swing Trading" },
         { label: "STRATEGY", value: "Data-driven Market Analysis" },
         { label: "METRICS", value: "Wealth Systems Build" },
-        { label: "RISK TOLERANCE", value: "Strict Portfolio Controls" }
+        { label: "RISK CONTROL", value: "Strict Risk-to-Reward Ratio" }
       ],
-      philosophy: "Protect Capital, Let Winners Run"
+      philosophy: "Protect capital, manage the risk profile."
     }
   },
   {
     category: "Creative",
-    title: "Content Creation",
-    description: "Editing video content, narrative pacing, sound design, and storytelling.",
+    title: "Photography",
+    description: "Documenting landscapes, capturing architectural geometry, and visual storytelling.",
     gradient: "from-rose-900/80 to-slate-950",
     accent: "bg-rose-600",
     dossier: {
-      subTitle: "NARRATIVE ARCHITECTURE & EDITING",
+      subTitle: "FRAMING & VISUAL STORYTELLING",
       stats: [
-        { label: "TOOLS", value: "Premiere Pro, Lightroom, S24 Ultra" },
-        { label: "CURRENT PROJECT", value: "Cinematic Motorcycle Film" },
-        { label: "FORMAT", value: "Vertical & Horizontal Storytelling" },
-        { label: "AUDIO PARADIGM", value: "Sound Design & Narrative Pacing" }
+        { label: "PRIMARY CAMERA", value: "Crop-sensor DSLR & Prime Lens" },
+        { label: "SUBJECT FOCUS", value: "Built Geometry & Highways" },
+        { label: "CREATIVE GOAL", value: "Cinematic Route Documentation" },
+        { label: "EDITING STYLE", value: "Pacing & Light Gradients" }
       ],
       philosophy: "Pacing is the heart of story."
     }
@@ -60,59 +60,59 @@ export const CARDS = [
   {
     category: "Physical",
     title: "Fitness",
-    description: "Daily running discipline, strength training, and focus cycles.",
+    description: "Daily running discipline, strength training, and physical endurance.",
     gradient: "from-amber-900/80 to-slate-950",
     accent: "bg-amber-600",
     dossier: {
-      subTitle: "ENDURANCE & PHYSICAL DISCIPLINE",
+      subTitle: "ENDURANCE & PHYSICAL CALIBRATION",
       stats: [
         { label: "BODYWEIGHT", value: "73.5 KG" },
-        { label: "DAILY DISCIPLINE", value: "Running & Focus Cycles" },
-        { label: "RUNNING TARGET", value: "10 KM / Day" },
-        { label: "ACTIVE STATUS", value: "Operational" }
+        { label: "DAILY RUN", value: "Compacted Endurance Cycles" },
+        { label: "STRENGTH LIFT", value: "210 KG Deadlift PR" },
+        { label: "DISCIPLINE", value: "Running & Focus Blocks" }
       ],
-      philosophy: "Discipline > Motivation"
+      philosophy: "Discipline beats temporary motivation."
     }
   },
   {
     category: "Adventure",
-    title: "Riding",
-    description: "Long-distance motorcycle touring, mechanical custom builds.",
+    title: "Motorcycling",
+    description: "Long-distance motorcycle touring, mechanical cruiser adjustments, and road travel.",
     gradient: "from-orange-900/80 to-slate-950",
     accent: "bg-orange-600",
     dossier: {
-      subTitle: "MECHANICAL CONCURRENCY & ADVENTURE",
+      subTitle: "MECHANICAL CONCURRENCY & EXPLORATION",
       stats: [
-        { label: "MACHINE", value: "Super Meteor 650" },
-        { label: "LONGEST RIDE", value: "1,650 KM" },
-        { label: "FAVOURITE ROUTE", value: "Rann of Kutch" },
-        { label: "BUILD STATUS", value: "Stage 1 Complete" }
+        { label: "MACHINE", value: "Super Meteor 650 Twin" },
+        { label: "LONGEST TOURING", value: "1,650 KM Cruise" },
+        { label: "KEY ROAD ROUTE", value: "Rann of Kutch Desert" },
+        { label: "MAINTENANCE", value: "Garage Fine-Tuning" }
       ],
       philosophy: "Focus forward, adjust the lean."
     }
   },
   {
     category: "Curiosity",
-    title: "Learning & AI",
+    title: "Learning",
     description: "Exploring artificial intelligence, building automation, and learning emerging tech.",
     gradient: "from-violet-900/80 to-slate-950",
     accent: "bg-violet-600",
     dossier: {
-      subTitle: "AUTOMATION & SYSTEMS ARCHITECTURE",
+      subTitle: "SYSTEMS LOGIC & TECHNOLOGY",
       stats: [
-        { label: "TECH STACK", value: "LLMs, Automation, Neural Nets" },
-        { label: "CURRENT FOCUS", value: "Agentic Workflows" },
-        { label: "PLATFORM", value: "Next.js, Python, Vercel" },
-        { label: "SYSTEM STATE", value: "Continuous Learning" }
+        { label: "SUBJECTS", value: "LLMs, Automation, Neural Nets" },
+        { label: "DEV STACK", value: "Next.js, Python, Vercel" },
+        { label: "SYSTEM METHOD", value: "First-principles engineering" },
+        { label: "FOCUS AREA", value: "Agentic Workflows & Pipelines" }
       ],
-      philosophy: "Automate everything that is repetitive."
+      philosophy: "Understand the systems that govern us."
     }
   }
 ];
 
 /* ─── Card Background SVG Schematic Overlay ─── */
 function CardBackground({ title }: { title: string }) {
-  if (title === "Engineering") {
+  if (title === "Music") {
     return (
       <svg viewBox="0 0 384 640" className="absolute inset-0 w-full h-full opacity-40 group-hover:opacity-85 stroke-cyan-400 fill-none pointer-events-none transition-all duration-500">
         <defs>
@@ -129,64 +129,22 @@ function CardBackground({ title }: { title: string }) {
         </defs>
         <rect width="100%" height="100%" fill="url(#grid-pattern)" />
         
-        {/* Truss bridge outline with glow */}
-        <g filter="url(#cyan-glow)">
-          <path d="M 40 250 L 120 170 L 200 250 L 280 170 L 344 250" strokeWidth="2.5" />
-          <path d="M 40 250 L 344 250 M 120 170 L 280 170" strokeWidth="1.5" />
-          <line x1="120" y1="170" x2="120" y2="250" strokeWidth="1.5" />
-          <line x1="200" y1="250" x2="200" y2="170" strokeWidth="1.5" />
-          <line x1="280" y1="170" x2="280" y2="250" strokeWidth="1.5" />
+        {/* Equalizer / Frequency waves */}
+        <g filter="url(#cyan-glow)" strokeWidth="1.5">
+          <path d="M 40 320 Q 80 200 120 320 T 200 320 T 280 320 T 344 320" />
+          <path d="M 40 320 Q 80 260 120 320 T 200 320 T 280 320 T 344 320" className="opacity-50" strokeWidth="1" strokeDasharray="2 2" />
+          <path d="M 40 320 Q 80 140 120 320 T 200 320 T 280 320 T 344 320" className="opacity-30" strokeWidth="0.8" />
         </g>
 
-        {/* Height dimension line */}
-        <line x1="100" y1="170" x2="100" y2="250" strokeWidth="0.8" strokeDasharray="2 2" />
-        <line x1="97" y1="170" x2="103" y2="170" strokeWidth="0.8" />
-        <line x1="97" y1="250" x2="103" y2="250" strokeWidth="0.8" />
-        <text x="92" y="215" className="fill-cyan-400/55 font-mono text-[7px]" textAnchor="end">H = 15.4m</text>
+        {/* HUD circles */}
+        <circle cx="192" cy="320" r="80" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.15)" strokeDasharray="3 3" />
+        <circle cx="192" cy="320" r="120" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.08)" />
 
-        {/* HUD elements */}
-        <circle cx="120" cy="170" r="3.5" className="fill-cyan-400" />
-        <circle cx="200" cy="170" r="3.5" className="fill-cyan-400" />
-        <circle cx="280" cy="170" r="3.5" className="fill-cyan-400" />
+        {/* Labels */}
+        <text x="192" y="460" className="fill-cyan-400/70 font-mono text-[9px] tracking-widest" textAnchor="middle">SOUNDSCAPE: AMBIENT</text>
+        <text x="192" y="475" className="fill-slate-500 font-mono text-[7px] tracking-wider" textAnchor="middle">FOCUS COEFFICIENT: MAX</text>
         
-        {/* Measurement labels */}
-        <line x1="40" y1="270" x2="344" y2="270" strokeWidth="0.8" strokeDasharray="3 3" />
-        <line x1="40" y1="266" x2="40" y2="274" strokeWidth="0.8" />
-        <line x1="344" y1="266" x2="344" y2="274" strokeWidth="0.8" />
-        
-        <text x="192" y="286" className="fill-cyan-400/70 font-mono text-[9px] tracking-widest" textAnchor="middle">SPAN: L = 304.2m</text>
-        <text x="192" y="298" className="fill-slate-500 font-mono text-[7px] tracking-wider" textAnchor="middle">LOAD CAP: 4500 kN/m</text>
-        
-        {/* Top Right Radar Scanning Ring */}
-        <circle cx="310" cy="90" r="30" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.15)" />
-        <circle cx="310" cy="90" r="18" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.1)" strokeDasharray="2 2" />
-        <line x1="310" y1="55" x2="310" y2="125" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.15)" />
-        <line x1="275" y1="90" x2="345" y2="90" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.15)" />
-        <line x1="310" y1="90" x2="331" y2="69" strokeWidth="1" strokeLinecap="round" />
-        <circle cx="331" cy="69" r="1.5" className="fill-cyan-400" />
-        <text x="310" y="132" className="fill-cyan-500/40 font-mono text-[5px]" textAnchor="middle">AZIMUTH_SEC_04</text>
-
-        {/* Bottom Stress-Strain Plot */}
-        <g className="opacity-60">
-          <line x1="60" y1="510" x2="160" y2="510" strokeWidth="0.8" stroke="rgba(34, 211, 238, 0.3)" />
-          <line x1="60" y1="450" x2="60" y2="510" strokeWidth="0.8" stroke="rgba(34, 211, 238, 0.3)" />
-          <path d="M 60 510 Q 80 500 110 470 T 150 460" strokeWidth="1.2" strokeLinecap="round" />
-          <line x1="110" y1="470" x2="110" y2="510" strokeWidth="0.5" strokeDasharray="2 2" stroke="rgba(34, 211, 238, 0.2)" />
-          <circle cx="110" cy="470" r="2" className="fill-cyan-400" />
-          <text x="63" y="445" className="fill-slate-500 font-mono text-[5px]">STRESS (σ)</text>
-          <text x="162" y="513" className="fill-slate-500 font-mono text-[5px]">STRAIN (ε)</text>
-          <text x="110" y="465" className="fill-cyan-400/80 font-mono text-[5px]" textAnchor="middle">YIELD_PT</text>
-        </g>
-        
-        {/* Side rulers */}
         <line x1="20" y1="50" x2="20" y2="590" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.2)" />
-        <line x1="20" y1="100" x2="26" y2="100" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.3)" />
-        <line x1="20" y1="200" x2="26" y2="200" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.3)" />
-        <line x1="20" y1="300" x2="26" y2="300" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.3)" />
-        <line x1="20" y1="400" x2="26" y2="400" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.3)" />
-        <line x1="20" y1="500" x2="26" y2="500" strokeWidth="0.5" stroke="rgba(34, 211, 238, 0.3)" />
-        
-        <text x="35" y="45" className="fill-cyan-500/40 font-mono text-[6px]">REF: GEOTECH_SYS_01</text>
       </svg>
     );
   }
@@ -274,7 +232,7 @@ function CardBackground({ title }: { title: string }) {
     );
   }
   
-  if (title === "Content Creation") {
+  if (title === "Photography") {
     return (
       <svg viewBox="0 0 384 640" className="absolute inset-0 w-full h-full opacity-40 group-hover:opacity-85 stroke-rose-500 fill-none pointer-events-none transition-all duration-500">
         <defs>
@@ -402,7 +360,7 @@ function CardBackground({ title }: { title: string }) {
     );
   }
   
-  if (title === "Learning & AI") {
+  if (title === "Learning") {
     return (
       <svg viewBox="0 0 384 640" className="absolute inset-0 w-full h-full opacity-40 group-hover:opacity-85 stroke-violet-400 fill-none pointer-events-none transition-all duration-500">
         <defs>
@@ -484,7 +442,7 @@ function CardBackground({ title }: { title: string }) {
     );
   }
   
-  if (title === "Riding") {
+  if (title === "Motorcycling") {
     return (
       <svg viewBox="0 0 384 640" className="absolute inset-0 w-full h-full opacity-40 group-hover:opacity-85 stroke-orange-400 fill-none pointer-events-none transition-all duration-500">
         <defs>

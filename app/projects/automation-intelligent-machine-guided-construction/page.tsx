@@ -60,10 +60,10 @@ export default function ProjectPage() {
         >
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="px-3 py-1 text-xs font-mono rounded-full bg-cyan-950/50 border border-cyan-800/30 text-cyan-400">
-              Transportation Infrastructure
+              Infrastructure Automation
             </span>
             <span className="px-3 py-1 text-xs font-mono rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400">
-              Intelligent Compaction
+              Universal Intelligent Compaction (UIC)
             </span>
             <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-neutral-500 font-mono">
               <Calendar className="w-3.5 h-3.5" />
@@ -72,11 +72,11 @@ export default function ProjectPage() {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-200 to-neutral-400 mb-4">
-            Nhai App Demo
+            Automation & Intelligent Machine Guided Construction
           </h1>
 
           <p className="text-lg md:text-xl text-neutral-400 leading-relaxed max-w-3xl">
-            README.txt: UIC Kit - Smart Road Compaction Interface Project Overview The UIC Kit is an industrial Human-Machine Interface (HMI) designed for heavy road rollers. It transforms complex mechanical vibration data into a simple, color-coded geospatial map. This system ensures road quality (ground stiffness) is deterministic and verifiable, rather than estimated by the operator.
+            
           </p>
         </motion.div>
 
@@ -95,7 +95,7 @@ export default function ProjectPage() {
               Key Outcomes & Evidence
             </h2>
             <p className="text-neutral-300 leading-relaxed mb-6">
-              Successful deployment and verification of the Nhai App Demo system.
+              Developed and verified the Universal Intelligent Compaction Retrofit Kit. Tested on flexible pavement layers (subgrade, GSB, WMM, DBM, BC) showing high CMV correlation to physical Proctor and Plate Load testing.
             </p>
 
             {/* Metrics Checklist */}
@@ -103,15 +103,29 @@ export default function ProjectPage() {
                             <div className="flex items-start gap-3 p-3 rounded-2xl bg-neutral-950/40 border border-neutral-850">
                 <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">STATUS</div>
-                  <div className="text-sm font-semibold text-neutral-200">Verified</div>
+                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">RETROFIT COST</div>
+                  <div className="text-sm font-semibold text-neutral-200">₹58,000</div>
                 </div>
               </div>
               <div className="flex items-start gap-3 p-3 rounded-2xl bg-neutral-950/40 border border-neutral-850">
                 <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">PERFORMANCE</div>
-                  <div className="text-sm font-semibold text-neutral-200">Optimized</div>
+                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">MARKET COST COMPARISON</div>
+                  <div className="text-sm font-semibold text-neutral-200">₹50,000,000 (Market Machine)</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 rounded-2xl bg-neutral-950/40 border border-neutral-850">
+                <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">POSITIONING ACCURACY</div>
+                  <div className="text-sm font-semibold text-neutral-200">±2.5cm</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 rounded-2xl bg-neutral-950/40 border border-neutral-850">
+                <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">SENSOR SAMPLING RATE</div>
+                  <div className="text-sm font-semibold text-neutral-200">100Hz</div>
                 </div>
               </div>
 
@@ -129,6 +143,9 @@ export default function ProjectPage() {
               <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">NumPy</span>
               <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Flask</span>
               <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Socket.IO</span>
+              <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">SciPy</span>
+              <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">C++</span>
+              <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Raspberry Pi</span>
 
             </div>
           </motion.div>
@@ -140,9 +157,11 @@ export default function ProjectPage() {
               Hardware Modules
             </h2>
                         <ul className="space-y-3 font-mono text-sm">
-              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />LiDAR Scanner</li>
-              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Accelerometer</li>
               <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />RTK-GPS Module</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Time-of-Flight (ToF) LiDAR</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Infrared (IR) Thermometry</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Triaxial Industrial ICP Accelerometer</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Raspberry Pi IPC</li>
             </ul>
           </motion.div>
 
@@ -152,8 +171,10 @@ export default function ProjectPage() {
               Software Core
             </h2>
                         <ul className="space-y-3 font-mono text-sm">
-              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Data Parser</li>
-              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Local Calculation Engine</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Edge Processing Core</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Extended Kalman Filter Sync</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Vibration Spectrum FFT</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Web-based Operator HMI</li>
             </ul>
           </motion.div>
 
@@ -167,6 +188,8 @@ export default function ProjectPage() {
               <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Extended Kalman Filter (EKF)</span></li>
               <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Fast Fourier Transform (FFT) Analysis</span></li>
               <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>RTK-GPS Navigation</span></li>
+              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Compaction Meter Value (CMV) Physics</span></li>
+              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Vibration Harmonics</span></li>
             </ul>
           </motion.div>
 
@@ -180,13 +203,16 @@ export default function ProjectPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <h3 className="text-sm font-mono text-neutral-400 uppercase tracking-wider border-b border-neutral-850 pb-2">Challenges Encountered</h3>
-                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">Handling edge cases in high-frequency data inputs.</p></div>
+                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">Designing sensor casings capable of dampening extreme drum vibrations (up to 30G) without losing mechanical dynamics data.</p></div>
+                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[02]</span><p className="text-sm text-neutral-300 leading-relaxed">Mitigating EKF divergence when GPS signal is blocked by heavy tree cover or underpasses on rural highway paving routes.</p></div>
+                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[03]</span><p className="text-sm text-neutral-300 leading-relaxed">Ensuring real-time FFT frequency binning executes on low-power edge computers with latency below 50ms.</p></div>
 
               </div>
 
               <div className="space-y-4">
                 <h3 className="text-sm font-mono text-neutral-400 uppercase tracking-wider border-b border-neutral-850 pb-2">Engineering Decisions & Lessons</h3>
-                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">Iterative unit testing is critical when dealing with physical sensors.</p></div>
+                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">Mechanical dampening materials must be carefully selected; too much dampening filters out actual compaction-related drum hopping data.</p></div>
+                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[02]</span><p className="text-sm text-neutral-300 leading-relaxed">Thermal windows of asphalt are highly localized; wind speed and sub-base moisture content are major variables in cooling rates.</p></div>
 
               </div>
             </div>

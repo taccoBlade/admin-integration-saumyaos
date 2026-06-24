@@ -99,21 +99,27 @@ export function getTimelineEvents(): TimelineEvent[] {
 
 export function getSkills(): Skill[] {
   const baseSkills: { name: string; category: Skill["category"]; baseStrength: number }[] = [
-    { name: "Civil Engineering", category: "Engineering", baseStrength: 9 },
-    { name: "Qgis and drone mapping", category: "Technology", baseStrength: 8 },
-    { name: "Concrete Technology", category: "Engineering", baseStrength: 9 },
-    { name: "Concrete Mix Design", category: "Engineering", baseStrength: 8 },
-    { name: "Construction Materials", category: "Engineering", baseStrength: 7 },
-    { name: "Surveying", category: "Engineering", baseStrength: 7 },
-    { name: "Engineering Drawing", category: "Engineering", baseStrength: 7 },
-    { name: "Research & Development", category: "Markets", baseStrength: 8 },
-    { name: "Technical Documentation", category: "Creative", baseStrength: 8 },
-    { name: "Data Interpretation", category: "Technology", baseStrength: 8 },
-    { name: "Problem Solving", category: "Markets", baseStrength: 8 },
-    { name: "Intelligent Compaction", category: "Engineering", baseStrength: 8 },
-    { name: "Video Editing", category: "Creative", baseStrength: 9 },
+    { name: "Concrete Technology", category: "Core Engineering", baseStrength: 9 },
+    { name: "Geotechnical Engineering", category: "Core Engineering", baseStrength: 9 },
+    { name: "Surveying", category: "Core Engineering", baseStrength: 8 },
+    { name: "Transportation Engineering", category: "Core Engineering", baseStrength: 8 },
+    { name: "Concrete Mix Design", category: "Core Engineering", baseStrength: 9 },
+    { name: "Construction Materials", category: "Core Engineering", baseStrength: 8 },
+    { name: "AutoCAD", category: "Technical Tools", baseStrength: 8 },
+    { name: "Civil 3D", category: "Technical Tools", baseStrength: 7 },
+    { name: "QGIS", category: "Technical Tools", baseStrength: 8 },
+    { name: "STAAD Pro", category: "Technical Tools", baseStrength: 7 },
+    { name: "ETABS", category: "Technical Tools", baseStrength: 7 },
+    { name: "Python", category: "Programming", baseStrength: 9 },
+    { name: "Flask", category: "Programming", baseStrength: 8 },
+    { name: "OpenCV", category: "Programming", baseStrength: 8 },
+    { name: "Arduino", category: "Programming", baseStrength: 8 },
+    { name: "Data Interpretation", category: "Programming", baseStrength: 8 },
+    { name: "Problem Solving", category: "Programming", baseStrength: 8 },
     { name: "Photography", category: "Creative", baseStrength: 7 },
-    { name: "Content Creation", category: "Creative", baseStrength: 8 }
+    { name: "Cinematography", category: "Creative", baseStrength: 8 },
+    { name: "Graphic Design", category: "Creative", baseStrength: 7 },
+    { name: "Video Editing", category: "Creative", baseStrength: 8 }
   ];
 
   const projects = getProjects();

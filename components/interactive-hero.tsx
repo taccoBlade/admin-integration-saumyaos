@@ -2,22 +2,21 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 
 const SPOTLIGHT_R = 250;
 
 const NODES = [
-  { x: 0.15, y: 0.25, label: "GEOTECH_SENS_01", val: "4.8 kPa" },
-  { x: 0.28, y: 0.42, label: "STRUCT_PIER_04", val: "220 kN" },
-  { x: 0.35, y: 0.18, label: "INFRA_NODE_10", val: "94.2%" },
-  { x: 0.45, y: 0.68, label: "SYS_BRIDGE_A", val: "ACTIVE" },
-  { x: 0.52, y: 0.32, label: "GEOTECH_BORE_02", val: "STABLE" },
-  { x: 0.68, y: 0.82, label: "INFRA_VALVE_08", val: "OK" },
-  { x: 0.74, y: 0.22, label: "STRUCT_TRUSS_12", val: "0.08 strain" },
-  { x: 0.88, y: 0.52, label: "DATA_CORE_LINK", val: "10.4 Gbps" },
-  { x: 0.92, y: 0.18, label: "SENS_PIEZO_07", val: "12.4 m" },
-  { x: 0.22, y: 0.78, label: "COMPACTION_SYS_3", val: "98.4%" },
-  { x: 0.78, y: 0.62, label: "ANALYTIC_ENG_09", val: "CALIBRATED" },
+  { x: 0.15, y: 0.25 },
+  { x: 0.28, y: 0.42 },
+  { x: 0.35, y: 0.18 },
+  { x: 0.45, y: 0.68 },
+  { x: 0.52, y: 0.32 },
+  { x: 0.68, y: 0.82 },
+  { x: 0.74, y: 0.22 },
+  { x: 0.88, y: 0.52 },
+  { x: 0.92, y: 0.18 },
+  { x: 0.22, y: 0.78 },
+  { x: 0.78, y: 0.62 },
 ];
 
 const CONNECTIONS = [
@@ -257,18 +256,10 @@ export function InteractiveHero() {
           ctx.stroke();
 
           // Node core
-          ctx.fillStyle = `rgba(34, 211, 238, ${opacity * 1.0})`;
+          ctx.fillStyle = `rgba(34, 211, 238, ${opacity * 0.85})`;
           ctx.beginPath();
-          ctx.arc(nx, ny, 3.5, 0, Math.PI * 2);
+          ctx.arc(nx, ny, 2.5, 0, Math.PI * 2);
           ctx.fill();
-
-          // Label info
-          ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 1.0})`;
-          ctx.font = "8.5px monospace";
-          ctx.fillText(`${node.label}`, nx + 12, ny - 2);
-
-          ctx.fillStyle = `rgba(34, 211, 238, ${opacity * 0.95})`;
-          ctx.fillText(`VAL: ${node.val}`, nx + 12, ny + 7);
         }
       });
 
@@ -324,7 +315,7 @@ export function InteractiveHero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-xs font-mono uppercase tracking-[0.3em] text-cyan-400 mb-4 block"
         >
-          Portfolio Operating System
+          Civil Engineering & Infrastructure Systems
         </motion.span>
 
         {/* Headline */}
@@ -332,16 +323,13 @@ export function InteractiveHero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-white font-semibold tracking-tight text-3xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.04] mb-6"
+          className="text-white font-bold tracking-tight text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.04] mb-6"
         >
-          <span className="block font-playfair italic font-normal text-cyan-400">
-            Engineering systems.
+          <span className="block text-white font-sans">
+            Saumya Parekh
           </span>
-          <span className="block font-sans font-bold text-white">
-            Building infrastructure.
-          </span>
-          <span className="block font-playfair italic font-normal text-slate-400">
-            Studying complexity.
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 font-mono text-xs sm:text-sm lg:text-lg mt-3 tracking-[0.2em] uppercase">
+            Computational Infrastructure Engineer
           </span>
         </motion.h1>
 
@@ -350,12 +338,9 @@ export function InteractiveHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-slate-400 text-sm sm:text-[15px] leading-relaxed max-w-2xl mb-10 pointer-events-auto"
+          className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl mb-10 pointer-events-auto"
         >
-          Civil Engineering student focused on geotechnical systems,
-          infrastructure innovation, portfolio management, and digital
-          storytelling. Currently exploring how engineering, data, and human
-          decision-making intersect.
+          Building intelligent infrastructure systems through civil engineering, data analysis, automation, and computational design. Specializing in concrete mix proportioning compliance and geotechnical site telemetry.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -371,12 +356,14 @@ export function InteractiveHero() {
           >
             View Projects
           </button>
-          <Link
-            href="/personal"
+          <a
+            href="/Saumya_Parekh_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
             className="bg-white/5 backdrop-blur-md border border-white/10 text-white text-sm font-semibold px-8 py-3 rounded-full hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center"
           >
-            About Me
-          </Link>
+            Download Resume
+          </a>
         </motion.div>
 
         {/* Metrics/Anchors Row */}

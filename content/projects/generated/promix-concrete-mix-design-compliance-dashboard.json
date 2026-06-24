@@ -1,0 +1,73 @@
+{
+  "project_name": "ProMix: Concrete Mix Design & Compliance Dashboard",
+  "domain": "Civil Engineering",
+  "subdomain": "Concrete Technology & Compliance",
+  "year": 2026,
+  "status": "Completed",
+  "complexityScore": "Advanced",
+  "technologies": [
+    "Python",
+    "Flask",
+    "Pandas",
+    "Chart.js",
+    "Excel"
+  ],
+  "engineering_concepts": [
+    "IS 10262:2019 Mix Proportioning",
+    "IS 456:2000 Durability Compliance",
+    "Particle Packing Density Models",
+    "Supplementary Cementitious Materials (SCM)",
+    "Water-Cement Ratio Validation"
+  ],
+  "hardware_components": [],
+  "software_components": [
+    "Mix Proportioning Engine",
+    "SCM Substitution Module",
+    "IS Compliance Auditor",
+    "Engineering Report Generator"
+  ],
+  "research_areas": [
+    "Computational Materials",
+    "Sustainable Concrete Binder Ratios"
+  ],
+  "challenges": [
+    "Designing a robust validation parser for SCM multi-blend replacements (GGBS, Fly Ash, OPC) where standard IS curves do not linearly interpolate.",
+    "Resolving extreme aggregate moisture content fluctuations dynamically without causing division-by-zero errors in the dry volume equations.",
+    "Configuring the compliance engine to prevent illegal mix configurations (e.g. w/c limits under extreme exposure conditions)."
+  ],
+  "outcomes": "Developed and verified the ProMix compliance dashboard. Successfully automated IS 10262:2019 calculations and audited designs against IS 456 durability limits, supporting multi-binder blends (GGBS, Fly Ash) with validation checks.",
+  "metrics": {
+    "calculation_time": "Instantaneous (less than 1s)",
+    "supported_grades": "M10 to M80",
+    "compliance_checks": "100% automated (IS 456 / IS 10262)"
+  },
+  "timeline": "Jan 2026 - Present",
+  "screenshots": [],
+  "architecture_diagrams": [],
+  "lessons_learned": [
+    "Integrating physical standard specifications directly into code constraints prevents illegal trial mixes prior to laboratory trials.",
+    "Partial SCM replacements dramatically affect early-age strength gain curves, which requires adjusting structural stripping timelines."
+  ],
+  "related_projects": [],
+  "id": "promix-concrete-mix-design-compliance-dashboard",
+  "title": "ProMix – Concrete Mix Design & Compliance Dashboard",
+  "description": "An automated engineering dashboard designed to perform concrete mix proportioning per IS 10262:2019 and audit durability compliance per IS 456:2000 for standard, high-strength, and SCM-blended mixes.",
+  "overview": "ProMix Concrete Mix Design & Compliance Dashboard automates concrete mix calculations per IS 10262:2019. It checks exposure criteria per IS 456:2000, validates SCM replacements (GGBS/Fly Ash), and outputs aggregate proportions and compliance reports.",
+  "gallery": [],
+  "detailedOverview": "### Executive Summary\nConcrete mix design has traditionally been a manual process relying on spreadsheet calculations and standard tables. ProMix digitizes this workflow. It automates calculations according to **IS 10262:2019** and audits designs for compliance with **IS 456:2000**, ensuring structural integrity and material efficiency.\n\n### Problem Statement\nTraditional mix design methods are:\n- **Time-Consuming:** Repeating volume calculations for multiple trials is tedious.\n- **Error-Prone:** High risk of human error when looking up standard tables (water content, sand zones).\n- **Verification Chasm:** Students and engineers lack a quick validation tool for their design outputs.\n- **Compliance Blindspots:** Late-stage changes in aggregate moisture or SCM substitution can silently breach exposure durability rules.\n\n### Key Features\n1. **IS 10262:2019 Design Core:** Automates target mean strength, water-cement selection, water content adjustments, and volume equations.\n2. **Material Input System:** Supports OPC, GGBS, Fly Ash, coarse/fine aggregates, water, and chemical admixtures.\n3. **Supplementary Cementitious Materials (SCM):** Custom replacement boundaries (e.g., 20% OPC, 50% GGBS, 30% Fly Ash).\n4. **Exposure Audit Engine:** Checks minimum cement content and maximum water-cement ratio for Mild, Moderate, Severe, Very Severe, and Extreme environments.\n5. **Aggregate Sieve Optimization:** Selection of nominal sizes (10mm, 20mm, 40mm) and sand zoning (Zones I, II, III, IV).\n6. **Admixture Integration:** Automatic adjustment of water content based on plasticizer dosages.\n\n### Mathematical Formulation & Calculations\n1. **Target Mean Compressive Strength ($f'_{ck}$):**\n   Per IS 10262:2019, the target strength is:\n   $$f'_{ck} = f_{ck} + 1.65 \\cdot s$$\n   where $f_{ck}$ is the characteristic 28-day strength and $s$ is the standard deviation (e.g., $5.0\\text{ N/mm}^2$ for M30-M60).\n   For M40 grade:\n   $$f'_{ck} = 40 + 1.65 \\cdot 5.0 = 48.25\\text{ N/mm}^2$$\n\n2. **Water-Cement Ratio Optimization:**\n   Based on environmental exposure conditions from IS 456 Table 5, maximum water-cement ratios are enforced. ProMix fits a polynomial model to strength-to-w/c curves:\n   $$\\text{w/c} = -0.0001 \\cdot (f'_{ck})^2 - 0.005 \\cdot f'_{ck} + 0.72$$\n\n3. **Aggregate Packing Optimization (Modified Toufar Model):**\n   Minimizes void space and binder requirements by modeling combined aggregate packing density:\n   $$\\phi = \\frac{V_{\\text{dry}}}{\\sum \\frac{V_i}{\\phi_i}}$$\n\n4. **Geopolymer Concrete Activator Ratio:**\n   For geopolymer mixes, computes the alkaline activator liquid-to-binder ratio ($0.35$ to $0.45$) and the sodium silicate ($Na_2SiO_3$) to sodium hydroxide ($NaOH$) solution ratio:\n   $$\\Psi_{\\text{alkaline}} = \\frac{M_{\\text{Na2SiO3}}}{M_{\\text{NaOH}}} \\approx 2.5$$\n\n### Workflow\n1. **Input Requirements:** Grade of concrete, exposure class, placement constraints, and aggregate size/zone.\n2. **Specify SCM Mix:** Enter SCM percentages (GGBS, Fly Ash) and relative densities.\n3. **Computation:** The system solves the absolute volume equations.\n4. **Auditing:** The compliance engine checks durability limits.\n5. **Reporting:** Outputs a breakdown of materials per cubic meter and compliance logs.\n\n### Advantages & Limitations\n- **Advantages:** Decreases calculation time from hours to seconds; prevents illegal designs; supports environmental carbon mapping.\n- **Limitations:** Outputs are sensitive to material density inputs; laboratory trial batches remain mandatory before final batching.",
+  "engineeringInsights": [
+    "IS 10262:2019 Mix Proportioning Standards",
+    "IS 456:2000 Durability Compliance Auditing",
+    "Modified Toufar Aggregate Packing Density Optimization",
+    "Geopolymer Alkaline Activator Liquid ratios ($Na_2SiO_3$ / $NaOH$)"
+  ],
+  "keyOutcomes": [
+    "Adherence to IS 10262:2019 mix design equations",
+    "Successful automation of volume calculations with immediate compliance flags",
+    "Supports OPC, Fly Ash, and GGBS multi-binder mix optimizations"
+  ],
+  "lessonsLearned": [
+    "Integrating physical standard specifications directly into code constraints prevents illegal trial mixes prior to laboratory trials.",
+    "Partial SCM replacements dramatically affect early-age strength gain curves, which requires adjusting structural stripping timelines."
+  ]
+}

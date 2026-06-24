@@ -4,6 +4,8 @@ import { CareerTimeline } from "@/components/career-timeline";
 import { SkillsNetwork } from "@/components/skills-network";
 import { Contact } from "@/components/contact";
 import { getProjects, getTimelineEvents, getSkills } from "@/lib/content";
+import Link from "next/link";
+import { BookOpen, Cpu, ArrowRight } from "lucide-react";
 
 export default function Home() {
   const projects = getProjects();
@@ -11,77 +13,158 @@ export default function Home() {
   const skills = getSkills();
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-cyan-500/30 overflow-x-hidden relative">
-      {/* 1. Full-screen Spotlight Reveal Hero */}
+    <main className="min-h-screen bg-[#08090b] text-slate-200 selection:bg-cyan-500/30 overflow-x-hidden relative">
+      {/* 1. Engineering Identity & Hero Section */}
       <InteractiveHero />
 
-      {/* 2. Featured Projects */}
+      {/* 2. Core Domain Expertise Section */}
+      <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-4">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400 mb-3">01 — Specialization</h2>
+            <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight text-white">Core Domain Expertise</h3>
+            <p className="text-slate-400 text-sm mt-4 leading-relaxed">
+              Bridging classical civil engineering principles with modern instrumentation, data streams, and computational design.
+            </p>
+          </div>
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {[
+              { 
+                icon: BookOpen,
+                title: "Concrete Technology", 
+                desc: "Developing mix compliance design engines, calculating packing density limits per Toufar modeling, and auditing geopolymer binder replacements according to IS 10262 standards." 
+              },
+              { 
+                icon: Cpu,
+                title: "Geotechnical Analytics", 
+                desc: "Modeling settlement consolidation profiles and soil-structure deflection under dynamic loads, utilizing standard ASTM testing and sensor networks." 
+              },
+              { 
+                icon: Cpu,
+                title: "Infrastructure Automation", 
+                desc: "Designing IoT hardware setups, state-estimation algorithms (Extended Kalman Filter), and edge-based computer vision monitoring systems (OpenCV) for live defect identification." 
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="p-6 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-cyan-500/20 transition-all flex flex-col justify-between">
+                <div>
+                  <item.icon className="w-5 h-5 text-cyan-400 mb-4" />
+                  <h4 className="text-white font-semibold text-base mb-2">{item.title}</h4>
+                  <p className="text-slate-400 text-xs leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Featured Projects Section */}
       <FeaturedProjects projects={projects} />
 
-      {/* 3. Engineering Philosophy Section */}
+      {/* 4. Research & Academic Focus Section */}
       <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-4">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-400 mb-3">Core Mindset</h2>
-            <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Engineering Philosophy</h3>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400 mb-3">02 — Investigation</h2>
+            <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight text-white">Research & Academic Focus</h3>
+            <p className="text-slate-400 text-sm mt-4 leading-relaxed">
+              Applying computational modeling to evaluate structural properties under severe stress. Focused on the transition towards green concrete and real-time smart monitoring.
+            </p>
           </div>
           <div className="lg:col-span-8 space-y-6">
-            <p className="text-xl sm:text-2xl font-light text-slate-200 leading-relaxed max-w-3xl">
-              I am interested in <span className="text-white font-medium">systems operating under constraints.</span>
-            </p>
-            <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl">
-              Whether analyzing soil beneath a foundation, designing a monitoring platform, or optimizing a concrete mixture, the challenge remains the same:
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-              {[
-                { num: "01", title: "Understand the system.", desc: "Model physical interactions and stress behavior with mathematical precision." },
-                { num: "02", title: "Measure it accurately.", desc: "Integrate robust hardware sensors and telemetry to capture real-world data points." },
-                { num: "03", title: "Improve its performance.", desc: "Optimize materials and algorithms to build resilient, sustainable infrastructure." }
-              ].map((item, idx) => (
-                <div key={idx} className="p-5 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-cyan-500/20 transition-all group">
-                  <span className="font-mono text-xs text-cyan-500 font-bold block mb-2">{item.num}</span>
-                  <h4 className="text-white font-semibold text-sm mb-1.5">{item.title}</h4>
-                  <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.01]">
+                <h4 className="text-white font-semibold text-sm mb-2">Current Investigation Areas</h4>
+                <ul className="space-y-3 font-mono text-[11px] text-slate-300">
+                  <li className="flex gap-2"><span className="text-violet-400">[01]</span><span>Geopolymer concrete mix proportioning and binder ratios optimization</span></li>
+                  <li className="flex gap-2"><span className="text-violet-400">[02]</span><span>Edge image processing on microcontrollers for crack propagation metrics</span></li>
+                  <li className="flex gap-2"><span className="text-violet-400">[03]</span><span>Extended Kalman Filter positioning algorithms for intelligent road rollers</span></li>
+                </ul>
+              </div>
+              <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.01]">
+                <h4 className="text-white font-semibold text-sm mb-2">Theoretical References</h4>
+                <ul className="space-y-3 font-mono text-[11px] text-slate-300">
+                  <li className="flex gap-2">
+                    <span className="text-violet-400">[R1]</span>
+                    <span>Terzaghi, K. Theoretical Soil Mechanics. Clay consolidation and structural settlement theories.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-violet-400">[R2]</span>
+                    <span>Neville, A. M. Properties of Concrete. Target strengths, w/c criteria, and hydration limits.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-violet-400">[R3]</span>
+                    <span>Kalman, R. E. State estimation and linear filtering principles in noisy sensor systems.</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Skills Network */}
-      <SkillsNetwork skills={skills} projects={projects} />
-
-      {/* 5. Current Research Directions Section */}
+      {/* 5. Engineering Evidence Section */}
       <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-4">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400 mb-3">Future Outlook</h2>
-            <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Current Research</h3>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-400 mb-3">03 — Empirical Proof</h2>
+            <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight text-white">Engineering Evidence</h3>
+            <p className="text-slate-400 text-sm mt-4 leading-relaxed">
+              Real-world validation logs, laboratory measurements, and sensor calibration metrics that demonstrate system performance.
+            </p>
           </div>
-          <div className="lg:col-span-8">
-            <div className="space-y-4">
-              {[
-                { num: "01", title: "Infrastructure Monitoring (IoT integration)", desc: "Developing ESP32 and automated sensor matrices for real-time deflection, strain, and temperature tracking in structural components." },
-                { num: "02", title: "Geotechnical Data Systems", desc: "Building pipelines and visualizers for borehole data and soil consolidation modeling to predict settlement profiles." }
-              ].map((dir, idx) => (
-                <div key={idx} className="flex gap-4 sm:gap-6 p-6 rounded-2xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.02] hover:border-white/10 transition-all items-start">
-                  <span className="font-mono text-lg font-bold text-violet-400 tracking-tight">{dir.num}</span>
-                  <div className="space-y-1">
-                    <h4 className="text-white font-semibold text-base">{dir.title}</h4>
-                    <p className="text-slate-400 text-sm leading-relaxed">{dir.desc}</p>
-                  </div>
-                </div>
-              ))}
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="p-5 rounded-2xl border border-white/5 bg-white/[0.01] space-y-4">
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block">CAPACITIVE MOISTURE SENSOR CALIBRATION</span>
+              <div className="border border-white/5 rounded-xl bg-black/40 p-4 font-mono text-[10px] text-slate-300 space-y-2">
+                <div className="text-amber-500 font-bold">ASTM D2216 Oven-Drying Calibration Curve:</div>
+                <div>w = 0.045 * V² - 0.282 * V + 0.540</div>
+                <div className="text-slate-500">{"// Mean Square Error: 0.0024"}</div>
+                <div className="text-slate-500">{"// Calibration Range: 8% to 28% water content"}</div>
+              </div>
+            </div>
+            
+            <div className="p-5 rounded-2xl border border-white/5 bg-white/[0.01] space-y-4">
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block">CV CRACK ASSESSMENT SKELETON</span>
+              <div className="border border-white/5 rounded-xl bg-black/40 p-4 font-mono text-[10px] text-slate-300 space-y-2">
+                <div className="text-amber-500 font-bold">OpenCV Spatial Scale Validation:</div>
+                <div>Fiducial Width: 10mm | Image Pixels: 67px</div>
+                <div>Calculated Scale Factor: 0.149 mm/pixel</div>
+                <div className="text-slate-500">{"// Feeler Gauge Ground Truth: 0.45mm"}</div>
+                <div className="text-slate-500">{"// Visual Measurement: 0.447mm (Dev: -0.003mm)"}</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 6. Career Timeline */}
+      {/* 6. Career Timeline / Experience Section */}
       <CareerTimeline events={timelineEvents} />
 
-      {/* 7. Footer / Contact */}
+      {/* 7. Skills Network Section */}
+      <SkillsNetwork skills={skills} projects={projects} />
+
+      {/* 8. Personal Story Callout */}
+      <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5">
+        <div className="p-8 sm:p-12 rounded-3xl border border-white/5 bg-gradient-to-br from-white/[0.01] to-transparent backdrop-blur-md relative overflow-hidden group max-w-4xl mx-auto text-center">
+          <div className="absolute inset-0 bg-cyan-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          <span className="text-xs font-mono uppercase tracking-[0.3em] text-cyan-400 mb-3 block">04 — Beyond Infrastructure</span>
+          <h3 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight mb-4">
+            Life Outside Engineering
+          </h3>
+          <p className="text-slate-400 text-sm max-w-2xl mx-auto leading-relaxed mb-8">
+            Explore the balance between technical analytical systems and real-world physical disciplines: mechanical tuning of a parallel-twin motorcycle, endurance distance running, and quantitative market models.
+          </p>
+          <Link
+            href="/personal"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-slate-900 text-xs font-semibold hover:bg-slate-100 transition-all active:scale-95 group/btn"
+          >
+            <span>Read Personal Story</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </section>
+
+      {/* 9. Contact / Footer Section */}
       <Contact />
     </main>
   );

@@ -62,36 +62,36 @@ const PLAYLISTS = {
 
 const MODE_INFOS = {
   lockin: {
-    name: "LOCK_IN.sys",
+    name: "Lock In",
     quote: "Discipline beats motivation. Execution is everything.",
-    statusTitle: "LOCK_IN TELEMETRY",
+    statusTitle: "Focus Indicators",
     stats: [
-      { label: "STATUS", value: "EXECUTION" },
-      { label: "HEART RATE", value: "ELEVATED" },
-      { label: "FOCUS MODE", value: "ACTIVE" },
-      { label: "TRACKS", value: "47" },
+      { label: "Daily Routine", value: "Deep Focus" },
+      { label: "Intensity", value: "Elevated" },
+      { label: "State", value: "Active Focus" },
+      { label: "Total Tracks", value: "47" },
     ],
   },
   ride: {
-    name: "RIDE.sys",
+    name: "Cruising Route",
     quote: "Four wheels move the body. Two wheels move the soul.",
-    statusTitle: "ROUTE TELEMETRY",
+    statusTitle: "Cruising Journey",
     stats: [
-      { label: "ROUTE ARCHIVE", value: "ACTIVE" },
-      { label: "CURRENT MODE", value: "CRUISING" },
-      { label: "EST. SUNSET", value: "18:57" },
-      { label: "FUEL STATUS", value: "STABLE" },
+      { label: "Bike", value: "Super Meteor 650" },
+      { label: "Pacing", value: "Cruising" },
+      { label: "Target Sunset", value: "18:57" },
+      { label: "Range", value: "Open Road" },
     ],
   },
   chill: {
-    name: "CHILL.sys",
+    name: "Reflective Space",
     quote: "Reflection is the path to design and engineering clarity.",
-    statusTitle: "REFLECTION PARAMS",
+    statusTitle: "Reflection Details",
     stats: [
-      { label: "SYSTEM STATE", value: "REFLECTION" },
-      { label: "ACTIVE ALERTS", value: "NONE" },
-      { label: "CREATIVE PROCESS", value: "RUNNING" },
-      { label: "THREAD COUNT", value: "MAX" },
+      { label: "Mindset", value: "Reflection" },
+      { label: "Distractions", value: "None" },
+      { label: "Process", value: "Active Rest" },
+      { label: "Pace", value: "Calm Mind" },
     ],
   },
 };
@@ -119,7 +119,7 @@ export function DashboardWidgets() {
   const [isLoadingTrack, setIsLoadingTrack] = useState(false);
 
   // local log console
-  const [playerLogs, setPlayerLogs] = useState<string[]>(["[SOUNDTRACK.sys ACTIVE]"]);
+  const [playerLogs, setPlayerLogs] = useState<string[]>(["[SOUNDTRACK ENGINE READY]"]);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -135,8 +135,8 @@ export function DashboardWidgets() {
   const handleModeSelect = (m: "lockin" | "ride" | "chill") => {
     sysAudio.playSwitch();
     setMode(m);
-    addLog("system", `${MODE_INFOS[m].name} loaded. Executing telemetry sync.`);
-    addPlayerLog(`SYSTEM_MODE_CHANGE: ${MODE_INFOS[m].name}`);
+    addLog("system", `${MODE_INFOS[m].name} mode selected.`);
+    addPlayerLog(`MODE_CHANGED: ${MODE_INFOS[m].name}`);
   };
 
   // Sync mode changes with track index resets
@@ -286,16 +286,16 @@ export function DashboardWidgets() {
   // Log state updates
   useEffect(() => {
     if (track.title !== "Unknown") {
-      addPlayerLog(`MOUNTED_TRACK: "${track.title}" - ${track.artist}`);
+      addPlayerLog(`SELECTED_TRACK: "${track.title}" - ${track.artist}`);
     }
   }, [track.title, track.artist, addPlayerLog]);
 
   useEffect(() => {
-    addPlayerLog(`PLAY_STATE_CHANGE: ${isPlaying ? "PLAYING" : "PAUSED"}`);
+    addPlayerLog(`PLAYBACK: ${isPlaying ? "PLAYING" : "PAUSED"}`);
   }, [isPlaying, addPlayerLog]);
 
   useEffect(() => {
-    addPlayerLog(`VOLUME_SYNC: ${isMuted ? "MUTED" : `${volume}%`}`);
+    addPlayerLog(`VOLUME: ${isMuted ? "MUTED" : `${volume}%`}`);
   }, [volume, isMuted, addPlayerLog]);
 
   const handlePlayPause = () => {
@@ -612,7 +612,7 @@ export function DashboardWidgets() {
           {/* Right Column: Player scrolling terminal logs */}
           <div className="md:col-span-3 bg-black/60 border border-white/5 p-3 rounded-xl flex flex-col justify-between h-28">
             <span className="text-slate-500 uppercase tracking-widest font-bold border-b border-white/5 pb-1">
-              SOUNDTRACK.sys Logs
+              Soundtrack Activity
             </span>
             <div className="flex-1 overflow-y-auto mt-1 flex flex-col gap-1 text-slate-400 [scrollbar-width:none]">
               {playerLogs.map((log, idx) => (
@@ -622,7 +622,7 @@ export function DashboardWidgets() {
               ))}
             </div>
             <div className="text-[7.5px] text-slate-500 text-right mt-1 font-mono">
-              Status: Operational // Buffer 100%
+              Status: Ready // 100% Buffered
             </div>
           </div>
 

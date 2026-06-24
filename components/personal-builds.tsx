@@ -2,33 +2,33 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Cpu, HardHat, Terminal } from "lucide-react";
+import { Activity, TrendingUp, Camera } from "lucide-react";
 
 export function PersonalBuilds() {
   const builds = [
     {
-      icon: <HardHat className="w-5 h-5 text-cyan-400" />,
-      title: "Pro-Mix Compliance Engine",
-      subtitle: "CONCRETE TECHNOLOGY // COMPILER",
-      description: "An industrial concrete design compliance engine. Statically compiles and validates Indian Standard (IS:10262) target strength parameters, adjusting binder packing density curves under compression constraints.",
-      tech: ["Next.js", "Python", "Concrete Physics"],
-      id: "pro-mix"
+      icon: <Activity className="w-5 h-5 text-cyan-400" />,
+      title: "Endurance Running",
+      subtitle: "PHYSICAL RESILIENCE // Ahmedabad Loops",
+      description: "Maintaining a daily discipline of road running, logging endurance targets, and clearing the mind under Ahmedabad's high-temperature constraints.",
+      tech: ["Endurance", "Cardio Pacing", "Ahmedabad Heat"],
+      id: "endurance-running"
     },
     {
-      icon: <Terminal className="w-5 h-5 text-cyan-400" />,
-      title: "Soil Consolidation Pipeline",
-      subtitle: "GEOTECHNICAL // AUTOMATION",
-      description: "A Python-based data ingestion and analysis pipeline for borehole settlement logs. Automates index property calculations to predict clay layer consolidation rates and ultimate primary settlement.",
-      tech: ["Python", "Pandas", "Matplotlib"],
-      id: "soil-consolidation"
+      icon: <TrendingUp className="w-5 h-5 text-cyan-400" />,
+      title: "Swing Trading & Markets",
+      subtitle: "QUANTITATIVE FINANCE // RISK MANAGEMENT",
+      description: "Developing structured risk control systems and tracking market velocity indicators. A data-driven approach to capital allocation outside of structural design.",
+      tech: ["Risk Control", "Swing Trading", "Technical Analysis"],
+      id: "swing-trading"
     },
     {
-      icon: <Cpu className="w-5 h-5 text-cyan-400" />,
-      title: "Real-time Strain Telemetry Network",
-      subtitle: "INFRASTRUCTURE // HARDWARE INTEGRATION",
-      description: "ESP32-based hardware strain sensor integration. Transmits real-time material strain data over low-power telemetry protocols, rendering dynamic stress deflection charts on a centralized monitor dashboard.",
-      tech: ["ESP32", "C++", "WebSockets"],
-      id: "strain-telemetry"
+      icon: <Camera className="w-5 h-5 text-cyan-400" />,
+      title: "Cinematography & Photography",
+      subtitle: "NARRATIVE PACING // VISUAL JOURNEYS",
+      description: "Documenting highway routes on the Royal Enfield Super Meteor 650. Framing landscape geometry, capturing light gradients, and editing story pacing.",
+      tech: ["Aperture Control", "Story Pacing", "Premiere Pro"],
+      id: "cinematography"
     }
   ];
 
@@ -43,12 +43,12 @@ export function PersonalBuilds() {
         className="mb-12 text-center"
       >
         <span className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 font-bold">
-          03 — ENGINEERING PORTFOLIO
+          02 — LIFE OUTSIDE ENGINEERING
         </span>
         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mt-2 font-mono">
-          What I Build
+          Life Outside Engineering
         </h2>
-        <p className="mt-2 text-sm text-slate-400">Custom systems, algorithms, and structural integrations</p>
+        <p className="mt-2 text-sm text-slate-400">Daily disciplines, creative exploration, and personal resilience</p>
       </motion.div>
 
       {/* Builds Grid */}
@@ -92,7 +92,7 @@ function BuildCard({ build, idx }: { build: BuildItem; idx: number }) {
             {build.icon}
           </div>
           <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">
-            {isHovered ? "SIMULATOR ACTIVE" : "Active Build"}
+            {isHovered ? "DETAILS ACTIVE" : "Personal Pursuit"}
           </span>
         </div>
 
@@ -116,9 +116,9 @@ function BuildCard({ build, idx }: { build: BuildItem; idx: number }) {
 
           {/* Hover state: Simulation */}
           <div className={`transition-all duration-300 ${isHovered ? "opacity-100 translate-y-0" : "opacity-0 pointer-events-none -translate-y-2 absolute inset-0"}`}>
-            {build.id === "pro-mix" && <ProMixSimulator isHovered={isHovered} />}
-            {build.id === "soil-consolidation" && <SoilSimulator isHovered={isHovered} />}
-            {build.id === "strain-telemetry" && <StrainSimulator isHovered={isHovered} />}
+            {build.id === "cinematography" && <CinemaRenderer isHovered={isHovered} />}
+            {build.id === "endurance-running" && <RunningSimulator isHovered={isHovered} />}
+            {build.id === "swing-trading" && <MarketsSimulator isHovered={isHovered} />}
           </div>
         </div>
       </div>
@@ -134,8 +134,8 @@ function BuildCard({ build, idx }: { build: BuildItem; idx: number }) {
   );
 }
 
-/* ─── 1. PRO-MIX SIMULATOR ─── */
-function ProMixSimulator({ isHovered }: { isHovered: boolean }) {
+/* ─── 1. CINEMA RENDERER SIMULATOR (Formerly Pro-Mix Concrete Compiler) ─── */
+function CinemaRenderer({ isHovered }: { isHovered: boolean }) {
   const [lines, setLines] = useState<string[]>([]);
   const [verified, setVerified] = useState(false);
 
@@ -146,28 +146,15 @@ function ProMixSimulator({ isHovered }: { isHovered: boolean }) {
       return;
     }
 
-    // Explicit timer steps to simulate the output exactly as requested
     const stepTimers: ReturnType<typeof setTimeout>[] = [];
     
-    // Step 0: COMPILING...
-    stepTimers.push(setTimeout(() => setLines(["COMPILING..."]), 100));
-    
-    // Step 1: Checking IS 10262
-    stepTimers.push(setTimeout(() => setLines(["COMPILING...", "Checking IS 10262"]), 400));
-    
-    // Step 2: 12% progress bar
-    stepTimers.push(setTimeout(() => setLines(["COMPILING...", "Checking IS 10262", "█░░░░░░░░░░ 12%"]), 700));
+    stepTimers.push(setTimeout(() => setLines(["RENDERING STORYBOARD CLIPS..."]), 100));
+    stepTimers.push(setTimeout(() => setLines(["RENDERING STORYBOARD CLIPS...", "Applying color grading (Warm Chrome LUT)"]), 400));
+    stepTimers.push(setTimeout(() => setLines(["RENDERING STORYBOARD CLIPS...", "Applying color grading (Warm Chrome LUT)", "█░░░░░░░░░░ 12%"]), 700));
+    stepTimers.push(setTimeout(() => setLines(["RENDERING STORYBOARD CLIPS...", "Applying color grading (Warm Chrome LUT)", "███░░░░░░░░ 35%"]), 1000));
+    stepTimers.push(setTimeout(() => setLines(["RENDERING STORYBOARD CLIPS...", "Stabilizing camera shake (Super Meteor mount)", "██████░░░░░ 68%"]), 1300));
+    stepTimers.push(setTimeout(() => setLines(["RENDERING STORYBOARD CLIPS...", "Stabilizing camera shake (Super Meteor mount)", "██████████ 100%"]), 1600));
 
-    // Step 3: 35% progress bar
-    stepTimers.push(setTimeout(() => setLines(["COMPILING...", "Checking IS 10262", "███░░░░░░░░ 35%"]), 1000));
-
-    // Step 4: 68% progress bar
-    stepTimers.push(setTimeout(() => setLines(["COMPILING...", "Checking IS 10262", "██████░░░░░ 68%"]), 1300));
-
-    // Step 5: 100% progress bar
-    stepTimers.push(setTimeout(() => setLines(["COMPILING...", "Checking IS 10262", "██████████ 100%"]), 1600));
-
-    // Step 6: Verified reveal
     const verifyTimer = setTimeout(() => {
       setVerified(true);
     }, 2000);
@@ -179,7 +166,7 @@ function ProMixSimulator({ isHovered }: { isHovered: boolean }) {
   }, [isHovered]);
 
   return (
-    <div className="font-mono text-[10px] text-cyan-400 bg-black/60 border border-cyan-500/20 rounded-2xl p-4 h-[125px] flex flex-col justify-between shadow-[inset_0_0_12px_rgba(6,182,212,0.05)]">
+    <div className="font-mono text-[9px] text-cyan-400 bg-black/60 border border-cyan-500/20 rounded-2xl p-4 h-[125px] flex flex-col justify-between shadow-[inset_0_0_12px_rgba(6,182,212,0.05)]">
       <div className="space-y-1">
         {lines.map((line, lIdx) => (
           <div key={lIdx} className="leading-tight tracking-wide whitespace-pre">
@@ -193,15 +180,15 @@ function ProMixSimulator({ isHovered }: { isHovered: boolean }) {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 py-1.5 rounded-lg text-[9px] font-bold tracking-widest animate-pulse"
         >
-          STATUS: VERIFIED
+          RENDER STATUS: COMPLETE
         </motion.div>
       )}
     </div>
   );
 }
 
-/* ─── 2. SOIL PIPELINE SIMULATOR ─── */
-function SoilSimulator({ isHovered }: { isHovered: boolean }) {
+/* ─── 2. RUNNING SIMULATOR (Formerly Soil Consolidation Curve) ─── */
+function RunningSimulator({ isHovered }: { isHovered: boolean }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -211,7 +198,7 @@ function SoilSimulator({ isHovered }: { isHovered: boolean }) {
     }
 
     const start = Date.now();
-    const duration = 1800; // 1.8s duration
+    const duration = 1800;
     const timer = setInterval(() => {
       const elapsed = Date.now() - start;
       const p = Math.min(elapsed / duration, 1);
@@ -222,36 +209,32 @@ function SoilSimulator({ isHovered }: { isHovered: boolean }) {
     return () => clearInterval(timer);
   }, [isHovered]);
 
-  const tVal = (progress * 180).toFixed(1);
-  const sVal = (progress * 24.8).toFixed(1);
-  const uVal = (progress * 94.2).toFixed(1);
+  const kmVal = (progress * 10.0).toFixed(1);
+  const paceMinutes = 5;
+  const paceSeconds = Math.floor(12 + progress * 8); // 5:12 to 5:20 min/km
+  const heartRate = Math.floor(135 + progress * 25); // 135 to 160 bpm
 
-  // Math curve coordinates matching SVG curve
-  // x goes from 20 to 180 (span of 160)
-  // y goes from 15 to 80 (rise of 65)
   const dotX = 20 + 160 * progress;
-  const dotY = 15 + 65 * Math.sin(progress * Math.PI / 2);
+  // An undulating running pace profile graph
+  const dotY = 50 - 25 * Math.sin(progress * Math.PI * 2) - 10 * Math.cos(progress * Math.PI * 4);
 
   return (
     <div className="font-mono text-[9px] text-cyan-400 bg-black/60 border border-cyan-500/20 rounded-2xl p-3 h-[130px] flex flex-col justify-between">
-      {/* Mini Plot */}
+      {/* Running profile plot */}
       <div className="relative flex-grow h-[65px] border-b border-l border-cyan-500/15">
-        {/* Y Axis Label */}
-        <span className="absolute left-1.5 top-0.5 text-slate-500 text-[7px] rotate-90 origin-top-left">S (mm)</span>
-        {/* X Axis Label */}
-        <span className="absolute right-1 bottom-1 text-slate-500 text-[7px]">t (days)</span>
+        <span className="absolute left-1.5 top-0.5 text-slate-500 text-[6.5px] rotate-90 origin-top-left">PACE</span>
+        <span className="absolute right-1 bottom-1 text-slate-500 text-[6.5px]">DIST</span>
 
-        {/* SVG Drawing Curve */}
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 90">
           {/* Grid lines */}
-          <line x1="20" y1="35" x2="190" y2="35" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
+          <line x1="20" y1="30" x2="190" y2="30" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
           <line x1="20" y1="60" x2="190" y2="60" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
           <line x1="75" y1="10" x2="75" y2="85" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
           <line x1="130" y1="10" x2="130" y2="85" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
 
-          {/* Consolidation curve */}
+          {/* Running pace curve */}
           <motion.path
-            d="M 20,15 C 70,15 110,80 180,80"
+            d="M 20,50 Q 60,10 100,50 T 180,50"
             fill="none"
             stroke="rgb(6, 182, 212)"
             strokeWidth="1.5"
@@ -260,7 +243,7 @@ function SoilSimulator({ isHovered }: { isHovered: boolean }) {
             transition={{ duration: 0.1 }}
           />
 
-          {/* Flashing tracker point */}
+          {/* Dot tracker */}
           {progress > 0 && (
             <circle
               cx={dotX}
@@ -272,37 +255,36 @@ function SoilSimulator({ isHovered }: { isHovered: boolean }) {
         </svg>
       </div>
 
-      {/* Telemetry data fields */}
+      {/* Stats readout */}
       <div className="grid grid-cols-3 gap-1 pt-1.5 border-t border-white/5 text-center text-slate-400">
         <div>
-          <span className="text-[7px] text-slate-500 uppercase block">TIME</span>
-          <span className="font-bold text-white text-[9px]">{tVal}d</span>
+          <span className="text-[7px] text-slate-500 uppercase block">DISTANCE</span>
+          <span className="font-bold text-white text-[9px]">{kmVal} km</span>
         </div>
         <div>
-          <span className="text-[7px] text-slate-500 uppercase block">SETTLE</span>
-          <span className="font-bold text-white text-[9px]">{sVal}mm</span>
+          <span className="text-[7px] text-slate-500 uppercase block">PACE</span>
+          <span className="font-bold text-white text-[9px]">{paceMinutes}:{paceSeconds}</span>
         </div>
         <div>
-          <span className="text-[7px] text-slate-500 uppercase block">DEG (U)</span>
-          <span className="font-bold text-white text-[9px]">{uVal}%</span>
+          <span className="text-[7px] text-slate-500 uppercase block">HEART RATE</span>
+          <span className="font-bold text-white text-[9px]">{heartRate} bpm</span>
         </div>
       </div>
     </div>
   );
 }
 
-/* ─── 3. STRAIN TELEMETRY SIMULATOR ─── */
-function StrainSimulator({ isHovered }: { isHovered: boolean }) {
+/* ─── 3. MARKETS SIMULATOR (Formerly Strain Oscilloscope) ─── */
+function MarketsSimulator({ isHovered }: { isHovered: boolean }) {
   const [points, setPoints] = useState<number[]>([]);
-  const [liveStrain, setLiveStrain] = useState(242.0);
+  const [price, setPrice] = useState(5242.50);
 
   useEffect(() => {
-    // Generate initial flat points
     const initialPoints = Array(26).fill(35);
     setPoints(initialPoints);
 
     if (!isHovered) {
-      setLiveStrain(242.0);
+      setPrice(5242.50);
       return;
     }
 
@@ -310,38 +292,33 @@ function StrainSimulator({ isHovered }: { isHovered: boolean }) {
     const interval = setInterval(() => {
       setPoints((prev) => {
         const next = [...prev.slice(1)];
-        // Create an oscillating baseline (representing loaded cycles) + random micro-noise
-        const base = 35 + Math.sin(count / 3.5) * 18;
-        const noise = (Math.random() - 0.5) * 5;
+        const base = 35 + Math.sin(count / 2.5) * 15 + Math.cos(count / 4.0) * 10;
+        const noise = (Math.random() - 0.5) * 4;
         next.push(base + noise);
         return next;
       });
 
-      // Fluctuate real-time strain label (around 240.0 με)
-      setLiveStrain(240.0 + Math.sin(count / 3.5) * 22 + (Math.random() - 0.5) * 6);
-
+      setPrice(5242.50 + Math.sin(count / 2.5) * 115 + (Math.random() - 0.5) * 12);
       count++;
-    }, 60);
+    }, 80);
 
     return () => clearInterval(interval);
   }, [isHovered]);
 
-  // Construct SVG drawing path string from the points history
   const svgPath = points.length > 0
     ? points.map((p, i) => `${i === 0 ? "M" : "L"} ${10 + i * (180 / (points.length - 1))}, ${p}`).join(" ")
     : "M 10 35 L 190 35";
 
   return (
     <div className="font-mono text-[9px] text-cyan-400 bg-black/60 border border-cyan-500/20 rounded-2xl p-3 h-[130px] flex flex-col justify-between">
-      {/* Telemetry metadata header */}
+      {/* Ticker header */}
       <div className="flex justify-between items-center pb-1 border-b border-white/5 text-slate-500 text-[7px]">
-        <span>CH_04 // STRAIN</span>
-        <span className="text-cyan-400 font-bold tracking-widest animate-pulse">● LIVE STREAM</span>
+        <span>INDEX // US500</span>
+        <span className="text-cyan-400 font-bold tracking-widest animate-pulse">● LIVE CHART</span>
       </div>
 
-      {/* Grid Canvas */}
+      {/* Chart Canvas */}
       <div className="relative flex-grow h-[55px] my-1 border border-cyan-500/10 bg-neutral-950/20 overflow-hidden">
-        {/* Oscilloscope Grid Layout overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.03)_1px,transparent_1px)] bg-[size:12px_12px] pointer-events-none" />
 
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 70">
@@ -359,12 +336,12 @@ function StrainSimulator({ isHovered }: { isHovered: boolean }) {
       {/* Numerical readouts */}
       <div className="flex justify-between items-center text-slate-400 text-[8px] pt-1 border-t border-white/5">
         <div>
-          <span className="text-slate-500">VALUE: </span>
-          <span className="text-white font-bold text-[9.5px]">{liveStrain.toFixed(2)} με</span>
+          <span className="text-slate-500">TICKER: </span>
+          <span className="text-white font-bold text-[9.5px]">${price.toFixed(2)}</span>
         </div>
         <div className="text-right">
-          <span className="text-slate-500">SAMPLING: </span>
-          <span className="text-white font-bold">100 Hz</span>
+          <span className="text-slate-500">RISK: </span>
+          <span className="text-emerald-400 font-bold">1.0% MAX</span>
         </div>
       </div>
     </div>

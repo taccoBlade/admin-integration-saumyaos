@@ -2,7 +2,7 @@ export type ProjectDomain =
   | "Civil Engineering"
   | "Geotechnical Engineering"
   | "Infrastructure Automation"
-  | "Software Engineering"
+  | "Precision Agriculture"
   | "Markets & Investing"
   | "Content Creation";
 
@@ -54,7 +54,7 @@ export interface LogbookEntry {
 export interface Skill {
   id: string;
   name: string;
-  category: "Engineering" | "Technology" | "Markets" | "Creative";
+  category: "Core Engineering" | "Technical Tools" | "Programming" | "Creative";
   relatedProjects: string[];
   strength: number; // 1 to 10
 }

@@ -150,7 +150,7 @@ function buildDirTree(dirPath: string, rootDir: string): any {
 // Auto-detect technologies and domains based on files and folder contents
 function detectTechnologiesAndDomain(dirPath: string): { technologies: string[]; domain: string } {
   const techs = new Set<string>();
-  let domain = "Software Engineering"; // Default domain
+  let domain = "Infrastructure Automation"; // Default domain
   let hasCivilKeywords = false;
   let hasGeotechKeywords = false;
   let hasMarketKeywords = false;
@@ -254,7 +254,7 @@ function detectTechnologiesAndDomain(dirPath: string): { technologies: string[];
   } else if (techs.has("ESP32") || techs.has("IoT")) {
     domain = "Infrastructure Automation";
   } else if (techs.has("React") || techs.has("Next.js") || techs.has("Python")) {
-    domain = "Software Engineering";
+    domain = "Infrastructure Automation";
   }
 
   return { technologies: Array.from(techs), domain };
@@ -399,7 +399,7 @@ export function processZipFile(filePath: string) {
     description: customMetadata.description || description,
     year: customMetadata.year || new Date().getFullYear(),
     domain: customMetadata.domain || domain,
-    technologies: customMetadata.technologies || (combinedTechs.length > 0 ? combinedTechs : ["Software Engineering"]),
+    technologies: customMetadata.technologies || (combinedTechs.length > 0 ? combinedTechs : ["Infrastructure Automation"]),
     status: customMetadata.status || "Completed",
     complexityScore: customMetadata.complexityScore || "Intermediate",
     overview: customMetadata.overview || description,

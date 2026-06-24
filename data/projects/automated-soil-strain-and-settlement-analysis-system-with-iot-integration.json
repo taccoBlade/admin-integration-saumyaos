@@ -1,0 +1,79 @@
+{
+  "project_name": "Automated Soil Strain & Settlement Monitoring System",
+  "domain": "Geotechnical Engineering",
+  "subdomain": "Intelligent Compaction Monitoring",
+  "year": 2026,
+  "status": "Completed",
+  "complexityScore": "Advanced",
+  "technologies": [
+    "Arduino C++",
+    "Python",
+    "Flask",
+    "MQTT Protocol",
+    "ESP32",
+    "Chart.js"
+  ],
+  "engineering_concepts": [
+    "Soil-Structure Interaction",
+    "Settlement Consolidation",
+    "Strain Calibration",
+    "Wireless Data Acquisition",
+    "Geotechnical Edge Compute"
+  ],
+  "hardware_components": [
+    "ESP32-CAM Module",
+    "BX120-3AA Precision Strain Gauge",
+    "HX711 Amplifier Module",
+    "ADS1115 16-Bit ADC",
+    "DC-DC Buck Converter"
+  ],
+  "software_components": [
+    "ESP32 ADC Reading Firmware",
+    "Flask Monitoring Backend",
+    "Chart.js Telemetry Grapher"
+  ],
+  "research_areas": [
+    "Geotechnical Infrastructure Monitoring",
+    "Soil Compaction Analytics"
+  ],
+  "challenges": [
+    "Designing sensor layouts that survive soil compaction impacts up to 500 kPa without wire shear or damage.",
+    "Calibrating strain gauge readings to isolate soil-induced deformation from sensor package thermal expansion.",
+    "Configuring stable ESP32-CAM wireless data streams under deep soil burial conditions."
+  ],
+  "outcomes": "Successfully developed and deployed an automated soil strain and settlement monitoring system. Fuzed strain gauges and ADC data streams over wireless connections to show real-time compaction profiles.",
+  "metrics": {
+    "strain_resolution": "±1 microstrain",
+    "settlement_precision": "0.5mm",
+    "wireless_range": "Up to 50m (soil-embedded)"
+  },
+  "timeline": "Jan 2026 - Present",
+  "screenshots": [],
+  "architecture_diagrams": [],
+  "lessons_learned": [
+    "Waterproofing connection terminals with industrial silicone potting is mandatory for long-term geotechnical burial.",
+    "High-precision ADC filters are required to eliminate high-frequency motor noise from heavy rollers on compaction sites."
+  ],
+  "related_projects": [],
+  "id": "automated-soil-strain-and-settlement-analysis-system-with-iot-integration",
+  "title": "Automated Soil Strain & Settlement Monitoring System",
+  "description": "An automated geotechnical monitoring system fusing strain gauges, analog-to-digital signal conditioning, and ESP32-CAM wireless nodes to track real-time soil deformation and vertical settlement during compaction.",
+  "overview": "The Automated Soil Strain and Settlement Analysis System measures soil layer strain and vertical settlement during earthwork operations. It uses high-precision strain gauges and an ESP32-CAM controller to transmit real-time geotechnical data to a monitoring dashboard.",
+  "gallery": [],
+  "detailedOverview": "### Executive Summary\nCompaction quality control on highway and embankment construction has traditionally relied on spot checks and manual readings. This project introduces a sensor-based, wireless telemetry system embedded directly in compacted soil layers to record strain and vertical settlement dynamically during compaction operations.\n\n### Problem Statement\nTraditional earthwork inspections are:\n- **Intermittent:** Conducted at selected locations and time intervals, leaving unsampled areas unverified.\n- **Risk-Heavy:** Undetected under-compaction causes excessive settlement, premature pavement failure, and bearing capacity drops.\n- **Manual:** Dependent on hand-recorded optical level observations or mechanical plates.\n\n### Hardware Integration\n- **Processing Unit:** ESP32-CAM module processing local sensor inputs and handling wireless transmission.\n- **Strain Sensing:** BX120-3AA high-precision strain gauges connected to HX711 and ADS1115 16-bit analog-to-digital converters to detect tiny soil-layer deformations.\n- **Settlement Tracking:** Embedded vertical sensors measuring layer-by-layer settlement.\n- **Power Management:** DC-DC buck converters stabilizing voltage inputs from local batteries.\n\n### Data Flow & Working Principle\n1. **Deformation:** Load from the road roller deforms the soil, straining the embedded BX120-3AA gauges.\n2. **Signal Conditioning:** The micro-voltage change from the wheatstone bridge is amplified by the HX711 and digitized by the ADS1115.\n3. **Edge Processing:** The ESP32-CAM reads the digital values over serial/I2C connections.\n4. **Transmission:** Telemetry packets are sent wirelessly via MQTT protocol.\n5. **Visualization:** The Flask dashboard reads the MQTT queue and graphs the strain-settlement profile in real-time.\n\n### Applications\n- **Transportation Engineering:** Embankment compaction monitoring, runway sub-bases, and flexible highway pavements.\n- **Geotechnical Engineering:** Landfill cell consolidation tracking, retaining wall backfill checks, and settlement research.\n- **Academic Research:** Generating high-frequency experimental dataset arrays for soil consolidation modeling.",
+  "engineeringInsights": [
+    "Geotechnical Sensor Potting & Waterproofing",
+    "Wheatstone Bridge Strain Gauge Signal Amplification",
+    "Capacitive & Resistive Settlement Tracking",
+    "Embedded ESP32-CAM wireless MQTT telemetry"
+  ],
+  "keyOutcomes": [
+    "High-resolution soil strain telemetry resolved down to 1 microstrain",
+    "Real-time vertical settlement tracking matching dial gauges with 0.5mm precision",
+    "Wireless deep-soil data transmission from embedded nodes without signal loss"
+  ],
+  "lessonsLearned": [
+    "Waterproofing connection terminals with industrial silicone potting is mandatory for long-term geotechnical burial.",
+    "High-precision ADC filters are required to eliminate high-frequency motor noise from heavy rollers on compaction sites."
+  ]
+}

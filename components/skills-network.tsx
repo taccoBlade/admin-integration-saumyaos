@@ -65,11 +65,11 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
           const isSelected = hoveredSkill ? hoveredSkill.id === skill.id : true;
           
           let colorClass = "border-neutral-500/40 bg-neutral-500/10 text-neutral-300 hover:bg-neutral-500/20 hover:border-neutral-500/60";
-          if (skill.category === "Engineering") {
+          if (skill.category === "Core Engineering") {
             colorClass = "border-cyan-500/40 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-500/60";
-          } else if (skill.category === "Technology") {
+          } else if (skill.category === "Technical Tools") {
             colorClass = "border-violet-500/40 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 hover:border-violet-500/60";
-          } else if (skill.category === "Markets") {
+          } else if (skill.category === "Programming") {
             colorClass = "border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/60";
           } else if (skill.category === "Creative") {
             colorClass = "border-rose-500/40 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:border-rose-500/60";
@@ -111,9 +111,9 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
               <div className="space-y-1 shrink-0 md:max-w-[200px]">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${
-                    hoveredSkill.category === "Engineering" ? "bg-cyan-400" :
-                    hoveredSkill.category === "Technology" ? "bg-violet-400" :
-                    hoveredSkill.category === "Markets" ? "bg-emerald-400" : "bg-rose-400"
+                    hoveredSkill.category === "Core Engineering" ? "bg-cyan-400" :
+                    hoveredSkill.category === "Technical Tools" ? "bg-violet-400" :
+                    hoveredSkill.category === "Programming" ? "bg-emerald-400" : "bg-rose-400"
                   }`} />
                   <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">{hoveredSkill.category}</span>
                 </div>

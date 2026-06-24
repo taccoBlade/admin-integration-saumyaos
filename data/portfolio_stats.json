@@ -1,35 +1,46 @@
 {
-  "total_projects": 5,
+  "total_projects": 4,
   "total_domains": 4,
-  "total_technologies": 12,
-  "total_hardware": 6,
+  "total_technologies": 15,
+  "total_hardware": 14,
   "total_logbook_entries": 2,
   "domains_list": [
-    "Software Engineering",
-    "Material Engineering",
+    "Civil Engineering",
     "Geotechnical Engineering",
-    "Transportation Infrastructure"
+    "Infrastructure Automation",
+    "Precision Agriculture"
   ],
   "technologies_list": [
-    "LaTeX",
-    "Data Analysis",
+    "C++",
     "Chart.js",
-    "OpenCV",
-    "Python",
-    "Arduino C++",
-    "NumPy",
-    "Scikit-learn",
-    "Pandas",
     "Socket.IO",
+    "SciPy",
     "Flask",
-    "MQTT Protocol"
+    "Excel",
+    "Pandas",
+    "Arduino C++",
+    "IoT Sensors",
+    "Raspberry Pi",
+    "MQTT Protocol",
+    "Scikit-learn",
+    "NumPy",
+    "ESP32",
+    "Python"
   ],
   "hardware_list": [
-    "LiDAR Scanner",
+    "OLED Local Display",
+    "ESP8266 Microcontroller",
+    "Capacitive Moisture Sensor",
+    "NPK Soil Sensor",
+    "ADS1115 16-Bit ADC",
+    "Time-of-Flight (ToF) LiDAR",
+    "BX120-3AA Precision Strain Gauge",
+    "HX711 Amplifier Module",
+    "Raspberry Pi IPC",
+    "ESP32-CAM Module",
+    "Triaxial Industrial ICP Accelerometer",
     "RTK-GPS Module",
-    "ESP32 Microcontroller",
-    "Soil Moisture Sensor",
-    "Accelerometer",
-    "ESP32-CAM Board"
+    "Infrared (IR) Thermometry",
+    "DC-DC Buck Converter"
   ]
 }

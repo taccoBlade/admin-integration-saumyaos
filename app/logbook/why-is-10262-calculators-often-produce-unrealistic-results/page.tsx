@@ -45,8 +45,8 @@ export default function LogbookPage() {
 
           <div className="flex items-center gap-2 text-sm text-neutral-400">
             <span>Project context:</span>
-            <Link href="/projects/pro-mix-industrial-concrete-design-compliance-engine" className="text-cyan-400 hover:underline">
-              PRO-MIX: Industrial Concrete Design & Compliance Engine
+            <Link href="/projects/promix-concrete-mix-design-compliance-dashboard" className="text-cyan-400 hover:underline">
+              ProMix: Concrete Mix Design & Compliance Dashboard
             </Link>
           </div>
         </motion.div>
@@ -59,7 +59,7 @@ export default function LogbookPage() {
           className="prose prose-invert max-w-none text-neutral-300 leading-relaxed space-y-6"
         >
           <p className="text-lg text-neutral-200 italic font-light border-l-2 border-cyan-500 pl-4">
-            This logbook records the detailed technical investigation, system decisions, and design rationale behind the PRO-MIX: Industrial Concrete Design & Compliance Engine implementation.
+            This logbook records the detailed technical investigation, system decisions, and design rationale behind the ProMix: Concrete Mix Design & Compliance Dashboard implementation.
           </p>
 
           <h2 className="text-xl font-semibold text-white mt-8 mb-4 flex items-center gap-2">
@@ -89,7 +89,7 @@ export default function LogbookPage() {
             The optimization function is formulated as follows:
           </p>
           <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 text-center font-mono my-4 text-cyan-300 overflow-x-auto">
-            {"\[ f(x) = \sum_{i=1}^n \omega_i \cdot (x_i - \hat{x}_i)^2 + \lambda \cdot \mathcal{R}(x) \]"}
+            {"\\[ f(x) = \\sum_{i=1}^n \\omega_i \\cdot (x_i - \\hat{x}_i)^2 + \\lambda \\cdot \\mathcal{R}(x) \\]"}
           </div>
           <p className="text-sm text-neutral-400">
             {"Where \\(\\omega_i\\) represents individual component weights, \\(\\hat{x}_i\\) are standard targets, and \\(\\mathcal{R}(x)\\) is the structural compliance penalty."}

@@ -60,23 +60,23 @@ export default function ProjectPage() {
         >
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="px-3 py-1 text-xs font-mono rounded-full bg-cyan-950/50 border border-cyan-800/30 text-cyan-400">
-              Material Engineering
+              Precision Agriculture
             </span>
             <span className="px-3 py-1 text-xs font-mono rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400">
-              Concrete Technology
+              IoT & Predictive Analytics
             </span>
             <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-neutral-500 font-mono">
               <Calendar className="w-3.5 h-3.5" />
-              Jan 2026 - Present
+              Jan 2025 - Jun 2025
             </span>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-200 to-neutral-400 mb-4">
-            PRO-MIX: Industrial Concrete Design & Compliance Engine
+            IoT-Based Soil Analysis & Recommendation System
           </h1>
 
           <p className="text-lg md:text-xl text-neutral-400 leading-relaxed max-w-3xl">
-            PRO-MIX is an advanced, web-based concrete mix design and auditing platform. It is engineered to perform rigorous mix proportion calculations for both standard Normal Concrete and experimental Geopolymer Concrete, ensuring mathematical precision, cost optimization, and environmental sustainability tracking. ⚠️ **Disclaimer:** This software is designed for educational, research, and theoretical modeling purposes. It is not intended for direct site use without professional engineering validation. *   **Dual Computation Engines**:
+            
           </p>
         </motion.div>
 
@@ -95,7 +95,7 @@ export default function ProjectPage() {
               Key Outcomes & Evidence
             </h2>
             <p className="text-neutral-300 leading-relaxed mb-6">
-              Successful deployment and verification of the PRO-MIX: Industrial Concrete Design & Compliance Engine system.
+              Built and verified an IoT-based soil analysis and crop recommendation system. Achieved 95% classification accuracy across 12 distinct crop types and integrated an economic revenue analysis module.
             </p>
 
             {/* Metrics Checklist */}
@@ -103,15 +103,22 @@ export default function ProjectPage() {
                             <div className="flex items-start gap-3 p-3 rounded-2xl bg-neutral-950/40 border border-neutral-850">
                 <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">ACCURACY AND PERFORMANCE</div>
-                  <div className="text-sm font-semibold text-neutral-200">10% reduction</div>
+                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">MODEL ACCURACY</div>
+                  <div className="text-sm font-semibold text-neutral-200">95%</div>
                 </div>
               </div>
               <div className="flex items-start gap-3 p-3 rounded-2xl bg-neutral-950/40 border border-neutral-850">
                 <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
                 <div>
-                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">EVALUATION SCORES</div>
-                  <div className="text-sm font-semibold text-neutral-200">11/11, 44/40, 36/40</div>
+                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">SUPPORTED CROPS</div>
+                  <div className="text-sm font-semibold text-neutral-200">12 types</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 rounded-2xl bg-neutral-950/40 border border-neutral-850">
+                <CheckCircle2 className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-xs text-neutral-500 font-mono uppercase tracking-wider">TELEMETRY LATENCY</div>
+                  <div className="text-sm font-semibold text-neutral-200">less than 2s</div>
                 </div>
               </div>
 
@@ -127,7 +134,9 @@ export default function ProjectPage() {
             <div className="flex flex-wrap gap-2">
                             <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Python</span>
               <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Flask</span>
-              <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Chart.js</span>
+              <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Pandas</span>
+              <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">Scikit-learn</span>
+              <span className="px-3 py-1.5 text-xs font-mono rounded-xl bg-neutral-950 border border-neutral-850 text-cyan-200">IoT Sensors</span>
 
             </div>
           </motion.div>
@@ -138,7 +147,12 @@ export default function ProjectPage() {
               <Layers className="w-5 h-5" />
               Hardware Modules
             </h2>
-                        <p className="text-sm text-neutral-500 italic">No physical hardware components.</p>
+                        <ul className="space-y-3 font-mono text-sm">
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />NPK Soil Sensor</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Capacitive Moisture Sensor</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />ESP8266 Microcontroller</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />OLED Local Display</li>
+            </ul>
           </motion.div>
 
           <motion.div variants={itemVariants} className="p-6 md:p-8 rounded-3xl border border-neutral-800 bg-neutral-900/20 backdrop-blur-sm relative overflow-hidden">
@@ -147,8 +161,9 @@ export default function ProjectPage() {
               Software Core
             </h2>
                         <ul className="space-y-3 font-mono text-sm">
-              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Computation Engines (Volume/Mass-based)</li>
-              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />AI Mix Optimization Core</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Flask Telemetry Collector</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Random Forest Classifier Core</li>
+              <li className="flex items-center gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500" />Economic Profit Estimator Dashboard</li>
             </ul>
           </motion.div>
 
@@ -159,9 +174,11 @@ export default function ProjectPage() {
               Engineering Concepts
             </h2>
                         <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>IS 456 Compliance Auditing</span></li>
-              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Particle Packing Optimization</span></li>
-              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>IS 10262 Mix Design Standards</span></li>
+              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Gravimetric Water Content</span></li>
+              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>ML Predictive Modeling</span></li>
+              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>N-P-K Soil Chemistry</span></li>
+              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Agricultural Decision Support</span></li>
+              <li className="flex items-start gap-2 text-neutral-300"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500 mt-1.5 shrink-0" /><span>Crop Revenue Forecasting</span></li>
             </ul>
           </motion.div>
 
@@ -175,39 +192,16 @@ export default function ProjectPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <h3 className="text-sm font-mono text-neutral-400 uppercase tracking-wider border-b border-neutral-850 pb-2">Challenges Encountered</h3>
-                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">- Ran edge-case tests in `tests/test_challenger_edge_cases.</p></div>
-                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[02]</span><p className="text-sm text-neutral-300 leading-relaxed">Match: YES
-
----
-
-## DEVIATIONS
-
-Deviation: None
-Impact: N/A
-Recommendation: N/A
-
----
-
-## FINAL COMPLIANCE STATUS
-
-COMPLIANT
-
-
-# Pytest suite for verifying edge cases and overrides in calculations
-# Written by teamwork_preview_challenger
-
-import pytest
-import os
-import sys
-
-# Add project root to path
-sys.</p></div>
+                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">Correlating raw analog voltage inputs from low-cost soil sensors with absolute gravimetric moisture values under varying temperature conditions.</p></div>
+                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[02]</span><p className="text-sm text-neutral-300 leading-relaxed">Handling noisy sensor telemetry caused by high-frequency electromagnetic interference in agricultural settings.</p></div>
+                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[03]</span><p className="text-sm text-neutral-300 leading-relaxed">Designing a generalizable Random Forest Classifier that does not overfit to localized regional soil datasets.</p></div>
 
               </div>
 
               <div className="space-y-4">
                 <h3 className="text-sm font-mono text-neutral-400 uppercase tracking-wider border-b border-neutral-850 pb-2">Engineering Decisions & Lessons</h3>
-                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">Iterative unit testing is critical when dealing with physical sensors.</p></div>
+                                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[01]</span><p className="text-sm text-neutral-300 leading-relaxed">Feature scaling and normalization are critical when combining divergent variables like soil nitrogen ppm and annual rainfall.</p></div>
+                  <div className="flex gap-3"><span className="text-xs font-mono text-cyan-500 shrink-0 mt-0.5">[02]</span><p className="text-sm text-neutral-300 leading-relaxed">Capacitive soil sensors must be insulated against corrosion to prevent drift in reading values over extended deployments.</p></div>
 
               </div>
             </div>
