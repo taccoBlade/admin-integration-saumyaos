@@ -875,20 +875,20 @@ export default function PersonalPage() {
           </motion.p>
         </motion.div>
 
-        {/* Spotlight Visual Container */}
-        <div className="relative bg-[#0b0b0d] border border-white/5 rounded-3xl p-8 min-h-[460px] flex items-center justify-center overflow-hidden shadow-2xl group">
+        {/* Spotlight Visual Container — portrait framing for rider+bike shot */}
+        <div className="relative bg-[#0b0b0d] border border-white/5 rounded-3xl p-8 flex items-center justify-center overflow-hidden shadow-2xl group">
           {/* Spotlight Cone overlay */}
           <div className="absolute inset-x-0 top-0 h-[280px] bg-[radial-gradient(circle_at_top,#eab308_0%,transparent_60%)] opacity-[0.08] pointer-events-none" />
           
-          <div className="relative w-full max-w-2xl aspect-[16/9] overflow-hidden rounded-2xl border border-white/5 bg-[#050505] shadow-2xl">
+          <div className="relative w-full max-w-sm aspect-[9/16] sm:max-w-md overflow-hidden rounded-2xl border border-white/5 bg-[#050505] shadow-2xl">
             <Image 
               src="/images/personal/motorcycle.jpg" 
-              alt="RE Super Meteor 650 Spotlight" 
+              alt="RE Super Meteor 650 — Saumya Parekh" 
               fill 
-              className="object-cover object-center opacity-85"
+              className="object-cover object-center opacity-90"
             />
-            {/* Dark vignette blending sides */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.8)_100%)] pointer-events-none" />
+            {/* Subtle edge fade */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.5)_100%)] pointer-events-none" />
 
             {/* Hover floating dots coordinates */}
             {rideMemories.map((ride) => (
@@ -1268,7 +1268,7 @@ export default function PersonalPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveWallImage(null)}
-              className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md flex items-center justify-center p-4"
+              className="fixed inset-0 z-[200] backdrop-blur-2xl bg-black/70 flex items-center justify-center p-4"
             >
               <motion.div
                 initial={{ scale: 0.95, y: 20 }}
