@@ -2,7 +2,41 @@ import Link from "next/link";
 import { getProject, getProjects } from "@/lib/content";
 import { ArrowLeft, Globe, Calendar, Briefcase, Award, Zap, Lightbulb, Download } from "lucide-react";
 import { ArchitectureVisualizer, TreeNode } from "@/components/architecture-visualizer";
+import { DashboardEmbed } from "@/components/dashboard-embed";
 import React from "react";
+
+const PROJECT_DASHBOARD_MAP: Record<string, {
+  port: number;
+  title: string;
+  mockupDescription: string;
+  keyFeatures: string[];
+}> = {
+  "automated-soil-strain-and-settlement-analysis-system-with-iot-integration": {
+    port: 8085,
+    title: "Geotechnical Soil Strain & Settlement Analysis",
+    mockupDescription: "Interactive real-time soil telemetry console tracking strain gauge values, analog-to-digital converter (ADC) signals, and settlement profiles under varying compaction loads.",
+    keyFeatures: ["Real-time sensor calibration", "Telemetry charts with ADC filtering", "Consolidation settlement forecasts", "Continuous live telemetry stream"]
+  },
+  "promix-concrete-mix-design-compliance-dashboard": {
+    port: 5001,
+    title: "ProMix Concrete Mix Proportioning & Compliance Auditor",
+    mockupDescription: "Automated concrete mix design console executing proportioning calculations according to IS 10262:2019 and validating against IS 456 durability limits.",
+    keyFeatures: ["Automated IS 10262:2019 proportioning", "Multi-binder SCM blend calculations", "IS 456 durability limit validation", "Detailed mix proportions report export"]
+  },
+  "automation-intelligent-machine-guided-construction": {
+    port: 5002,
+    title: "NHAI Intelligent Compaction & Roller Tracking Map",
+    mockupDescription: "Intelligent compaction monitoring dashboard displaying live heavy roller trajectories, pass counts, soil temperature gradients, and compaction value mappings in real-time.",
+    keyFeatures: ["Live roller trajectory tracking", "Pass count map visualizer", "Compaction stiffness value profiles", "Simulated Socket.IO telemetry feeds"]
+  },
+  "soil-analysis-project-with-iot-integration": {
+    port: 5003,
+    title: "Precision Agricultural Crop Recommendation & Profit Engine",
+    mockupDescription: "IoT-driven agricultural analytics dashboard that consumes N-P-K soil composition levels, temperature, and moisture telemetry to generate crop recommendations and economic revenue forecasts.",
+    keyFeatures: ["Crop classifier using vector-distance", "Economic revenue & cost estimation", "Telemetry inputs for soil metrics", "Text-to-speech advisor recommendations"]
+  }
+};
+
 
 interface PageProps {
   params: {
@@ -19,6 +53,8 @@ export function generateStaticParams() {
 
 export default function ProjectPage({ params }: PageProps) {
   const project = getProject(params.id);
+  const dashboardConfig = project ? PROJECT_DASHBOARD_MAP[project.id] : undefined;
+
 
   if (!project) {
     return (
@@ -191,6 +227,27 @@ export default function ProjectPage({ params }: PageProps) {
             </div>
           </div>
 
+          {/* Live Interactive Dashboard */}
+          {dashboardConfig && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400 border-b border-white/5 pb-2">
+                LIVE INTERACTIVE DASHBOARD
+              </h2>
+              <p className="text-sm text-slate-405 leading-relaxed">
+                Interact with the real-time computational system dashboard. Simulated sensor networks and feedback loops execute fully client-side.
+              </p>
+              <div className="pt-2">
+                <DashboardEmbed
+                  port={dashboardConfig.port}
+                  title={dashboardConfig.title}
+                  mockupDescription={dashboardConfig.mockupDescription}
+                  keyFeatures={dashboardConfig.keyFeatures}
+                />
+              </div>
+            </div>
+          )}
+
+
           {/* Interactive File Tree Visualizer */}
           {!!project.architectureTree && (
             <div className="space-y-4">
@@ -210,16 +267,15 @@ export default function ProjectPage({ params }: PageProps) {
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-400 border-b border-white/5 pb-2">
                 EMPIRICAL EVIDENCE GALLERY
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="editorial-gallery-grid">
                 {project.gallery.map((img, idx) => (
-                  <div key={idx} className="relative group rounded-xl overflow-hidden border border-white/10 bg-black/40 aspect-video hover:border-cyan-500/30 transition-all">
+                  <div key={idx} className="editorial-gallery-card group">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img 
                       src={img} 
                       alt={`${project.title} - Asset ${idx + 1}`} 
-                      className="object-cover w-full h-full group-hover:scale-[1.03] transition-transform duration-300"
                     />
-                    <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5 rounded font-mono text-[9px] text-slate-400 border border-white/5">
+                    <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5 rounded font-mono text-[9px] text-slate-400 border border-white/5 z-10">
                       ASSET_{idx + 1}
                     </div>
                   </div>

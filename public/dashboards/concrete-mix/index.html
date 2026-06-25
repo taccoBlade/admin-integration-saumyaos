@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRO-MIX | Premium Concrete Design Platform</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- html2pdf.js for exporting reports -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./styles.css?v=6">
+  <script src="../mock-apis.js"></script>
+</head>
+<body data-theme="normal">
+
+<div style="background-color: #f59e0b; color: #111; text-align: center; padding: 8px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+  ⚠️ Warning: Not for site use. For educational and research purposes only.
+</div>
+<div class="bento-container" id="report-content">
+  
+  <!-- BENTO 1: Header, Control Panel, and Credentials Status -->
+  <header class="bento-card col-span-12 flex justify-between items-center header-card">
+    <div class="flex items-center gap-md">
+      <div class="logo-box">
+        <span>PM</span>
+      </div>
+      <div>
+        <h1 class="display-lg">PRO-MIX</h1>
+        <p class="body-sm text-dim">Industrial Concrete Design & Compliance Engine</p>
+      </div>
+    </div>
+    
+    <!-- Report Status & Confidence Cards (Engine Credentials) -->
+    <div class="flex gap-md items-center">
+      <div class="flex flex-col items-end">
+        <span class="label-caps text-dim" style="font-size: 8px; margin-bottom: 2px;">Report Status</span>
+        <span class="badge badge-success" id="report-status">✓ Code Compliant</span>
+      </div>
+      <div class="flex flex-col items-end">
+        <span class="label-caps text-dim" style="font-size: 8px; margin-bottom: 2px;">Calculation Confidence</span>
+        <span class="badge badge-accent" id="calc-confidence">High (Validated)</span>
+      </div>
+      <div class="flex flex-col gap-xs">
+        <div class="theme-toggle-container">
+          <button id="btn-normal" class="theme-btn active" onclick="setTheme('normal')">IS 10262 Normal</button>
+          <button id="btn-geopolymer" class="theme-btn" onclick="setTheme('geopolymer')">Geopolymer</button>
+          <a href="https://doi.org/10.1016/j.matdes.2016.03.019" target="_blank" class="theme-btn" style="text-decoration:none; padding:8px 12px; flex:0 0 auto; color:var(--info)" title="Pavithra et al. (2016) Reference">ⓘ</a>
+        </div>
+        <div class="mode-selector">
+          <button id="mode-compliance" class="mode-btn active" onclick="setMode('compliance')">✓ Code Compliance</button>
+          <button id="mode-research" class="mode-btn" onclick="setMode('research')">⚗ Research</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- BENTO 2: Mix ID & Export Controls -->
+  <div class="bento-card col-span-12 flex justify-between items-center mix-id-card">
+    <div class="flex items-center gap-md">
+      <div class="flex flex-col">
+        <span class="label-caps text-dim">Mix Configuration ID</span>
+        <span class="badge badge-accent mt-xs" id="mix-id">MX-2026-000000</span>
+      </div>
+      <div class="input-group ml-md">
+        <label class="label-caps">Project</label>
+        <input type="text" id="project-name" placeholder="Project Name" style="padding:6px 10px; font-family: var(--font-main); font-size:12px; min-width:200px;">
+      </div>
+      <div class="input-group ml-sm">
+        <label class="label-caps">Engineer</label>
+        <input type="text" id="engineer-name" placeholder="Engineer Name" style="padding:6px 10px; font-family: var(--font-main); font-size:12px; min-width:200px;">
+      </div>
+    </div>
+    <div class="flex flex-col items-end gap-xs">
+      <div class="text-dim body-xs" id="timestamp">--:--:--</div>
+      <div class="flex gap-sm">
+        <button class="btn btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="exportProject()">Export Project</button>
+        <label class="btn btn-outline file-import-label" style="padding: 6px 12px; font-size: 11px; margin: 0; cursor: pointer;">
+          Import Project
+          <input type="file" id="import-file" accept=".json" onchange="importProject(event)" style="display: none;">
+        </label>
+        <button class="btn btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="exportCSV()">CSV</button>
+        <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px;" onclick="exportPDF()">Print PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO 3: Material Database, Specific Gravities, and Editable Economics -->
+  <div class="bento-card col-span-4 flex flex-col gap-md">
+    <div class="card-header">
+      <span class="label-caps text-dim">Material Database & Local Economics</span>
+    </div>
+    
+    <!-- Dynamic dropdowns & inputs built by JS -->
+    <div class="flex flex-col gap-sm" id="material-db-container">
+      <!-- Generated by app.js -->
+    </div>
+  </div>
+
+  <!-- BENTO 4: Input Parameters (Normal) -->
+  <div class="bento-card col-span-4 flex flex-col gap-md" id="inputs-normal-card">
+    <div class="card-header">
+      <span class="label-caps text-dim">Mix Design Parameters</span>
+    </div>
+    <div class="grid grid-cols-2 gap-sm">
+      <div class="input-group">
+        <label class="label-caps">Grade</label>
+        <select id="grade" onchange="runCalculations()">
+          <option value="15">M15</option>
+          <option value="20">M20</option>
+          <option value="25">M25</option>
+          <option value="30" selected>M30</option>
+          <option value="35">M35</option>
+          <option value="40">M40</option>
+          <option value="45">M45</option>
+          <option value="50">M50</option>
+          <option value="55">M55</option>
+          <option value="60">M60</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Exposure</label>
+        <select id="exposure" onchange="runCalculations()">
+          <option value="mild">Mild</option>
+          <option value="moderate">Moderate</option>
+          <option value="severe" selected>Severe</option>
+          <option value="very_severe">Very Severe</option>
+          <option value="extreme">Extreme</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Aggregate Size</label>
+        <select id="msa" onchange="runCalculations()">
+          <option value="10">10 mm</option>
+          <option value="20" selected>20 mm</option>
+          <option value="40">40 mm</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Sand Zone</label>
+        <select id="fa_zone" onchange="setSieveFromZone(); runCalculations()">
+          <option value="I">Zone I</option>
+          <option value="II" selected>Zone II</option>
+          <option value="III">Zone III</option>
+          <option value="IV">Zone IV</option>
+        </select>
+      </div>
+      <div class="input-group col-span-2">
+        <label class="label-caps">Slump (mm)</label>
+        <input type="number" id="slump" value="100" min="25" max="200" step="25" oninput="runCalculations()">
+      </div>
+      <div class="input-group col-span-2">
+        <label class="label-caps">Aggregate Shape</label>
+        <select id="agg_shape" onchange="runCalculations()">
+          <option value="angular" selected>Angular</option>
+          <option value="sub-angular">Sub-angular</option>
+          <option value="gravel-crushed">Gravel with Crushed</option>
+          <option value="rounded">Rounded Gravel</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">W/C Ratio</label>
+        <input type="number" id="wc_ratio" value="0.45" step="0.01" min="0.30" max="0.65" oninput="runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">SP Dosage (%)</label>
+        <input type="number" id="sp_dosage" value="1.0" step="0.1" min="0" oninput="runCalculations()">
+      </div>
+      <div class="input-group col-span-2">
+        <label class="label-caps">SP Water Reduction (%)</label>
+        <div class="flex items-center gap-sm">
+          <input type="range" id="sp_percent" min="0" max="30" value="15" oninput="document.getElementById('sp-perc-val').innerText = this.value + '%'; runCalculations()">
+          <span id="sp-perc-val" class="data-tabular">15%</span>
+        </div>
+      </div>
+      <div class="input-group col-span-2 flex items-center gap-sm">
+        <input type="checkbox" id="is_pumped" checked onchange="runCalculations()">
+        <label class="label-caps" style="margin-bottom: 0; cursor: pointer;" for="is_pumped">Placement via Pumping</label>
+      </div>
+      <div class="input-group col-span-2" style="border-top: 1px solid rgba(255,255,255,0.06); padding-top:8px">
+        <span class="label-caps text-dim" style="display:block; margin-bottom: var(--space-xs)">Binder Composition (%)</span>
+        <div id="binder-inputs-container-normal" class="flex flex-col gap-sm">
+          <!-- Dynamic cards rendered by JS -->
+        </div>
+        <div class="flex gap-sm mt-sm">
+          <select id="add-binder-select-normal" class="flex-1" style="padding: 6px 10px; font-size:12px;"></select>
+          <button class="btn btn-outline" style="padding: 6px 12px; font-size:11px;" onclick="handleAddBinder('normal')">+ Add Binder</button>
+        </div>
+        <div class="flex justify-end mt-sm">
+          <span id="binder-sum-normal" class="binder-sum-ok">Total: 100%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO 4: Input Parameters (Geopolymer) -->
+  <div class="bento-card col-span-4 flex flex-col gap-md hidden" id="inputs-geopolymer-card">
+    <div class="card-header">
+      <span class="label-caps text-dim">Geopolymer Mix Parameters</span>
+    </div>
+    <div class="grid grid-cols-2 gap-sm">
+      <div class="input-group col-span-2">
+        <label class="label-caps">Total Concrete Density (kg/m³)</label>
+        <input type="number" id="density" value="2520" min="2100" max="2600" step="10" oninput="runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Coarse Agg (%)</label>
+        <input type="number" id="ca_percent" value="65" min="0" max="100" oninput="document.getElementById('fa_percent').value = 100 - this.value; runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Fine Agg (%)</label>
+        <input type="number" id="fa_percent" value="35" readonly>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">AAS/Binder Ratio</label>
+        <input type="number" id="aas_binder_ratio" value="0.45" step="0.01" min="0.4" max="0.8" oninput="runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Silicate/Hydroxide Ratio</label>
+        <input type="number" id="ss_sh_ratio" value="2.5" step="0.1" min="1.5" max="3.0" oninput="runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">NaOH Molarity</label>
+        <select id="naoh_molarity" onchange="runCalculations()">
+          <option value="8M">8 M</option>
+          <option value="12M" selected>12 M</option>
+          <option value="16M">16 M</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Extra Water (kg)</label>
+        <input type="number" id="extra_water" value="10" min="0" oninput="runCalculations()">
+      </div>
+      <div class="input-group col-span-2">
+        <span class="label-caps text-dim" style="display:block; margin-bottom: var(--space-xs)">Binder Composition (%)</span>
+        <div id="binder-inputs-container-geo" class="flex flex-col gap-sm">
+          <!-- Dynamic cards rendered by JS -->
+        </div>
+        <div class="flex gap-sm mt-sm">
+          <select id="add-binder-select-geo" class="flex-1" style="padding: 6px 10px; font-size:12px;"></select>
+          <button class="btn btn-outline" style="padding: 6px 12px; font-size:11px;" onclick="handleAddBinder('geopolymer')">+ Add Binder</button>
+        </div>
+        <div class="flex justify-end mt-sm">
+          <span id="binder-sum-geo" class="binder-sum-ok">Total: 100%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO 5: IS 383:2016 Sieve Analysis Classifier -->
+  <div class="bento-card col-span-4 flex flex-col gap-md">
+    <div class="card-header flex justify-between items-center">
+      <span class="label-caps text-dim">IS 383 Sieve Analysis</span>
+      <span class="badge badge-accent" id="sieve-zone-badge">Zone II</span>
+    </div>
+    <div class="grid grid-cols-2 gap-sm">
+      <div class="input-group col-span-2">
+        <span class="body-xs text-dim">Enter Fine Aggregate Cumulative Passing (%)</span>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">4.75 mm</label>
+        <input type="number" id="s_475" value="95" min="0" max="100" oninput="runSieveAnalysis()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">2.36 mm</label>
+        <input type="number" id="s_236" value="85" min="0" max="100" oninput="runSieveAnalysis()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">1.18 mm</label>
+        <input type="number" id="s_118" value="70" min="0" max="100" oninput="runSieveAnalysis()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">600 µm</label>
+        <input type="number" id="s_600" value="48" min="0" max="100" oninput="runSieveAnalysis()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">300 µm</label>
+        <input type="number" id="s_300" value="20" min="0" max="100" oninput="runSieveAnalysis()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">150 µm</label>
+        <input type="number" id="s_150" value="5" min="0" max="100" oninput="runSieveAnalysis()">
+      </div>
+      <div class="input-group col-span-2 flex items-center gap-sm" style="margin-top:4px">
+        <input type="checkbox" id="link-zone" checked onchange="runSieveAnalysis()">
+        <label class="body-xs text-dim" style="cursor:pointer;" for="link-zone">Feed Zone into Mix Design</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO 6: Moisture Corrections & Batch Converter -->
+  <div class="bento-card col-span-4 flex flex-col gap-md">
+    <div class="card-header">
+      <span class="label-caps text-dim">Moisture & Batch Converter</span>
+    </div>
+    <div class="grid grid-cols-2 gap-sm">
+      <div class="input-group">
+        <label class="label-caps">CA Moisture (%)</label>
+        <input type="number" id="fm_ca" value="0.0" step="0.1" oninput="runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">FA Moisture (%)</label>
+        <input type="number" id="fm_fa" value="2.0" step="0.1" oninput="runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">CA Absorption (%)</label>
+        <input type="number" id="wa_ca" value="0.5" step="0.1" oninput="runCalculations()">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">FA Absorption (%)</label>
+        <input type="number" id="wa_fa" value="1.0" step="0.1" oninput="runCalculations()">
+      </div>
+      
+      <div class="input-group col-span-2" style="border-top:1px solid rgba(255,255,255,0.06); padding-top:8px; margin-top:4px">
+        <label class="label-caps">Batch Scale Mode</label>
+        <div class="flex gap-sm">
+          <select id="scale-mode" style="padding: 6px 10px; flex:1" onchange="runCalculations()">
+            <option value="vol">Volumetric (m³)</option>
+            <option value="bags">Bag-Based (50kg Cement)</option>
+          </select>
+          <input type="number" id="scale-value" value="1.0" step="0.1" style="padding: 6px 10px; width:80px; text-align:right" oninput="runCalculations()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO 7: Live Engineering Status Card -->
+  <div class="bento-card col-span-4 flex flex-col justify-between status-card">
+    <div class="card-header">
+      <span class="label-caps text-dim">Engineering Checks & Validation</span>
+    </div>
+    <div class="score-display">
+      <div class="score-num" id="val-score">0/6</div>
+      <div class="score-lbl">Checks Passed</div>
+    </div>
+    <div class="flex flex-col gap-xs" id="checklist-items">
+      <!-- Checked items rendered by JS -->
+    </div>
+  </div>
+
+  <!-- BENTO 10: Cost & Carbon (CO2) Breakdown Chart & Progress Bars -->
+  <div class="bento-card col-span-4 flex flex-col gap-md chart-card">
+    <div class="card-header">
+      <span class="label-caps text-dim">Mix Sustainability & Cost</span>
+    </div>
+    <div class="grid grid-cols-2 gap-md" style="margin-bottom:8px">
+      <div class="flex flex-col">
+        <span class="body-xs text-dim">TOTAL MIX COST</span>
+        <strong class="headline-sm text-accent" id="total-cost-val">₹ 0.00</strong>
+        <span class="body-xs text-dim">per m³</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="body-xs text-dim">CO₂ FOOTPRINT</span>
+        <strong class="headline-sm text-accent" id="total-co2-val">0 kg</strong>
+        <span class="body-xs text-dim">per m³</span>
+      </div>
+    </div>
+    
+    <div class="flex flex-col gap-sm">
+      <span class="label-caps text-dim" style="font-size:9px; margin-bottom:0">Carbon (CO₂) Contribution %</span>
+      <div class="flex flex-col gap-xs" id="co2-progress-bars">
+        <!-- Progress bars generated dynamically -->
+      </div>
+    </div>
+    
+    <div class="chart-container" style="height:120px; margin-top:8px">
+      <canvas id="compositionChart"></canvas>
+    </div>
+  </div>
+
+  <!-- BENTO 8: Assumptions & Engine Versioning Panel -->
+  <div class="bento-card col-span-4 flex flex-col gap-sm">
+    <div class="card-header">
+      <span class="label-caps text-dim">Methodology & Assumptions</span>
+    </div>
+    <div class="assumptions-list" id="assumptions-log">
+      <!-- Rendered by JS -->
+    </div>
+    <hr style="border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.08); margin: 8px 0;">
+    <div class="flex flex-col gap-xs">
+      <span class="label-caps text-dim" style="font-size: 9px; margin-bottom: 2px;">Engine Versioning</span>
+      <div class="flex justify-between body-xs text-dim">
+        <span>IS Engine:</span><span>v1.0.0</span>
+      </div>
+      <div class="flex justify-between body-xs text-dim">
+        <span>Geopolymer Engine:</span><span>v1.0.0</span>
+      </div>
+      <div class="flex justify-between body-xs text-dim">
+        <span>Durability Rules:</span><span>IS456-2000-T5</span>
+      </div>
+      <div class="flex justify-between body-xs text-dim">
+        <span>Material DB:</span><span>v1.0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO 9: Yield Output (SSD, Site, and Scaled Batch Weights) -->
+  <div class="bento-card col-span-8 flex flex-col gap-md yield-card">
+    <div class="card-header flex justify-between items-center">
+      <span class="label-caps">Calculated Batch Proportions (kg)</span>
+      <span class="badge badge-success" id="vol-balanced-tag">Volume Balanced</span>
+    </div>
+    
+    <div class="grid grid-cols-1 gap-md">
+      <table class="yield-table" id="proportions-table">
+        <thead>
+          <tr>
+            <th style="text-align:left">Material</th>
+            <th>SSD (1 m³)</th>
+            <th>Site (1 m³)</th>
+            <th class="text-accent" id="batch-header-lbl">Scaled Batch (1.0 m³)</th>
+            <th>Citations & Verification Source</th>
+          </tr>
+        </thead>
+        <tbody id="yield-tbody">
+          <!-- Rendered by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BENTO 11: Validation Evidence Board -->
+  <div class="bento-card col-span-6 flex flex-col gap-md">
+    <div class="card-header">
+      <span class="label-caps text-dim">Engineering Validation Evidence Board</span>
+    </div>
+    <table class="yield-table" style="font-size:11px">
+      <thead>
+        <tr>
+          <th style="text-align:left">Benchmark Case</th>
+          <th>Expected (kg)</th>
+          <th>Actual (kg)</th>
+          <th>Deviation</th>
+          <th>Source / Verification Document</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:left; font-weight:600">M30 (Conventional)</td>
+          <td class="data-tabular">350.0 (Cement)</td>
+          <td id="val-c30-act" class="data-tabular">350.5</td>
+          <td id="val-c30-dev" class="data-tabular">0.14%</td>
+          <td class="text-dim">IS 10262 Worked Example 1</td>
+          <td><span class="badge badge-success">PASS</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:left; font-weight:600">M40 (Conventional)</td>
+          <td class="data-tabular">148.0 (Water)</td>
+          <td id="val-c40-act" class="data-tabular">148.0</td>
+          <td id="val-c40-dev" class="data-tabular">0.00%</td>
+          <td class="text-dim">IS 10262 Worked Example 2</td>
+          <td><span class="badge badge-success">PASS</span></td>
+        </tr>
+        <tr>
+          <td style="text-align:left; font-weight:600">Geopolymer Case 01</td>
+          <td class="data-tabular">347.6 (Binder)</td>
+          <td id="val-geo-act" class="data-tabular">347.6</td>
+          <td id="val-geo-dev" class="data-tabular">0.00%</td>
+          <td class="text-dim">Pavithra et al. 2016 Paper Table 4</td>
+          <td><span class="badge badge-success">PASS</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BENTO 12: Mix Comparison Widget -->
+  <div class="bento-card col-span-6 flex flex-col gap-md">
+    <div class="card-header">
+      <span class="label-caps text-dim">Mix Comparison Panel (Normal vs Geopolymer)</span>
+    </div>
+    <table class="yield-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">Parameter</th>
+          <th id="comp-conventional-lbl">Conventional Mix (OPC)</th>
+          <th id="comp-geopolymer-lbl">Sustainable Geopolymer</th>
+          <th>Efficacy Delta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:left">Total Cost (₹/m³)</td>
+          <td id="comp-cost-conv" class="data-tabular">--</td>
+          <td id="comp-cost-geo" class="data-tabular">--</td>
+          <td id="comp-cost-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">CO₂ Footprint (kg/m³)</td>
+          <td id="comp-co2-conv" class="data-tabular">--</td>
+          <td id="comp-co2-geo" class="data-tabular">--</td>
+          <td id="comp-co2-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">Total Binder (kg/m³)</td>
+          <td id="comp-binder-conv" class="data-tabular">--</td>
+          <td id="comp-binder-geo" class="data-tabular">--</td>
+          <td id="comp-binder-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">Water Content (kg/m³)</td>
+          <td id="comp-water-conv" class="data-tabular">--</td>
+          <td id="comp-water-geo" class="data-tabular">--</td>
+          <td id="comp-water-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">OPC %</td>
+          <td id="comp-opc-conv" class="data-tabular">--</td>
+          <td id="comp-opc-geo" class="data-tabular">--</td>
+          <td id="comp-opc-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">Fly Ash %</td>
+          <td id="comp-fa-conv" class="data-tabular">--</td>
+          <td id="comp-fa-geo" class="data-tabular">--</td>
+          <td id="comp-fa-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">GGBS %</td>
+          <td id="comp-ggbs-conv" class="data-tabular">--</td>
+          <td id="comp-ggbs-geo" class="data-tabular">--</td>
+          <td id="comp-ggbs-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">W/C Ratio</td>
+          <td id="comp-wc-conv" class="data-tabular">--</td>
+          <td id="comp-wc-geo" class="data-tabular">--</td>
+          <td id="comp-wc-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">Slump (mm)</td>
+          <td id="comp-slump-conv" class="data-tabular">--</td>
+          <td id="comp-slump-geo" class="data-tabular">--</td>
+          <td id="comp-slump-delta" class="data-tabular">--</td>
+        </tr>
+        <tr>
+          <td style="text-align:left">Density (kg/m³)</td>
+          <td id="comp-density-conv" class="data-tabular">--</td>
+          <td id="comp-density-geo" class="data-tabular">--</td>
+          <td id="comp-density-delta" class="data-tabular">--</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BENTO 14: Trial Mix Laboratory Log -->
+  <div class="bento-card col-span-6 flex flex-col gap-md">
+    <div class="card-header flex justify-between items-center">
+      <span class="label-caps text-dim">Trial Mix Laboratory Log</span>
+      <button class="btn btn-outline" style="padding:4px 10px; font-size:11px" onclick="exportTrialLog()">Export CSV</button>
+    </div>
+    <div class="grid grid-cols-3 gap-sm">
+      <div class="input-group">
+        <label class="label-caps">Trial No.</label>
+        <input type="text" id="trial-no" placeholder="T-001" style="font-family:var(--font-mono); font-size:12px; padding:6px 10px">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Slump (mm)</label>
+        <input type="number" id="trial-slump" value="" placeholder="100" style="padding:6px 10px">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Density (kg/m³)</label>
+        <input type="number" id="trial-density" value="" placeholder="2400" style="padding:6px 10px">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">7-Day (MPa)</label>
+        <input type="number" id="trial-7d" value="" placeholder="24" step="0.1" style="padding:6px 10px">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">28-Day (MPa)</label>
+        <input type="number" id="trial-28d" value="" placeholder="38" step="0.1" style="padding:6px 10px">
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Remarks</label>
+        <input type="text" id="trial-remarks" placeholder="Normal curing" style="font-family:var(--font-main); font-size:12px; padding:6px 10px">
+      </div>
+    </div>
+    <button class="btn btn-primary w-full" onclick="addTrialEntry()">Add Trial Entry</button>
+    <div class="flex flex-col gap-xs" style="max-height:200px; overflow-y:auto" id="trial-log-container">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- BENTO 15: AI Engineering Mix Reviewer -->
+  <div class="bento-card col-span-6 flex flex-col gap-md">
+    <div class="card-header flex justify-between items-center">
+      <span class="label-caps text-dim">AI Engineering Mix Reviewer</span>
+      <span class="badge badge-accent" id="review-count">0 Issues</span>
+    </div>
+    <div class="flex flex-col gap-xs" id="reviewer-container">
+      <div class="text-dim body-xs" style="text-align:center; padding: 20px 0">Run a calculation to generate review</div>
+    </div>
+  </div>
+
+  <!-- BENTO 16: Mix Optimizer -->
+  <div class="bento-card col-span-6 flex flex-col gap-md" id="optimizer-card">
+    <div class="card-header flex justify-between items-center">
+      <span class="label-caps text-dim">Mix Optimization Engine</span>
+      <span class="badge badge-accent" id="optimizer-status">Ready</span>
+    </div>
+    <div class="flex gap-sm items-end">
+      <div class="input-group flex-1">
+        <label class="label-caps">Optimize For</label>
+        <select id="optimize-objective" style="padding:8px 10px">
+          <option value="min_cost">Minimum Cost</option>
+          <option value="min_co2">Minimum CO₂</option>
+          <option value="balanced" selected>Balanced Design</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="runOptimizer()" style="margin-bottom:4px">Run Optimizer</button>
+    </div>
+    <div class="flex flex-col gap-sm" id="optimizer-results">
+      <div class="text-dim body-xs" style="text-align:center; padding:20px 0">Select objective and run optimizer</div>
+    </div>
+  </div>
+
+  <!-- BENTO 17: Grade Recommender & Benchmark Library -->
+  <div class="bento-card col-span-6 flex flex-col gap-md">
+    <div class="card-header">
+      <span class="label-caps text-dim">Grade Recommender & Benchmark Library</span>
+    </div>
+    <div class="grid grid-cols-2 gap-sm" style="border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:12px">
+      <div class="input-group">
+        <label class="label-caps">Exposure</label>
+        <select id="rec-exposure" style="padding:6px 10px">
+          <option value="mild">Mild</option>
+          <option value="moderate">Moderate</option>
+          <option value="severe" selected>Severe</option>
+          <option value="very_severe">Very Severe</option>
+          <option value="extreme">Extreme</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="label-caps">Target Strength (MPa)</label>
+        <input type="number" id="rec-strength" value="30" min="10" max="60" style="padding:6px 10px" oninput="runGradeRecommendation()">
+      </div>
+    </div>
+    <div class="flex flex-col gap-xs" id="grade-rec-output">
+      <div class="flex justify-between body-xs"><span class="text-dim">Minimum Grade</span><span class="data-tabular" id="rec-grade">--</span></div>
+      <div class="flex justify-between body-xs"><span class="text-dim">Maximum W/C</span><span class="data-tabular" id="rec-wc">--</span></div>
+      <div class="flex justify-between body-xs"><span class="text-dim">Minimum Binder</span><span class="data-tabular" id="rec-binder">--</span></div>
+      <div class="flex justify-between body-xs"><span class="text-dim">Source</span><span class="data-tabular text-dim" id="rec-source">--</span></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:12px; margin-top:4px">
+      <div class="flex justify-between items-center mb-sm">
+        <span class="label-caps text-dim">Benchmark Library</span>
+        <div class="flex gap-xs">
+          <select id="benchmark-select" style="padding:4px 8px; font-size:11px; width:200px" onchange="loadBenchmark()">
+            <option value="">Select benchmark...</option>
+          </select>
+          <button class="btn btn-outline" id="btn-save-preset" onclick="saveCurrentPreset()" style="padding:4px 8px; font-size:11px;">+ Save</button>
+        </div>
+      </div>
+      <div class="flex flex-col gap-xs" id="benchmark-output">
+        <div class="text-dim body-xs" style="text-align:center">Select a benchmark to load</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENTO 13: Step-by-Step Calculation Trail (Defensibility) -->
+  <div class="bento-card col-span-12 flex flex-col gap-md trail-card">
+    <div class="card-header">
+      <span class="label-caps">AUTHORITATIVE CALCULATION TRAIL</span>
+    </div>
+    <div class="trail-content" id="calculation-trail">
+      <!-- Dynamically filled with math symbols and equations -->
+    </div>
+  </div>
+
+</div>
+
+<script src="./app.js?v=7"></script>
+</body>
+</html>

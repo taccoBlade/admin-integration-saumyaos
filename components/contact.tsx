@@ -1,5 +1,8 @@
 "use client";
 import { Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import { ScrollReveal, ScrollRevealStagger, RevealItem } from "@/components/scroll-reveal";
+import { hoverTap } from "@/lib/motion";
 
 export function Contact() {
   return (
@@ -19,65 +22,76 @@ export function Contact() {
 
       <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
         {/* Left: Status + Location */}
-        <div className="flex flex-col items-center md:items-start gap-2">
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
-            </span>
-            Available for opportunities
+        <ScrollReveal variant="slideRight" delay={0}>
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <div className="flex items-center gap-2 text-cyan-400 font-mono text-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
+              </span>
+              Available for opportunities
+            </div>
+            <p className="text-slate-400 text-sm">Ahmedabad, Gujarat, India</p>
           </div>
-          <p className="text-slate-400 text-sm">Ahmedabad, Gujarat, India</p>
-        </div>
+        </ScrollReveal>
 
         {/* Center: Name */}
-        <div className="text-center">
-          <span className="text-xl font-semibold text-white">
-            Saumya Parekh<span className="text-cyan-400">.</span>
-          </span>
-          <p className="text-xs text-slate-500 mt-1 font-mono">
-            Civil Engineering & Infrastructure
-          </p>
-        </div>
+        <ScrollReveal variant="fadeUp" delay={0.1}>
+          <div className="text-center">
+            <span className="text-xl font-semibold text-white">
+              Saumya Parekh<span className="text-cyan-400">.</span>
+            </span>
+            <p className="text-xs text-slate-500 mt-1 font-mono">
+              Civil Engineering &amp; Infrastructure
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Right: Contact & Social Links */}
-        <div className="flex flex-col items-center md:items-end gap-2 z-10">
-          <a
-            href="mailto:saumyaparekh937@gmail.com"
-            className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium"
-          >
-            <Mail className="w-4 h-4 text-cyan-400" />
-            <span>saumyaparekh937@gmail.com</span>
-          </a>
-          <div className="flex gap-4">
-            <a
-              href="https://www.linkedin.com/in/saumya-parekh-695474319"
-              target="_blank"
-              rel="noreferrer"
-              className="text-slate-400 hover:text-cyan-400 transition-colors text-xs font-mono tracking-wider"
+        <ScrollReveal variant="slideLeft" delay={0.2}>
+          <div className="flex flex-col items-center md:items-end gap-2 z-10">
+            <motion.a
+              href="mailto:saumyaparekh937@gmail.com"
+              {...hoverTap}
+              className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium"
             >
-              LINKEDIN
-            </a>
-            <span className="text-slate-700 font-mono text-xs">/</span>
-            <a
-              href="https://github.com/taccoBlade"
-              target="_blank"
-              rel="noreferrer"
-              className="text-slate-400 hover:text-cyan-400 transition-colors text-xs font-mono tracking-wider"
-            >
-              GITHUB
-            </a>
+              <Mail className="w-4 h-4 text-cyan-400" />
+              <span>saumyaparekh937@gmail.com</span>
+            </motion.a>
+            <div className="flex gap-4">
+              <motion.a
+                href="https://www.linkedin.com/in/saumya-parekh-695474319"
+                target="_blank"
+                rel="noreferrer"
+                {...hoverTap}
+                className="text-slate-400 hover:text-cyan-400 transition-colors text-xs font-mono tracking-wider"
+              >
+                LINKEDIN
+              </motion.a>
+              <span className="text-slate-700 font-mono text-xs">/</span>
+              <motion.a
+                href="https://github.com/taccoBlade"
+                target="_blank"
+                rel="noreferrer"
+                {...hoverTap}
+                className="text-slate-400 hover:text-cyan-400 transition-colors text-xs font-mono tracking-wider"
+              >
+                GITHUB
+              </motion.a>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
 
       {/* Bottom copyright */}
-      <div className="relative z-10 mt-8 text-center">
-        <p className="text-[11px] text-slate-600 font-mono">
-          © {new Date().getFullYear()} Saumya Parekh. Built with Next.js &
-          passion.
-        </p>
-      </div>
+      <ScrollReveal variant="fadeIn" delay={0.3}>
+        <div className="relative z-10 mt-8 text-center">
+          <p className="text-[11px] text-slate-600 font-mono">
+            © {new Date().getFullYear()} Saumya Parekh. Built with Next.js &amp;
+            passion.
+          </p>
+        </div>
+      </ScrollReveal>
     </footer>
   );
 }

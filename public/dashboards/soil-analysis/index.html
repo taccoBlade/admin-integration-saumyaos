@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geogrid Sand Layer Monitoring Dashboard</title>
+    
+    <!-- Google Fonts for Academic Aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for high-performance data rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="../mock-apis.js"></script>
+</head>
+<body>
+    <div class="spa-layout">
+        
+        <!-- TOP NAVIGATION -->
+        <header class="topbar" id="topbar">
+            <div class="topbar-brand">
+                <div class="lab-tag">GEOTECH LAB</div>
+                <h2>Monitoring SPA</h2>
+            </div>
+            
+            <nav class="topbar-nav">
+                <button class="nav-btn active" data-target="viewTelemetry">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    Live Telemetry
+                </button>
+                <button class="nav-btn" data-target="viewAnalysis">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                    Structural Analysis
+                </button>
+                <button class="nav-btn" data-target="viewVault">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Data Vault
+                </button>
+            </nav>
+
+            <div class="topbar-controls session-control">
+                <button id="btnResumeLive" class="btn-primary" style="display: none; background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);">RESUME LIVE TELEMETRY</button>
+                <div id="sessionStatus" class="session-status">
+                    <span class="status-indicator offline"></span>
+                    <span id="sessionStatusText">No Active Session</span>
+                </div>
+                <div class="demo-toggle-container">
+                    <label class="demo-switch">
+                        <input type="checkbox" id="toggleDemoMode">
+                        <span class="demo-slider"></span>
+                    </label>
+                    <span class="demo-label">DEMO MODE</span>
+                </div>
+                <button id="btnStartSession" class="btn-primary">START TEST SESSION</button>
+                <div id="activeSessionControls" style="display: none; gap: 8px; flex-direction: row;">
+                    <button id="btnStopSession" class="btn-danger">STOP</button>
+                    <button id="btnTareSensors" class="btn-warning">TARE</button>
+                </div>
+            </div>
+
+            <div class="hw-status" id="hwDisconnectWarning" style="display: none; margin-left: 16px;">
+                <span class="pulse-dot red"></span>
+                WARNING: Hardware Disconnected
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content" id="mainContent">
+            
+            <!-- VIEW 1: LIVE TELEMETRY -->
+            <section id="viewTelemetry" class="view-panel active">
+                <header class="view-header">
+                    <h1>Live Telemetry & Raw Data</h1>
+                    <p>Real-time physical measurements and surface vision tracking.</p>
+                </header>
+
+                <div class="grid-layout telemetry-grid">
+                    <!-- Sensor Readouts -->
+                    <div class="card sensor-readouts">
+                        <h3>Primary Sensor Streams</h3>
+                        <div class="readout-grid">
+                            <div class="digital-display">
+                                <span class="label">Applied Load</span>
+                                <div class="value-container"><span id="valLoad" class="value">0.0</span> <span class="unit">kPa</span></div>
+                            </div>
+                            <div class="digital-display">
+                                <span class="label">Center Settlement</span>
+                                <div class="value-container"><span id="valSettlement1" class="value">0.00</span> <span class="unit">mm</span></div>
+                            </div>
+                            <div class="digital-display">
+                                <span class="label">Shear Settlement</span>
+                                <div class="value-container"><span id="valSettlement2" class="value">0.00</span> <span class="unit">mm</span></div>
+                            </div>
+                            <div class="digital-display">
+                                <span class="label">Geogrid Strain</span>
+                                <div class="value-container"><span id="valStrain" class="value">0.0</span> <span class="unit">µε</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dual Vision System -->
+                    <div class="card dual-vision">
+                        <h3>Dual Vision Analytics System</h3>
+                        <div class="vision-grid">
+                            <div class="vision-frame">
+                                <span class="frame-label">Raw Camera Feed</span>
+                                <img id="feedRaw" src="./raw_current.png" alt="Raw ESP32 Feed">
+                            </div>
+                            <div class="vision-frame">
+                                <span class="frame-label">Damage Assessment Feed</span>
+                                <img id="feedProcessed" src="./processed_current.png" alt="Processed Feed">
+                                <div id="anomalyBadge" class="anomaly-badge secure" style="display: none;">SECURE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: STRUCTURAL ANALYSIS -->
+            <section id="viewAnalysis" class="view-panel">
+                <header class="view-header">
+                    <h1>Structural Diagnostics</h1>
+                    <p>Derived geotechnical metrics and state monitoring.</p>
+                </header>
+
+                <div class="grid-layout analysis-grid">
+                    <!-- State Warning System -->
+                    <div class="card alert-box" id="stateWarningBox">
+                        <h3>Structural Integrity State</h3>
+                        <div class="state-indicator" id="stateIndicator">
+                            <div class="light green"></div>
+                            <span id="stateText">Status: Stable</span>
+                        </div>
+                    </div>
+
+                    <!-- Geotechnical Context & Velocity Analytics -->
+                    <div class="card derived-metrics">
+                        <h3>Geotechnical Analytics</h3>
+                        <div class="readout-grid">
+                            <div class="digital-display highlight">
+                                <span class="label">Estimated Tensile Force</span>
+                                <div class="value-container"><span id="valTensileForce" class="value">0.0</span> <span class="unit">kN</span></div>
+                            </div>
+                            <div class="digital-display highlight">
+                                <span class="label">Settlement Velocity (dδ/dt)</span>
+                                <div class="value-container"><span id="valVelocity" class="value">0.00</span> <span class="unit">mm/s</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Threshold Configuration Panel -->
+                    <div class="card config-panel">
+                        <h3>Safety Thresholds Configuration</h3>
+                        <div class="config-grid">
+                            <div class="config-item">
+                                <label for="threshSettlement">Max Settlement (mm):</label>
+                                <input type="number" id="threshSettlement" value="8.0" step="0.5">
+                            </div>
+                            <div class="config-item">
+                                <label for="threshStrain">Max Strain (µε):</label>
+                                <input type="number" id="threshStrain" value="500" step="10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Cross-Section Diagram -->
+                    <div class="card cross-section-container">
+                        <h3>Subsurface Profile</h3>
+                        <div class="soil-box-diagram">
+                            <div class="load-cell">Load Cell (<span id="diagLoad">0.0</span> kPa)</div>
+                            <div class="layer sand-layer">
+                                <span>Upper Sand Layer</span>
+                                <div class="settlement-arrow" id="diagSettlement">↓ 0.00 mm</div>
+                            </div>
+                            <div class="layer geogrid-layer">
+                                <span>Geogrid Reinforcement</span>
+                                <div class="strain-callout">Strain: <span id="diagStrain">0.0</span> µε</div>
+                            </div>
+                            <div class="layer subgrade-layer">
+                                <span>Subgrade</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 3: DATA VAULT -->
+            <section id="viewVault" class="view-panel">
+                <header class="view-header">
+                    <h1>Data Vault & Export</h1>
+                    <p>Historical session charting and file extraction.</p>
+                </header>
+
+                <div class="grid-layout vault-grid">
+                    <!-- Historical Analysis Upload -->
+                    <div class="card historical-analysis">
+                        <h3>Historical CSV Analysis</h3>
+                        <div class="historical-controls">
+                            <input type="file" id="historicalCsvUpload" accept=".csv" class="file-input">
+                            <button id="btnAnalyzeCsv" class="btn-primary" style="width: auto;">ANALYZE DATASET</button>
+                            <span id="historicalStatus" style="font-size: 13px; color: var(--color-text-secondary); margin-left: 12px;">Select a previously downloaded session .csv to visualize.</span>
+                        </div>
+                    </div>
+
+                    <!-- Export Controls -->
+                    <div class="card export-controls">
+                        <h3>Session Archival</h3>
+                        <div class="btn-group">
+                            <button id="btnExportCsv" class="btn-export">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                                CSV Log
+                            </button>
+                            <button id="btnExportVision" class="btn-export">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                Images (.zip)
+                            </button>
+                            <button id="btnExportVideo" class="btn-export">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                Timelapse (.mp4)
+                            </button>
+                            <button id="btnPrintReport" class="btn-export">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                                Print Lab Report
+                            </button>
+                            <button id="btnPrintFullReport" class="btn-export">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                Export Full PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="card charts-container">
+                        <div class="chart-wrapper">
+                            <h4>Settlement vs. Time</h4>
+                            <canvas id="chartSettlement"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h4>Load vs. Time</h4>
+                            <canvas id="chartLoad"></canvas>
+                        </div>
+                        <div class="chart-wrapper">
+                            <h4>Strain vs. Load</h4>
+                            <canvas id="chartStrainLoad"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Data Log Table -->
+                    <div class="card data-log">
+                        <h3>Session Data Log</h3>
+                        <div class="table-container">
+                            <table id="dataLogTable">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Load (kPa)</th>
+                                        <th>Settlement (mm)</th>
+                                        <th>Strain (µε)</th>
+                                        <th>Crack Anomaly</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

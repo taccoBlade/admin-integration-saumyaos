@@ -9,7 +9,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      spacing: {
+        gutter: "1.5rem",
+      },
+      borderRadius: {
+        lg: "0.75rem",
+      },
       colors: {
+        batmanYellow: "#eab308",
+        batmanCharcoal: "#212121",
+        batmanBlack: "#000000",
         background: "var(--background)",
         foreground: "var(--foreground)",
         charcoal: {
@@ -29,13 +38,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "Inter", "system-ui", "sans-serif"],
-        mono: [
-          "var(--font-geist-mono)",
-          "SFMono-Regular",
-          "Consolas",
-          "monospace",
-        ],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["SFMono-Regular", "Consolas", "monospace"],
       },
       boxShadow: {
         glow: "0 0 80px rgba(94, 234, 212, 0.16)",

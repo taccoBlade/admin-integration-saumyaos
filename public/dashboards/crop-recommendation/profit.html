@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profit Calculation</title>
+ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+ 
+<style>
+/* --- SMOOTH TRANSITION STYLES --- */
+body {
+    margin:0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+    color:white;
+    min-height: 100vh;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+ 
+/* Visible State */
+body.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+ 
+.container {
+    width:800px;
+    max-width: 95%;
+    margin: 40px auto;
+    padding-bottom: 50px;
+}
+ 
+.card {
+    background:#1b2b34;
+    padding:30px;
+    border-radius:12px;
+    margin-top:20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+ 
+/* Cost Box Styling */
+.cost-box {
+    border: 1px solid #2cff88;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    background: rgba(44, 255, 136, 0.05);
+}
+ 
+.cost-box legend {
+    color: #2cff88;
+    font-weight: bold;
+    padding: 0 10px;
+}
+ 
+label { display: block; margin-bottom: 8px; color: #ccc; font-weight: 500; }
+ 
+input {
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:1px solid #2c3e50;
+    border-radius:6px;
+    background:#253945;
+    color:white;
+    box-sizing: border-box; 
+}
+ 
+input:focus {
+    outline:none;
+    border-color:#2cff88;
+    background:#2e4655;
+}
+ 
+/* MAIN CALCULATE BUTTON */
+button[type="submit"] {
+    width:100%;
+    padding:14px;
+    margin-top: 15px;
+    background:#2cff88;
+    color:#0f2027;
+    font-weight:bold;
+    cursor: pointer;
+    border:none;
+    border-radius:6px;
+    font-size:1.1em;
+    transition: 0.2s;
+}
+ 
+button[type="submit"]:hover {
+    background:#23cc6d;
+    transform: translateY(-2px);
+}
+ 
+h1 {
+    text-align: center;
+    color: #2cff88;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+ 
+/* --- PROFIT/LOSS TEXT --- */
+.profit-win { color: #2cff88; }
+.profit-loss { color: #e74c3c; }
+ 
+/* --- COOL ACTION BUTTONS (Matching Index Page) --- */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+ 
+.btn-base {
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+ 
+.btn-base:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+ 
+.btn-pdf { background: #e74c3c; color: white; } /* Red */
+.btn-back { background: #00d2ff; color: #000; } /* Cyan/Electric Blue */
+.btn-back:hover { background: #00b8e6; }
+ 
+@media print {
+    body { background: white; color: black; }
+    .card { box-shadow: none; border: 1px solid #ccc; background: white; color: black; }
+    .action-buttons { display: none; }
+}
+</style>
+</head>
+ 
+<body>
+ 
+<div class="container">
+ 
+<h1>💰 Profit Calculator</h1>
+ 
+<div class="card">
+<h3 id="cropTitle">Analysis for: Crop</h3>
+ 
+<form id="profitForm" onsubmit="event.preventDefault(); handleCalculateProfit();">
+    <label>Land & Market Details:</label>
+    <input id="landSizeInput" placeholder="Total Land Size (m²)" required type="number" step="any">
+    <input id="marketPriceInput" placeholder="Crop Price (₹ per kg)" required type="number" step="any">
+ 
+    <fieldset class="cost-box">
+        <legend>Expenses (Total Bills)</legend>
+        <input id="seedCostInput" placeholder="Total Seed Cost (₹)" required type="number" step="any">
+        <input id="fertilizerCostInput" placeholder="Total Fertilizer Cost (₹)" required type="number" step="any">
+        <input id="electricityCostInput" placeholder="Total Electricity Cost (₹)" required type="number" step="any">
+        <input id="labourCostInput" placeholder="Total Labour Cost (₹)" required type="number" step="any">
+        <input id="miscCostInput" placeholder="Total Misc. Cost (₹)" required type="number" step="any">
+    </fieldset>
+ 
+    <button type="submit">Calculate Net Profit</button>
+</form>
+</div>
+ 
+<div class="card" id="profit-result" style="text-align:center; display: none;">
+    <h3>Financial Summary</h3>
+    
+    <p><strong>Expected Yield:</strong> <span id="val-yield">--</span> kg</p>
+    <p><strong>Total Revenue:</strong> ₹ <span id="val-rev">--</span></p>
+    <p><strong>Total Expenses:</strong> ₹ <span id="val-cost">--</span></p>
+    <hr style="border-color: #555;">
+    
+    <h2 id="profitHeading">
+        Net Profit: ₹ <span id="val-profit">--</span>
+    </h2>
+    
+    <div class="action-buttons">
+        <button onclick="downloadProfitPDF()" class="btn-base btn-pdf">
+            📄 Download Report
+        </button>
+ 
+        <a href="./index.html?restore=1" class="btn-base btn-back" onclick="smoothNavigate(event, this.href)">
+            ← Back to Prediction
+        </a>
+    </div>
+</div>
+ 
+</div>
+ 
+<script>
+    // Crop Yield Matrix per square meter
+    const CROP_YIELDS = {
+      "Rice": 0.60, "Maize": 0.50, "Jute": 0.25, "Cotton": 0.30, "Coconut": 1.00,
+      "Papaya": 10.00, "Orange": 1.50, "Apple": 1.20, "Muskmelon": 2.00,
+      "Watermelon": 4.00, "Grapes": 2.50, "Mango": 1.00, "Banana": 5.00,
+      "Pomegranate": 1.20, "Lentil": 0.10, "Blackgram": 0.08, "Mungbean": 0.08,
+      "Mothbeans": 0.06, "Pigeonpeas": 0.12, "Kidneybeans": 0.12, "Chickpea": 0.15,
+      "Coffee": 0.10
+    };
+
+    const CROP_PRICES = {
+      "Rice": 22, "Maize": 20, "Jute": 45, "Cotton": 60, "Coconut": 15,
+      "Papaya": 25, "Orange": 40, "Apple": 80, "Muskmelon": 30,
+      "Watermelon": 15, "Grapes": 90, "Mango": 50, "Banana": 18,
+      "Pomegranate": 110, "Lentil": 65, "Blackgram": 60, "Mungbean": 70,
+      "Mothbeans": 55, "Pigeonpeas": 85, "Kidneybeans": 90, "Chickpea": 50,
+      "Coffee": 140
+    };
+
+    let selectedCrop = "Rice";
+
+    // --- 1. SMOOTH TRANSITION & POPULATING ---
+    window.addEventListener('DOMContentLoaded', () => {
+        document.body.classList.add('loaded');
+        
+        const params = new URLSearchParams(window.location.search);
+        selectedCrop = params.get('crop') || "Rice";
+        const landSize = params.get('land_size') || "";
+        
+        document.getElementById('cropTitle').innerText = `Analysis for: ${selectedCrop}`;
+        document.getElementById('landSizeInput').value = landSize;
+        
+        // Autopopulate market price and mock expenses based on crop & land size
+        const mktPrice = CROP_PRICES[selectedCrop] || 25;
+        document.getElementById('marketPriceInput').value = mktPrice;
+
+        const sizeVal = parseFloat(landSize) || 1000;
+        document.getElementById('seedCostInput').value = Math.round(sizeVal * 0.4);
+        document.getElementById('fertilizerCostInput').value = Math.round(sizeVal * 0.8);
+        document.getElementById('electricityCostInput').value = Math.round(sizeVal * 0.3);
+        document.getElementById('labourCostInput').value = Math.round(sizeVal * 0.9);
+        document.getElementById('miscCostInput').value = Math.round(sizeVal * 0.2);
+    });
+ 
+    function smoothNavigate(e, url) {
+        e.preventDefault();
+        document.body.classList.remove('loaded');
+        setTimeout(() => {
+            window.location.href = url;
+        }, 500);
+    }
+ 
+    function handleCalculateProfit() {
+        const landSize = parseFloat(document.getElementById('landSizeInput').value);
+        const marketPrice = parseFloat(document.getElementById('marketPriceInput').value);
+        const seedCost = parseFloat(document.getElementById('seedCostInput').value) || 0;
+        const fertCost = parseFloat(document.getElementById('fertilizerCostInput').value) || 0;
+        const elecCost = parseFloat(document.getElementById('electricityCostInput').value) || 0;
+        const labCost = parseFloat(document.getElementById('labourCostInput').value) || 0;
+        const miscCost = parseFloat(document.getElementById('miscCostInput').value) || 0;
+
+        const yieldVal = CROP_YIELDS[selectedCrop] || 0.50;
+        const totalYield = landSize * yieldVal;
+        const revenue = totalYield * marketPrice;
+        const totalExpenses = seedCost + fertCost + elecCost + labCost + miscCost;
+        const netProfit = revenue - totalExpenses;
+
+        document.getElementById('val-yield').innerText = totalYield.toFixed(2);
+        document.getElementById('val-rev').innerText = revenue.toFixed(2);
+        document.getElementById('val-cost').innerText = totalExpenses.toFixed(2);
+        document.getElementById('val-profit').innerText = netProfit.toFixed(2);
+
+        const profitHeading = document.getElementById('profitHeading');
+        if (netProfit >= 0) {
+            profitHeading.className = "profit-win";
+            profitHeading.innerHTML = `Net Profit: ₹ <span id="val-profit">${netProfit.toFixed(2)}</span>`;
+        } else {
+            profitHeading.className = "profit-loss";
+            profitHeading.innerHTML = `Net Loss: ₹ <span id="val-profit">${netProfit.toFixed(2)}</span>`;
+        }
+
+        document.getElementById('profit-result').style.display = 'block';
+        document.getElementById('profit-result').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- 2. FIXED PDF GENERATION (Clean Paper Version) ---
+    function downloadProfitPDF() {
+        const yieldVal = document.getElementById('val-yield').innerText;
+        const revenue = document.getElementById('val-rev').innerText;
+        const cost = document.getElementById('val-cost').innerText;
+        const profit = document.getElementById('val-profit').innerText;
+        
+        const isProfit = parseFloat(profit) >= 0;
+        const profitColor = isProfit ? "#27ae60" : "#c0392b";
+        const statusLabel = isProfit ? "Net Profit" : "Net Loss";
+ 
+        const element = document.createElement('div');
+        element.style.width = '700px';
+        element.style.padding = '40px';
+        element.style.fontFamily = 'Arial, sans-serif';
+        element.style.backgroundColor = '#ffffff';
+        element.style.color = '#333';
+        element.style.position = 'absolute';
+        element.style.left = '-9999px';
+ 
+        element.innerHTML = `
+            <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px;">
+                <h1 style="margin:0; color:#2c3e50;">Profit Analysis Report</h1>
+                <p style="color:#7f8c8d;">Smart Crop Financial Advisor</p>
+            </div>
+ 
+            <div style="background:#f8f9fa; padding:20px; border-radius:8px; margin-bottom:30px;">
+                <h2 style="margin-top:0; color:#2980b9;">Crop: ${selectedCrop}</h2>
+                <table style="width:100%; border-collapse:collapse; margin-top:15px; font-size:16px;">
+                    <tr>
+                        <td style="padding:10px; border-bottom:1px solid #ddd;"><strong>Expected Yield:</strong></td>
+                        <td style="padding:10px; border-bottom:1px solid #ddd; text-align:right;">${yieldVal} kg</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border-bottom:1px solid #ddd;"><strong>Total Revenue:</strong></td>
+                        <td style="padding:10px; border-bottom:1px solid #ddd; text-align:right;">₹ ${revenue}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:10px; border-bottom:1px solid #ddd;"><strong>Total Expenses:</strong></td>
+                        <td style="padding:10px; border-bottom:1px solid #ddd; text-align:right; color:#c0392b;">₹ ${cost}</td>
+                    </tr>
+                </table>
+            </div>
+ 
+            <div style="text-align:center; padding:20px; border:2px solid ${profitColor}; border-radius:10px; background:${isProfit ? '#eafaf1' : '#fdedec'};">
+                <h3 style="margin:0; color:#555;">${statusLabel}</h3>
+                <h1 style="margin:10px 0; color:${profitColor}; font-size:40px;">₹ ${profit}</h1>
+            </div>
+ 
+            <div style="margin-top:50px; text-align:center; color:#999; font-size:12px;">
+                Generated automatically by Smart Crop System
+            </div>
+        `;
+ 
+        document.body.appendChild(element);
+ 
+        const opt = {
+            margin: 0.5,
+            filename: 'Profit_Report.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+ 
+        html2pdf().from(element).set(opt).save().then(() => {
+            document.body.removeChild(element);
+        });
+    }
+</script>
+ 
+</body>
+</html>

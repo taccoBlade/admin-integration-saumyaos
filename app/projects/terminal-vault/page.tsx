@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { 
   ArrowLeft, Cpu, Database, Activity, LayoutGrid, Terminal, 
-  RefreshCw, Binary, Layers, BookOpen, Download, FileSpreadsheet 
+  Binary, Layers, BookOpen, Download, FileSpreadsheet 
 } from "lucide-react"
 import { DashboardEmbed } from "@/components/dashboard-embed"
 import { Contact } from "@/components/contact"
@@ -122,40 +122,6 @@ const CALCULATIONS_LIST = [
 export default function TerminalVaultPage() {
   const [activeTab, setActiveTab] = useState<"terminals" | "archive">("terminals")
   const [activeDashboard, setActiveDashboard] = useState<DashboardInfo | null>(null)
-  const [serverStatuses, setServerStatuses] = useState<Record<string, boolean>>({})
-  const [isRefreshing, setIsRefreshing] = useState(false)
-
-  const checkAllServers = async () => {
-    setIsRefreshing(true)
-    const statuses: Record<string, boolean> = {}
-    
-    await Promise.all(
-      DASHBOARDS.map(async (db) => {
-        try {
-          const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 1000)
-          
-          await fetch(`http://localhost:${db.port}/`, {
-            mode: "no-cors",
-            signal: controller.signal,
-          })
-          clearTimeout(timeoutId)
-          statuses[db.id] = true
-        } catch {
-          statuses[db.id] = false
-        }
-      })
-    )
-    
-    setServerStatuses(statuses)
-    setIsRefreshing(false)
-  }
-
-  useEffect(() => {
-    checkAllServers()
-    const interval = setInterval(checkAllServers, 10000)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -186,19 +152,23 @@ export default function TerminalVaultPage() {
             <p className="text-base md:text-lg text-neutral-400 leading-relaxed">
               Consolidated workspace containing live computational sandbox consoles and static geotechnical, structural, and material research records.
             </p>
-          </div>
-          
-          {activeTab === "terminals" && (
-            <button
-              onClick={checkAllServers}
-              disabled={isRefreshing}
-              className="self-start md:self-end flex items-center gap-2 px-4 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-xs font-mono text-neutral-300 hover:text-cyan-400 hover:border-cyan-500/20 transition-all active:scale-95 disabled:opacity-50"
-            >
-              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
-              Scan Backend Ports
-            </button>
-          )}
+          </div>          
         </div>
+
+        {/* Recruiter / Professor Quick Note */}
+        {activeTab === "terminals" && (
+          <div className="mb-8 p-4 rounded-3xl border border-cyan-500/10 bg-cyan-950/5/10 backdrop-blur-sm flex items-start gap-3.5">
+            <div className="w-8 h-8 rounded-xl bg-cyan-500/10 flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/20">
+              <span className="text-xs">💡</span>
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-wider font-mono">Recruiter & Professor Interactive Mode</h4>
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                You do <strong>not</strong> need to run any local python servers. Click on any dashboard card below to launch a <strong>fully interactive client-side dashboard console</strong> directly in your browser. All computational engines and data plots run live.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Tab Controls */}
         <div className="flex gap-4 border-b border-neutral-800 pb-4 mb-8">
@@ -240,7 +210,6 @@ export default function TerminalVaultPage() {
               {/* Bento Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {DASHBOARDS.map((db) => {
-                  const isOnline = serverStatuses[db.id] ?? false
                   const Icon = db.icon
                   const isActive = activeDashboard?.id === db.id
 
@@ -267,10 +236,10 @@ export default function TerminalVaultPage() {
                         <div className="flex justify-between items-center mb-6">
                           <span className="text-[10px] font-mono text-neutral-500 tracking-wider">PORT {db.port}</span>
                           
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800">
-                            <span className={`h-1.5 w-1.5 rounded-full ${isOnline ? "bg-emerald-500 animate-pulse" : "bg-red-500"}`} />
-                            <span className="text-[8px] font-mono font-semibold uppercase text-neutral-400">
-                              {isOnline ? "Online" : "Offline"}
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-neutral-900 border border-emerald-500/15">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-[8px] font-mono font-semibold uppercase text-emerald-400">
+                              Active
                             </span>
                           </div>
                         </div>
@@ -326,7 +295,6 @@ export default function TerminalVaultPage() {
                     <DashboardEmbed
                       port={activeDashboard.port}
                       title={activeDashboard.title}
-                      slug={activeDashboard.slug}
                       keyFeatures={activeDashboard.keyFeatures}
                       mockupDescription={activeDashboard.mockupDescription}
                     />

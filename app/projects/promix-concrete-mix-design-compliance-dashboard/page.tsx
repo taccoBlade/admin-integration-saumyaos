@@ -6,6 +6,8 @@ import {
   ArrowLeft, Cpu, Layers, Settings, Activity, 
   CheckCircle2, Calendar, Award, BookOpen
 } from 'lucide-react'
+import { DashboardEmbed } from '@/components/dashboard-embed'
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -78,6 +80,30 @@ export default function ProjectPage() {
           <p className="text-lg md:text-xl text-neutral-400 leading-relaxed max-w-3xl">
             
           </p>
+        </motion.div>
+
+        {/* Live Interactive Dashboard */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-12"
+        >
+          <h2 className="text-xl font-bold mb-4 font-mono text-emerald-400 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-emerald-400" />
+            Live Project Dashboard Console
+          </h2>
+          <DashboardEmbed
+            port={5001}
+            title="ProMix Concrete Mix Proportioning & Compliance Auditor"
+            mockupDescription="Automated concrete mix design console executing proportioning calculations according to IS 10262:2019 and validating against IS 456 durability limits."
+            keyFeatures={[
+              "Automated IS 10262:2019 proportioning",
+              "Multi-binder SCM blend calculations",
+              "IS 456 durability limit validation",
+              "Detailed mix proportions report export"
+            ]}
+          />
         </motion.div>
 
         {/* Content Bento Grid */}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UIC Compaction Dashboard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    
+    <link rel="stylesheet" href="./style.css">
+    <script src="../mock-apis.js"></script>
+</head>
+<body>
+
+    <div class="top-info-bar">
+        <div class="info-item">
+            <span class="info-label">LOCATION:</span>
+            <span id="loc-name">Ahmedabad Ring Road (Site Alpha)</span>
+        </div>
+        
+        <div class="info-item">
+            <button id="export-btn" onclick="window.location.href='/export'">
+                EXPORT QA REPORT
+            </button>
+        </div>
+
+        <div class="info-item">
+            <span class="info-label">ENVIRONMENT:</span>
+            <span id="weather-data">FETCHING...</span>
+        </div>
+    </div>
+
+    <div id="alert-bar" class="status-grey">INITIALIZING SYSTEM...</div>
+
+    <div class="dashboard">
+        <div class="metric-card" id="card-speed">
+            <div class="metric-title">SPEED (km/h)</div>
+            <div class="metric-value" id="val-speed">0.0</div>
+        </div>
+        <div class="metric-card" id="card-cmv">
+            <div class="metric-title">STIFFNESS (CMV)</div>
+            <div class="metric-value" id="val-cmv">00.0</div>
+        </div>
+        <div class="metric-card" id="card-thickness">
+            <div class="metric-title">THICKNESS (mm)</div>
+            <div class="metric-value" id="val-thickness">000</div>
+        </div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="compaction-map" width="800" height="400"></canvas>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
