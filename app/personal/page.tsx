@@ -3,13 +3,13 @@
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import localFont from "next/font/local"
-import { motion, AnimatePresence, useInView } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { 
   Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, MapPin, X
 } from "lucide-react"
 import { Contact } from "@/components/contact"
 import { Playfair_Display, Inter } from "next/font/google"
-import { springFluid, springSnappy, springSoft, staggerContainer, staggerChild, scaleIn, fadeUp } from "@/lib/motion"
+import { springSnappy, springSoft, staggerContainer, staggerChild } from "@/lib/motion"
 
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700"], style: ["normal", "italic"] })
 const inter = Inter({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] })
@@ -328,18 +328,6 @@ export default function PersonalPage() {
       })
     }
 
-    // Flying bats system
-    interface Bat {
-      x: number
-      y: number
-      vx: number
-      vy: number
-      size: number
-      flapSpeed: number
-      flapPhase: number
-      opacity: number
-    }
-    const bats: Bat[] = []
 
     let animId: number
     const draw = () => {

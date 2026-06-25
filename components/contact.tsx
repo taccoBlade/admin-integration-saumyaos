@@ -1,7 +1,7 @@
 "use client";
 import { Mail } from "lucide-react";
 import { motion } from "framer-motion";
-import { ScrollReveal, ScrollRevealStagger, RevealItem } from "@/components/scroll-reveal";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { hoverTap } from "@/lib/motion";
 
 export function Contact() {
