@@ -185,7 +185,7 @@ export function InteractiveParticleBackground() {
         
         if (isActive) {
           // Highlight connection lines
-          ctx.strokeStyle = edge.group === 1 ? "#22d3ee" : "#f97316";
+          ctx.strokeStyle = edge.group === 1 ? "#d4af37" : "#f97316";
           ctx.globalAlpha = 0.55;
           ctx.lineWidth = 1.6;
           ctx.shadowBlur = 8;
@@ -309,14 +309,14 @@ export function InteractiveParticleBackground() {
           ctx.arc(node.x, node.y, isNodeHovered ? 5.5 : 3.5, 0, Math.PI * 2);
           ctx.fillStyle = "#ffffff";
           ctx.shadowBlur = isNodeHovered ? 16 : 8;
-          ctx.shadowColor = node.group === 1 ? "#22d3ee" : "#f97316";
+          ctx.shadowColor = node.group === 1 ? "#d4af37" : "#f97316";
           ctx.globalAlpha = 0.95;
           ctx.fill();
           
           // Outer accent ring
           ctx.beginPath();
           ctx.arc(node.x, node.y, isNodeHovered ? 11 : 8, 0, Math.PI * 2);
-          ctx.strokeStyle = node.group === 1 ? "rgba(34, 211, 238, 0.4)" : "rgba(249, 115, 22, 0.4)";
+          ctx.strokeStyle = node.group === 1 ? "rgba(212, 175, 55, 0.4)" : "rgba(212, 175, 55, 0.4)";
           ctx.lineWidth = 1;
           ctx.stroke();
         } else {
@@ -336,7 +336,7 @@ export function InteractiveParticleBackground() {
         nodesWithPos.forEach((node) => {
           if (node.group !== activeGroup) return;
 
-          const activeColor = node.group === 1 ? "#22d3ee" : "#f97316";
+          const activeColor = node.group === 1 ? "#d4af37" : "#f97316";
           const isNodeHovered = hoveredNodeId === node.id;
 
           ctx.font = "9px monospace";

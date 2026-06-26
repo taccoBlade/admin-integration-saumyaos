@@ -53,26 +53,26 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
   return (
     <section id="research" className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 overflow-hidden">
       <div className="mb-16">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400 mb-3">Intelligence Graph</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">Intelligence Graph</h2>
         <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Skills Network</h3>
       </div>
 
       <div className="relative w-full min-h-[480px] md:h-[500px] border border-white/10 rounded-3xl bg-[#08090b]/50 backdrop-blur-sm overflow-hidden flex flex-wrap gap-2.5 sm:gap-4 p-6 sm:p-8 items-center justify-center pb-32 md:pb-28">
         {/* Background grid */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212, 175, 55, 0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30" />
         
         {skills.map((skill) => {
           const isSelected = hoveredSkill ? hoveredSkill.id === skill.id : true;
           
           let colorClass = "border-neutral-500/40 bg-neutral-500/10 text-neutral-300 hover:bg-neutral-500/20 hover:border-neutral-500/60";
           if (skill.category === "Core Engineering") {
-            colorClass = "border-cyan-500/40 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-500/60";
+            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
           } else if (skill.category === "Technical Tools") {
-            colorClass = "border-violet-500/40 bg-violet-500/10 text-violet-300 hover:bg-violet-500/20 hover:border-violet-500/60";
+            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
           } else if (skill.category === "Programming") {
-            colorClass = "border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/60";
+            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
           } else if (skill.category === "Creative") {
-            colorClass = "border-rose-500/40 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:border-rose-500/60";
+            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
           }
 
           return (
@@ -111,9 +111,9 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
               <div className="space-y-1 shrink-0 md:max-w-[200px]">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${
-                    hoveredSkill.category === "Core Engineering" ? "bg-cyan-400" :
-                    hoveredSkill.category === "Technical Tools" ? "bg-violet-400" :
-                    hoveredSkill.category === "Programming" ? "bg-emerald-400" : "bg-rose-400"
+                    hoveredSkill.category === "Core Engineering" ? "bg-attention-400" :
+                    hoveredSkill.category === "Technical Tools" ? "bg-attention-400" :
+                    hoveredSkill.category === "Programming" ? "bg-attention-400" : "bg-attention-400"
                   }`} />
                   <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">{hoveredSkill.category}</span>
                 </div>
@@ -127,7 +127,7 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
                   {getAssociatedProjects(hoveredSkill, projects).length > 0 ? (
                     getAssociatedProjects(hoveredSkill, projects).map((proj, idx) => (
                       <div key={idx} className="flex items-center gap-2 text-xs text-slate-300">
-                        <span className="text-cyan-400 font-mono text-[9px]">[✓]</span>
+                        <span className="text-attention-400 font-mono text-[9px]">[✓]</span>
                         <span className="truncate">{proj.title}</span>
                       </div>
                     ))

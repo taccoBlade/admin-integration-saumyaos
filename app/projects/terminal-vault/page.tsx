@@ -32,7 +32,7 @@ const DASHBOARDS: DashboardInfo[] = [
     port: 8085,
     domain: "Geotechnical Analytics",
     icon: Activity,
-    color: "from-cyan-500 to-blue-500",
+    color: "from-attention-500 to-attention-500",
     description: "Calculates live soil consolidation, strain values, and settlement profiles using MQTT IoT telemetry.",
     keyFeatures: [
       "Consolidation Profile Calculations",
@@ -50,7 +50,7 @@ const DASHBOARDS: DashboardInfo[] = [
     port: 5001,
     domain: "Materials & Quality Control",
     icon: Layers,
-    color: "from-emerald-500 to-teal-500",
+    color: "from-attention-500 to-attention-500",
     description: "IS 10262:2019 mix design engine validating cementitious substitutions and IS 456 durability limits.",
     keyFeatures: [
       "IS 10262:2019 Mix Proportioning",
@@ -68,7 +68,7 @@ const DASHBOARDS: DashboardInfo[] = [
     port: 5002,
     domain: "Construction Automation",
     icon: Cpu,
-    color: "from-violet-500 to-indigo-500",
+    color: "from-attention-500 to-attention-500",
     description: "Fuses simulated RTK-GPS & IMU sensor data using EKF to calculate and map soil stiffness (CMV) in real-time.",
     keyFeatures: [
       "Extended Kalman Filter (EKF) Tracker",
@@ -86,7 +86,7 @@ const DASHBOARDS: DashboardInfo[] = [
     port: 5003,
     domain: "Agricultural Analytics & AI",
     icon: Binary,
-    color: "from-amber-500 to-orange-500",
+    color: "from-attention-500 to-attention-500",
     description: "ML recommendation engine classifying soil parameters and invoking LLM-agent crop diagnostics.",
     keyFeatures: [
       "Random Forest Classifier Prediction",
@@ -124,16 +124,16 @@ export default function TerminalVaultPage() {
   const [activeDashboard, setActiveDashboard] = useState<DashboardInfo | null>(null)
 
   return (
-    <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-attention-500/30 selection:text-attention-200">
       {/* Background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370a_1px,transparent_1px),linear-gradient(to_bottom,#1f29370a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-attention-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <main className="relative max-w-7xl mx-auto px-6 py-12 md:py-24">
         
         {/* Navigation */}
         <div className="mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-cyan-400 transition-colors group">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-attention-400 transition-colors group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to System Terminal
           </Link>
@@ -142,7 +142,7 @@ export default function TerminalVaultPage() {
         {/* Hero Section */}
         <div className="border-b border-neutral-800 pb-8 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-4 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/50 border border-cyan-800/30 text-cyan-400 text-xs font-mono">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-attention-950/50 border border-attention-800/30 text-attention-400 text-xs font-mono">
               <Terminal className="w-3.5 h-3.5" />
               INTEGRATED TERMINAL VAULT
             </div>
@@ -157,12 +157,12 @@ export default function TerminalVaultPage() {
 
         {/* Recruiter / Professor Quick Note */}
         {activeTab === "terminals" && (
-          <div className="mb-8 p-4 rounded-3xl border border-cyan-500/10 bg-cyan-950/5/10 backdrop-blur-sm flex items-start gap-3.5">
-            <div className="w-8 h-8 rounded-xl bg-cyan-500/10 flex items-center justify-center shrink-0 mt-0.5 border border-cyan-500/20">
+          <div className="mb-8 p-4 rounded-3xl border border-attention-500/10 bg-attention-950/5/10 backdrop-blur-sm flex items-start gap-3.5">
+            <div className="w-8 h-8 rounded-xl bg-attention-500/10 flex items-center justify-center shrink-0 mt-0.5 border border-attention-500/20">
               <span className="text-xs">💡</span>
             </div>
             <div className="space-y-1">
-              <h4 className="text-xs font-bold text-cyan-400 uppercase tracking-wider font-mono">Recruiter & Professor Interactive Mode</h4>
+              <h4 className="text-xs font-bold text-attention-400 uppercase tracking-wider font-mono">Recruiter & Professor Interactive Mode</h4>
               <p className="text-xs text-neutral-400 leading-relaxed">
                 You do <strong>not</strong> need to run any local python servers. Click on any dashboard card below to launch a <strong>fully interactive client-side dashboard console</strong> directly in your browser. All computational engines and data plots run live.
               </p>
@@ -176,7 +176,7 @@ export default function TerminalVaultPage() {
             onClick={() => setActiveTab("terminals")}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               activeTab === "terminals"
-                ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                ? "bg-attention-500/10 text-attention-400 border border-attention-500/20"
                 : "text-neutral-400 hover:text-white border border-transparent"
             }`}
           >
@@ -187,7 +187,7 @@ export default function TerminalVaultPage() {
             onClick={() => setActiveTab("archive")}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               activeTab === "archive"
-                ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                ? "bg-attention-500/10 text-attention-400 border border-attention-500/20"
                 : "text-neutral-400 hover:text-white border border-transparent"
             }`}
           >
@@ -225,20 +225,20 @@ export default function TerminalVaultPage() {
                       }}
                       className={`group p-6 rounded-3xl border transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between min-h-[300px] ${
                         isActive 
-                          ? "border-cyan-500 bg-neutral-900/40 shadow-lg shadow-cyan-500/5" 
-                          : "border-white/[0.06] bg-white/[0.01] hover:border-cyan-500/20 hover:bg-white/[0.03]"
+                          ? "border-attention-500 bg-neutral-900/40 shadow-lg shadow-attention-500/5" 
+                          : "border-white/[0.06] bg-white/[0.01] hover:border-attention-500/20 hover:bg-white/[0.03]"
                       }`}
                     >
                       {/* Blueprint grid effect on hover */}
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[linear-gradient(rgba(34,211,238,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[linear-gradient(rgba(212, 175, 55,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(212, 175, 55,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
 
                       <div>
                         <div className="flex justify-between items-center mb-6">
                           <span className="text-[10px] font-mono text-neutral-500 tracking-wider">PORT {db.port}</span>
                           
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-neutral-900 border border-emerald-500/15">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-[8px] font-mono font-semibold uppercase text-emerald-400">
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-neutral-900 border border-attention-500/15">
+                            <span className="h-1.5 w-1.5 rounded-full bg-attention-500 animate-pulse" />
+                            <span className="text-[8px] font-mono font-semibold uppercase text-attention-400">
                               Active
                             </span>
                           </div>
@@ -248,7 +248,7 @@ export default function TerminalVaultPage() {
                           <Icon className="w-5 h-5 text-white" />
                         </div>
 
-                        <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors mb-2">
+                        <h3 className="text-lg font-bold text-white group-hover:text-attention-400 transition-colors mb-2">
                           {db.title}
                         </h3>
                         
@@ -266,7 +266,7 @@ export default function TerminalVaultPage() {
                           ))}
                         </div>
 
-                        <div className="text-[11px] font-mono text-cyan-400 group-hover:text-white font-medium flex items-center gap-1">
+                        <div className="text-[11px] font-mono text-attention-400 group-hover:text-white font-medium flex items-center gap-1">
                           Launch Console &rarr;
                         </div>
                       </div>
@@ -281,7 +281,7 @@ export default function TerminalVaultPage() {
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <h2 className="text-2xl font-bold flex items-center gap-2">
-                        <Terminal className="w-5 h-5 text-cyan-400" />
+                        <Terminal className="w-5 h-5 text-attention-400" />
                         {activeDashboard.title} Console
                       </h2>
                       <button
@@ -322,7 +322,7 @@ export default function TerminalVaultPage() {
               {/* 1. Empirical Laboratory Datasets */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <Database className="w-5 h-5 text-cyan-400" />
+                  <Database className="w-5 h-5 text-attention-400" />
                   Empirical Laboratory & Field Datasets
                 </h3>
                 <div className="overflow-x-auto rounded-3xl border border-neutral-800 bg-neutral-950/20 backdrop-blur-sm">
@@ -344,9 +344,9 @@ export default function TerminalVaultPage() {
                           <td className="p-4 font-bold text-white">{log.id}</td>
                           <td className="p-4">{log.param}</td>
                           <td className="p-4 text-neutral-400">{log.standard}</td>
-                          <td className="p-4 text-cyan-300 font-bold">{log.val}</td>
+                          <td className="p-4 text-attention-300 font-bold">{log.val}</td>
                           <td className="p-4">
-                            <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-bold">
+                            <span className="px-2 py-0.5 rounded bg-attention-500/10 text-attention-400 border border-attention-500/20 text-[9px] font-bold">
                               {log.status}
                             </span>
                           </td>
@@ -360,14 +360,14 @@ export default function TerminalVaultPage() {
               {/* 2. Literature Reference Catalog */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-cyan-400" />
+                  <BookOpen className="w-5 h-5 text-attention-400" />
                   Academic Literature Catalog
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {LITERATURE_LIST.map((lit, idx) => (
                     <div key={idx} className="p-6 rounded-3xl border border-neutral-800 bg-neutral-900/10 backdrop-blur-sm flex flex-col justify-between space-y-4">
                       <div className="space-y-2">
-                        <span className="text-[9px] font-mono text-cyan-400 uppercase tracking-widest">[REF_{idx + 1}]</span>
+                        <span className="text-[9px] font-mono text-attention-400 uppercase tracking-widest">[REF_{idx + 1}]</span>
                         <h4 className="text-base font-semibold text-white leading-snug">{lit.title}</h4>
                         <p className="text-xs text-neutral-400 font-mono">{lit.author} ({lit.year})</p>
                         <p className="text-xs text-neutral-500 leading-relaxed font-sans">{lit.focus}</p>
@@ -380,12 +380,12 @@ export default function TerminalVaultPage() {
               {/* 3. Computation Sheets & Downloadable Solvers */}
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <FileSpreadsheet className="w-5 h-5 text-cyan-400" />
+                  <FileSpreadsheet className="w-5 h-5 text-attention-400" />
                   Computational Solvers & Scripts
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {CALCULATIONS_LIST.map((calc, idx) => (
-                    <div key={idx} className="p-6 rounded-3xl border border-neutral-800 bg-neutral-900/10 hover:border-cyan-500/20 transition-all flex flex-col justify-between space-y-6">
+                    <div key={idx} className="p-6 rounded-3xl border border-neutral-800 bg-neutral-900/10 hover:border-attention-500/20 transition-all flex flex-col justify-between space-y-6">
                       <div className="space-y-2">
                         <h4 className="text-sm font-semibold text-white">{calc.title}</h4>
                         <p className="text-xs text-neutral-400 leading-relaxed font-sans">{calc.desc}</p>
@@ -395,7 +395,7 @@ export default function TerminalVaultPage() {
                           <div className="text-neutral-400 truncate max-w-[120px]">{calc.file}</div>
                           <div>{calc.size}</div>
                         </div>
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-800 hover:border-cyan-500/30 hover:bg-cyan-500/10 text-cyan-400 hover:text-white transition-all text-[10px] font-mono font-bold uppercase cursor-pointer">
+                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-800 hover:border-attention-500/30 hover:bg-attention-500/10 text-attention-400 hover:text-white transition-all text-[10px] font-mono font-bold uppercase cursor-pointer">
                           <Download className="w-3 h-3" />
                           <span>Download</span>
                         </button>

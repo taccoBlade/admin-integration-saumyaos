@@ -44,7 +44,7 @@ function ContactPageContent() {
 
       {/* Radial ambient glow behind the text */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-0">
-        <div className="h-[450px] w-[450px] rounded-full filter blur-[130px] bg-cyan-500/10 opacity-30 animate-pulse" />
+        <div className="h-[450px] w-[450px] rounded-full filter blur-[130px] bg-attention-500/10 opacity-30 animate-pulse" />
       </div>
 
       {/* Cyberpunk corner bracket HUD decorations */}
@@ -60,11 +60,11 @@ function ContactPageContent() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center gap-2 border border-cyan-500/20 bg-cyan-500/5 px-4 py-1.5 rounded-full text-cyan-400 font-mono text-xs uppercase tracking-widest mb-6"
+          className="flex items-center gap-2 border border-attention-500/20 bg-attention-500/5 px-4 py-1.5 rounded-full text-attention-400 font-mono text-xs uppercase tracking-widest mb-6"
         >
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-attention-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-attention-500" />
           </span>
           Available for opportunities
         </motion.div>
@@ -78,7 +78,7 @@ function ContactPageContent() {
         >
           Let&apos;s build something
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-500 filter drop-shadow-[0_2px_10px_rgba(34,211,238,0.15)]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-attention-400 via-attention-300 to-attention-500 filter drop-shadow-[0_2px_10px_rgba(212, 175, 55,0.15)]">
             extraordinary
           </span>
         </motion.h1>
@@ -114,9 +114,9 @@ function ContactPageContent() {
           className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-2xl w-full mb-12"
         >
           {/* Card 1: Ahmedabad */}
-          <div className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-cyan-500/30 hover:shadow-[0_4px_20px_rgba(34,211,238,0.06)] transition-all duration-300 relative group overflow-hidden">
+          <div className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-attention-500/30 hover:shadow-[0_4px_20px_rgba(212, 175, 55,0.06)] transition-all duration-300 relative group overflow-hidden">
             <div className="absolute top-1.5 left-2 text-[6px] text-slate-500 font-mono tracking-widest">[LOC_REF]</div>
-            <MapPin className="w-5 h-5 text-cyan-400 mt-2 transition-transform group-hover:scale-110" />
+            <MapPin className="w-5 h-5 text-attention-400 mt-2 transition-transform group-hover:scale-110" />
             <div className="text-center space-y-1">
               <span className="text-xs font-semibold text-white uppercase tracking-tight block">Ahmedabad</span>
               <span className="text-[9px] text-slate-400 font-mono">Gujarat, India</span>
@@ -129,10 +129,10 @@ function ContactPageContent() {
           {/* Card 2: Email */}
           <a 
             href="mailto:saumyaparekh937@gmail.com" 
-            className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-cyan-500/30 hover:shadow-[0_4px_20px_rgba(34,211,238,0.06)] transition-all duration-300 relative group overflow-hidden cursor-pointer"
+            className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-attention-500/30 hover:shadow-[0_4px_20px_rgba(212, 175, 55,0.06)] transition-all duration-300 relative group overflow-hidden cursor-pointer"
           >
             <div className="absolute top-1.5 left-2 text-[6px] text-slate-500 font-mono tracking-widest">[COMMS_REF]</div>
-            <Mail className="w-5 h-5 text-cyan-400 mt-2 transition-transform group-hover:scale-110" />
+            <Mail className="w-5 h-5 text-attention-400 mt-2 transition-transform group-hover:scale-110" />
             <div className="text-center space-y-1">
               <span className="text-xs font-semibold text-white uppercase tracking-tight block">Email</span>
               <span className="text-[9px] text-slate-400 font-mono break-all max-w-[150px] block">saumyaparekh937@gmail.com</span>
@@ -143,9 +143,9 @@ function ContactPageContent() {
           </a>
 
           {/* Card 3: PDEU */}
-          <div className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-cyan-500/30 hover:shadow-[0_4px_20px_rgba(34,211,238,0.06)] transition-all duration-300 relative group overflow-hidden">
+          <div className="flex flex-col items-center justify-between gap-4 p-5 rounded-xl bg-black/40 border border-white/5 hover:border-attention-500/30 hover:shadow-[0_4px_20px_rgba(212, 175, 55,0.06)] transition-all duration-300 relative group overflow-hidden">
             <div className="absolute top-1.5 left-2 text-[6px] text-slate-500 font-mono tracking-widest">[EDU_REF]</div>
-            <span className="text-cyan-400 text-lg mt-2 select-none group-hover:scale-110 transition-transform">🎓</span>
+            <span className="text-attention-400 text-lg mt-2 select-none group-hover:scale-110 transition-transform">🎓</span>
             <div className="text-center space-y-1">
               <span className="text-xs font-semibold text-white uppercase tracking-tight block">PDEU</span>
               <span className="text-[9px] text-slate-400 font-mono">Civil Engineering</span>
@@ -172,9 +172,9 @@ function ContactPageContent() {
               href={social.href}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-2 text-neutral-400 hover:text-cyan-400 transition-colors text-xs font-mono font-bold uppercase tracking-wider group"
+              className="flex items-center gap-2 text-neutral-400 hover:text-attention-400 transition-colors text-xs font-mono font-bold uppercase tracking-wider group"
             >
-              <social.icon className="w-4.5 h-4.5 group-hover:scale-110 transition-transform text-slate-400 group-hover:text-cyan-400" />
+              <social.icon className="w-4.5 h-4.5 group-hover:scale-110 transition-transform text-slate-400 group-hover:text-attention-400" />
               <span>{social.label}</span>
             </a>
           ))}

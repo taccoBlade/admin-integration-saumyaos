@@ -31,7 +31,7 @@ export function ArchitectureVisualizer({ tree }: VisualizerProps) {
     <div className="border border-white/10 rounded-2xl bg-black/40 backdrop-blur-md overflow-hidden flex flex-col md:flex-row h-[500px]">
       {/* File Tree Panel */}
       <div className="w-full md:w-1/2 border-r border-white/10 p-5 overflow-y-auto select-none scrollbar-thin">
-        <div className="flex items-center gap-2 mb-4 text-xs font-mono text-cyan-400 border-b border-white/5 pb-2">
+        <div className="flex items-center gap-2 mb-4 text-xs font-mono text-attention-400 border-b border-white/5 pb-2">
           <Terminal className="w-3.5 h-3.5" />
           <span>PROJECT ARCHITECTURE FILES</span>
         </div>
@@ -51,7 +51,7 @@ export function ArchitectureVisualizer({ tree }: VisualizerProps) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-4"
             >
-              <div className="flex items-center gap-2 text-cyan-400 font-mono">
+              <div className="flex items-center gap-2 text-attention-400 font-mono">
                 <FileCode className="w-5 h-5" />
                 <span className="font-semibold break-all">{selectedFile.split("/").pop()}</span>
               </div>
@@ -73,7 +73,7 @@ export function ArchitectureVisualizer({ tree }: VisualizerProps) {
             </motion.div>
           ) : (
             <div className="flex flex-col items-center justify-center h-48 text-slate-500 text-center font-mono text-sm border border-dashed border-white/5 rounded-xl">
-              <Terminal className="w-6 h-6 mb-2 opacity-30 animate-pulse text-cyan-500" />
+              <Terminal className="w-6 h-6 mb-2 opacity-30 animate-pulse text-attention-500" />
               <span>Select a file node to inspect its telemetry data.</span>
             </div>
           )}
@@ -114,17 +114,17 @@ function FileNode({
   const getIcon = () => {
     if (isDirectory) {
       return isOpen ? (
-        <FolderOpen className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+        <FolderOpen className="w-4 h-4 text-attention-400 flex-shrink-0" />
       ) : (
-        <Folder className="w-4 h-4 text-cyan-500/80 flex-shrink-0" />
+        <Folder className="w-4 h-4 text-attention-500/80 flex-shrink-0" />
       );
     }
     const ext = node.name.split(".").pop()?.toLowerCase();
     if (["ts", "tsx", "js", "jsx"].includes(ext || "")) {
-      return <FileCode className="w-4 h-4 text-violet-400 flex-shrink-0" />;
+      return <FileCode className="w-4 h-4 text-attention-400 flex-shrink-0" />;
     }
     if (["py", "ipynb"].includes(ext || "")) {
-      return <FileCode className="w-4 h-4 text-yellow-400 flex-shrink-0" />;
+      return <FileCode className="w-4 h-4 text-attention-400 flex-shrink-0" />;
     }
     return <File className="w-4 h-4 text-slate-400 flex-shrink-0" />;
   };
@@ -138,7 +138,7 @@ function FileNode({
         style={{ paddingLeft: `${depth * 16}px` }}
         className={`flex items-center justify-between py-1 px-2 rounded-lg cursor-pointer transition-colors group ${
           isActive 
-            ? "bg-cyan-500/10 text-cyan-300 border border-cyan-500/20" 
+            ? "bg-attention-500/10 text-attention-300 border border-attention-500/20" 
             : "hover:bg-white/5 border border-transparent"
         }`}
       >

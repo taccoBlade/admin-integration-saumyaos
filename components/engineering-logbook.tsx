@@ -2,7 +2,7 @@ export function EngineeringLogbook() {
   return (
     <section id="engineering-logbook" className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12">
       <div className="mb-16">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-400 mb-3">Documentation</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">Documentation</h2>
         <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Engineering Logbook</h3>
         <p className="mt-4 text-slate-400 max-w-2xl">
           Observations on deep excavations, ground improvement, concrete technology, infrastructure innovation, markets & risk, and content systems.
@@ -17,7 +17,7 @@ export function EngineeringLogbook() {
         </div>
         <h4 className="text-lg font-medium text-slate-300 mb-2">Logbook Engine Initialized</h4>
         <p className="text-sm text-slate-500 max-w-md">
-          The markdown parser is ready. Waiting for markdown files to be imported into <code className="font-mono text-cyan-400">/content/logbook/</code>.
+          The markdown parser is ready. Waiting for markdown files to be imported into <code className="font-mono text-attention-400">/content/logbook/</code>.
         </p>
       </div>
     </section>

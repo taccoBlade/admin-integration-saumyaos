@@ -6,7 +6,7 @@ import { ArrowLeft, Calendar, BookOpen, Layers, Terminal } from 'lucide-react'
 
 export default function LogbookPage() {
   return (
-    <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-attention-500/30 selection:text-attention-200">
       {/* Background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370a_1px,transparent_1px),linear-gradient(to_bottom,#1f29370a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
@@ -18,7 +18,7 @@ export default function LogbookPage() {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-cyan-400 transition-colors group">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-attention-400 transition-colors group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to System Terminal
           </Link>
@@ -31,7 +31,7 @@ export default function LogbookPage() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="border-b border-neutral-800 pb-6 mb-8"
         >
-          <div className="flex items-center gap-3 text-xs font-mono text-cyan-500 mb-3">
+          <div className="flex items-center gap-3 text-xs font-mono text-attention-500 mb-3">
             <Calendar className="w-3.5 h-3.5" />
             <span>June 2026</span>
             <span>•</span>
@@ -45,7 +45,7 @@ export default function LogbookPage() {
 
           <div className="flex items-center gap-2 text-sm text-neutral-400">
             <span>Project context:</span>
-            <Link href="/projects/promix-concrete-mix-design-compliance-dashboard" className="text-cyan-400 hover:underline">
+            <Link href="/projects/promix-concrete-mix-design-compliance-dashboard" className="text-attention-400 hover:underline">
               ProMix: Concrete Mix Design & Compliance Dashboard
             </Link>
           </div>
@@ -58,12 +58,12 @@ export default function LogbookPage() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="prose prose-invert max-w-none text-neutral-300 leading-relaxed space-y-6"
         >
-          <p className="text-lg text-neutral-200 italic font-light border-l-2 border-cyan-500 pl-4">
+          <p className="text-lg text-neutral-200 italic font-light border-l-2 border-attention-500 pl-4">
             This logbook records the detailed technical investigation, system decisions, and design rationale behind the ProMix: Concrete Mix Design & Compliance Dashboard implementation.
           </p>
 
           <h2 className="text-xl font-semibold text-white mt-8 mb-4 flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-cyan-500" />
+            <Terminal className="w-5 h-5 text-attention-500" />
             1. Problem Context & Physics
           </h2>
           <p>
@@ -71,7 +71,7 @@ export default function LogbookPage() {
           </p>
 
           <h2 className="text-xl font-semibold text-white mt-8 mb-4 flex items-center gap-2">
-            <Layers className="w-5 h-5 text-cyan-500" />
+            <Layers className="w-5 h-5 text-attention-500" />
             2. System Decisions & Verification
           </h2>
           <p>
@@ -88,7 +88,7 @@ export default function LogbookPage() {
           <p>
             The optimization function is formulated as follows:
           </p>
-          <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 text-center font-mono my-4 text-cyan-300 overflow-x-auto">
+          <div className="p-4 rounded-xl bg-neutral-900 border border-neutral-800 text-center font-mono my-4 text-attention-300 overflow-x-auto">
             {"\\[ f(x) = \\sum_{i=1}^n \\omega_i \\cdot (x_i - \\hat{x}_i)^2 + \\lambda \\cdot \\mathcal{R}(x) \\]"}
           </div>
           <p className="text-sm text-neutral-400">
@@ -96,8 +96,8 @@ export default function LogbookPage() {
           </p>
 
           <h2 className="text-xl font-semibold text-white mt-8 mb-4">4. Summary of Lessons Learned</h2>
-          <div className="grid grid-cols-1 gap-4 p-4 rounded-2xl bg-neutral-950 border border-cyan-950/40">
-                          <div className="flex gap-3"><span className="text-cyan-500 shrink-0 font-mono">[1]</span><p className="text-sm leading-relaxed">Iterative unit testing is critical when dealing with physical sensors.</p></div>
+          <div className="grid grid-cols-1 gap-4 p-4 rounded-2xl bg-neutral-950 border border-attention-950/40">
+                          <div className="flex gap-3"><span className="text-attention-500 shrink-0 font-mono">[1]</span><p className="text-sm leading-relaxed">Iterative unit testing is critical when dealing with physical sensors.</p></div>
 
           </div>
         </motion.article>

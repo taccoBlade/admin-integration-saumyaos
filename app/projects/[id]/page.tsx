@@ -60,14 +60,14 @@ export default function ProjectPage({ params }: PageProps) {
     return (
       <main className="min-h-screen bg-[#08090b] text-slate-200 flex flex-col items-center justify-center p-6">
         <div className="text-center max-w-md">
-          <h1 className="text-6xl font-bold text-cyan-500 mb-4 font-mono">404</h1>
+          <h1 className="text-6xl font-bold text-attention-500 mb-4 font-mono">404</h1>
           <h2 className="text-2xl font-semibold text-white mb-4">Project Not Found</h2>
           <p className="text-slate-400 mb-8 leading-relaxed">
             The project configuration `content/projects/generated/{params.id}.json` does not exist.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-all text-sm font-semibold"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-attention-500/10 border border-attention-500/30 text-attention-400 hover:bg-attention-500/20 hover:border-attention-500/50 transition-all text-sm font-semibold"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Profile</span>
@@ -84,16 +84,16 @@ export default function ProjectPage({ params }: PageProps) {
     .slice(0, 3);
 
   return (
-    <main className="min-h-screen bg-[#08090b] text-slate-200 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
+    <main className="min-h-screen bg-[#08090b] text-slate-200 font-sans selection:bg-attention-500/30 overflow-x-hidden relative">
       {/* Blueprint grid background */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-cyan-500/[0.02] to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-attention-500/[0.02] to-transparent pointer-events-none" />
 
       {/* Navigation Header */}
       <header className="relative z-10 w-full max-w-7xl mx-auto px-5 py-8 sm:px-8 lg:px-12 flex justify-between items-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 group text-sm font-mono text-slate-400 hover:text-cyan-400 transition-colors"
+          className="inline-flex items-center gap-2 group text-sm font-mono text-slate-400 hover:text-attention-400 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span>Professional Profile</span>
@@ -108,7 +108,7 @@ export default function ProjectPage({ params }: PageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-6">
             <div className="flex flex-wrap gap-3 items-center">
-              <span className="text-xs font-bold font-mono px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-md">
+              <span className="text-xs font-bold font-mono px-3 py-1 bg-attention-500/10 border border-attention-500/20 text-attention-400 rounded-md">
                 {project.domain}
               </span>
               <span className="text-xs font-bold font-mono px-3 py-1 bg-white/5 border border-white/10 text-slate-300 rounded-md">
@@ -116,10 +116,10 @@ export default function ProjectPage({ params }: PageProps) {
               </span>
               <span className={`text-xs font-bold font-mono px-3 py-1 rounded-md border ${
                 project.status === "Completed" 
-                  ? "bg-green-500/10 border-green-500/20 text-green-400"
+                  ? "bg-attention-500/10 border-attention-500/20 text-attention-400"
                   : project.status === "In Progress"
-                    ? "bg-amber-500/10 border-amber-500/20 text-amber-400"
-                    : "bg-blue-500/10 border-blue-500/20 text-blue-400"
+                    ? "bg-attention-500/10 border-attention-500/20 text-attention-400"
+                    : "bg-attention-500/10 border-attention-500/20 text-attention-400"
               }`}>
                 {project.status.toUpperCase()}
               </span>
@@ -152,7 +152,7 @@ export default function ProjectPage({ params }: PageProps) {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-all font-mono text-sm"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-attention-500/10 border border-attention-500/30 text-attention-400 hover:bg-attention-500/20 hover:border-attention-500/50 transition-all font-mono text-sm"
                   >
                     <Globe className="w-4 h-4" />
                     <span>Live Demonstration</span>
@@ -171,28 +171,28 @@ export default function ProjectPage({ params }: PageProps) {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+                  <Calendar className="w-3.5 h-3.5 text-attention-400" />
                   TIMEFRAME
                 </span>
                 <p className="text-sm font-semibold font-mono text-slate-200">{project.year}</p>
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Briefcase className="w-3.5 h-3.5 text-violet-400" />
+                  <Briefcase className="w-3.5 h-3.5 text-attention-400" />
                   DOMAIN
                 </span>
                 <p className="text-sm font-semibold font-mono text-slate-200 truncate">{project.domain}</p>
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Award className="w-3.5 h-3.5 text-amber-400" />
+                  <Award className="w-3.5 h-3.5 text-attention-400" />
                   COMPLEXITY
                 </span>
                 <p className="text-sm font-semibold font-mono text-slate-200">{project.complexityScore}</p>
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                  <Zap className="w-3.5 h-3.5 text-attention-400" />
                   STATUS
                 </span>
                 <p className="text-sm font-semibold font-mono text-slate-200">{project.status}</p>
@@ -219,7 +219,7 @@ export default function ProjectPage({ params }: PageProps) {
         <div className="lg:col-span-8 space-y-16">
           {/* Detailed Overview */}
           <div className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-400 border-b border-white/5 pb-2">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
               TECHNICAL DOCUMENTATION
             </h2>
             <div className="prose prose-invert max-w-none text-slate-300">
@@ -230,7 +230,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* Live Interactive Dashboard */}
           {dashboardConfig && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400 border-b border-white/5 pb-2">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
                 LIVE INTERACTIVE DASHBOARD
               </h2>
               <p className="text-sm text-slate-405 leading-relaxed">
@@ -251,7 +251,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* Interactive File Tree Visualizer */}
           {!!project.architectureTree && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-400 border-b border-white/5 pb-2">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
                 SYSTEM BLUEPRINT
               </h2>
               <p className="text-sm text-slate-400 leading-relaxed mb-4">
@@ -264,7 +264,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* Screenshot Gallery */}
           {project.gallery && project.gallery.length > 0 && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-400 border-b border-white/5 pb-2">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
                 EMPIRICAL EVIDENCE GALLERY
               </h2>
               <div className="editorial-gallery-grid">
@@ -288,15 +288,15 @@ export default function ProjectPage({ params }: PageProps) {
         {/* Right column: Outcomes, Lessons, Related Projects */}
         <div className="lg:col-span-4 space-y-12">
           {/* Key Outcomes */}
-          <div className="p-6 rounded-2xl bg-[#08090b] border border-green-500/10 hover:border-green-500/20 transition-colors space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-green-400 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-green-400" />
+          <div className="p-6 rounded-2xl bg-[#08090b] border border-attention-500/10 hover:border-attention-500/20 transition-colors space-y-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-attention-400 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-attention-400" />
               KEY OUTCOMES
             </h3>
             <ul className="space-y-3 font-mono text-xs">
               {project.keyOutcomes?.map((outcome, idx) => (
                 <li key={idx} className="flex gap-2 items-start text-slate-300 leading-relaxed">
-                  <span className="text-green-500 mt-0.5">[✓]</span>
+                  <span className="text-attention-500 mt-0.5">[✓]</span>
                   <span>{outcome}</span>
                 </li>
               ))}
@@ -304,15 +304,15 @@ export default function ProjectPage({ params }: PageProps) {
           </div>
 
           {/* Lessons Learned */}
-          <div className="p-6 rounded-2xl bg-[#08090b] border border-amber-500/10 hover:border-amber-500/20 transition-colors space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-amber-400 flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-amber-400" />
+          <div className="p-6 rounded-2xl bg-[#08090b] border border-attention-500/10 hover:border-attention-500/20 transition-colors space-y-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-attention-400 flex items-center gap-2">
+              <Lightbulb className="w-4 h-4 text-attention-400" />
               LESSONS LEARNED
             </h3>
             <ul className="space-y-3 font-mono text-xs">
               {project.lessonsLearned?.map((lesson, idx) => (
                 <li key={idx} className="flex gap-2 items-start text-slate-300 leading-relaxed">
-                  <span className="text-amber-500 mt-0.5">[!]</span>
+                  <span className="text-attention-500 mt-0.5">[!]</span>
                   <span>{lesson}</span>
                 </li>
               ))}
@@ -322,13 +322,13 @@ export default function ProjectPage({ params }: PageProps) {
           {/* Download solver card template */}
           <div className="p-6 rounded-2xl bg-[#08090b] border border-white/5 space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white flex items-center gap-2">
-              <Download className="w-4 h-4 text-cyan-400" />
+              <Download className="w-4 h-4 text-attention-400" />
               CALCULATIONS SOLVER
             </h3>
             <p className="text-xs text-slate-400 leading-relaxed">
               Download the computational solver files, Excel compliance sheets, or Python EKF scripts associated with this validation process.
             </p>
-            <button className="w-full flex items-center justify-center gap-2 py-2 rounded-xl border border-cyan-500/20 hover:border-cyan-500 bg-cyan-500/5 hover:bg-cyan-500/15 text-cyan-400 text-xs font-mono font-bold uppercase transition-all cursor-pointer">
+            <button className="w-full flex items-center justify-center gap-2 py-2 rounded-xl border border-attention-500/20 hover:border-attention-500 bg-attention-500/5 hover:bg-attention-500/15 text-attention-400 text-xs font-mono font-bold uppercase transition-all cursor-pointer">
               <Download className="w-3.5 h-3.5" />
               <span>Download Calculations (ZIP)</span>
             </button>
@@ -345,9 +345,9 @@ export default function ProjectPage({ params }: PageProps) {
                   <Link
                     key={rel.id}
                     href={`/projects/${rel.id}`}
-                    className="block p-4 rounded-xl bg-white/[0.01] border border-white/5 hover:border-cyan-500/20 hover:bg-white/[0.03] transition-all"
+                    className="block p-4 rounded-xl bg-white/[0.01] border border-white/5 hover:border-attention-500/20 hover:bg-white/[0.03] transition-all"
                   >
-                    <span className="text-[10px] font-mono text-cyan-400 block mb-1">{rel.domain}</span>
+                    <span className="text-[10px] font-mono text-attention-400 block mb-1">{rel.domain}</span>
                     <h4 className="text-sm font-semibold text-white truncate mb-1">{rel.title}</h4>
                     <p className="text-xs text-slate-400 truncate">{rel.description}</p>
                   </Link>
@@ -388,7 +388,7 @@ function renderMarkdown(md: string): React.ReactNode {
   const flushCode = (key: number) => {
     if (codeLines.length > 0) {
       elements.push(
-        <pre key={`code-${key}`} className="bg-black/50 border border-white/10 rounded-xl p-4 my-4 font-mono text-xs sm:text-sm overflow-x-auto text-cyan-300">
+        <pre key={`code-${key}`} className="bg-black/50 border border-white/10 rounded-xl p-4 my-4 font-mono text-xs sm:text-sm overflow-x-auto text-attention-300">
           <code>{codeLines.join("\n")}</code>
         </pre>
       );
@@ -406,7 +406,7 @@ function renderMarkdown(md: string): React.ReactNode {
       flushCode(i);
       const eq = line.substring(2, line.length - 2);
       elements.push(
-        <div key={i} className="my-6 p-5 rounded-2xl border border-cyan-500/10 bg-cyan-500/[0.01] text-center font-mono text-xs sm:text-sm md:text-base text-cyan-400 overflow-x-auto">
+        <div key={i} className="my-6 p-5 rounded-2xl border border-attention-500/10 bg-attention-500/[0.01] text-center font-mono text-xs sm:text-sm md:text-base text-attention-400 overflow-x-auto">
           {eq}
         </div>
       );
@@ -448,7 +448,7 @@ function renderMarkdown(md: string): React.ReactNode {
     } else if (line.startsWith("## ")) {
       elements.push(
         <h2 key={i} className="text-xl sm:text-2xl font-semibold text-white mt-6 mb-3 flex items-center gap-2">
-          <span className="w-1.5 h-5 bg-cyan-500 rounded-full inline-block" />
+          <span className="w-1.5 h-5 bg-attention-500 rounded-full inline-block" />
           {line.substring(3)}
         </h2>
       );
@@ -463,13 +463,13 @@ function renderMarkdown(md: string): React.ReactNode {
       const parts = line.split("`");
       const renderedLine = parts.flatMap((part, idx) => {
         if (idx % 2 === 1) {
-          return [<code key={`code-${idx}`} className="bg-white/10 px-1.5 py-0.5 rounded font-mono text-cyan-300 text-[11px]">{part}</code>];
+          return [<code key={`code-${idx}`} className="bg-white/10 px-1.5 py-0.5 rounded font-mono text-attention-300 text-[11px]">{part}</code>];
         }
         
         const mathParts = part.split("$");
         return mathParts.map((mPart, mIdx) => {
           if (mIdx % 2 === 1) {
-            return <span key={`math-${idx}-${mIdx}`} className="font-mono text-cyan-300 italic px-1 bg-white/[0.02] rounded">{mPart}</span>;
+            return <span key={`math-${idx}-${mIdx}`} className="font-mono text-attention-300 italic px-1 bg-white/[0.02] rounded">{mPart}</span>;
           }
           return mPart;
         });

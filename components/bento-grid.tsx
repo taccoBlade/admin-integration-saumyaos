@@ -144,9 +144,9 @@ export function BentoGrid() {
         cursor.y,
         SPOTLIGHT_R
       );
-      spotlightGrad.addColorStop(0, "rgba(14, 116, 144, 0.45)");
-      spotlightGrad.addColorStop(0.6, "rgba(14, 116, 144, 0.18)");
-      spotlightGrad.addColorStop(1, "rgba(14, 116, 144, 0)");
+      spotlightGrad.addColorStop(0, "rgba(148, 163, 184, 0.45)");
+      spotlightGrad.addColorStop(0.6, "rgba(148, 163, 184, 0.18)");
+      spotlightGrad.addColorStop(1, "rgba(148, 163, 184, 0)");
       ctx.fillStyle = spotlightGrad;
       ctx.beginPath();
       ctx.arc(cursor.x, cursor.y, SPOTLIGHT_R, 0, Math.PI * 2);
@@ -167,9 +167,9 @@ export function BentoGrid() {
         cursor.y,
         SPOTLIGHT_R
       );
-      gridGrad.addColorStop(0, "rgba(34, 211, 238, 0.45)");
-      gridGrad.addColorStop(0.7, "rgba(34, 211, 238, 0.2)");
-      gridGrad.addColorStop(1, "rgba(34, 211, 238, 0)");
+      gridGrad.addColorStop(0, "rgba(212, 175, 55, 0.45)");
+      gridGrad.addColorStop(0.7, "rgba(212, 175, 55, 0.2)");
+      gridGrad.addColorStop(1, "rgba(212, 175, 55, 0)");
       ctx.strokeStyle = gridGrad;
       ctx.lineWidth = 0.55;
       ctx.beginPath();
@@ -198,7 +198,7 @@ export function BentoGrid() {
         const opacity = Math.max(0, 1 - avgD / SPOTLIGHT_R);
 
         if (opacity > 0) {
-          ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.7})`;
+          ctx.strokeStyle = `rgba(212, 175, 55, ${opacity * 0.7})`;
           ctx.lineWidth = 1.25;
           ctx.beginPath();
           ctx.moveTo(x1, y1);
@@ -213,7 +213,7 @@ export function BentoGrid() {
           const flowOpacity = Math.max(0, 1 - fDist / SPOTLIGHT_R);
 
           if (flowOpacity > 0) {
-            ctx.fillStyle = `rgba(34, 211, 238, ${flowOpacity * 0.95})`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${flowOpacity * 0.95})`;
             ctx.beginPath();
             ctx.arc(fx, fy, 1.5, 0, Math.PI * 2);
             ctx.fill();
@@ -231,13 +231,13 @@ export function BentoGrid() {
         if (opacity > 0) {
           const pulse = Math.sin(time * 0.005 + i) * 2;
 
-          ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.65})`;
+          ctx.strokeStyle = `rgba(212, 175, 55, ${opacity * 0.65})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.arc(nx, ny, 6 + pulse, 0, Math.PI * 2);
           ctx.stroke();
 
-          ctx.fillStyle = `rgba(34, 211, 238, ${opacity * 1.0})`;
+          ctx.fillStyle = `rgba(212, 175, 55, ${opacity * 1.0})`;
           ctx.beginPath();
           ctx.arc(nx, ny, 3, 0, Math.PI * 2);
           ctx.fill();
@@ -246,7 +246,7 @@ export function BentoGrid() {
           ctx.font = "8px monospace";
           ctx.fillText(node.label, nx + 10, ny - 1);
 
-          ctx.fillStyle = `rgba(34, 211, 238, ${opacity * 0.95})`;
+          ctx.fillStyle = `rgba(212, 175, 55, ${opacity * 0.95})`;
           ctx.fillText(node.val, nx + 10, ny + 7);
         }
       });
@@ -266,7 +266,7 @@ export function BentoGrid() {
   return (
     <section id="about" className="relative w-full max-w-7xl mx-auto px-5 py-16 sm:px-8 lg:px-12">
       <div className="mb-12">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400 mb-3">Focus</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-attention-400 mb-3">Focus</h2>
         <h3 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight">Components of Life</h3>
       </div>
 
@@ -283,11 +283,11 @@ export function BentoGrid() {
           />
 
           {/* Border glowing hover indicator */}
-          <div className="absolute inset-0 border border-transparent group-hover:border-cyan-500/20 rounded-[23px] transition-all duration-300 pointer-events-none z-20" />
+          <div className="absolute inset-0 border border-transparent group-hover:border-attention-500/20 rounded-[23px] transition-all duration-300 pointer-events-none z-20" />
 
           {/* Text Content overlay */}
           <div className="relative z-30 max-w-lg mt-auto bg-[#08090b]/80 backdrop-blur-md p-5 rounded-2xl border border-white/5 pointer-events-none">
-            <span className="text-xs font-mono uppercase tracking-widest text-cyan-400 mb-2 block">Interactive Laboratory</span>
+            <span className="text-xs font-mono uppercase tracking-widest text-attention-400 mb-2 block">Interactive Laboratory</span>
             <h4 className="text-2xl font-bold text-white mb-2 leading-tight">Geotechnical Engineering</h4>
             <p className="text-sm text-slate-300">
               Hover over this card to activate the spotlight reveal. Move your cursor around to peer into the sub-strata blueprint analysis and compaction sensor networks.
@@ -302,8 +302,8 @@ export function BentoGrid() {
           </div>
 
           <div>
-            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-4">
-              <TrendingUp className="w-5 h-5 text-violet-400" />
+            <div className="w-10 h-10 rounded-xl bg-attention-500/10 border border-attention-500/20 flex items-center justify-center mb-4">
+              <TrendingUp className="w-5 h-5 text-attention-400" />
             </div>
             <h4 className="text-lg font-semibold text-white mb-1">Markets & Portfolios</h4>
             <p className="text-sm text-slate-400 leading-relaxed">
@@ -323,8 +323,8 @@ export function BentoGrid() {
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
-              <circle cx="340" cy="5" r="4.5" className="fill-violet-400 animate-ping" />
-              <circle cx="340" cy="5" r="3.5" className="fill-violet-400" />
+              <circle cx="340" cy="5" r="4.5" className="fill-attention-400 animate-ping" />
+              <circle cx="340" cy="5" r="3.5" className="fill-attention-400" />
             </svg>
           </div>
         </div>
@@ -332,8 +332,8 @@ export function BentoGrid() {
         {/* Card 3: Concrete Technology (New Professional Card) */}
         <div className="bento-card p-6 flex flex-col justify-between">
           <div>
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4">
-              <Layers className="w-5 h-5 text-cyan-400" />
+            <div className="w-10 h-10 rounded-xl bg-attention-500/10 border border-attention-500/20 flex items-center justify-center mb-4">
+              <Layers className="w-5 h-5 text-attention-400" />
             </div>
             <h4 className="text-lg font-semibold text-white mb-2">Concrete Technology</h4>
             <p className="text-sm text-slate-400 leading-relaxed">
@@ -345,13 +345,13 @@ export function BentoGrid() {
           <div className="space-y-2 mt-2">
             <div className="flex justify-between items-center text-[10px] font-mono text-slate-500">
               <span>MIX_RATIO (Binder/Agg)</span>
-              <span className="text-cyan-400">IS 10262</span>
+              <span className="text-attention-400">IS 10262</span>
             </div>
             <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden flex">
-              <div className="w-[30%] h-full bg-cyan-500" title="Cement" />
-              <div className="w-[20%] h-full bg-cyan-400 opacity-85" title="Fly Ash / GGBS" />
+              <div className="w-[30%] h-full bg-attention-500" title="Cement" />
+              <div className="w-[20%] h-full bg-attention-400 opacity-85" title="Fly Ash / GGBS" />
               <div className="w-[40%] h-full bg-slate-600" title="Aggregates" />
-              <div className="w-[10%] h-full bg-blue-500" title="Water" />
+              <div className="w-[10%] h-full bg-attention-500" title="Water" />
             </div>
             <div className="flex justify-between text-[8px] font-mono text-slate-600">
               <span>Cement/Ash (50%)</span>
@@ -364,8 +364,8 @@ export function BentoGrid() {
         {/* Card 4: Infrastructure Automation (New Professional Card) */}
         <div className="bento-card p-6 flex flex-col justify-between">
           <div>
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-4">
-              <Cpu className="w-5 h-5 text-cyan-400" />
+            <div className="w-10 h-10 rounded-xl bg-attention-500/10 border border-attention-500/20 flex items-center justify-center mb-4">
+              <Cpu className="w-5 h-5 text-attention-400" />
             </div>
             <h4 className="text-lg font-semibold text-white mb-2">Infrastructure Automation</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -376,13 +376,13 @@ export function BentoGrid() {
           {/* Pulsing signal status */}
           <div className="flex items-center gap-3 border border-white/5 bg-white/[0.01] p-2 rounded-xl">
             <div className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-attention-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-attention-500"></span>
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex justify-between font-mono text-[9px] text-slate-400">
                 <span>TELEMETRY_LINK</span>
-                <span className="text-cyan-400">CONNECTED</span>
+                <span className="text-attention-400">CONNECTED</span>
               </div>
             </div>
           </div>
@@ -395,8 +395,8 @@ export function BentoGrid() {
           </div>
 
           <div>
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
-              <Video className="w-5 h-5 text-amber-400" />
+            <div className="w-10 h-10 rounded-xl bg-attention-500/10 border border-attention-500/20 flex items-center justify-center mb-4">
+              <Video className="w-5 h-5 text-attention-400" />
             </div>
             <h4 className="text-lg font-semibold text-white mb-1">Digital Storytelling</h4>
             <p className="text-sm text-slate-400 leading-relaxed">
@@ -404,7 +404,7 @@ export function BentoGrid() {
             </p>
           </div>
 
-          <div className="flex gap-2 items-center text-xs font-medium text-amber-400 group-hover:underline mt-2">
+          <div className="flex gap-2 items-center text-xs font-medium text-attention-400 group-hover:underline mt-2">
             <span>Explore Logbook Media</span>
             <Compass className="w-4 h-4 animate-spin" style={{ animationDuration: '6s' }} />
           </div>

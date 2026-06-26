@@ -202,7 +202,7 @@ export function PersonalBootScreen() {
 
       // Draw full-canvas flash overlay and local flame burst glow
       if (flashIntensity > 0.01) {
-        ctx.fillStyle = `rgba(255, 80, 0, ${0.08 * flashIntensity})`;
+        ctx.fillStyle = `rgba(212, 175, 55, ${0.08 * flashIntensity})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         const grad = ctx.createRadialGradient(
@@ -210,8 +210,8 @@ export function PersonalBootScreen() {
           emitterX, emitterY, 40 * flashIntensity
         );
         grad.addColorStop(0, "rgba(255, 255, 255, 1.0)");
-        grad.addColorStop(0.15, "rgba(255, 200, 0, 0.9)");
-        grad.addColorStop(0.5, "rgba(255, 60, 0, 0.5)");
+        grad.addColorStop(0.15, "rgba(212, 175, 55, 0.9)");
+        grad.addColorStop(0.5, "rgba(212, 175, 55, 0.5)");
         grad.addColorStop(1, "rgba(0, 0, 0, 0)");
 
         ctx.fillStyle = grad;
@@ -349,7 +349,7 @@ export function PersonalBootScreen() {
             </defs>
 
             {/* Rear Wheel (constructs at 25%) */}
-            <g style={{ color: progress >= 25 ? theme.accent : "rgba(255, 255, 255, 0.05)" }}>
+            <g style={{ color: progress >= 25 ? theme.accent : "rgba(212, 175, 55, 0.05)" }}>
               <circle cx="100" cy="150" r="30" stroke="currentColor" strokeWidth="1.2" fill="none" />
               <circle cx="100" cy="150" r="2" stroke="currentColor" strokeWidth="1" fill="none" />
               {/* Rotating spokes */}
@@ -369,7 +369,7 @@ export function PersonalBootScreen() {
             </g>
 
             {/* Front Wheel (constructs at 25%) */}
-            <g style={{ color: progress >= 25 ? theme.accent : "rgba(255, 255, 255, 0.05)" }}>
+            <g style={{ color: progress >= 25 ? theme.accent : "rgba(212, 175, 55, 0.05)" }}>
               <circle cx="300" cy="150" r="33" stroke="currentColor" strokeWidth="1.2" fill="none" />
               <circle cx="300" cy="150" r="2" stroke="currentColor" strokeWidth="1" fill="none" />
               {/* Rotating spokes */}
@@ -391,13 +391,13 @@ export function PersonalBootScreen() {
             {/* Frame / Chassis Skeleton (constructs at 10%) */}
             <path 
               d="M 300,90 L 260,82 L 205,125 L 140,150 L 100,150 M 260,82 L 180,105 L 140,118 L 100,150" 
-              stroke={progress >= 10 ? theme.accent : "rgba(255, 255, 255, 0.05)"} 
+              stroke={progress >= 10 ? theme.accent : "rgba(212, 175, 55, 0.05)"} 
               strokeWidth="1.8" 
               fill="none" 
             />
 
             {/* Front telescopic forks & Handlebars (constructs at 25%) */}
-            <g stroke={progress >= 25 ? theme.accent : "rgba(255, 255, 255, 0.05)"} strokeWidth="1.5" fill="none">
+            <g stroke={progress >= 25 ? theme.accent : "rgba(212, 175, 55, 0.05)"} strokeWidth="1.5" fill="none">
               <line x1="300" y1="150" x2="260" y2="70" strokeWidth="2" />
               <path d="M 260,70 L 250,68 M 260,70 L 270,72" />
             </g>
@@ -405,7 +405,7 @@ export function PersonalBootScreen() {
             {/* Side covers and rear fender (constructs at 10%) */}
             <path 
               d="M 140,150 A 45 45 0 0 0 95,120 L 70,140 M 130,118 L 142,145 L 120,148 Z" 
-              stroke={progress >= 10 ? theme.accent : "rgba(255, 255, 255, 0.05)"} 
+              stroke={progress >= 10 ? theme.accent : "rgba(212, 175, 55, 0.05)"} 
               strokeWidth="1.2" 
               fill="none" 
             />
@@ -413,7 +413,7 @@ export function PersonalBootScreen() {
             {/* Teardrop fuel tank (constructs at 55%) */}
             <path 
               d="M 180,105 C 190,82 245,78 260,94 C 260,94 242,108 198,108 Z" 
-              stroke={progress >= 55 ? theme.accent : "rgba(255, 255, 255, 0.05)"} 
+              stroke={progress >= 55 ? theme.accent : "rgba(212, 175, 55, 0.05)"} 
               strokeWidth="1.5" 
               fill="none" 
             />
@@ -421,7 +421,7 @@ export function PersonalBootScreen() {
             {/* Dual seats - cruiser split setup (constructs at 55%) */}
             <path 
               d="M 115,124 C 125,116 142,116 155,124 M 155,124 C 165,112 185,110 196,112" 
-              stroke={progress >= 55 ? theme.accent : "rgba(255, 255, 255, 0.05)"} 
+              stroke={progress >= 55 ? theme.accent : "rgba(212, 175, 55, 0.05)"} 
               strokeWidth="1.2" 
               fill="none" 
             />
@@ -434,24 +434,24 @@ export function PersonalBootScreen() {
                 width="34" 
                 height="32" 
                 rx="3" 
-                stroke={progress >= 40 ? theme.accent : "rgba(255, 255, 255, 0.05)"} 
+                stroke={progress >= 40 ? theme.accent : "rgba(212, 175, 55, 0.05)"} 
                 strokeWidth="1.5" 
                 fill="none" 
               />
               <line 
                 x1="158" y1="124" x2="192" y2="124" 
-                stroke={progress >= 40 ? theme.accent : "rgba(255, 255, 255, 0.02)"} 
+                stroke={progress >= 40 ? theme.accent : "rgba(212, 175, 55, 0.02)"} 
               />
               <line 
                 x1="158" y1="132" x2="192" y2="132" 
-                stroke={progress >= 40 ? theme.accent : "rgba(255, 255, 255, 0.02)"} 
+                stroke={progress >= 40 ? theme.accent : "rgba(212, 175, 55, 0.02)"} 
               />
             </g>
 
             {/* Exhaust flow pipes (constructs at 40%) */}
             <path 
               d="M 180,142 L 205,152 L 105,152 L 60,165" 
-              stroke={progress >= 40 ? theme.accent : "rgba(255, 255, 255, 0.05)"} 
+              stroke={progress >= 40 ? theme.accent : "rgba(212, 175, 55, 0.05)"} 
               strokeWidth="1.8" 
               fill="none" 
             />
@@ -465,51 +465,51 @@ export function PersonalBootScreen() {
             <span 
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 progress >= 8 && progress < 40 
-                  ? "bg-amber-500 shadow-[0_0_8px_#f59e0b]" 
+                  ? "bg-attention-500 shadow-[0_0_8px_#f59e0b]" 
                   : "bg-neutral-800"
               }`} 
             />
-            <span className={progress >= 8 && progress < 40 ? "text-amber-500" : "text-neutral-600"}>ABS</span>
+            <span className={progress >= 8 && progress < 40 ? "text-attention-500" : "text-neutral-600"}>ABS</span>
           </div>
           <div className="flex flex-col items-center gap-0.5">
             <span 
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 progress >= 8 
-                  ? "bg-green-500 shadow-[0_0_8px_#22c55e]" 
+                  ? "bg-attention-500 shadow-[0_0_8px_#22c55e]" 
                   : "bg-neutral-800"
               }`} 
             />
-            <span className={progress >= 8 ? "text-green-500" : "text-neutral-600"}>N</span>
+            <span className={progress >= 8 ? "text-attention-500" : "text-neutral-600"}>N</span>
           </div>
           <div className="flex flex-col items-center gap-0.5">
             <span 
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 progress >= 8 && progress < 40 
-                  ? "bg-red-500 shadow-[0_0_8px_#ef4444]" 
+                  ? "bg-attention-500 shadow-[0_0_8px_#ef4444]" 
                   : "bg-neutral-800"
               }`} 
             />
-            <span className={progress >= 8 && progress < 40 ? "text-red-500" : "text-neutral-600"}>OIL</span>
+            <span className={progress >= 8 && progress < 40 ? "text-attention-500" : "text-neutral-600"}>OIL</span>
           </div>
           <div className="flex flex-col items-center gap-0.5">
             <span 
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 progress >= 8 && progress < 40 
-                  ? "bg-amber-500 shadow-[0_0_8px_#f59e0b]" 
+                  ? "bg-attention-500 shadow-[0_0_8px_#f59e0b]" 
                   : "bg-neutral-800"
               }`} 
             />
-            <span className={progress >= 8 && progress < 40 ? "text-amber-500" : "text-neutral-600"}>CHECK</span>
+            <span className={progress >= 8 && progress < 40 ? "text-attention-500" : "text-neutral-600"}>CHECK</span>
           </div>
           <div className="flex flex-col items-center gap-0.5">
             <span 
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 progress >= 8 && progress < 40 
-                  ? "bg-red-500 shadow-[0_0_8px_#ef4444]" 
+                  ? "bg-attention-500 shadow-[0_0_8px_#ef4444]" 
                   : "bg-neutral-800"
               }`} 
             />
-            <span className={progress >= 8 && progress < 40 ? "text-red-500" : "text-neutral-600"}>BATT</span>
+            <span className={progress >= 8 && progress < 40 ? "text-attention-500" : "text-neutral-600"}>BATT</span>
           </div>
         </div>
 
@@ -517,11 +517,11 @@ export function PersonalBootScreen() {
         <div className="text-[10px] font-mono font-bold tracking-widest mt-2 flex flex-col items-center gap-1 w-full max-w-xs">
           <div className="flex justify-between w-full text-[9px] px-1 text-slate-500">
             <span>RPM: {currentRPM} / 8000</span>
-            <span className={currentRPM >= 7000 ? "text-red-500 animate-pulse font-extrabold" : "text-slate-400"}>
+            <span className={currentRPM >= 7000 ? "text-attention-500 animate-pulse font-extrabold" : "text-slate-400"}>
               {currentRPM >= 7000 ? "REDLINE" : currentRPM > 0 ? "STABLE" : "STANDBY"}
             </span>
           </div>
-          <div className={`text-[10px] w-full text-center transition-colors duration-200 ${currentRPM >= 7000 ? "text-red-500" : "text-cyan-400"}`}>
+          <div className={`text-[10px] w-full text-center transition-colors duration-200 ${currentRPM >= 7000 ? "text-attention-500" : "text-attention-400"}`}>
             [{rpmBarText}]
           </div>
         </div>

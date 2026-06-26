@@ -30,7 +30,7 @@ export function CareerTimeline({ events }: { events: TimelineEvent[] }) {
       className="relative w-full max-w-7xl mx-auto px-5 py-32 sm:px-8 lg:px-12"
     >
       <ScrollReveal variant="fadeUp" className="mb-20">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-violet-400 mb-3">Trajectory</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">Trajectory</h2>
         <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Career Timeline</h3>
       </ScrollReveal>
 
@@ -40,7 +40,7 @@ export function CareerTimeline({ events }: { events: TimelineEvent[] }) {
 
         {/* Spring-smoothed animated fill line */}
         <motion.div
-          className="absolute left-0 md:left-1/2 top-0 w-[2px] bg-gradient-to-b from-cyan-400 via-violet-400 to-amber-400 transform md:-translate-x-1/2 origin-top"
+          className="absolute left-0 md:left-1/2 top-0 w-[2px] bg-gradient-to-b from-attention-400 via-attention-400 to-attention-400 transform md:-translate-x-1/2 origin-top"
           style={{ height: lineHeight }}
         />
 
@@ -60,7 +60,7 @@ export function CareerTimeline({ events }: { events: TimelineEvent[] }) {
                   <div className="relative group">
                     {/* Node dot with spring pulse */}
                     <motion.div
-                      className={`absolute top-2 w-3 h-3 rounded-full bg-[#08090b] border-2 border-cyan-400 -left-[37px] ${
+                      className={`absolute top-2 w-3 h-3 rounded-full bg-[#08090b] border-2 border-attention-400 -left-[37px] ${
                         isEven
                           ? "md:left-[-54px] md:right-auto"
                           : "md:right-[-54px] md:left-auto"
@@ -71,7 +71,7 @@ export function CareerTimeline({ events }: { events: TimelineEvent[] }) {
                       transition={{ ...springFluid, delay: index * 0.05 + 0.2 }}
                     />
 
-                    <span className="text-sm font-bold text-cyan-400 tracking-wider block mb-2">{event.year}</span>
+                    <span className="text-sm font-bold text-attention-400 tracking-wider block mb-2">{event.year}</span>
                     <h4 className="text-xl font-semibold text-white mb-2">{event.title}</h4>
                     <p className="text-slate-400 leading-relaxed">{event.description}</p>
                     <span className="inline-block mt-4 text-xs font-medium px-2 py-1 bg-white/5 border border-white/10 rounded-md text-slate-300">

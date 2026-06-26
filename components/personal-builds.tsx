@@ -7,7 +7,7 @@ import { Activity, TrendingUp, Camera } from "lucide-react";
 export function PersonalBuilds() {
   const builds = [
     {
-      icon: <Activity className="w-5 h-5 text-cyan-400" />,
+      icon: <Activity className="w-5 h-5 text-attention-400" />,
       title: "Endurance Running",
       subtitle: "PHYSICAL RESILIENCE // Ahmedabad Loops",
       description: "Maintaining a daily discipline of road running, logging endurance targets, and clearing the mind under Ahmedabad's high-temperature constraints.",
@@ -15,7 +15,7 @@ export function PersonalBuilds() {
       id: "endurance-running"
     },
     {
-      icon: <TrendingUp className="w-5 h-5 text-cyan-400" />,
+      icon: <TrendingUp className="w-5 h-5 text-attention-400" />,
       title: "Swing Trading & Markets",
       subtitle: "QUANTITATIVE FINANCE // RISK MANAGEMENT",
       description: "Developing structured risk control systems and tracking market velocity indicators. A data-driven approach to capital allocation outside of structural design.",
@@ -23,7 +23,7 @@ export function PersonalBuilds() {
       id: "swing-trading"
     },
     {
-      icon: <Camera className="w-5 h-5 text-cyan-400" />,
+      icon: <Camera className="w-5 h-5 text-attention-400" />,
       title: "Cinematography & Photography",
       subtitle: "NARRATIVE PACING // VISUAL JOURNEYS",
       description: "Documenting highway routes on the Royal Enfield Super Meteor 650. Framing landscape geometry, capturing light gradients, and editing story pacing.",
@@ -42,7 +42,7 @@ export function PersonalBuilds() {
         transition={{ duration: 0.6 }}
         className="mb-12 text-center"
       >
-        <span className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 font-bold">
+        <span className="text-[10px] uppercase font-mono tracking-widest text-attention-400 font-bold">
           02 — LIFE OUTSIDE ENGINEERING
         </span>
         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mt-2 font-mono">
@@ -81,14 +81,14 @@ function BuildCard({ build, idx }: { build: BuildItem; idx: number }) {
       transition={{ duration: 0.5, delay: idx * 0.15 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-neutral-950/40 border border-white/5 backdrop-blur-md hover:border-cyan-500/35 transition-all overflow-hidden h-[360px] md:h-[400px]"
+      className="group relative flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-neutral-950/40 border border-white/5 backdrop-blur-md hover:border-attention-500/35 transition-all overflow-hidden h-[360px] md:h-[400px]"
     >
       {/* Blueprint grid effect on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(rgba(34,211,238,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[linear-gradient(rgba(212, 175, 55,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(212, 175, 55,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
       
       <div className="relative z-10 space-y-4 w-full flex-grow flex flex-col">
         <div className="flex items-center justify-between">
-          <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:border-cyan-500/20 group-hover:bg-cyan-500/5 transition-all">
+          <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:border-attention-500/20 group-hover:bg-attention-500/5 transition-all">
             {build.icon}
           </div>
           <span className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">
@@ -100,7 +100,7 @@ function BuildCard({ build, idx }: { build: BuildItem; idx: number }) {
           <span className="text-[8px] uppercase font-mono tracking-widest text-slate-500 font-semibold block">
             {build.subtitle}
           </span>
-          <h4 className="text-lg font-bold text-white mt-1 group-hover:text-cyan-400 transition-colors font-mono">
+          <h4 className="text-lg font-bold text-white mt-1 group-hover:text-attention-400 transition-colors font-mono">
             {build.title}
           </h4>
         </div>
@@ -166,7 +166,7 @@ function CinemaRenderer({ isHovered }: { isHovered: boolean }) {
   }, [isHovered]);
 
   return (
-    <div className="font-mono text-[9px] text-cyan-400 bg-black/60 border border-cyan-500/20 rounded-2xl p-4 h-[125px] flex flex-col justify-between shadow-[inset_0_0_12px_rgba(6,182,212,0.05)]">
+    <div className="font-mono text-[9px] text-attention-400 bg-black/60 border border-attention-500/20 rounded-2xl p-4 h-[125px] flex flex-col justify-between shadow-[inset_0_0_12px_rgba(212, 175, 55,0.05)]">
       <div className="space-y-1">
         {lines.map((line, lIdx) => (
           <div key={lIdx} className="leading-tight tracking-wide whitespace-pre">
@@ -178,7 +178,7 @@ function CinemaRenderer({ isHovered }: { isHovered: boolean }) {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center bg-emerald-500/10 border border-emerald-500/35 text-emerald-400 py-1.5 rounded-lg text-[9px] font-bold tracking-widest animate-pulse"
+          className="text-center bg-attention-500/10 border border-attention-500/35 text-attention-400 py-1.5 rounded-lg text-[9px] font-bold tracking-widest animate-pulse"
         >
           RENDER STATUS: COMPLETE
         </motion.div>
@@ -219,18 +219,18 @@ function RunningSimulator({ isHovered }: { isHovered: boolean }) {
   const dotY = 50 - 25 * Math.sin(progress * Math.PI * 2) - 10 * Math.cos(progress * Math.PI * 4);
 
   return (
-    <div className="font-mono text-[9px] text-cyan-400 bg-black/60 border border-cyan-500/20 rounded-2xl p-3 h-[130px] flex flex-col justify-between">
+    <div className="font-mono text-[9px] text-attention-400 bg-black/60 border border-attention-500/20 rounded-2xl p-3 h-[130px] flex flex-col justify-between">
       {/* Running profile plot */}
-      <div className="relative flex-grow h-[65px] border-b border-l border-cyan-500/15">
+      <div className="relative flex-grow h-[65px] border-b border-l border-attention-500/15">
         <span className="absolute left-1.5 top-0.5 text-slate-500 text-[6.5px] rotate-90 origin-top-left">PACE</span>
         <span className="absolute right-1 bottom-1 text-slate-500 text-[6.5px]">DIST</span>
 
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 90">
           {/* Grid lines */}
-          <line x1="20" y1="30" x2="190" y2="30" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
-          <line x1="20" y1="60" x2="190" y2="60" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
-          <line x1="75" y1="10" x2="75" y2="85" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
-          <line x1="130" y1="10" x2="130" y2="85" stroke="rgba(34, 211, 238, 0.05)" strokeDasharray="2 2" />
+          <line x1="20" y1="30" x2="190" y2="30" stroke="rgba(212, 175, 55, 0.05)" strokeDasharray="2 2" />
+          <line x1="20" y1="60" x2="190" y2="60" stroke="rgba(212, 175, 55, 0.05)" strokeDasharray="2 2" />
+          <line x1="75" y1="10" x2="75" y2="85" stroke="rgba(212, 175, 55, 0.05)" strokeDasharray="2 2" />
+          <line x1="130" y1="10" x2="130" y2="85" stroke="rgba(212, 175, 55, 0.05)" strokeDasharray="2 2" />
 
           {/* Running pace curve */}
           <motion.path
@@ -249,7 +249,7 @@ function RunningSimulator({ isHovered }: { isHovered: boolean }) {
               cx={dotX}
               cy={dotY}
               r="2.5"
-              className="fill-cyan-400 stroke-cyan-500/40 stroke-[3px] animate-pulse"
+              className="fill-attention-400 stroke-attention-500/40 stroke-[3px] animate-pulse"
             />
           )}
         </svg>
@@ -310,16 +310,16 @@ function MarketsSimulator({ isHovered }: { isHovered: boolean }) {
     : "M 10 35 L 190 35";
 
   return (
-    <div className="font-mono text-[9px] text-cyan-400 bg-black/60 border border-cyan-500/20 rounded-2xl p-3 h-[130px] flex flex-col justify-between">
+    <div className="font-mono text-[9px] text-attention-400 bg-black/60 border border-attention-500/20 rounded-2xl p-3 h-[130px] flex flex-col justify-between">
       {/* Ticker header */}
       <div className="flex justify-between items-center pb-1 border-b border-white/5 text-slate-500 text-[7px]">
         <span>INDEX // US500</span>
-        <span className="text-cyan-400 font-bold tracking-widest animate-pulse">● LIVE CHART</span>
+        <span className="text-attention-400 font-bold tracking-widest animate-pulse">● LIVE CHART</span>
       </div>
 
       {/* Chart Canvas */}
-      <div className="relative flex-grow h-[55px] my-1 border border-cyan-500/10 bg-neutral-950/20 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,211,238,0.03)_1px,transparent_1px)] bg-[size:12px_12px] pointer-events-none" />
+      <div className="relative flex-grow h-[55px] my-1 border border-attention-500/10 bg-neutral-950/20 overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(212, 175, 55,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(212, 175, 55,0.03)_1px,transparent_1px)] bg-[size:12px_12px] pointer-events-none" />
 
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 70">
           <path
@@ -341,7 +341,7 @@ function MarketsSimulator({ isHovered }: { isHovered: boolean }) {
         </div>
         <div className="text-right">
           <span className="text-slate-500">RISK: </span>
-          <span className="text-emerald-400 font-bold">1.0% MAX</span>
+          <span className="text-attention-400 font-bold">1.0% MAX</span>
         </div>
       </div>
     </div>

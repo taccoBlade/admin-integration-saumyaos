@@ -28,7 +28,7 @@ export function GoalsList() {
   return (
     <section id="timeline" className="relative w-full max-w-7xl mx-auto px-5 py-16 sm:px-8 lg:px-12">
       <div className="mb-12">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--accent-amber)] mb-3">Milestones</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-attention-400 mb-3">Milestones</h2>
         <h3 className="text-3xl sm:text-4xl font-semibold text-[var(--foreground)] tracking-tight">Active Goals & Focus</h3>
       </div>
 
@@ -51,16 +51,16 @@ export function GoalsList() {
                 >
                   <div className="mt-0.5 flex-shrink-0">
                     {goal.completed ? (
-                      <CheckCircle2 className="w-5 h-5 text-[var(--accent-amber)] transition-transform group-hover:scale-110" />
+                      <CheckCircle2 className="w-5 h-5 text-attention-400 transition-transform group-hover:scale-110" />
                     ) : (
-                      <Circle className="w-5 h-5 text-[var(--muted)] group-hover:text-[var(--accent-amber)] transition-transform group-hover:scale-110" />
+                      <Circle className="w-5 h-5 text-[var(--muted)] group-hover:text-attention-400 transition-transform group-hover:scale-110" />
                     )}
                   </div>
                   <span 
                     className={`text-sm leading-relaxed transition-all ${
                       goal.completed 
                         ? "text-[var(--muted)] line-through decoration-[var(--card-border)]" 
-                        : "text-[var(--foreground)] group-hover:text-[var(--accent-amber)]"
+                        : "text-[var(--foreground)] group-hover:text-attention-400"
                     }`}
                   >
                     {goal.text}
@@ -88,16 +88,16 @@ export function GoalsList() {
                 >
                   <div className="mt-0.5 flex-shrink-0">
                     {goal.completed ? (
-                      <CheckCircle2 className="w-5 h-5 text-[var(--accent-amber)] transition-transform group-hover:scale-110" />
+                      <CheckCircle2 className="w-5 h-5 text-attention-400 transition-transform group-hover:scale-110" />
                     ) : (
-                      <Circle className="w-5 h-5 text-[var(--muted)] group-hover:text-[var(--accent-amber)] transition-transform group-hover:scale-110" />
+                      <Circle className="w-5 h-5 text-[var(--muted)] group-hover:text-attention-400 transition-transform group-hover:scale-110" />
                     )}
                   </div>
                   <span 
                     className={`text-sm leading-relaxed transition-all ${
                       goal.completed 
                         ? "text-[var(--muted)] line-through decoration-[var(--card-border)]" 
-                        : "text-[var(--foreground)] group-hover:text-[var(--accent-amber)]"
+                        : "text-[var(--foreground)] group-hover:text-attention-400"
                     }`}
                   >
                     {goal.text}

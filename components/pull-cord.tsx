@@ -102,7 +102,7 @@ export function PullCord() {
         }}
         className={`w-[1.5px] h-28 sm:h-36 bg-gradient-to-b ${
           theme === "dark" 
-            ? "from-slate-800 via-slate-600 to-amber-500" 
+            ? "from-slate-800 via-slate-600 to-attention-500" 
             : "from-slate-200 via-slate-400 to-slate-800"
         } ${isSwinging ? "swing-animation" : ""}`}
       />
@@ -124,7 +124,7 @@ export function PullCord() {
         onClick={handleClick}
         className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 cursor-grab active:cursor-grabbing flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 ${
           theme === "dark"
-            ? "bg-[#0F172A] border-amber-500 text-amber-500"
+            ? "bg-[#0F172A] border-attention-500 text-attention-500"
             : "bg-white border-slate-800 text-slate-800"
         } ${isSwinging ? "swing-animation" : ""}`}
         title="Pull or click to toggle Light/Dark mode"

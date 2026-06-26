@@ -17,35 +17,35 @@ const routineData: RoutineItem[] = [
     time: "06:00 AM",
     title: "Field Exploration & Run",
     icon: Sun,
-    color: "text-amber-500 bg-amber-500/10 border-amber-500/20",
+    color: "text-attention-500 bg-attention-500/10 border-attention-500/20",
     description: "Starting the day auditing excavations or going for an outdoor run to track pace metrics."
   },
   {
     time: "09:00 AM",
     title: "Geotechnical Labs & University",
     icon: ShieldAlert,
-    color: "text-cyan-500 bg-cyan-500/10 border-cyan-500/20",
+    color: "text-attention-500 bg-attention-500/10 border-attention-500/20",
     description: "Deep diving into soil mechanics lectures, concrete compressive testing labs, and structural design tutorials."
   },
   {
     time: "02:00 PM",
     title: "System Coding & RAG pipelines",
     icon: Cpu,
-    color: "text-violet-500 bg-violet-500/10 border-violet-500/20",
+    color: "text-attention-500 bg-attention-500/10 border-attention-500/20",
     description: "Developing code solutions, testing ZIP ingestion scripts, and building intelligent personal OS platforms."
   },
   {
     time: "05:00 PM",
     title: "Market Review & Portfolio Allocation",
     icon: Landmark,
-    color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
+    color: "text-attention-500 bg-attention-500/10 border-attention-500/20",
     description: "Auditing closing market numbers, tracking equities, checking risk allocations, and drafting investment reports."
   },
   {
     time: "08:00 PM",
     title: "Creative Video Clipping & Curation",
     icon: Film,
-    color: "text-amber-600 bg-amber-600/10 border-amber-600/20",
+    color: "text-attention-600 bg-attention-600/10 border-attention-600/20",
     description: "Refining video edits, applying audio overlays, and documenting engineering logbooks in markdown."
   }
 ];
@@ -58,7 +58,7 @@ export function RoutineTimeline() {
   return (
     <section id="timeline" className="relative w-full max-w-7xl mx-auto px-5 py-20 sm:px-8 lg:px-12">
       <div className="mb-12">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--accent-blue)] mb-3">Routines</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-[0.25em] text-attention-400 mb-3">Routines</h2>
         <h3 className="text-3xl sm:text-4xl font-semibold text-[var(--foreground)] tracking-tight">Daily Trajectory</h3>
       </div>
 
@@ -75,7 +75,7 @@ export function RoutineTimeline() {
                 onClick={() => setActiveIndex(idx)}
                 className={`flex items-center justify-between p-4.5 rounded-2xl border text-left transition-all ${
                   isActive
-                    ? "bg-[var(--card-bg)] border-[var(--accent-blue)] shadow-md translate-x-2"
+                    ? "bg-[var(--card-bg)] border-attention-400 shadow-md translate-x-2"
                     : "bg-transparent border-[var(--card-border)] hover:bg-[var(--card-bg)]/40 hover:border-slate-500/30"
                 }`}
               >
@@ -95,7 +95,7 @@ export function RoutineTimeline() {
                 {isActive && (
                   <motion.div 
                     layoutId="activeDot"
-                    className="w-2 h-2 rounded-full bg-[var(--accent-blue)] mr-2"
+                    className="w-2 h-2 rounded-full bg-attention-400 mr-2"
                   />
                 )}
               </button>
@@ -118,7 +118,7 @@ export function RoutineTimeline() {
               className="relative z-10 flex flex-col justify-between h-full min-h-[200px]"
             >
               <div>
-                <span className="text-sm font-mono font-semibold uppercase tracking-widest text-[var(--accent-blue)] block mb-3">
+                <span className="text-sm font-mono font-semibold uppercase tracking-widest text-attention-400 block mb-3">
                   Schedule // {activeRoutine.time}
                 </span>
                 <h4 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] tracking-tight mb-4">
@@ -137,7 +137,7 @@ export function RoutineTimeline() {
                 </div>
                 <div className="w-full h-1.5 bg-[var(--card-border)] rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-[var(--accent-blue)] to-[var(--accent-purple)] rounded-full"
+                    className="h-full bg-gradient-to-r from-attention-400 to-attention-600 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${((activeIndex + 1) / routineData.length) * 100}%` }}
                     transition={{ duration: 0.5, ease: "easeOut" }}

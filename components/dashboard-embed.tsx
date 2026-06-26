@@ -38,10 +38,10 @@ export function DashboardEmbed({
       <div className="bg-neutral-950/80 border-b border-neutral-850 px-6 py-4 flex items-center justify-between font-mono">
         <div className="flex items-center gap-3">
           <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-attention-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-attention-500"></span>
           </span>
-          <span className="text-xs font-semibold text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+          <span className="text-xs font-semibold text-attention-400 uppercase tracking-widest flex items-center gap-1.5">
             <Cpu className="w-3.5 h-3.5" /> Client-Side Computational Engine Active
           </span>
         </div>
@@ -58,7 +58,7 @@ export function DashboardEmbed({
             href={dashboardPath}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-neutral-400 hover:text-cyan-400 transition-colors inline-flex items-center gap-1 p-1 hover:bg-neutral-850 rounded-lg"
+            className="text-xs text-neutral-400 hover:text-attention-400 transition-colors inline-flex items-center gap-1 p-1 hover:bg-neutral-850 rounded-lg"
             title="Open in New Tab"
           >
             Popout <ExternalLink className="w-3.5 h-3.5" />

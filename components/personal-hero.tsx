@@ -33,7 +33,7 @@ const LANDMARKS: TerrainLandmark[] = [
     category: "REFLECTION",
     gridX: -8,
     gridY: 6,
-    color: "#22d3ee", // cyan
+    color: "#ced4da", // archive-400
     type: "Ambient Soundscapes",
     location: "Reflective Space",
     telemetry: "Acoustic Calibration",
@@ -46,7 +46,7 @@ const LANDMARKS: TerrainLandmark[] = [
     category: "FINANCE",
     gridX: 6,
     gridY: -8,
-    color: "#10b981", // emerald
+    color: "#adb5bd", // archive-500
     type: "Capital Strategy",
     location: "Personal Desk",
     telemetry: "Quantitative Systems",
@@ -59,7 +59,7 @@ const LANDMARKS: TerrainLandmark[] = [
     category: "CREATIVE",
     gridX: 0,
     gridY: 0,
-    color: "#f43f5e", // rose
+    color: "#d4af37", // attention gold
     type: "Visual Cinematics",
     location: "Journey Logs",
     telemetry: "Framing & Composition",
@@ -72,7 +72,7 @@ const LANDMARKS: TerrainLandmark[] = [
     category: "PHYSICAL",
     gridX: 8,
     gridY: 8,
-    color: "#fbbf24", // amber
+    color: "#f3ca3e", // attention hover gold
     type: "Endurance & Lift",
     location: "Training Zone",
     telemetry: "Consistent Routine",
@@ -85,7 +85,7 @@ const LANDMARKS: TerrainLandmark[] = [
     category: "ADVENTURE",
     gridX: 10,
     gridY: -4,
-    color: "#f97316", // orange
+    color: "#c9a35a", // muted gold
     type: "Cruiser Touring",
     location: "Open Highway",
     telemetry: "Super Meteor 650",
@@ -98,7 +98,7 @@ const LANDMARKS: TerrainLandmark[] = [
     category: "CURIOSITY",
     gridX: -10,
     gridY: -8,
-    color: "#8b5cf6", // violet
+    color: "#6c757d", // archive-600
     type: "Cognitive Inquiry",
     location: "Emerging Tech",
     telemetry: "Systems Architecture",
@@ -131,7 +131,7 @@ export function PersonalHero({ setActiveDossier }: PersonalHeroProps) {
           className="lg:col-span-7 bg-black/45 border border-white/5 p-6 sm:p-10 rounded-2xl backdrop-blur-md relative overflow-hidden flex flex-col justify-between min-h-[380px]"
         >
           {/* Subtle Grid overlay */}
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(212, 175, 55, 0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
           
           <div className="flex items-center justify-between text-[9px] tracking-widest text-slate-500 uppercase z-10">
             <span>[ PERSONAL LOG // INITIATED ]</span>
@@ -578,11 +578,11 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
         ctx.fillStyle = "rgba(8, 9, 11, 0.75)";
         ctx.fillRect(lm.screenX - lblWidth / 2 - 3, lm.pinY - 18, lblWidth + 6, 10);
         
-        ctx.strokeStyle = isActive ? lm.color : "rgba(255, 255, 255, 0.12)";
+        ctx.strokeStyle = isActive ? lm.color : "rgba(212, 175, 55, 0.12)";
         ctx.lineWidth = 0.6;
         ctx.strokeRect(lm.screenX - lblWidth / 2 - 3, lm.pinY - 18, lblWidth + 6, 10);
 
-        ctx.fillStyle = isActive ? "#ffffff" : "rgba(255, 255, 255, 0.65)";
+        ctx.fillStyle = isActive ? "#ffffff" : "rgba(212, 175, 55, 0.65)";
         ctx.fillText(labelText, lm.screenX, lm.pinY - 10);
       });
 
@@ -593,7 +593,7 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
 
       ctx.beginPath();
       ctx.arc(compassCx, compassCy, compassR, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+      ctx.strokeStyle = "rgba(212, 175, 55, 0.08)";
       ctx.lineWidth = 0.8;
       ctx.stroke();
 
@@ -602,7 +602,7 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
       ctx.rotate(-yaw);
 
       ctx.font = "6px monospace";
-      ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+      ctx.fillStyle = "rgba(212, 175, 55, 0.3)";
       ctx.textAlign = "center";
       ctx.fillText("N", 0, -compassR + 6);
       
@@ -611,7 +611,7 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
       ctx.lineTo(3, -6);
       ctx.lineTo(-3, -6);
       ctx.closePath();
-      ctx.fillStyle = "#22d3ee";
+      ctx.fillStyle = "#d4af37";
       ctx.fill();
 
       ctx.beginPath();
@@ -619,7 +619,7 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
       ctx.lineTo(2.5, 6);
       ctx.lineTo(-2.5, 6);
       ctx.closePath();
-      ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+      ctx.fillStyle = "rgba(212, 175, 55, 0.15)";
       ctx.fill();
 
       ctx.restore();
@@ -655,7 +655,7 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
       {/* Mini HUD Header */}
       <div className="flex justify-between items-start z-20 pointer-events-none">
         <div>
-          <span className="text-[7.5px] text-cyan-400 font-bold uppercase tracking-wider block">
+          <span className="text-[7.5px] text-attention font-bold uppercase tracking-wider block">
             MAP OVERVIEW // PERSONAL SPACE
           </span>
           <h2 className="text-[10px] font-bold text-white uppercase font-mono tracking-tight mt-0.5">
@@ -732,7 +732,7 @@ function TopographyBentoCell({ setActiveDossier }: TopographyBentoCellProps) {
           onClick={toggleAutoRotate}
           className={`w-5 h-5 flex items-center justify-center rounded border transition-all ${
             isAutoRotating
-              ? "border-cyan-500/30 bg-cyan-500/10 text-cyan-400"
+              ? "border-attention/30 bg-attention/10 text-attention"
               : "border-white/10 bg-white/[0.02] text-slate-400 hover:text-white"
           }`}
           title="Toggle Rotation"

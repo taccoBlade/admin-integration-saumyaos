@@ -112,7 +112,7 @@ ${fileData.story}
         {selectedFile && (
           <button
             onClick={closeLogFile}
-            className="px-3 py-1 text-[10px] uppercase tracking-widest border border-white/10 hover:border-cyan-500 hover:text-cyan-400 rounded transition-all font-semibold"
+            className="px-3 py-1 text-[10px] uppercase tracking-widest border border-white/10 hover:border-attention-500 hover:text-attention-400 rounded transition-all font-semibold"
           >
             Close Journal
           </button>
@@ -153,7 +153,7 @@ ${fileData.story}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="whitespace-pre-wrap leading-relaxed pb-6 h-full font-mono text-[10px] select-text selection:bg-cyan-500/20"
+                className="whitespace-pre-wrap leading-relaxed pb-6 h-full font-mono text-[10px] select-text selection:bg-attention-500/20"
               >
                 {typedText}
                 {typedText.length < (typedText.length + 1) && (

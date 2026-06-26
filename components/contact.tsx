@@ -15,7 +15,7 @@ export function Contact() {
         className="absolute inset-0 pointer-events-none opacity-[0.02]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+            "linear-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 175, 55, 0.1) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       />
@@ -24,10 +24,10 @@ export function Contact() {
         {/* Left: Status + Location */}
         <ScrollReveal variant="slideRight" delay={0}>
           <div className="flex flex-col items-center md:items-start gap-2">
-            <div className="flex items-center gap-2 text-cyan-400 font-mono text-sm">
+            <div className="flex items-center gap-2 text-attention-400 font-mono text-sm">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-attention-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-attention-500" />
               </span>
               Available for opportunities
             </div>
@@ -39,7 +39,7 @@ export function Contact() {
         <ScrollReveal variant="fadeUp" delay={0.1}>
           <div className="text-center">
             <span className="text-xl font-semibold text-white">
-              Saumya Parekh<span className="text-cyan-400">.</span>
+              Saumya Parekh<span className="text-attention-400">.</span>
             </span>
             <p className="text-xs text-slate-500 mt-1 font-mono">
               Civil Engineering &amp; Infrastructure
@@ -53,9 +53,9 @@ export function Contact() {
             <motion.a
               href="mailto:saumyaparekh937@gmail.com"
               {...hoverTap}
-              className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium"
+              className="flex items-center gap-2 text-slate-400 hover:text-attention-400 transition-colors text-sm font-medium"
             >
-              <Mail className="w-4 h-4 text-cyan-400" />
+              <Mail className="w-4 h-4 text-attention-400" />
               <span>saumyaparekh937@gmail.com</span>
             </motion.a>
             <div className="flex gap-4">
@@ -64,7 +64,7 @@ export function Contact() {
                 target="_blank"
                 rel="noreferrer"
                 {...hoverTap}
-                className="text-slate-400 hover:text-cyan-400 transition-colors text-xs font-mono tracking-wider"
+                className="text-slate-400 hover:text-attention-400 transition-colors text-xs font-mono tracking-wider"
               >
                 LINKEDIN
               </motion.a>
@@ -74,7 +74,7 @@ export function Contact() {
                 target="_blank"
                 rel="noreferrer"
                 {...hoverTap}
-                className="text-slate-400 hover:text-cyan-400 transition-colors text-xs font-mono tracking-wider"
+                className="text-slate-400 hover:text-attention-400 transition-colors text-xs font-mono tracking-wider"
               >
                 GITHUB
               </motion.a>

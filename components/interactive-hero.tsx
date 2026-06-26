@@ -159,9 +159,9 @@ export function InteractiveHero() {
         cursor.y,
         SPOTLIGHT_R
       );
-      spotlightGrad.addColorStop(0, "rgba(14, 116, 144, 0.35)"); // cyan-700 glow
-      spotlightGrad.addColorStop(0.5, "rgba(14, 116, 144, 0.15)");
-      spotlightGrad.addColorStop(1, "rgba(14, 116, 144, 0)");
+      spotlightGrad.addColorStop(0, "rgba(148, 163, 184, 0.35)"); // cyan-700 glow
+      spotlightGrad.addColorStop(0.5, "rgba(148, 163, 184, 0.15)");
+      spotlightGrad.addColorStop(1, "rgba(148, 163, 184, 0)");
       ctx.fillStyle = spotlightGrad;
       ctx.beginPath();
       ctx.arc(cursor.x, cursor.y, SPOTLIGHT_R, 0, Math.PI * 2);
@@ -183,9 +183,9 @@ export function InteractiveHero() {
         cursor.y,
         SPOTLIGHT_R
       );
-      gridGrad.addColorStop(0, "rgba(34, 211, 238, 0.35)"); // cyan-400
-      gridGrad.addColorStop(0.6, "rgba(34, 211, 238, 0.15)");
-      gridGrad.addColorStop(1, "rgba(34, 211, 238, 0)");
+      gridGrad.addColorStop(0, "rgba(212, 175, 55, 0.35)"); // cyan-400
+      gridGrad.addColorStop(0.6, "rgba(212, 175, 55, 0.15)");
+      gridGrad.addColorStop(1, "rgba(212, 175, 55, 0)");
       ctx.strokeStyle = gridGrad;
       ctx.lineWidth = 0.55;
       ctx.beginPath();
@@ -214,7 +214,7 @@ export function InteractiveHero() {
         const opacity = Math.max(0, 1 - avgD / SPOTLIGHT_R);
 
         if (opacity > 0) {
-          ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.65})`;
+          ctx.strokeStyle = `rgba(212, 175, 55, ${opacity * 0.65})`;
           ctx.lineWidth = 1.25;
           ctx.beginPath();
           ctx.moveTo(x1, y1);
@@ -229,7 +229,7 @@ export function InteractiveHero() {
           const flowOpacity = Math.max(0, 1 - fDist / SPOTLIGHT_R);
 
           if (flowOpacity > 0) {
-            ctx.fillStyle = `rgba(34, 211, 238, ${flowOpacity * 0.95})`;
+            ctx.fillStyle = `rgba(212, 175, 55, ${flowOpacity * 0.95})`;
             ctx.beginPath();
             ctx.arc(fx, fy, 2, 0, Math.PI * 2);
             ctx.fill();
@@ -249,14 +249,14 @@ export function InteractiveHero() {
           const pulse = Math.sin(time * 0.004 + i) * 3;
 
           // Connecting ring
-          ctx.strokeStyle = `rgba(34, 211, 238, ${opacity * 0.65})`;
+          ctx.strokeStyle = `rgba(212, 175, 55, ${opacity * 0.65})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.arc(nx, ny, 8 + pulse, 0, Math.PI * 2);
           ctx.stroke();
 
           // Node core
-          ctx.fillStyle = `rgba(34, 211, 238, ${opacity * 0.85})`;
+          ctx.fillStyle = `rgba(212, 175, 55, ${opacity * 0.85})`;
           ctx.beginPath();
           ctx.arc(nx, ny, 2.5, 0, Math.PI * 2);
           ctx.fill();
@@ -267,7 +267,7 @@ export function InteractiveHero() {
 
       // 5. Draw light-beam cursor ring
       if (mouse.current.x !== -999) {
-        ctx.strokeStyle = "rgba(34, 211, 238, 0.06)";
+        ctx.strokeStyle = "rgba(212, 175, 55, 0.06)";
         ctx.lineWidth = 2.5;
         ctx.beginPath();
         ctx.arc(cursor.x, cursor.y, SPOTLIGHT_R, 0, Math.PI * 2);
@@ -313,7 +313,7 @@ export function InteractiveHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-xs font-mono uppercase tracking-[0.3em] text-cyan-400 mb-4 block"
+          className="text-xs font-mono uppercase tracking-[0.3em] text-attention-400 mb-4 block"
         >
           Civil Engineering & Infrastructure Systems
         </motion.span>
@@ -328,7 +328,7 @@ export function InteractiveHero() {
           <span className="block text-white font-sans">
             Saumya Parekh
           </span>
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-200 font-mono text-xs sm:text-sm lg:text-lg mt-3 tracking-[0.2em] uppercase">
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-attention-400 to-attention-200 font-mono text-xs sm:text-sm lg:text-lg mt-3 tracking-[0.2em] uppercase">
             Computational Infrastructure Engineer
           </span>
         </motion.h1>
@@ -376,7 +376,7 @@ export function InteractiveHero() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-3 sm:gap-6 text-slate-400 font-mono text-[9px] sm:text-[10px] tracking-wider uppercase">
             
             <div className="flex items-center gap-2 px-3 py-1 justify-center sm:justify-start">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-attention-500 animate-pulse shrink-0" />
               <span className="text-white font-semibold text-[10px]">
                 NHAI Innovation Project
               </span>
@@ -385,7 +385,7 @@ export function InteractiveHero() {
             <div className="hidden sm:block h-4 w-px bg-white/10" />
 
             <div className="flex items-center gap-2 px-3 py-1 justify-center sm:justify-start">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-attention-500 shrink-0" />
               <span className="text-white font-semibold text-[10px]">
                 Civil Engineering @ PDEU
               </span>
@@ -394,7 +394,7 @@ export function InteractiveHero() {
             <div className="hidden sm:block h-4 w-px bg-white/10" />
 
             <div className="flex items-center gap-2 px-3 py-1 justify-center sm:justify-start">
-              <span className="h-1.5 w-1.5 rounded-full bg-violet-500 shrink-0" />
+              <span className="h-1.5 w-1.5 rounded-full bg-attention-500 shrink-0" />
               <span className="text-white font-semibold text-[10px]">
                 Infrastructure Systems
               </span>

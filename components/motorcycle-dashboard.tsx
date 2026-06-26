@@ -540,10 +540,10 @@ export function MotorcycleDashboard() {
             if (p.type === "spark") {
               ctx.shadowBlur = 8;
               ctx.shadowColor = "#f97316";
-              ctx.fillStyle = `rgba(249, 115, 22, ${p.alpha})`;
+              ctx.fillStyle = `rgba(212, 175, 55, ${p.alpha})`;
             } else {
               // cyan hot smoke
-              ctx.fillStyle = `rgba(34, 211, 238, ${p.alpha * 0.14})`;
+              ctx.fillStyle = `rgba(212, 175, 55, ${p.alpha * 0.14})`;
             }
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -642,16 +642,16 @@ export function MotorcycleDashboard() {
       {/* Top Banner details */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/5 pb-4 relative z-10">
         <div>
-          <span className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 font-bold">GARAGE PORTFOLIO HUB // TELEMETRY STATUS</span>
+          <span className="text-[10px] uppercase font-mono tracking-widest text-attention-400 font-bold">GARAGE PORTFOLIO HUB // TELEMETRY STATUS</span>
           <h3 className="text-2xl font-bold tracking-tight text-white mt-0.5">Royal Enfield Super Meteor 650</h3>
         </div>
         <div className="mt-2 sm:mt-0 flex gap-3 text-[10px] font-mono">
           <div className="px-3 py-1 bg-neutral-900 border border-white/5 rounded-md flex items-center gap-1.5">
-            <span className={`w-1.5 h-1.5 rounded-full ${ignition ? "bg-green-400 animate-pulse" : "bg-red-500"}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${ignition ? "bg-attention-400 animate-pulse" : "bg-attention-500"}`} />
             <span>SYS_POWER: {ignition ? "ONLINE" : "OFFLINE"}</span>
           </div>
           <div className="px-3 py-1 bg-neutral-900 border border-white/5 rounded-md flex items-center gap-1.5">
-            <span className={`w-1.5 h-1.5 rounded-full ${engineState !== "OFF" && engineState !== "CRANKING" ? "bg-cyan-400 animate-pulse" : "bg-red-500"}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${engineState !== "OFF" && engineState !== "CRANKING" ? "bg-attention-400 animate-pulse" : "bg-attention-500"}`} />
             <span>ENGINE: {engineState}</span>
           </div>
         </div>
@@ -665,7 +665,7 @@ export function MotorcycleDashboard() {
           
           <div className="flex justify-between items-center text-[10px] text-slate-500 border-b border-white/5 pb-3">
             <span>[CRUISERBLUEPRINT_V1.06]</span>
-            <span className="text-cyan-400 font-semibold uppercase">{gear === "N" ? "Neutral Idle Mode" : `Transmission: Gear ${gear}`}</span>
+            <span className="text-attention-400 font-semibold uppercase">{gear === "N" ? "Neutral Idle Mode" : `Transmission: Gear ${gear}`}</span>
           </div>
 
           {/* Interactive SVG Schematic container */}
@@ -698,14 +698,14 @@ export function MotorcycleDashboard() {
             >
               <defs>
                 <radialGradient id="headlightGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.6" />
-                  <stop offset="30%" stopColor="#22d3ee" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#d4af37" stopOpacity="0.6" />
+                  <stop offset="30%" stopColor="#d4af37" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#d4af37" stopOpacity="0" />
                 </radialGradient>
                 <linearGradient id="beamGrad" x1="0%" y1="50%" x2="100%" y2="50%">
-                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.4" />
-                  <stop offset="35%" stopColor="#22d3ee" stopOpacity="0.15" />
-                  <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#d4af37" stopOpacity="0.4" />
+                  <stop offset="35%" stopColor="#d4af37" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#d4af37" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#cbd5e1" />
@@ -775,7 +775,7 @@ export function MotorcycleDashboard() {
               <path d="M 320,118 C 335,110 355,110 370,117" fill="none" stroke="#e2e8f0" strokeWidth="1.5" className="opacity-40" />
               {/* RE tank emblem */}
               <circle cx="345" cy="120" r="5" fill="#18181b" stroke="url(#chromeGrad)" strokeWidth="0.8" />
-              <text x="345" y="122.2" textAnchor="middle" className="fill-cyan-400 text-[4px] font-mono font-bold tracking-tight">RE</text>
+              <text x="345" y="122.2" textAnchor="middle" className="fill-attention-400 text-[4px] font-mono font-bold tracking-tight">RE</text>
               <ellipse cx="335" cy="98" rx="4" ry="1.5" fill="#475569" stroke="#94a3b8" strokeWidth="0.5" /> {/* cap */}
 
               {/* Seat split dual cruiser saddle - premium brown leather */}
@@ -953,15 +953,15 @@ export function MotorcycleDashboard() {
             <div className="absolute top-2 left-2 flex flex-col gap-1.5 pointer-events-none text-[8px] font-mono text-slate-400 bg-neutral-950/80 border border-white/5 p-2 rounded-md">
               <span className="text-slate-500 uppercase tracking-widest text-[7px] font-bold">Wheel Telemetry</span>
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-attention-400 inline-block" />
                 FRONT TIRE: <span className="text-white">{tireTempFront.toFixed(0)}°C // 32 PSI</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-attention-400 inline-block" />
                 REAR TIRE: <span className="text-white">{tireTempRear.toFixed(0)}°C // 36 PSI</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-attention-400 inline-block" />
                 WHEEL_ROT: <span className="text-white">{(speed * 9.6).toFixed(0)} RPM</span>
               </span>
             </div>
@@ -969,23 +969,23 @@ export function MotorcycleDashboard() {
             <div className="absolute top-2 right-2 flex flex-col gap-1.5 pointer-events-none text-[8px] font-mono text-slate-400 bg-neutral-950/80 border border-white/5 p-2 rounded-md">
               <span className="text-slate-500 uppercase tracking-widest text-[7px] font-bold">Combustion Telemetry</span>
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
-                ENG_TEMP: <span className={engineTemp > 100 ? "text-red-400 font-bold" : "text-white"}>{engineTemp.toFixed(1)}°C</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-attention-400 inline-block" />
+                ENG_TEMP: <span className={engineTemp > 100 ? "text-attention-400 font-bold" : "text-white"}>{engineTemp.toFixed(1)}°C</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-attention-400 inline-block" />
                 OIL_PRESS: <span className="text-white">{oilPressure.toFixed(0)} PSI</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-attention-400 inline-block" />
                 AIR_FLOW: <span className="text-white">{airFlow.toFixed(1)} g/s</span>
               </span>
             </div>
 
             {/* Gear Dogs dynamic shifting banner */}
             {isShifting && (
-              <div className="absolute inset-0 bg-neutral-950/70 border border-cyan-500/20 rounded-xl flex flex-col items-center justify-center pointer-events-none z-30 animate-pulse">
-                <span className="text-[9px] uppercase tracking-widest font-mono text-cyan-400 font-bold">TRANSMISSION DOGS ACTIVE</span>
+              <div className="absolute inset-0 bg-neutral-950/70 border border-attention-500/20 rounded-xl flex flex-col items-center justify-center pointer-events-none z-30 animate-pulse">
+                <span className="text-[9px] uppercase tracking-widest font-mono text-attention-400 font-bold">TRANSMISSION DOGS ACTIVE</span>
                 <span className="text-xl font-mono font-extrabold text-white mt-1">CLUTCH DISENGAGED</span>
                 <span className="text-[8px] font-mono text-slate-500 mt-0.5">SLIDING DOG RINGS COUPLING NEXT RATIO</span>
               </div>
@@ -1105,7 +1105,7 @@ export function MotorcycleDashboard() {
                 strokeWidth="2.5" 
                 className="transition-all duration-300" 
               />
-              <path d="M 50,100 A 50 50 0 0 1 150,100 Z" fill="rgba(255, 255, 255, 0.05)" pointer-events="none" />
+              <path d="M 50,100 A 50 50 0 0 1 150,100 Z" fill="rgba(212, 175, 55, 0.05)" pointer-events="none" />
 
               {/* LCD Display segments (Active when ignition is ON) */}
               {ignition && (
@@ -1163,7 +1163,7 @@ export function MotorcycleDashboard() {
 
               {/* Dynamic Warning Indicator Lights */}
               {/* ABS Warning Light (Yellow, active if speed is 0) */}
-              <circle cx="68" cy="172" r="6.5" fill={ignition && speed === 0 ? "#eab308" : "#18181b"} stroke="#27272a" strokeWidth="0.5" />
+              <circle cx="68" cy="172" r="6.5" fill={ignition && speed === 0 ? "#d4af37" : "#18181b"} stroke="#27272a" strokeWidth="0.5" />
               <text x="68" y="174" textAnchor="middle" fill={ignition && speed === 0 ? "#000000" : "#4b5563"} className="font-sans font-black text-[4.5px]">ABS</text>
 
               {/* Battery Warning Light (Red, active if engine off) */}
@@ -1181,7 +1181,7 @@ export function MotorcycleDashboard() {
               <path d="M 113,174.5 L 119,174.5 Q 120,173 118.5,172.2 L 117,171.5 L 117,170 L 118,170" fill="none" stroke={ignition && (engineState === "OFF" || engineState === "CRANKING") ? "#ffffff" : "#4b5563"} strokeWidth="0.8" />
 
               {/* Engine Check Warning (Yellow, active if engine off) */}
-              <circle cx="132" cy="172" r="6.5" fill={ignition && engineState === "OFF" ? "#eab308" : "#18181b"} stroke="#27272a" strokeWidth="0.5" />
+              <circle cx="132" cy="172" r="6.5" fill={ignition && engineState === "OFF" ? "#d4af37" : "#18181b"} stroke="#27272a" strokeWidth="0.5" />
               <rect x="129" y="170.2" width="6" height="3.8" rx="0.5" fill="none" stroke={ignition && engineState === "OFF" ? "#000000" : "#4b5563"} strokeWidth="0.8" />
               <rect x="131" y="168.7" width="2" height="1.5" fill={ignition && engineState === "OFF" ? "#000000" : "#4b5563"} />
 
@@ -1218,14 +1218,14 @@ export function MotorcycleDashboard() {
             <div className="grid grid-cols-2 gap-2 text-[8px] font-mono font-bold text-center">
               <div className={`py-1.5 rounded border transition-all ${
                 ignition && rpm >= 7200 
-                  ? "bg-red-950 border-red-500 text-red-400 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.2)]" 
+                  ? "bg-attention-950 border-attention-500 text-attention-400 animate-pulse shadow-[0_0_10px_rgba(212, 175, 55, 0.2)]" 
                   : "bg-neutral-950 border-white/5 text-slate-600"
               }`}>
                 SHIFT INDICATOR
               </div>
               <div className={`py-1.5 rounded border transition-all ${
                 clutchActive 
-                  ? "bg-cyan-950 border-cyan-500 text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                  ? "bg-attention-950 border-attention-500 text-attention-400 shadow-[0_0_10px_rgba(212, 175, 55,0.2)]" 
                   : "bg-neutral-950 border-white/5 text-slate-600"
               }`}>
                 CLUTCH ENGAGED
@@ -1242,7 +1242,7 @@ export function MotorcycleDashboard() {
                   onClick={handleIgnition}
                   className={`w-12 h-12 rounded-full border flex items-center justify-center cursor-pointer transition-all duration-300 relative ${
                     ignition 
-                      ? "bg-green-950/20 border-green-500/50 shadow-[0_0_12px_rgba(34,197,94,0.15)]" 
+                      ? "bg-attention-950/20 border-attention-500/50 shadow-[0_0_12px_rgba(212, 175, 55,0.15)]" 
                       : "bg-neutral-900 border-white/10 hover:border-white/20"
                   }`}
                 >
@@ -1266,12 +1266,12 @@ export function MotorcycleDashboard() {
                   onMouseDown={handleStarterPress}
                   onTouchStart={(e) => { e.preventDefault(); handleStarterPress(); }}
                   disabled={!ignition || engineState !== "OFF"}
-                  className={`w-12 h-12 rounded-full border border-red-500/30 flex items-center justify-center relative transition-all active:scale-95 ${
+                  className={`w-12 h-12 rounded-full border border-attention-500/30 flex items-center justify-center relative transition-all active:scale-95 ${
                     !ignition 
                       ? "bg-neutral-950 border-neutral-900 cursor-not-allowed opacity-30" 
                       : engineState === "OFF"
-                        ? "bg-red-700 hover:bg-red-600 shadow-[0_0_12px_rgba(239,68,68,0.2)] cursor-pointer"
-                        : "bg-red-950/20 border-red-500/20 cursor-not-allowed"
+                        ? "bg-attention-700 hover:bg-attention-600 shadow-[0_0_12px_rgba(212, 175, 55, 0.2)] cursor-pointer"
+                        : "bg-attention-950/20 border-attention-500/20 cursor-not-allowed"
                   }`}
                 >
                   <div className="w-5 h-5 rounded-full border-2 border-white/40 flex items-center justify-center">
@@ -1292,7 +1292,7 @@ export function MotorcycleDashboard() {
                       : "bg-zinc-800 hover:bg-zinc-700 border-zinc-500/40 cursor-pointer shadow-[0_0_10px_rgba(0,0,0,0.5)]"
                   }`}
                 >
-                  <div className="w-5 h-2 bg-red-500 rounded" />
+                  <div className="w-5 h-2 bg-attention-500 rounded" />
                 </button>
               </div>
 
@@ -1312,14 +1312,14 @@ export function MotorcycleDashboard() {
                   !ignition || engineState === "OFF"
                     ? "bg-[#0c0d10] border-white/5 text-slate-600 cursor-not-allowed"
                     : isThrottling 
-                      ? "bg-cyan-950/20 border-cyan-500 text-cyan-300 shadow-[0_0_16px_rgba(34,211,238,0.25)] cursor-pointer"
+                      ? "bg-attention-950/20 border-attention-500 text-attention-300 shadow-[0_0_16px_rgba(212, 175, 55,0.25)] cursor-pointer"
                       : "bg-[#0e1117] hover:bg-[#141a24] border-white/10 text-slate-300 cursor-pointer active:border-white/20"
                 }`}
               >
                 {/* Dynamic Throttle progress bar backdrop */}
                 {ignition && engineState !== "OFF" && (
                   <div 
-                    className="absolute inset-y-0 left-0 bg-cyan-500/10 transition-all duration-100 pointer-events-none"
+                    className="absolute inset-y-0 left-0 bg-attention-500/10 transition-all duration-100 pointer-events-none"
                     style={{
                       width: `${(rpm / 8200) * 100}%`
                     }}
@@ -1344,21 +1344,21 @@ export function MotorcycleDashboard() {
             <div className="bg-black/80 border border-white/5 rounded-xl p-3 h-28 flex flex-col justify-between">
               <span className="text-[7.5px] uppercase font-mono text-slate-500 tracking-widest border-b border-white/5 pb-1">Cockpit Logs System</span>
               <div className="flex-1 overflow-y-auto mt-1 flex flex-col gap-1 text-[7.5px] font-mono text-slate-400 [scrollbar-width:none]">
-                <div className="text-cyan-400/90">&gt; SUPER_METEOR_650 OS ACTIVE</div>
+                <div className="text-attention-400/90">&gt; SUPER_METEOR_650 OS ACTIVE</div>
                 {gear !== "N" && (
                   <div>&gt; SPEED PHYSICS AT: {speed} KM/H</div>
                 )}
                 {isThrottling && (
-                  <div className="text-amber-400/90">&gt; THROTTLE GRIP DEFLECTION: {((rpm / 8200) * 100).toFixed(0)}%</div>
+                  <div className="text-attention-400/90">&gt; THROTTLE GRIP DEFLECTION: {((rpm / 8200) * 100).toFixed(0)}%</div>
                 )}
                 {isShifting && (
-                  <div className="text-cyan-400 font-bold">&gt; TRANSMISSION DOG RATIO CLUNK ENVELOPE</div>
+                  <div className="text-attention-400 font-bold">&gt; TRANSMISSION DOG RATIO CLUNK ENVELOPE</div>
                 )}
                 {!ignition && (
-                  <div className="text-red-400/90">&gt; POWER OFF: SYSTEM SHUTDOWN</div>
+                  <div className="text-attention-400/90">&gt; POWER OFF: SYSTEM SHUTDOWN</div>
                 )}
                 {ignition && engineState === "IDLE" && (
-                  <div className="text-green-400/90">&gt; ENGINE STARTED: STEADY 1200 RPM IDLE</div>
+                  <div className="text-attention-400/90">&gt; ENGINE STARTED: STEADY 1200 RPM IDLE</div>
                 )}
               </div>
               <span className="text-[7px] text-slate-600 font-mono text-right mt-1">Telemetry Sync: 60Hz</span>

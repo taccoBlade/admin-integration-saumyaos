@@ -48,9 +48,9 @@ export function RevealLayer({ image, cursorX, cursorY }: RevealLayerProps) {
     );
     grad.addColorStop(0, "rgba(255,255,255,1)");
     grad.addColorStop(0.4, "rgba(255,255,255,1)");
-    grad.addColorStop(0.6, "rgba(255,255,255,0.75)");
-    grad.addColorStop(0.75, "rgba(255,255,255,0.4)");
-    grad.addColorStop(0.88, "rgba(255,255,255,0.12)");
+    grad.addColorStop(0.6, "rgba(212, 175, 55, 0.75)");
+    grad.addColorStop(0.75, "rgba(212, 175, 55, 0.4)");
+    grad.addColorStop(0.88, "rgba(212, 175, 55, 0.12)");
     grad.addColorStop(1, "rgba(255,255,255,0)");
 
     // Fill arc of radius SPOTLIGHT_R

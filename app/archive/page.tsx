@@ -24,16 +24,16 @@ export default function ArchivePage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#08090b] text-slate-200 selection:bg-cyan-500/30 overflow-x-hidden relative">
+    <main className="min-h-screen bg-[#08090b] text-slate-200 selection:bg-attention-500/30 overflow-x-hidden relative">
       {/* Ambient background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-cyan-500/[0.02] to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-attention-500/[0.02] to-transparent pointer-events-none" />
 
       {/* Navigation Header */}
       <header className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-24 sm:px-8 lg:px-12 flex justify-between items-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 group text-sm font-mono text-slate-400 hover:text-cyan-400 transition-colors"
+          className="inline-flex items-center gap-2 group text-sm font-mono text-slate-400 hover:text-attention-400 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           <span>Professional Profile</span>
@@ -46,7 +46,7 @@ export default function ArchivePage() {
       {/* Hero Section */}
       <section className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-12 pb-16 sm:px-8 lg:px-12">
         <div className="max-w-3xl space-y-6">
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-cyan-400 block">
+          <span className="text-xs font-mono uppercase tracking-[0.3em] text-attention-400 block">
             Technical Documents Repository
           </span>
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-white leading-tight">
@@ -64,7 +64,7 @@ export default function ArchivePage() {
         {/* 1. Empirical Laboratory Datasets */}
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-            <Database className="w-5 h-5 text-cyan-400" />
+            <Database className="w-5 h-5 text-attention-400" />
             1. Empirical Laboratory & Field Datasets
           </h3>
           <div className="overflow-x-auto rounded-2xl border border-white/5 bg-white/[0.01] backdrop-blur-md">
@@ -86,9 +86,9 @@ export default function ArchivePage() {
                     <td className="p-4 font-bold text-white">{log.id}</td>
                     <td className="p-4">{log.param}</td>
                     <td className="p-4 text-slate-400">{log.standard}</td>
-                    <td className="p-4 text-cyan-300 font-bold">{log.val}</td>
+                    <td className="p-4 text-attention-300 font-bold">{log.val}</td>
                     <td className="p-4">
-                      <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-bold">
+                      <span className="px-2 py-0.5 rounded bg-attention-500/10 text-attention-400 border border-attention-500/20 text-[9px] font-bold">
                         {log.status}
                       </span>
                     </td>
@@ -102,14 +102,14 @@ export default function ArchivePage() {
         {/* 2. Literature Reference Catalog */}
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-cyan-400" />
+            <BookOpen className="w-5 h-5 text-attention-400" />
             2. Academic Literature Catalog
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {literatureList.map((lit, idx) => (
               <div key={idx} className="p-6 rounded-2xl border border-white/5 bg-white/[0.01] flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <span className="text-[9px] font-mono text-cyan-400 uppercase tracking-widest">[REF_{idx + 1}]</span>
+                  <span className="text-[9px] font-mono text-attention-400 uppercase tracking-widest">[REF_{idx + 1}]</span>
                   <h4 className="text-base font-semibold text-white leading-snug">{lit.title}</h4>
                   <p className="text-xs text-slate-400 font-mono">{lit.author} ({lit.year})</p>
                   <p className="text-xs text-slate-500 leading-relaxed font-sans">{lit.focus}</p>
@@ -122,12 +122,12 @@ export default function ArchivePage() {
         {/* 3. Computation Sheets & Downloadable Solvers */}
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-cyan-400" />
+            <FileSpreadsheet className="w-5 h-5 text-attention-400" />
             3. Computational Solvers & Scripts
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {calculationsList.map((calc, idx) => (
-              <div key={idx} className="p-6 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-cyan-500/20 transition-all flex flex-col justify-between space-y-6">
+              <div key={idx} className="p-6 rounded-2xl border border-white/5 bg-white/[0.01] hover:border-attention-500/20 transition-all flex flex-col justify-between space-y-6">
                 <div className="space-y-2">
                   <h4 className="text-sm font-semibold text-white">{calc.title}</h4>
                   <p className="text-xs text-slate-400 leading-relaxed font-sans">{calc.desc}</p>
@@ -137,7 +137,7 @@ export default function ArchivePage() {
                     <div className="text-slate-400 truncate max-w-[120px]">{calc.file}</div>
                     <div>{calc.size}</div>
                   </div>
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 hover:border-cyan-500/30 hover:bg-cyan-500/10 text-cyan-400 hover:text-white transition-all text-[10px] font-mono font-bold uppercase cursor-pointer">
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 hover:border-attention-500/30 hover:bg-attention-500/10 text-attention-400 hover:text-white transition-all text-[10px] font-mono font-bold uppercase cursor-pointer">
                     <Download className="w-3 h-3" />
                     <span>Download</span>
                   </button>

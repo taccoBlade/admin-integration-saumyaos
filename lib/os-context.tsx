@@ -39,65 +39,65 @@ const OSContext = createContext<OSContextType | undefined>(undefined);
 
 const THEMES: Record<OSMode, OSContextType["theme"]> = {
   neutral: {
-    accent: "#22d3ee", // cyan-400
-    accentGlow: "rgba(34, 211, 238, 0.15)",
-    bgGradient: "from-[#080a0f] via-[#050608] to-[#010203]",
+    accent: "#d4af37", // gold
+    accentGlow: "rgba(212, 175, 55, 0.15)",
+    bgGradient: "from-archive-900 via-archive-800 to-black",
     particleSpeed: 0.5,
     particleCount: 50,
     ambientSoundRate: 1.0,
   },
   builder: {
-    accent: "#f59e0b", // amber-500
-    accentGlow: "rgba(245, 158, 11, 0.2)",
-    bgGradient: "from-[#0d0903] via-[#060401] to-[#010100]",
+    accent: "#d4af37", // gold
+    accentGlow: "rgba(212, 175, 55, 0.2)",
+    bgGradient: "from-[#1a1c21] via-[#111111] to-[#0a0a0a]",
     particleSpeed: 0.5,
     particleCount: 50,
     ambientSoundRate: 1.0,
   },
   execution: {
-    accent: "#ef4444", // red-500
-    accentGlow: "rgba(239, 68, 68, 0.25)",
-    bgGradient: "from-[#0f0404] via-[#070101] to-[#020000]",
+    accent: "#c9a35a", // slightly muted gold
+    accentGlow: "rgba(201, 163, 90, 0.25)",
+    bgGradient: "from-[#111111] via-[#0d0d0d] to-[#000000]",
     particleSpeed: 0.5,
     particleCount: 50,
     ambientSoundRate: 1.0,
   },
   research: {
-    accent: "#06b6d4", // cyan-500
-    accentGlow: "rgba(6, 182, 212, 0.2)",
-    bgGradient: "from-[#02090b] via-[#010405] to-[#000102]",
+    accent: "#f3ca3e", // bright gold
+    accentGlow: "rgba(243, 202, 62, 0.2)",
+    bgGradient: "from-[#1c1e24] via-[#111111] to-[#000000]",
     particleSpeed: 0.5,
     particleCount: 50,
     ambientSoundRate: 1.0,
   },
   reflection: {
-    accent: "#b91c1c", // red-700
-    accentGlow: "rgba(185, 28, 28, 0.15)",
-    bgGradient: "from-[#080202] via-[#030101] to-[#000000]",
+    accent: "#b59530", // dark gold
+    accentGlow: "rgba(181, 149, 48, 0.15)",
+    bgGradient: "from-[#151515] via-[#0d0d0d] to-[#000000]",
     particleSpeed: 0.5,
     particleCount: 50,
     ambientSoundRate: 1.0,
   },
   lockin: {
-    accent: "#f97316", // red/amber accent
-    accentGlow: "rgba(249, 115, 22, 0.25)",
-    bgGradient: "from-[#110505] via-[#080202] to-[#020000]",
+    accent: "#f3ca3e", // bright gold
+    accentGlow: "rgba(243, 202, 62, 0.25)",
+    bgGradient: "from-[#111111] via-[#0a0a0a] to-[#000000]",
     particleSpeed: 1.6, // faster particles
     particleCount: 90,
     ambientSoundRate: 1.0,
   },
   ride: {
-    accent: "#3b82f6", // deep blue theme
-    accentGlow: "rgba(59, 130, 246, 0.25)",
-    bgGradient: "from-[#020617] via-[#00020d] to-[#000002]",
+    accent: "#6c757d", // slate/archive-600
+    accentGlow: "rgba(108, 117, 125, 0.25)",
+    bgGradient: "from-[#121417] via-[#0a0a0a] to-[#000000]",
     particleSpeed: 0.35, // slow stars
     particleCount: 65,
     ambientSoundRate: 1.0,
   },
   chill: {
-    accent: "#8b5cf6", // soft purple glow
-    accentGlow: "rgba(139, 92, 246, 0.2)",
-    bgGradient: "from-[#090514] via-[#030107] to-[#000000]",
+    accent: "#adb5bd", // light slate/archive-500
+    accentGlow: "rgba(173, 181, 189, 0.2)",
+    bgGradient: "from-[#141517] via-[#08090b] to-[#000000]",
     particleSpeed: 0.18, // soft floating dust particles
     particleCount: 45,
     ambientSoundRate: 1.0,
