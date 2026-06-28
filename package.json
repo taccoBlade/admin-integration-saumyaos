@@ -10,7 +10,7 @@
     "ingest": "tsx scripts/ingest.ts"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
+    "@react-three/drei": "^9.102.0",
     "@react-three/fiber": "^8.18.0",
     "@vercel/analytics": "^2.0.1",
     "adm-zip": "^0.5.17",
