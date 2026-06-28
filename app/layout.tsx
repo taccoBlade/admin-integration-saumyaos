@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Header } from "@/components/header";
-import { PageTransition } from "@/components/page-transition";
+import { Header } from "@/components/layout/header";
+import { PageTransition } from "@/components/ui/page-transition";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 

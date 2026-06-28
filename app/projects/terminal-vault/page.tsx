@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { 
-  ArrowLeft, Cpu, Database, Activity, LayoutGrid, Terminal, 
-  Binary, Layers, BookOpen, Download, FileSpreadsheet 
+  ArrowLeft, Cpu, Database, Activity, Terminal, 
+  Binary, Layers
 } from "lucide-react"
-import { DashboardEmbed } from "@/components/dashboard-embed"
-import { Contact } from "@/components/contact"
+import { DashboardEmbed } from "@/components/projects/dashboard-embed"
+import { Contact } from "@/components/layout/contact"
 
 interface DashboardInfo {
   id: string
@@ -99,28 +99,7 @@ const DASHBOARDS: DashboardInfo[] = [
   }
 ]
 
-const DATASET_LOGS = [
-  { date: "12 Mar 2026", id: "C-GP-04", param: "Na2SiO3/NaOH ratio", standard: "IS 10262:2019", val: "2.51 (Molarity: 10M)", status: "OPTIMAL" },
-  { date: "14 Mar 2026", id: "C-GP-08", param: "Compressive Strength (28-day)", standard: "IS 516:1959", val: "44.2 MPa", status: "COMPLIANT" },
-  { date: "18 Mar 2026", id: "S-CL-02", param: "Oven-Dried Water Content (w)", standard: "ASTM D2216", val: "18.4%", status: "VERIFIED" },
-  { date: "22 Mar 2026", id: "P-IC-09", param: "Compaction index vibration harmonic", standard: "IRC:37-2018", val: "0.68 Cv (30Hz fundamental)", status: "STABLE" },
-  { date: "05 Apr 2026", id: "S-CL-05", param: "Borehole clay consolidation (Cv)", standard: "ASTM D2435", val: "2.4 * 10^-3 cm²/sec", status: "STABLE" }
-]
-
-const LITERATURE_LIST = [
-  { title: "Theoretical Soil Mechanics", author: "Terzaghi, K.", year: "1943", focus: "One-dimensional consolidation calculations and pore pressure deflection equations." },
-  { title: "Properties of Concrete", author: "Neville, A. M.", year: "2011", focus: "Water-cement ratio parameters, aggregate grading limits, and geopolymerization boundaries." },
-  { title: "IRC:37-2018 Flexible Pavement Design", author: "Indian Roads Congress", year: "2018", focus: "Resilient modulus (MR) mapping of subgrade soil compaction characteristics." }
-]
-
-const CALCULATIONS_LIST = [
-  { title: "Concrete Mix Design compliance calculator (IS 10262)", file: "concrete_compliance_solver.xlsx", size: "4.2 MB", desc: "Automates water estimation, binder content, and aggregate mass fractions." },
-  { title: "Capacitive Moisture sensor quadratic fit solver (ASTM D2216)", file: "moisture_calibration_fit.ipynb", size: "1.8 MB", desc: "Computes polynomial coefficients from raw voltage and dry mass laboratory samples." },
-  { title: "Intelligent Compaction drum EKF & FFT script", file: "compaction_filter_fft.py", size: "340 KB", desc: "Runs Extended Kalman Filtering on IMU datasets and calculates Compaction index Cv peaks." }
-]
-
 export default function TerminalVaultPage() {
-  const [activeTab, setActiveTab] = useState<"terminals" | "archive">("terminals")
   const [activeDashboard, setActiveDashboard] = useState<DashboardInfo | null>(null)
 
   return (
@@ -155,58 +134,15 @@ export default function TerminalVaultPage() {
           </div>          
         </div>
 
-        {/* Recruiter / Professor Quick Note */}
-        {activeTab === "terminals" && (
-          <div className="mb-8 p-4 rounded-3xl border border-attention-500/10 bg-attention-950/5/10 backdrop-blur-sm flex items-start gap-3.5">
-            <div className="w-8 h-8 rounded-xl bg-attention-500/10 flex items-center justify-center shrink-0 mt-0.5 border border-attention-500/20">
-              <span className="text-xs">💡</span>
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-xs font-bold text-attention-400 uppercase tracking-wider font-mono">Recruiter & Professor Interactive Mode</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">
-                You do <strong>not</strong> need to run any local python servers. Click on any dashboard card below to launch a <strong>fully interactive client-side dashboard console</strong> directly in your browser. All computational engines and data plots run live.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Tab Controls */}
-        <div className="flex gap-4 border-b border-neutral-800 pb-4 mb-8">
-          <button
-            onClick={() => setActiveTab("terminals")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-              activeTab === "terminals"
-                ? "bg-attention-500/10 text-attention-400 border border-attention-500/20"
-                : "text-neutral-400 hover:text-white border border-transparent"
-            }`}
-          >
-            <LayoutGrid className="w-4 h-4" />
-            Live Dashboard Terminals
-          </button>
-          <button
-            onClick={() => setActiveTab("archive")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-              activeTab === "archive"
-                ? "bg-attention-500/10 text-attention-400 border border-attention-500/20"
-                : "text-neutral-400 hover:text-white border border-transparent"
-            }`}
-          >
-            <Database className="w-4 h-4" />
-            Research & Document Vault
-          </button>
-        </div>
-
-        {/* Tab Contents */}
-        <AnimatePresence mode="wait">
-          {activeTab === "terminals" ? (
-            <motion.div
-              key="terminals-tab"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-12"
-            >
+        {/* Terminals Content */}
+        <motion.div
+          key="terminals-tab"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -15 }}
+          transition={{ duration: 0.3 }}
+          className="space-y-12"
+        >
               {/* Bento Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {DASHBOARDS.map((db) => {
@@ -309,104 +245,7 @@ export default function TerminalVaultPage() {
                   </div>
                 )}
               </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="archive-tab"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-16"
-            >
-              {/* 1. Empirical Laboratory Datasets */}
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <Database className="w-5 h-5 text-attention-400" />
-                  Empirical Laboratory & Field Datasets
-                </h3>
-                <div className="overflow-x-auto rounded-3xl border border-neutral-800 bg-neutral-950/20 backdrop-blur-sm">
-                  <table className="w-full text-left border-collapse text-xs font-mono">
-                    <thead>
-                      <tr className="border-b border-neutral-800 bg-neutral-900/40 text-neutral-450 uppercase tracking-wider">
-                        <th className="p-4">Test Date</th>
-                        <th className="p-4">Sample ID</th>
-                        <th className="p-4">Parameter Monitored</th>
-                        <th className="p-4">Applied Standard</th>
-                        <th className="p-4">Recorded Value</th>
-                        <th className="p-4">Compliance Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-neutral-800 text-neutral-300">
-                      {DATASET_LOGS.map((log) => (
-                        <tr key={log.id} className="hover:bg-neutral-900/10 transition-colors">
-                          <td className="p-4">{log.date}</td>
-                          <td className="p-4 font-bold text-white">{log.id}</td>
-                          <td className="p-4">{log.param}</td>
-                          <td className="p-4 text-neutral-400">{log.standard}</td>
-                          <td className="p-4 text-attention-300 font-bold">{log.val}</td>
-                          <td className="p-4">
-                            <span className="px-2 py-0.5 rounded bg-attention-500/10 text-attention-400 border border-attention-500/20 text-[9px] font-bold">
-                              {log.status}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* 2. Literature Reference Catalog */}
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-attention-400" />
-                  Academic Literature Catalog
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {LITERATURE_LIST.map((lit, idx) => (
-                    <div key={idx} className="p-6 rounded-3xl border border-neutral-800 bg-neutral-900/10 backdrop-blur-sm flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <span className="text-[9px] font-mono text-attention-400 uppercase tracking-widest">[REF_{idx + 1}]</span>
-                        <h4 className="text-base font-semibold text-white leading-snug">{lit.title}</h4>
-                        <p className="text-xs text-neutral-400 font-mono">{lit.author} ({lit.year})</p>
-                        <p className="text-xs text-neutral-500 leading-relaxed font-sans">{lit.focus}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* 3. Computation Sheets & Downloadable Solvers */}
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <FileSpreadsheet className="w-5 h-5 text-attention-400" />
-                  Computational Solvers & Scripts
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {CALCULATIONS_LIST.map((calc, idx) => (
-                    <div key={idx} className="p-6 rounded-3xl border border-neutral-800 bg-neutral-900/10 hover:border-attention-500/20 transition-all flex flex-col justify-between space-y-6">
-                      <div className="space-y-2">
-                        <h4 className="text-sm font-semibold text-white">{calc.title}</h4>
-                        <p className="text-xs text-neutral-400 leading-relaxed font-sans">{calc.desc}</p>
-                      </div>
-                      <div className="flex items-center justify-between border-t border-neutral-850 pt-4">
-                        <div className="text-[10px] font-mono text-neutral-500">
-                          <div className="text-neutral-400 truncate max-w-[120px]">{calc.file}</div>
-                          <div>{calc.size}</div>
-                        </div>
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-neutral-800 hover:border-attention-500/30 hover:bg-attention-500/10 text-attention-400 hover:text-white transition-all text-[10px] font-mono font-bold uppercase cursor-pointer">
-                          <Download className="w-3 h-3" />
-                          <span>Download</span>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        </motion.div>
 
       </main>
       <Contact />

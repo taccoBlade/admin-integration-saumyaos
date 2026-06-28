@@ -70,16 +70,9 @@ export function getTimelineEvents(): TimelineEvent[] {
     {
       id: "exp-geotech",
       year: 2026,
-      title: "Geotechnical Studies",
+      title: "Advanced Coursework in Geotechnical Engineering",
       description: "Deep excavation engineering and ground behavior analysis.",
-      type: "Experience"
-    },
-    {
-      id: "exp-markets",
-      year: 2026,
-      title: "Markets & Investing",
-      description: "Portfolio construction and equity analysis.",
-      type: "Experience"
+      type: "Education"
     }
   ];
 

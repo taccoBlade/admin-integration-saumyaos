@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Database, Download, FileSpreadsheet } from "lucide-react";
-import { Contact } from "@/components/contact";
+import { Contact } from "@/components/layout/contact";
 
 export default function ArchivePage() {
   const datasetLogs = [

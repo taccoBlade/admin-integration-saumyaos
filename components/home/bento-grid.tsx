@@ -270,11 +270,14 @@ export function BentoGrid() {
         <h3 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight">Components of Life</h3>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[270px]">
+      <div 
+        className="grid gap-6 auto-rows-[270px]"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}
+      >
         {/* Card 1: Geotechnical Engineering (Bento Spotlight Reveal) */}
         <div
           ref={sectionRef}
-          className="bento-card md:col-span-2 md:row-span-2 overflow-hidden relative group border border-transparent select-none cursor-pointer flex flex-col justify-end p-8"
+          className="bento-card overflow-hidden relative group border border-transparent select-none cursor-pointer flex flex-col justify-end p-8"
         >
           {/* Procedural background canvas (replacing image layers) */}
           <canvas
@@ -388,8 +391,8 @@ export function BentoGrid() {
           </div>
         </div>
 
-        {/* Card 5: Digital Media & Storytelling (Adjusted to span 2 columns) */}
-        <div className="bento-card p-6 flex flex-col justify-between group overflow-hidden relative md:col-span-2">
+        {/* Card 5: Digital Media & Storytelling */}
+        <div className="bento-card p-6 flex flex-col justify-between group overflow-hidden relative">
           <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity pointer-events-none">
             <Video className="w-40 h-40 text-white" />
           </div>

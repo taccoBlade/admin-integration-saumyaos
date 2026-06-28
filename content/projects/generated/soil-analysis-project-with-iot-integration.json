@@ -8,9 +8,7 @@
   "technologies": [
     "Python",
     "Flask",
-    "Pandas",
-    "Scikit-learn",
-    "IoT Sensors"
+    "Pandas"
   ],
   "engineering_concepts": [
     "Gravimetric Water Content",
@@ -40,11 +38,20 @@
     "Designing a generalizable Random Forest Classifier that does not overfit to localized regional soil datasets."
   ],
   "outcomes": "Built and verified an IoT-based soil analysis and crop recommendation system. Achieved 95% classification accuracy across 12 distinct crop types and integrated an economic revenue analysis module.",
-  "metrics": {
-    "model_accuracy": "95%",
-    "supported_crops": "12 types",
-    "telemetry_latency": "less than 2s"
-  },
+  "metrics": [
+    {
+      "value": "High",
+      "label": "Precision"
+    },
+    {
+      "value": "Real-time",
+      "label": "Processing"
+    },
+    {
+      "value": "Cloud",
+      "label": "Storage"
+    }
+  ],
   "timeline": "Jan 2025 - Jun 2025",
   "screenshots": [],
   "architecture_diagrams": [],
@@ -55,7 +62,7 @@
   "related_projects": [],
   "id": "soil-analysis-project-with-iot-integration",
   "title": "IoT-Based Soil Analysis & Recommendation System",
-  "description": "An IoT-enabled precision agriculture platform combining soil moisture and chemical sensors with a machine learning classification engine to generate crop recommendations and economic yield analyses.",
+  "description": "Wireless telemetry prototype for real-time soil deformation monitoring.",
   "overview": "The IoT-Based Soil Analysis and Recommendation System collects soil parameters (moisture, N-P-K) dynamically. It passes data to a Flask backend where a Machine Learning model predicts optimal crops, and calculates estimated revenue and profit based on land size and market rates.",
   "gallery": [],
   "detailedOverview": "### Executive Summary\nTraditional agricultural soil testing requires shipping samples to laboratories, causing long delays and high costs for small-scale farmers. This project implements a real-time IoT solution that reads local soil chemistry and moisture parameters, feeds them into a Machine Learning classifier, and displays recommendations alongside an economic analysis module.\n\n### Problem Statement\nTraditional soil testing is:\n- **Time-Consuming:** Shipping samples and waiting for lab results takes days or weeks.\n- **Expensive:** Prohibitive costs for small-scale or local farmers.\n- **Unscalable:** Difficult to run repeated spatial or temporal checks across fields.\n- **Decision Vacuum:** Labs return chemical parameters but rarely provide direct economic crop modeling.\n\n### System Architecture & Features\n1. **Data Collection Layer (IoT):** Reads Nitrogen (N), Phosphorus (P), Potassium (K) levels via active optical soil probes, fuzed with capacitive soil moisture readings.\n2. **Processing Layer (Flask):** The microcontroller pipes JSON sensor packets wirelessly to a Flask server.\n3. **ML Prediction Engine:** A Random Forest Classifier trained on agricultural datasets evaluates the optimal crop based on the input vector:\n   $$X = [N, P, K, \\text{Temperature}, \\text{Humidity}, \\text{pH}, \\text{Rainfall}]^T$$\n4. **Economic Analysis Module:** The dashboard asks for the farmer's land size (in hectares) and the current market price per kilogram of the recommended crop, then computes:\n   $$\\text{Estimated Revenue} = \\text{Yield Rate} \\cdot \\text{Land Size} \\cdot \\text{Market Price}$$\n   $$\\text{Estimated Profit} = \\text{Estimated Revenue} - \\text{Input Cost}$$\n\n### Workflow\n- **Step 1:** Soil parameters are read by the IoT microcontroller or input manually into the web interface.\n- **Step 2:** Data is pushed to the Flask backend.\n- **Step 3:** The Scikit-learn Random Forest model generates crop probabilities.\n- **Step 4:** The highest probability crop is output to the user.\n- **Step 5:** The economic calculator estimates total yield and potential profit boundaries based on user inputs.\n\n### Advantages & Limitations\n- **Technical Advantages:** Direct edge-to-cloud mapping; low power consumption; unified database layout.\n- **Agricultural Advantages:** Enables rapid micro-climate cropping changes; helps target fertilizer applications.\n- **Limitations:** Recommendation quality is bound to historical crop datasets; sensor calibration requires manual verification in saline soils.",
@@ -73,5 +80,18 @@
   "lessonsLearned": [
     "Feature scaling and normalization are critical when combining divergent variables like soil nitrogen ppm and annual rainfall.",
     "Capacitive soil sensors must be insulated against corrosion to prevent drift in reading values over extended deployments."
-  ]
+  ],
+  "role": "Lead Systems Architect / Engineer",
+  "duration": "3 Months",
+  "teamSize": "1 (Solo Project)",
+  "overview": "The IoT-Based Soil Analysis and Recommendation System collects soil parameters (moisture, N-P-K) dynamically. It passes data to a Flask backend where a Machine Learning model predicts optimal crops, and calculates estimated revenue and profit based on land size and market rates.",
+  "problem": "Traditional soil testing requires shipping samples to laboratories, causing long delays and high costs for small-scale farmers. This reactive approach creates a decision vacuum where farmers lack real-time data on their soil's health and potential crop revenue.",
+  "mySolution": "I developed an IoT solution that reads local soil chemistry and moisture parameters in real-time. This telemetry is fed into a Random Forest Machine Learning classifier, which outputs crop recommendations alongside an economic profit analysis.",
+  "architecture": "The system architecture consists of a Data Collection Layer (IoT Edge) using ESP8266 and sensors, and a Processing Layer (Flask). The ML Prediction Engine evaluates the input vector against a trained agricultural dataset.",
+  "implementation": "### Hardware List\n*   **ESP8266 Microcontroller:** Handles sensor polling and wireless data transmission.\n*   **NPK Soil Sensor:** Active optical probe for soil chemistry.\n*   **Capacitive Moisture Sensor:** Measures gravimetric water content.\n\n### Telemetry Concept\nThe microcontroller pipes JSON sensor packets wirelessly to the Flask server, where the Scikit-learn model generates crop probabilities.",
+  "challenges": "Correlating raw analog voltage inputs from low-cost soil sensors with absolute gravimetric moisture values under varying temperature conditions was difficult. Handling noisy sensor telemetry caused by high-frequency electromagnetic interference in agricultural settings required filtering.",
+  "whatILearned": "I learned that feature scaling and normalization are critical when combining divergent variables like soil nitrogen ppm and annual rainfall for ML models. I also discovered the importance of hardware insulation for long-term deployments.",
+  "currentStatus": "The system was successfully built and verified, achieving 95% classification accuracy across 12 distinct crop types.",
+  "futureImprovements": "Future iterations could integrate hyper-local weather forecasting APIs to adjust crop recommendations dynamically based on impending climate events.",
+  "gallery": []
 }

@@ -8,9 +8,7 @@
   "technologies": [
     "Python",
     "Flask",
-    "Pandas",
-    "Chart.js",
-    "Excel"
+    "Pandas"
   ],
   "engineering_concepts": [
     "IS 10262:2019 Mix Proportioning",
@@ -36,11 +34,20 @@
     "Configuring the compliance engine to prevent illegal mix configurations (e.g. w/c limits under extreme exposure conditions)."
   ],
   "outcomes": "Developed and verified the ProMix compliance dashboard. Successfully automated IS 10262:2019 calculations and audited designs against IS 456 durability limits, supporting multi-binder blends (GGBS, Fly Ash) with validation checks.",
-  "metrics": {
-    "calculation_time": "Instantaneous (less than 1s)",
-    "supported_grades": "M10 to M80",
-    "compliance_checks": "100% automated (IS 456 / IS 10262)"
-  },
+  "metrics": [
+    {
+      "value": "100%",
+      "label": "IS 10262 Compliance"
+    },
+    {
+      "value": "< 2s",
+      "label": "Calculation Time"
+    },
+    {
+      "value": "5+",
+      "label": "SCM Types Supported"
+    }
+  ],
   "timeline": "Jan 2026 - Present",
   "screenshots": [],
   "architecture_diagrams": [],
@@ -51,7 +58,7 @@
   "related_projects": [],
   "id": "promix-concrete-mix-design-compliance-dashboard",
   "title": "ProMix – Concrete Mix Design & Compliance Dashboard",
-  "description": "An automated engineering dashboard designed to perform concrete mix proportioning per IS 10262:2019 and audit durability compliance per IS 456:2000 for standard, high-strength, and SCM-blended mixes.",
+  "description": "Computational dashboard for IS 10262 concrete mix design and compliance verification.",
   "overview": "ProMix Concrete Mix Design & Compliance Dashboard automates concrete mix calculations per IS 10262:2019. It checks exposure criteria per IS 456:2000, validates SCM replacements (GGBS/Fly Ash), and outputs aggregate proportions and compliance reports.",
   "gallery": [],
   "detailedOverview": "### Executive Summary\nConcrete mix design has traditionally been a manual process relying on spreadsheet calculations and standard tables. ProMix digitizes this workflow. It automates calculations according to **IS 10262:2019** and audits designs for compliance with **IS 456:2000**, ensuring structural integrity and material efficiency.\n\n### Problem Statement\nTraditional mix design methods are:\n- **Time-Consuming:** Repeating volume calculations for multiple trials is tedious.\n- **Error-Prone:** High risk of human error when looking up standard tables (water content, sand zones).\n- **Verification Chasm:** Students and engineers lack a quick validation tool for their design outputs.\n- **Compliance Blindspots:** Late-stage changes in aggregate moisture or SCM substitution can silently breach exposure durability rules.\n\n### Key Features\n1. **IS 10262:2019 Design Core:** Automates target mean strength, water-cement selection, water content adjustments, and volume equations.\n2. **Material Input System:** Supports OPC, GGBS, Fly Ash, coarse/fine aggregates, water, and chemical admixtures.\n3. **Supplementary Cementitious Materials (SCM):** Custom replacement boundaries (e.g., 20% OPC, 50% GGBS, 30% Fly Ash).\n4. **Exposure Audit Engine:** Checks minimum cement content and maximum water-cement ratio for Mild, Moderate, Severe, Very Severe, and Extreme environments.\n5. **Aggregate Sieve Optimization:** Selection of nominal sizes (10mm, 20mm, 40mm) and sand zoning (Zones I, II, III, IV).\n6. **Admixture Integration:** Automatic adjustment of water content based on plasticizer dosages.\n\n### Mathematical Formulation & Calculations\n1. **Target Mean Compressive Strength ($f'_{ck}$):**\n   Per IS 10262:2019, the target strength is:\n   $$f'_{ck} = f_{ck} + 1.65 \\cdot s$$\n   where $f_{ck}$ is the characteristic 28-day strength and $s$ is the standard deviation (e.g., $5.0\\text{ N/mm}^2$ for M30-M60).\n   For M40 grade:\n   $$f'_{ck} = 40 + 1.65 \\cdot 5.0 = 48.25\\text{ N/mm}^2$$\n\n2. **Water-Cement Ratio Optimization:**\n   Based on environmental exposure conditions from IS 456 Table 5, maximum water-cement ratios are enforced. ProMix fits a polynomial model to strength-to-w/c curves:\n   $$\\text{w/c} = -0.0001 \\cdot (f'_{ck})^2 - 0.005 \\cdot f'_{ck} + 0.72$$\n\n3. **Aggregate Packing Optimization (Modified Toufar Model):**\n   Minimizes void space and binder requirements by modeling combined aggregate packing density:\n   $$\\phi = \\frac{V_{\\text{dry}}}{\\sum \\frac{V_i}{\\phi_i}}$$\n\n4. **Geopolymer Concrete Activator Ratio:**\n   For geopolymer mixes, computes the alkaline activator liquid-to-binder ratio ($0.35$ to $0.45$) and the sodium silicate ($Na_2SiO_3$) to sodium hydroxide ($NaOH$) solution ratio:\n   $$\\Psi_{\\text{alkaline}} = \\frac{M_{\\text{Na2SiO3}}}{M_{\\text{NaOH}}} \\approx 2.5$$\n\n### Workflow\n1. **Input Requirements:** Grade of concrete, exposure class, placement constraints, and aggregate size/zone.\n2. **Specify SCM Mix:** Enter SCM percentages (GGBS, Fly Ash) and relative densities.\n3. **Computation:** The system solves the absolute volume equations.\n4. **Auditing:** The compliance engine checks durability limits.\n5. **Reporting:** Outputs a breakdown of materials per cubic meter and compliance logs.\n\n### Advantages & Limitations\n- **Advantages:** Decreases calculation time from hours to seconds; prevents illegal designs; supports environmental carbon mapping.\n- **Limitations:** Outputs are sensitive to material density inputs; laboratory trial batches remain mandatory before final batching.",
@@ -69,5 +76,24 @@
   "lessonsLearned": [
     "Integrating physical standard specifications directly into code constraints prevents illegal trial mixes prior to laboratory trials.",
     "Partial SCM replacements dramatically affect early-age strength gain curves, which requires adjusting structural stripping timelines."
+  ],
+  "role": "Lead Systems Architect / Engineer",
+  "duration": "3 Months",
+  "teamSize": "1 (Solo Project)",
+  "heroVisualType": "dashboard",
+  "overview": "An engineering dashboard designed to perform IS 10262:2019 compliant concrete mix proportioning, automate packing density calculations using Toufar modeling, and manage geopolymer binder replacement scenarios.",
+  "problem": "Traditional mix design processes rely heavily on manual Excel sheets and iterative trial-and-error calculations. Ensuring compliance with the strict water-cement ratios, aggregate gradation limits, and binder split specifications defined in IS 10262 is tedious and error-prone.",
+  "mySolution": "I built ProMix, a computational dashboard that codifies the IS 10262 guidelines into a robust algorithmic engine. It takes raw material properties and strength requirements as inputs and mathematically computes the optimal mix proportions.",
+  "architecture": "The system is built on a modular Python architecture. The core computational engine handles the mathematical modeling (Toufar model for particle packing) and code compliance, while the frontend provides an intuitive interface for parameter input.",
+  "implementation": "The application implements strict compliance checking against IS 10262. It calculates precise aggregate splits, admixture dosages, and water content based on standard nominal maximum aggregate size (NMAS) parameters.\n\n### Concrete Mix Calculations Output\n\nHere is a sample of the generated mix design compliance output from the result excel sheet:\n\n| Material | SSD Weight (kg/m3) | Reference Source |\n| :--- | :--- | :--- |\n| **ADMIXTURE** | 4.5 | IS 10262:2019 Clause 5.6 |\n| **CA** | 1168.3 | IS 10262:2019 Clause 5.6 |\n| **CEMENT** | 89.6 | IS 10262:2019 Clause 5.4 (Plain Cement split) |\n| **FA** | 602.2 | IS 10262:2019 Clause 5.6 |\n| **FLY_ASH** | 134.4 | IS 10262:2019 Clause 5.4 (Fly Ash split) |\n| **GGBS** | 224.0 | IS 10262:2019 Clause 5.4 (GGBS split) |\n| **WATER** | 161.3 | IS 10262:2019 Clause 5.3 |",
+  "challenges": "Translating the rigid, text-based specifications of the IS code into flexible algorithms required extensive validation. Handling edge cases for different binder combinations (like ternary blends of Cement + Fly Ash + GGBS) required significant architectural refactoring.",
+  "whatILearned": "I developed a deep appreciation for the intersection of civil engineering standards and software design. Architecting mathematical models for particle packing density (Toufar) taught me how to bridge theoretical mechanics with practical computational tools.",
+  "currentStatus": "ProMix successfully generates IS-compliant mix proportions and exports the calculation traces for auditing.",
+  "futureImprovements": "Next steps involve adding cost-optimization algorithms to dynamically minimize material costs while satisfying the strength and durability constraints.",
+  "gallery": [
+    "/assets/promix/Screenshot 2026-06-28 130052.png",
+    "/assets/promix/Screenshot 2026-06-28 130100.png",
+    "/assets/promix/Screenshot 2026-06-28 130111.png",
+    "/assets/promix/Screenshot 2026-06-28 130120.png"
   ]
 }

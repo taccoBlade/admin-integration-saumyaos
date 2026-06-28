@@ -3,7 +3,7 @@
 import { Project } from "@/lib/types";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ScrollReveal, ScrollRevealStagger, RevealItem } from "@/components/scroll-reveal";
+import { ScrollReveal, ScrollRevealStagger, RevealItem } from "@/components/ui/scroll-reveal";
 import { hoverLift } from "@/lib/motion";
 
 export function FeaturedProjects({ projects }: { projects: Project[] }) {

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { TimelineEvent } from "@/lib/types";
-import { ScrollReveal } from "@/components/scroll-reveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { springFluid } from "@/lib/motion";
 
 export function CareerTimeline({ events }: { events: TimelineEvent[] }) {

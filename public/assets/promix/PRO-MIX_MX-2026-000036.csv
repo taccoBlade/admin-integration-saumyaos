@@ -1,0 +1,15 @@
+PRO-MIX Concrete Design Report
+Mix Trace ID,MX-2026-000036
+Calculated Timestamp,2026-06-18 15:56:48
+Design Standard,IS 10262:2019
+
+Material,SSD Weight (kg/m3),Reference Source
+ADMIXTURE,4.5,IS 10262:2019 Clause 5.6
+CA,1168.3,IS 10262:2019 Clause 5.6
+CEMENT,89.6,IS 10262:2019 Clause 5.4 (Plain Cement split)
+FA,602.2,IS 10262:2019 Clause 5.6
+FLY_ASH,134.4,IS 10262:2019 Clause 5.4 (Fly Ash split)
+GGBS,224.0,IS 10262:2019 Clause 5.4 (GGBS split)
+METAKAOLIN,0.0,IS 10262:2019 Clause 5.4 (Metakaolin split)
+SILICA_FUME,0.0,IS 10262:2019 Clause 5.4 (Silica Fume split)
+WATER,161.3,IS 10262:2019 Clause 5.3

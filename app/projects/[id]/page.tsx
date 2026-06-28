@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { getProject, getProjects } from "@/lib/content";
-import { ArrowLeft, Globe, Calendar, Briefcase, Award, Zap, Lightbulb, Download } from "lucide-react";
-import { ArchitectureVisualizer, TreeNode } from "@/components/architecture-visualizer";
-import { DashboardEmbed } from "@/components/dashboard-embed";
+import { ArrowLeft, Globe, Briefcase, Zap, Lightbulb, Download, Users, Clock, ShieldCheck } from "lucide-react";
+import { ArchitectureVisualizer, TreeNode } from "@/components/home/architecture-visualizer";
+import { DashboardEmbed } from "@/components/projects/dashboard-embed";
+import { ProductDemoFrame } from "@/components/projects/product-demo-frame";
+import { MetricsGrid } from "@/components/personal/metrics-grid";
 import React from "react";
 
 const PROJECT_DASHBOARD_MAP: Record<string, {
@@ -104,9 +106,22 @@ export default function ProjectPage({ params }: PageProps) {
       </header>
 
       {/* Hero / Header Section */}
-      <section className="relative z-10 w-full max-w-7xl mx-auto px-5 pt-8 pb-16 sm:px-8 lg:px-12">
+      {project.heroVisualType === "dashboard" && dashboardConfig && (
+        <section className="relative z-20 w-full px-5 sm:px-8 lg:px-12 -mt-4 mb-12">
+          <ProductDemoFrame title={dashboardConfig.title} githubUrl={project.githubUrl}>
+            <DashboardEmbed
+              port={dashboardConfig.port}
+              title={dashboardConfig.title}
+              mockupDescription={dashboardConfig.mockupDescription}
+              keyFeatures={dashboardConfig.keyFeatures}
+            />
+          </ProductDemoFrame>
+        </section>
+      )}
+
+      <section className="relative z-10 w-full max-w-7xl mx-auto px-5 pt-4 pb-8 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8 space-y-6">
+          <div className="lg:col-span-12 space-y-6">
             <div className="flex flex-wrap gap-3 items-center">
               <span className="text-xs font-bold font-mono px-3 py-1 bg-attention-500/10 border border-attention-500/20 text-attention-400 rounded-md">
                 {project.domain}
@@ -161,55 +176,55 @@ export default function ProjectPage({ params }: PageProps) {
               </div>
             )}
           </div>
+        </div>
+      </section>
 
-          {/* Project Details Cards */}
-          <div className="lg:col-span-4 p-6 rounded-2xl bg-white/[0.01] border border-white/5 space-y-6">
-            <div className="text-xs font-mono text-slate-500 uppercase tracking-widest border-b border-white/5 pb-2">
-              PROJECT DETAILS
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-attention-400" />
-                  TIMEFRAME
-                </span>
-                <p className="text-sm font-semibold font-mono text-slate-200">{project.year}</p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Briefcase className="w-3.5 h-3.5 text-attention-400" />
-                  DOMAIN
-                </span>
-                <p className="text-sm font-semibold font-mono text-slate-200 truncate">{project.domain}</p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Award className="w-3.5 h-3.5 text-attention-400" />
-                  COMPLEXITY
-                </span>
-                <p className="text-sm font-semibold font-mono text-slate-200">{project.complexityScore}</p>
-              </div>
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-attention-400" />
-                  STATUS
-                </span>
-                <p className="text-sm font-semibold font-mono text-slate-200">{project.status}</p>
-              </div>
-            </div>
-
-            <div className="space-y-3 pt-4 border-t border-white/5">
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">TECHNOLOGY STACK</span>
-              <div className="flex flex-wrap gap-1.5">
-                {project.technologies.map(tech => (
-                  <span key={tech} className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/40 border border-white/5 text-slate-300">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
+      {/* Project At A Glance Grid */}
+      <section className="relative z-10 w-full max-w-7xl mx-auto px-5 pb-8 sm:px-8 lg:px-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 rounded-2xl bg-white/[0.01] border border-white/5">
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5 uppercase">
+              <ShieldCheck className="w-3.5 h-3.5 text-attention-400" />
+              Role
+            </span>
+            <p className="text-sm font-semibold font-mono text-slate-200">{project.role || "Lead Engineer"}</p>
           </div>
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5 uppercase">
+              <Clock className="w-3.5 h-3.5 text-attention-400" />
+              Duration
+            </span>
+            <p className="text-sm font-semibold font-mono text-slate-200">{project.duration || "N/A"}</p>
+          </div>
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5 uppercase">
+              <Users className="w-3.5 h-3.5 text-attention-400" />
+              Team
+            </span>
+            <p className="text-sm font-semibold font-mono text-slate-200">{project.teamSize || "Solo"}</p>
+          </div>
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono text-slate-500 flex items-center gap-1.5 uppercase">
+              <Briefcase className="w-3.5 h-3.5 text-attention-400" />
+              Domain
+            </span>
+            <p className="text-sm font-semibold font-mono text-slate-200">{project.domain}</p>
+          </div>
+        </div>
+
+        {/* Technology Stack Inline */}
+        <div className="flex flex-wrap items-center gap-2 pt-6">
+          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider pr-2 border-r border-white/10">STACK</span>
+          {project.technologies.map(tech => (
+            <span key={tech} className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/40 border border-white/5 text-slate-300">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* Metrics */}
+        <div className="mt-8 space-y-8">
+          {project.metrics && project.metrics.length > 0 && <MetricsGrid metrics={project.metrics} />}
         </div>
       </section>
 
@@ -217,69 +232,157 @@ export default function ProjectPage({ params }: PageProps) {
       <section className="relative z-10 w-full max-w-7xl mx-auto px-5 pb-32 sm:px-8 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Left column: Overview, File Tree Visualizer, Gallery */}
         <div className="lg:col-span-8 space-y-16">
-          {/* Detailed Overview */}
-          <div className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
-              TECHNICAL DOCUMENTATION
-            </h2>
-            <div className="prose prose-invert max-w-none text-slate-300">
-              {renderMarkdown(project.detailedOverview || project.overview)}
-            </div>
-          </div>
-
-          {/* Live Interactive Dashboard */}
-          {dashboardConfig && (
+          {/* 1. Overview */}
+          {project.overview && (
             <div className="space-y-4">
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
-                LIVE INTERACTIVE DASHBOARD
+                OVERVIEW
               </h2>
-              <p className="text-sm text-slate-405 leading-relaxed">
-                Interact with the real-time computational system dashboard. Simulated sensor networks and feedback loops execute fully client-side.
-              </p>
-              <div className="pt-2">
-                <DashboardEmbed
-                  port={dashboardConfig.port}
-                  title={dashboardConfig.title}
-                  mockupDescription={dashboardConfig.mockupDescription}
-                  keyFeatures={dashboardConfig.keyFeatures}
-                />
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.overview)}
               </div>
             </div>
           )}
 
-
-          {/* Interactive File Tree Visualizer */}
-          {!!project.architectureTree && (
+          {/* 2. Problem */}
+          {project.problem && (
             <div className="space-y-4">
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
-                SYSTEM BLUEPRINT
+                THE PROBLEM
               </h2>
-              <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                Explore the repository layout of the computational system.
-              </p>
-              <ArchitectureVisualizer tree={project.architectureTree as TreeNode} />
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.problem)}
+              </div>
             </div>
           )}
 
-          {/* Screenshot Gallery */}
-          {project.gallery && project.gallery.length > 0 && (
+          {/* 3. My Solution */}
+          {project.mySolution && (
             <div className="space-y-4">
               <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
-                EMPIRICAL EVIDENCE GALLERY
+                MY SOLUTION
               </h2>
-              <div className="editorial-gallery-grid">
-                {project.gallery.map((img, idx) => (
-                  <div key={idx} className="editorial-gallery-card group">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img 
-                      src={img} 
-                      alt={`${project.title} - Asset ${idx + 1}`} 
-                    />
-                    <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5 rounded font-mono text-[9px] text-slate-400 border border-white/5 z-10">
-                      ASSET_{idx + 1}
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.mySolution)}
+              </div>
+            </div>
+          )}
+
+          {/* 4. Architecture */}
+          {project.architecture && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+                ARCHITECTURE
+              </h2>
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.architecture)}
+              </div>
+              
+              {/* Architecture Blueprint Tree */}
+              {!!project.architectureTree && (
+                <div className="pt-4">
+                  <ArchitectureVisualizer tree={project.architectureTree as TreeNode} />
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 5. Implementation */}
+          {project.implementation && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+                IMPLEMENTATION
+              </h2>
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.implementation)}
+              </div>
+            </div>
+          )}
+
+          {/* 6. Screenshots / Dashboard */}
+          {(project.gallery && project.gallery.length > 0 || dashboardConfig) && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+                SCREENSHOTS & DASHBOARD
+              </h2>
+              
+              {dashboardConfig && project.heroVisualType !== "dashboard" && (
+                <div className="mb-8">
+                  <p className="text-sm text-slate-405 leading-relaxed mb-4">
+                    Interact with the real-time computational system dashboard.
+                  </p>
+                  <DashboardEmbed
+                    port={dashboardConfig.port}
+                    title={dashboardConfig.title}
+                    mockupDescription={dashboardConfig.mockupDescription}
+                    keyFeatures={dashboardConfig.keyFeatures}
+                  />
+                </div>
+              )}
+              
+              {project.gallery && project.gallery.length > 0 && (
+                <div className="editorial-gallery-grid">
+                  {project.gallery.map((img, idx) => (
+                    <div key={idx} className="editorial-gallery-card group">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={img} 
+                        alt={`${project.title} - Asset ${idx + 1}`} 
+                      />
+                      <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5 rounded font-mono text-[9px] text-slate-400 border border-white/5 z-10">
+                        ASSET_{idx + 1}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 7. Challenges I Faced */}
+          {project.challenges && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+                CHALLENGES I FACED
+              </h2>
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.challenges)}
+              </div>
+            </div>
+          )}
+
+          {/* 8. What I Learned */}
+          {project.whatILearned && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+                WHAT I LEARNED
+              </h2>
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.whatILearned)}
+              </div>
+            </div>
+          )}
+
+          {/* 9. Current Status */}
+          {project.currentStatus && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+                CURRENT STATUS
+              </h2>
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.currentStatus)}
+              </div>
+            </div>
+          )}
+
+          {/* 10. Future Improvements */}
+          {project.futureImprovements && (
+            <div className="space-y-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+                FUTURE IMPROVEMENTS
+              </h2>
+              <div className="prose prose-invert max-w-none text-slate-300">
+                {renderMarkdown(project.futureImprovements)}
               </div>
             </div>
           )}

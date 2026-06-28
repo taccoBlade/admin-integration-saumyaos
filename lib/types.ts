@@ -25,6 +25,29 @@ export interface Project {
   keyOutcomes?: string[];
   lessonsLearned?: string[];
   architectureTree?: unknown;
+  // New fields for Project Case Study redesign
+  role?: string;
+  duration?: string;
+  teamSize?: string;
+  metrics?: { value: string; label: string }[];
+  heroVisualType?: "dashboard" | "image" | "architecture" | "none";
+  validationData?: {
+    accuracy?: string;
+    meanError?: string;
+    samples?: number;
+    standard?: string;
+    comparison?: { reference: string; measured: string; deviation: string }[];
+  };
+  
+  // New Narrative Structure Fields
+  problem?: string;
+  mySolution?: string;
+  architecture?: string;
+  implementation?: string;
+  challenges?: string;
+  whatILearned?: string;
+  currentStatus?: string;
+  futureImprovements?: string;
 }
 
 export interface TimelineEvent {

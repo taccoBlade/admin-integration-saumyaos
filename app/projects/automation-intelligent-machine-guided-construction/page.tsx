@@ -6,7 +6,7 @@ import {
   ArrowLeft, Cpu, Layers, Settings, Activity, 
   CheckCircle2, Calendar, Award, BookOpen
 } from 'lucide-react'
-import { DashboardEmbed } from '@/components/dashboard-embed'
+import { DashboardEmbed } from '@/components/projects/dashboard-embed'
 
 
 const containerVariants = {

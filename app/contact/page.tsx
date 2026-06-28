@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { OSProvider } from "@/lib/os-context";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
-import { InteractiveParticleBackground } from "@/components/interactive-particle-background";
+import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background";
 
 /* ── Inline SVG icons for socials ── */
 function LinkedinIcon({ className }: { className?: string }) {

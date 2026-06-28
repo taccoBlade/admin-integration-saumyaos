@@ -8,11 +8,7 @@
   "technologies": [
     "Python",
     "NumPy",
-    "Flask",
-    "Socket.IO",
-    "SciPy",
-    "C++",
-    "Raspberry Pi"
+    "Flask"
   ],
   "engineering_concepts": [
     "Extended Kalman Filter (EKF)",
@@ -44,12 +40,20 @@
     "Ensuring real-time FFT frequency binning executes on low-power edge computers with latency below 50ms."
   ],
   "outcomes": "Developed and verified the Universal Intelligent Compaction Retrofit Kit. Tested on flexible pavement layers (subgrade, GSB, WMM, DBM, BC) showing high CMV correlation to physical Proctor and Plate Load testing.",
-  "metrics": {
-    "retrofit_cost": "₹58,000",
-    "market_cost_comparison": "₹50,000,000 (Market Machine)",
-    "positioning_accuracy": "±2.5cm",
-    "sensor_sampling_rate": "100Hz"
-  },
+  "metrics": [
+    {
+      "value": "< 5cm",
+      "label": "Spatial Accuracy"
+    },
+    {
+      "value": "10 Hz",
+      "label": "EKF Update Rate"
+    },
+    {
+      "value": "4",
+      "label": "Telemetry Dimensions"
+    }
+  ],
   "timeline": "Jan 2026 - Present",
   "screenshots": [],
   "architecture_diagrams": [],
@@ -60,10 +64,10 @@
   "related_projects": [],
   "id": "automation-intelligent-machine-guided-construction",
   "title": "Automation & Intelligent Machine Guided Construction",
-  "description": "A cost-effective, non-invasive Universal Intelligent Compaction (UIC) retrofit pod that transforms traditional road rollers into machine-guided control systems using EKF, FFT sensor fusion, and real-time CMV mapping.",
+  "description": "Prototype guidance system for intelligent road rollers using sensor fusion and state estimation.",
   "overview": "The Universal Intelligent Compaction (UIC) Kit is a cost-effective, non-invasive retrofit pod that transforms any traditional vibration roller into a Machine Guided Control System (MGCS). Utilizing deterministic physics models alongside advanced sensor fusion, the system estimates compaction density in real-time.",
   "gallery": [],
-  "detailedOverview": "### Executive Summary\nStandard highway compaction suffers from operator inconsistency, speed fluctuations, and a reliance on destructive core-cutting quality tests. The Universal Intelligent Compaction (UIC) Kit bridges this gap by retrofitting onto existing machinery. It maps pavement stiffness dynamically in real-time, preventing under-compaction and over-compaction.\n\n### Problem Statement\n1. **Operator Inconsistencies:** Operator fatigue leads to irregular pass overlaps, leaving parts of the pavement uncompacted.\n2. **Speed Fluctuations:** Deviations from the optimal rolling speed of $3.2\\text{ km/h}$ compromise compaction uniformity.\n3. **Destructive Core Testing:** Current quality control relies on manual core cutting which only tests discrete locations, leaving vast pavement areas unverified.\n4. **Structural Failures:** Under-compaction causes rutting and cracking, while over-compaction crushes aggregates and shears layers.\n\n### Hardware & Sensor Fusion Architecture\nThe retrofit pod contains an edge computing brain fuzing multiple sensor streams:\n- **Geospatial Tracking:** Roof-mounted RTK-GPS module for centimeter-level mapping.\n- **Thickness & Elevation:** Downward-facing Time-of-Flight (ToF) LiDAR mapping bed thickness and surface settlement.\n- **Thermal Monitoring:** Infrared (IR) thermometry sensor tracking active asphalt cooling windows.\n- **Drum Dynamics:** Drum-mounted Triaxial Industrial ICP Accelerometers capturing vibration frequencies and damping.\n- **Compute Brain:** A ruggedized Raspberry Pi IPC executing physics models at the edge.\n\n### Mathematical Formulation & Algorithms\n1. **Extended Kalman Filter (EKF) State Estimation:**\n   To ensure high-accuracy tracking under severe vibrating conditions, an EKF fuses RTK-GPS coordinates with IMU data. The state vector is:\n   $$x_k = [x, y, v_x, v_y, \\theta]^T$$\n   where $x,y$ represent geospatial coordinates, $v_x, v_y$ are velocity vectors, and $\\theta$ is the heading angle.\n\n2. **Vibration Spectrum & Compaction Index (CMV):**\n   Soil stiffness changes the drum's behavior from simple harmonic motion to bouncing and hopping, creating sub-harmonic and harmonic frequencies. An FFT is computed over 512-point acceleration windows:\n   $$X(f) = \\sum_{n=0}^{N-1} x[n] \\cdot e^{-i 2 \\pi f \\frac{n}{N}}$$\n   The Compaction Meter Value (CMV) is derived from the ratio of the amplitude of the first harmonic ($A_{2\\omega_0}$) to the fundamental frequency ($A_{\\omega_0}$):\n   $$\\text{CMV} = C \\cdot \\frac{A_{2\\omega_0}}{A_{\\omega_0}}$$\n   where $\\omega_0$ is the drum excitation frequency (typically $30\\text{ Hz}$) and $C$ is a calibration factor.\n\n### Market Disruption & Cost Analysis\nTraditional Intelligent Compaction rollers require purchasing brand-new heavy equipment, costing upwards of ₹50,000,000. The UIC Kit retrofits onto any existing roller, breaking the cost chasm with a ₹58,000 Bill of Materials:\n\n| Component | Cost | Purpose |\n| --- | --- | --- |\n| **RTK-GPS Module** | ₹30,000 | Centimeter-level pass tracking |\n| **Raspberry Pi Edge IPC** | ₹8,000 | EKF and FFT processing |\n| **ICP Accelerometer** | ₹2,500 | Drum vibration measurement |\n| **LiDAR, Sensors & Case** | ₹17,500 | Thickness and thermal tracking |\n| **Total Cost** | **₹58,000** | **Complete retrofit package** |\n\n### Cloud Sync & Future Scope\nThe system outputs data in a standardized JSON format. Telemetry is piped into an **NHAI Unified Cloud Ledger**, feeding a centralized dashboard. This enables cross-project analytics and prevents vendor lock-in.",
+  "detailedOverview": "### Overview\nThe Universal Intelligent Compaction (UIC) Kit aims to transform traditional pavement rollers into intelligent, data-driven compaction systems. By integrating sensor fusion and edge computing, it democratizes access to Machine Guided Control Systems (MGCS) for standard infrastructure projects, eliminating the need to purchase multi-million rupee proprietary rollers.\n\n### Problem\nCurrent compaction quality control in flexible pavements (IRC:37-2018) relies heavily on manual core-cutting methods. These are:\n- **Delayed & Destructive:** Core cutting physically damages the new pavement and takes hours/days to yield lab results.\n- **Data Gaps:** Testing discrete points leaves vast pavement areas unverified, risking localized structural pavement failures.\n- **Operator Fatigue:** Inconsistent pass overlaps and speed fluctuations (deviation from the optimal 3.2 km/h) lead to over- or under-compaction.\n- **The Cost Chasm:** Proprietary intelligent rollers cost upwards of ₹50,000,000, which is prohibitively expensive for Tier-2 and Tier-3 local contractors, and creates brand-locked data silos.\n\n### My Solution\nI developed the concept for a **Universal Intelligent Compaction Kit**—a cost-effective (~₹60,000 BOM), non-invasive retrofit pod. It transforms any standard vibration roller into a smart compaction platform that uses deterministic physics models and sensor fusion to provide real-time Compaction Meter Value (CMV) feedback directly to the operator.\n\n### Architecture & Design Decisions\n**Concept & System Architecture:**\nThe architecture relies on Edge Computing (\"Sensor Fusion at the Edge\"). The core is a ruggedized Raspberry Pi IPC that processes data with zero latency using \"White-Box Physics\". Instead of sending raw data to the cloud, the edge brain computes the stiffness parameters locally and pushes a unified JSON payload to the cloud ledger. \n**Why I chose this architecture:**\nThis hardware-agnostic approach breaks brand silos, allowing a unified JSON data cloud for national authorities (like NHAI) to monitor nationwide quality across different contractors and machine brands.\n\n### Implementation\n**Sensor Placement & Machine Guidance Workflow:**\n1. **Roof-mounted RTK-GPS:** Ensures centimeter-accurate X/Y location tracking for complete coverage mapping, eliminating missed areas and automating pass-count verification.\n2. **Mechanical (Drum-mounted):** Triaxial Industrial ICP Accelerometers capture 30Hz vibration frequency, amplitude, and damping harmonics.\n3. **Downward ToF LiDAR:** Profiles continuous surface elevation to detect settlement patterns and calculate real-time material bed thickness.\n4. **Thermal (IR Sensor):** Provides non-contact temperature monitoring of asphalt layers, ensuring compaction occurs within the strict optimal thermal window.\n\n**The EKF Idea (Extended Kalman Filter):**\nThe deterministic physics model employs Extended Kalman Filter (EKF) algorithms combined with Fast Fourier Transform (FFT) to isolate drum frequencies from engine noise. This sensor fusion dynamically estimates the material stiffness (CMV) in real-time.\n\n### Screenshots / Dashboard\nThe dashboard provides a \"Live Grid Sensor\" view to the operator, visually guiding them to maintain a $3.3 \\text{ km/h}$ speed while mapping stiffness (CMV) and thickness (MM) in a color-coded heatmap.\n\n### Challenges I Faced\n- **Signal Noise:** The vibration from the heavy machinery introduces immense noise into the accelerometer data. Developing the FFT/EKF pipeline to successfully isolate the ground-return frequency from the engine harmonics was the primary mathematical hurdle.\n- **Cost Constraints:** Balancing the need for centimeter-level accuracy (RTK-GPS) while keeping the total BOM cost under ₹60,000 to remain a viable \"Disruptor\" to the market reality.\n\n### What I Learned\n- Correlating CMV (Compaction Meter Value) to physical density is non-linear. Validation requires rigorous lab setups (Proctor Test for MDD/OMC, followed by Plate Load Tests for stiffness).\n- Flexible pavements require precise compaction at *each layer interface* (Subgrade, GSB, WBM, DBM, BC), making real-time monitoring infinitely more valuable here than in rigid concrete pavements.\n\n### Current Status\nThe project is a thoroughly researched conceptual framework and architectural proposal designed for the NHAI Hackathon (Automation & Intelligent Machine Guided Construction). The mathematical models and BOM have been defined.\n\n### Future Improvements\nThe next phase involves building the physical prototype of the edge-compute pod, mounting it to a test roller, and capturing empirical data to refine the EKF algorithms against actual Plate Load Test stiffness characteristics.",
   "engineeringInsights": [
     "Extended Kalman Filter IMU/GPS fusion",
     "FFT harmonic compaction index ratio calculation",
@@ -78,5 +82,18 @@
   "lessonsLearned": [
     "Mechanical dampening materials must be carefully selected; too much dampening filters out actual compaction-related drum hopping data.",
     "Thermal windows of asphalt are highly localized; wind speed and sub-base moisture content are major variables in cooling rates."
-  ]
+  ],
+  "role": "Lead Systems Architect / Engineer",
+  "duration": "3 Months",
+  "teamSize": "1 (Solo Project)",
+  "overview": "The Universal Intelligent Compaction (UIC) Kit is a prototype concept to transform standard vibration road rollers into intelligent compaction systems using non-invasive sensor fusion, bridging the gap between legacy machinery and modern quality control.",
+  "problem": "Current compaction quality control in flexible pavements (like highways) relies on manual, destructive core-cutting methods. These discrete tests leave vast pavement areas unverified and create delayed feedback loops, leading to either under-compaction or over-compaction.",
+  "mySolution": "I proposed the UIC Kit, a hardware-agnostic retrofit pod that mounts onto existing traditional rollers. It uses a deterministic physics model to estimate compaction density in real-time, transforming reactive testing into proactive machine guidance.",
+  "architecture": "The system architecture centers on \"Sensor Fusion at the Edge\".\n*   **The Edge Brain:** A ruggedized Raspberry Pi IPC processing data with zero latency.\n*   **JSON Data Cloud:** A unified data ledger to eliminate vendor silos.\n*   **Real-Time Dashboard:** Centralized monitoring for pass-count verification and stiffness mapping.",
+  "implementation": "### Sensor Placement & Function\n*   **Accelerometer Array:** Triaxial sensors (Industrial ICP) on the drum capture 30Hz harmonics to estimate stiffness.\n*   **RTK-GPS Positioning:** Roof-mounted module for centimeter-accurate X/Y coverage mapping.\n*   **Downward ToF LiDAR:** Calculates real-time material bed thickness.\n*   **Infrared Thermometry:** Monitors live asphalt cooling windows.\n\n### Machine Guidance Workflow\nThe edge node ingests the sensor data and applies a deterministic physics model. It uses an **Extended Kalman Filter (EKF)** and Fast Fourier Transform (FFT) to isolate drum frequencies from engine noise, dynamically calculating the Compaction Meter Value (CMV) and displaying it on a live grid for the operator.",
+  "challenges": "Designing a system that is truly \"hardware-agnostic\" required deep consideration of vibration transfer across different roller chassis types. Additionally, isolating the actual compaction frequency from the raw mechanical noise of a heavy diesel machine is mathematically complex.",
+  "whatILearned": "I learned the critical importance of sensor fusion (combining GPS, LiDAR, and accelerometers) to cross-validate noisy real-world data. Implementing the theoretical math behind the Extended Kalman Filter (EKF) significantly leveled up my understanding of state estimation algorithms.",
+  "currentStatus": "Development Status: This project remains an academic prototype and system architecture design proposed for the NHAI Hackathon. It has not been deployed for field testing.",
+  "futureImprovements": "The next phase requires building a physical bench-scale model to perform controlled validation of the EKF algorithm against actual Plate Load Tests before moving to heavy machinery.",
+  "gallery": []
 }

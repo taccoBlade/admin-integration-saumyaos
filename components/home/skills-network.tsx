@@ -50,6 +50,9 @@ const getRelatedSkills = (targetSkill: Skill, allSkills: Skill[]) => {
 export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects: Project[] }) {
   const [hoveredSkill, setHoveredSkill] = useState<Skill | null>(null);
 
+  // Group skills by category
+  const categories = ["Core Engineering", "Technical Tools", "Programming", "Creative"];
+
   return (
     <section id="research" className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 overflow-hidden">
       <div className="mb-16">
@@ -57,44 +60,57 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
         <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Skills Network</h3>
       </div>
 
-      <div className="relative w-full min-h-[480px] md:h-[500px] border border-white/10 rounded-3xl bg-[#08090b]/50 backdrop-blur-sm overflow-hidden flex flex-wrap gap-2.5 sm:gap-4 p-6 sm:p-8 items-center justify-center pb-32 md:pb-28">
+      <div className="relative w-full min-h-[480px] md:h-[500px] border border-white/10 rounded-3xl bg-[#08090b]/50 backdrop-blur-sm flex flex-col gap-8 p-6 sm:p-8 items-center justify-center pb-32 md:pb-28">
         {/* Background grid */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212, 175, 55, 0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212, 175, 55, 0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30 pointer-events-none" />
         
-        {skills.map((skill) => {
-          const isSelected = hoveredSkill ? hoveredSkill.id === skill.id : true;
-          
-          let colorClass = "border-neutral-500/40 bg-neutral-500/10 text-neutral-300 hover:bg-neutral-500/20 hover:border-neutral-500/60";
-          if (skill.category === "Core Engineering") {
-            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
-          } else if (skill.category === "Technical Tools") {
-            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
-          } else if (skill.category === "Programming") {
-            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
-          } else if (skill.category === "Creative") {
-            colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
-          }
+        <div className="w-full max-w-5xl flex flex-col gap-12 z-10">
+          {categories.map((category) => {
+            const categorySkills = skills.filter(s => s.category === category);
+            if (categorySkills.length === 0) return null;
 
-          return (
-            <motion.div
-              key={skill.id}
-              onMouseEnter={() => setHoveredSkill(skill)}
-              onMouseLeave={() => setHoveredSkill(null)}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: isSelected ? 1 : 0.2, scale: isSelected ? 1 : 0.95 }}
-              animate={{ opacity: isSelected ? 1 : 0.2, scale: isSelected ? 1 : 0.95 }}
-              whileHover={{ scale: 1.05, zIndex: 10 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.25 }}
-              className={`relative cursor-pointer flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border backdrop-blur-md transition-all ${colorClass}`}
-              style={{
-                fontSize: `calc(${Math.max(0.72, skill.strength * 0.1)}rem + 0.1vw)`,
-              }}
-            >
-              {skill.name}
-            </motion.div>
-          );
-        })}
+            return (
+              <div key={category} className="flex flex-col items-center gap-6">
+                <div className="flex items-center gap-4 w-full">
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent flex-1" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-slate-500 whitespace-nowrap">
+                    [ {category} ]
+                  </span>
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent flex-1" />
+                </div>
+                
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-5">
+                  {categorySkills.map((skill) => {
+                    const isSelected = hoveredSkill ? hoveredSkill.id === skill.id : true;
+                    const isHovered = hoveredSkill?.id === skill.id;
+                    
+                    const colorClass = "border-attention-500/40 bg-attention-500/10 text-attention-300 hover:bg-attention-500/20 hover:border-attention-500/60";
+
+                    return (
+                      <motion.div
+                        key={skill.id}
+                        onMouseEnter={() => setHoveredSkill(skill)}
+                        onMouseLeave={() => setHoveredSkill(null)}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: isSelected ? 1 : 0.2, scale: isHovered ? 1.05 : (isSelected ? 1 : 0.95) }}
+                        animate={{ opacity: isSelected ? 1 : 0.2, scale: isHovered ? 1.05 : (isSelected ? 1 : 0.95) }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.25 }}
+                        className={`relative cursor-pointer flex items-center px-4 py-2 sm:px-6 sm:py-3 rounded-full border backdrop-blur-md transition-colors ${colorClass}`}
+                        style={{
+                          zIndex: isHovered ? 20 : 10,
+                          fontSize: `calc(${Math.max(0.72, skill.strength * 0.1)}rem + 0.1vw)`,
+                        }}
+                      >
+                        {skill.name}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
 
         {/* Dynamic HUD / Detail Card */}
         <AnimatePresence mode="wait">
@@ -105,16 +121,12 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 15 }}
               transition={{ duration: 0.2 }}
-              className="absolute bottom-4 left-4 right-4 md:left-6 md:right-6 bg-neutral-950/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 z-20 shadow-2xl"
+              className="absolute bottom-4 left-4 right-4 md:left-6 md:right-6 bg-neutral-950/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 z-30 shadow-2xl"
             >
               {/* Left Side: Skill Name and Category */}
               <div className="space-y-1 shrink-0 md:max-w-[200px]">
                 <div className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${
-                    hoveredSkill.category === "Core Engineering" ? "bg-attention-400" :
-                    hoveredSkill.category === "Technical Tools" ? "bg-attention-400" :
-                    hoveredSkill.category === "Programming" ? "bg-attention-400" : "bg-attention-400"
-                  }`} />
+                  <span className="w-2 h-2 rounded-full bg-attention-400" />
                   <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">{hoveredSkill.category}</span>
                 </div>
                 <h4 className="text-base font-bold text-white tracking-tight">{hoveredSkill.name}</h4>
