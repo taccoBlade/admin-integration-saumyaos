@@ -60,7 +60,7 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
         <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">Skills Network</h3>
       </div>
 
-      <div className="relative w-full min-h-[480px] md:h-[500px] border border-white/10 rounded-3xl bg-[#08090b]/50 backdrop-blur-sm flex flex-col gap-8 p-6 sm:p-8 items-center justify-center pb-32 md:pb-28">
+      <div className="relative w-full border border-white/10 rounded-3xl bg-[#08090b]/50 backdrop-blur-sm flex flex-col gap-8 p-6 sm:p-8 items-center pt-10 pb-40 md:pb-32">
         {/* Background grid */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212, 175, 55, 0.05)_1px,transparent_1px)] bg-[size:24px_24px] opacity-30 pointer-events-none" />
         
