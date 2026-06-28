@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { springFluid } from "@/lib/motion";
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
@@ -60,21 +60,18 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Page content — spring-driven fade + lift on route change */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={pathname}
-          initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          exit={{ opacity: 0, y: -16, filter: "blur(2px)" }}
-          transition={{
-            ...springFluid,
-            delay: 0.05,
-            filter: { duration: 0.3, ease: "easeOut" },
-          }}
-        >
-          {children}
-        </motion.div>
-      </AnimatePresence>
+      <motion.div
+        key={pathname}
+        initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        transition={{
+          ...springFluid,
+          delay: 0.05,
+          filter: { duration: 0.3, ease: "easeOut" },
+        }}
+      >
+        {children}
+      </motion.div>
     </>
   );
 }

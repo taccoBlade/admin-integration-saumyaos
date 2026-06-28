@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOS } from "@/lib/os-context";
 import { sysAudio } from "@/lib/audio-engine";
@@ -17,48 +17,7 @@ import {
   Repeat1,
 } from "lucide-react";
 
-const PLAYLISTS = {
-  lockin: [
-    { title: "Run Boy Run", artist: "Woodkid" },
-    { title: "Legends Never Die", artist: "Against The Current" },
-    { title: "Warriors", artist: "Imagine Dragons" },
-    { title: "Hall of Fame", artist: "The Script" },
-    { title: "Believer", artist: "Imagine Dragons" },
-    { title: "Centuries", artist: "Fall Out Boy" },
-    { title: "Way Down We Go", artist: "KALEO" },
-    { title: "The Nights", artist: "Avicii" },
-    { title: "Arjan Vailly", artist: "Bhupinder Babbal" },
-    { title: "Kar Har Maidaan Fateh", artist: "Sukhwinder Singh" },
-    { title: "Brothers Anthem", artist: "Vishal-Shekhar" },
-    { title: "Zinda", artist: "Amit Trivedi" },
-  ],
-  ride: [
-    { title: "After Dark", artist: "Mr.Kitty" },
-    { title: "Midnight City", artist: "M83" },
-    { title: "Sweater Weather", artist: "The Neighbourhood" },
-    { title: "Heat Waves", artist: "Glass Animals" },
-    { title: "Husn", artist: "Anuv Jain" },
-    { title: "Kho Gaye Hum Kahan", artist: "Jasleen Royal & Prateek Kuhad" },
-    { title: "O Sanam", artist: "Lucky Ali" },
-    { title: "Kasoor", artist: "Prateek Kuhad" },
-    { title: "Sajni", artist: "Jal" },
-    { title: "Choo Lo", artist: "The Local Train" },
-    { title: "Paradise", artist: "Coldplay" },
-    { title: "Nightcall", artist: "Kavinsky" },
-  ],
-  chill: [
-    { title: "Experience", artist: "Ludovico Einaudi" },
-    { title: "Time", artist: "Hans Zimmer" },
-    { title: "Cornfield Chase", artist: "Hans Zimmer" },
-    { title: "Interstellar Main Theme", artist: "Hans Zimmer" },
-    { title: "Nuvole Bianche", artist: "Ludovico Einaudi" },
-    { title: "Sunset Lover", artist: "Petit Biscuit" },
-    { title: "Baarishein", artist: "Anuv Jain" },
-    { title: "Gul", artist: "Anuv Jain" },
-    { title: "Iktara", artist: "Amit Trivedi" },
-    { title: "Until I Found You", artist: "Stephen Sanchez" },
-  ],
-};
+import { PLAYLISTS } from "@/lib/playlists";
 
 const MODE_INFOS = {
   lockin: {
@@ -97,31 +56,63 @@ const MODE_INFOS = {
 };
 
 export function DashboardWidgets() {
-  const { mode, setMode, addLog, theme } = useOS();
+  const {
+    mode,
+    setMode,
+    addLog,
+    theme,
+    
+    // Centralized audio state
+    currentTrackIndex,
+    isPlaying,
+    volume: globalVolume,
+    isMuted,
+    currentTime,
+    duration: audioDuration,
+    
+    // Centralized audio actions
+    togglePlay,
+    nextTrack: handleNext,
+    prevTrack: handlePrev,
+    setVolume,
+    setIsMuted,
+    seek,
+    playTrack,
+  } = useOS();
 
   // Mode local resolve
   const activeMode = (mode === "lockin" || mode === "ride" || mode === "chill") ? mode : "chill";
-  const currentPlaylist = PLAYLISTS[activeMode];
+  const currentPlaylist = PLAYLISTS[activeMode] || [];
 
-  // Playback states
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [audioDuration, setAudioDuration] = useState(30);
-  const [volume, setVolume] = useState(80);
-  const [isMuted, setIsMuted] = useState(false);
   const [loopMode, setLoopMode] = useState<"none" | "track" | "playlist">("playlist");
   const [showPlaylist, setShowPlaylist] = useState(false);
   
-  // iTunes preview URLs and Artworks cache
-  const [trackUrls, setTrackUrls] = useState<Record<string, string>>({});
-  const [trackArtworks, setTrackArtworks] = useState<Record<string, string>>({});
-  const [isLoadingTrack, setIsLoadingTrack] = useState(false);
+  // Cache of trackUrls and trackArtworks populated on mount from playlists configuration
+  const [trackUrls] = useState<Record<string, string>>(() => {
+    const urls: Record<string, string> = {};
+    Object.entries(PLAYLISTS).forEach(([modeName, list]) => {
+      list.forEach((t, idx) => {
+        urls[`${modeName}-${idx}`] = t.src;
+      });
+    });
+    return urls;
+  });
+
+  const [trackArtworks] = useState<Record<string, string>>(() => {
+    const artworks: Record<string, string> = {};
+    Object.entries(PLAYLISTS).forEach(([modeName, list]) => {
+      list.forEach((t, idx) => {
+        artworks[`${modeName}-${idx}`] = t.artwork;
+      });
+    });
+    return artworks;
+  });
+
+  const volume = Math.round(globalVolume * 100);
+  const isLoadingTrack = false;
 
   // local log console
   const [playerLogs, setPlayerLogs] = useState<string[]>(["[SOUNDTRACK ENGINE READY]"]);
-
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const addPlayerLog = useCallback((msg: string) => {
     const timestamp = new Date().toLocaleTimeString([], { hour12: false });
@@ -139,150 +130,6 @@ export function DashboardWidgets() {
     addPlayerLog(`MODE_CHANGED: ${MODE_INFOS[m].name}`);
   };
 
-  // Sync mode changes with track index resets
-  const lastActiveModeRef = useRef(activeMode);
-  useEffect(() => {
-    if (activeMode !== lastActiveModeRef.current) {
-      setCurrentTrackIndex(0);
-      setCurrentTime(0);
-      setIsPlaying(false);
-      lastActiveModeRef.current = activeMode;
-    }
-  }, [activeMode]);
-
-  // Preload preview for active mode on index change or playlist mount
-  useEffect(() => {
-    const activePlaylist = PLAYLISTS[activeMode];
-    // Preload current, prev, and next tracks for zero latency swaps
-    const indicesToLoad = [
-      currentTrackIndex,
-      (currentTrackIndex - 1 + activePlaylist.length) % activePlaylist.length,
-      (currentTrackIndex + 1) % activePlaylist.length,
-    ];
-
-    indicesToLoad.forEach((idx) => {
-      const currentTrack = activePlaylist[idx];
-      if (!currentTrack) return;
-      const key = `${activeMode}-${idx}`;
-      if (trackUrls[key]) return;
-
-      const query = encodeURIComponent(`${currentTrack.artist} ${currentTrack.title}`);
-      fetch(`https://itunes.apple.com/search?term=${query}&media=music&limit=1`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.results && data.results[0]) {
-            const previewUrl = data.results[0].previewUrl || "";
-            const artworkUrl = data.results[0].artworkUrl100 
-              ? data.results[0].artworkUrl100.replace("100x100bb", "300x300bb") 
-              : "";
-              
-            setTrackUrls((prev) => ({ ...prev, [key]: previewUrl }));
-            setTrackArtworks((prev) => ({ ...prev, [key]: artworkUrl }));
-          }
-        })
-        .catch((err) => console.error("Error preloading preview", err));
-    });
-  }, [activeMode, currentTrackIndex, trackUrls]);
-
-  // Initialize HTML5 Audio Ref
-  useEffect(() => {
-    audioRef.current = new Audio();
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-    };
-  }, []);
-
-  const handleNext = useCallback(() => {
-    setCurrentTrackIndex((prev) => (prev + 1) % currentPlaylist.length);
-    setCurrentTime(0);
-  }, [currentPlaylist.length]);
-
-  const handlePrev = useCallback(() => {
-    setCurrentTrackIndex((prev) => (prev - 1 + currentPlaylist.length) % currentPlaylist.length);
-    setCurrentTime(0);
-  }, [currentPlaylist.length]);
-
-  const handleTrackEnd = useCallback(() => {
-    if (loopMode === "track") {
-      if (audioRef.current) {
-        audioRef.current.currentTime = 0;
-        audioRef.current.play().catch((err) => console.error("Replay failed", err));
-      }
-      setCurrentTime(0);
-    } else if (loopMode === "playlist") {
-      handleNext();
-    } else {
-      if (currentTrackIndex < currentPlaylist.length - 1) {
-        handleNext();
-      } else {
-        setIsPlaying(false);
-        setCurrentTime(0);
-      }
-    }
-  }, [loopMode, currentTrackIndex, currentPlaylist.length, handleNext]);
-
-  // Sync volume state with Audio element
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = isMuted ? 0 : volume / 100;
-    }
-  }, [volume, isMuted]);
-
-  // Sync playback state and source URL
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const url = trackUrls[trackKey];
-    if (isPlaying && url) {
-      if (audio.src !== url) {
-        setIsLoadingTrack(true);
-        audio.src = url;
-        audio.load();
-      }
-      audio.play()
-        .then(() => setIsLoadingTrack(false))
-        .catch((err) => {
-          console.error("Playback failed", err);
-          setIsPlaying(false);
-        });
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying, trackKey, trackUrls]);
-
-  // Sync event listeners for time and duration
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const handleTimeUpdate = () => {
-      setCurrentTime(Math.floor(audio.currentTime));
-    };
-
-    const handleDurationChange = () => {
-      if (audio.duration && !isNaN(audio.duration)) {
-        setAudioDuration(audio.duration);
-      }
-    };
-
-    const handleEnded = () => {
-      handleTrackEnd();
-    };
-
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-    audio.addEventListener("durationchange", handleDurationChange);
-    audio.addEventListener("ended", handleEnded);
-
-    return () => {
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
-      audio.removeEventListener("durationchange", handleDurationChange);
-      audio.removeEventListener("ended", handleEnded);
-    };
-  }, [handleTrackEnd]);
-
   // Log state updates
   useEffect(() => {
     if (track.title !== "Unknown") {
@@ -299,12 +146,8 @@ export function DashboardWidgets() {
   }, [volume, isMuted, addPlayerLog]);
 
   const handlePlayPause = () => {
-    if (trackUrls[trackKey]) {
-      setIsPlaying(!isPlaying);
-      sysAudio.playClick();
-    } else {
-      addPlayerLog("PREVIEW_LOADING_WAIT: Stream buffer empty");
-    }
+    togglePlay();
+    sysAudio.playClick();
   };
 
   const handleProgressBarClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -313,15 +156,12 @@ export function DashboardWidgets() {
     const width = rect.width;
     const clickPercent = clickX / width;
     const targetTime = clickPercent * audioDuration;
-    setCurrentTime(Math.floor(targetTime));
-    if (audioRef.current) {
-      audioRef.current.currentTime = targetTime;
-    }
+    seek(targetTime);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVol = Number(e.target.value);
-    setVolume(newVol);
+    setVolume(newVol / 100);
     if (newVol > 0) {
       setIsMuted(false);
     }
@@ -658,9 +498,7 @@ export function DashboardWidgets() {
                         key={trackItem.title}
                         onClick={() => {
                           if (isLoaded) {
-                            setCurrentTrackIndex(index);
-                            setCurrentTime(0);
-                            setIsPlaying(true);
+                            playTrack(activeMode, index);
                           }
                         }}
                         disabled={!isLoaded}

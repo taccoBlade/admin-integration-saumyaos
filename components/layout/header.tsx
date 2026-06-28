@@ -2,13 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Play, Pause, SkipForward, Music, Volume2, VolumeX } from "lucide-react";
-import { Cinzel } from "next/font/google";
-import { spotifyTracks } from "@/lib/spotifyTracks";
 
-const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "700"] });
 
 const navItems = [
   { label: "Professional", href: "/" },
@@ -17,83 +14,47 @@ const navItems = [
   { label: "Contact", href: "/contact" },
 ];
 
+import { useOS } from "@/lib/os-context";
+
 export function HeaderMusicPlayer() {
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
-  const [isMuted, setIsMuted] = useState(false);
+  const {
+    currentTrack,
+    isPlaying,
+    volume,
+    isMuted,
+    togglePlay,
+    nextTrack,
+    setVolume,
+    setIsMuted
+  } = useOS();
 
-  // The ref points to the <audio> JSX element — React populates this before
-  // any useEffect runs, so it is always non-null when effects execute.
-  const audioRef = useRef<HTMLAudioElement>(null);
+  if (!currentTrack) return null;
 
-  const currentTrack = spotifyTracks[currentTrackIndex];
-
-  // Track change: imperatively swap src, then resume if we were playing
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    const wasPlaying = isPlaying;
-    audio.pause();
-    audio.src = currentTrack.src;
-    if (wasPlaying) {
-      audio.play()
-        .then(() => setIsPlaying(true))
-        .catch(() => setIsPlaying(false));
-    }
-    // isPlaying intentionally omitted — we only want to react to track changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTrackIndex]);
-
-  // Volume / mute sync
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) audio.volume = isMuted ? 0 : volume;
-  }, [volume, isMuted]);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-    } else {
-      // Ensure src is set (in case track effect hasn't fired yet)
-      if (!audio.src || audio.src === window.location.href) {
-        audio.src = currentTrack.src;
-      }
-      audio.volume = isMuted ? 0 : volume;
-      audio.play()
-        .then(() => setIsPlaying(true))
-        .catch(() => setIsPlaying(false));
-    }
-  };
-
-  const nextTrack = () =>
-    setCurrentTrackIndex((prev) => (prev + 1) % spotifyTracks.length);
-
-  const toggleMute = () => setIsMuted((prev) => !prev);
+  const toggleMute = () => setIsMuted(!isMuted);
 
   return (
-    <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full py-1.5 px-3 backdrop-blur-md text-white select-none shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-      {/*
-        JSX <audio> with NO src / autoPlay props — those are set imperatively
-        via the ref only. onEnded and preload are stable, safe to set here.
-      */}
-      <audio
-        ref={audioRef}
-        preload="none"
-        onEnded={nextTrack}
-      />
-
-      {/* Pulse icon while playing */}
-      <div className={`p-1.5 rounded-full bg-white/10 text-white/90 transition-all ${isPlaying ? "animate-pulse" : ""}`}>
-        <Music className="w-3.5 h-3.5" />
+    <div className="flex items-center gap-1 sm:gap-2 bg-white/5 border border-white/10 rounded-full py-1 px-2 sm:py-1.5 sm:px-3 backdrop-blur-md text-white select-none shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+      {/* Cover image (spinning vinyl record effect) */}
+      <div 
+        className={`relative w-6 h-6 flex items-center justify-center rounded-full bg-white/10 overflow-hidden text-white/90 shrink-0 transition-all ${isPlaying ? "animate-spin" : ""}`}
+        style={{ animationDuration: '8s' }}
+      >
+        {currentTrack.coverUrl ? (
+          <img
+            src={currentTrack.coverUrl}
+            className="w-full h-full object-cover pointer-events-none select-none"
+            alt=""
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+        ) : (
+          <Music className="w-3 h-3" />
+        )}
       </div>
 
       {/* Track info */}
-      <div className="flex flex-col w-[80px] md:w-[110px] overflow-hidden truncate">
+      <div className="flex flex-col w-[50px] xs:w-[80px] md:w-[110px] overflow-hidden truncate">
         <span className="text-[10px] font-mono tracking-wider font-semibold truncate leading-tight text-white/95">
           {currentTrack.title}
         </span>
@@ -122,8 +83,8 @@ export function HeaderMusicPlayer() {
         </button>
       </div>
 
-      {/* Volume slider — expands on hover */}
-      <div className="flex items-center gap-1 ml-1.5 border-l border-white/15 pl-2 group/vol">
+      {/* Volume slider — expands on hover (hidden on mobile) */}
+      <div className="hidden sm:flex items-center gap-1 ml-1.5 border-l border-white/15 pl-2 group/vol">
         <button
           onClick={toggleMute}
           className="p-1 hover:text-attention-400 text-white/80 transition-colors"
@@ -164,21 +125,21 @@ export function Header() {
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-[100] py-4 xl:py-5 text-white ${headerBg} backdrop-blur-md border-b border-white/5 transition-colors duration-500`}>
-        <div className="container mx-auto px-6 flex justify-between items-center gap-4">
+        <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center gap-2 sm:gap-4">
 
           {/* Logo */}
           <Link href="/" className="z-[110] shrink-0">
             {isPersonal ? (
-              <div className="relative group px-2 py-1 flex items-center h-10 select-none">
-                <span className="font-mono text-base md:text-lg tracking-[0.2em] uppercase text-attention drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
-                  SAUMYA PAREKH
+              <div className="relative group px-1 sm:px-2 py-1 flex items-center h-10 select-none">
+                <span className="font-bigger-scape text-[10px] xs:text-sm sm:text-base md:text-lg tracking-[0.1em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal">
+                  <span className="text-attention">S</span>AUMYA <span className="text-attention">P</span>AREKH
                 </span>
               </div>
             ) : (
-              <h1 className={`${cinzel.className} text-xl sm:text-2xl lg:text-3xl font-bold tracking-[0.08em] transition-colors duration-500`}>
-                <span className={`${accentColor} transition-colors duration-500`}>S</span>aumya{" "}
-                <span className={`${accentColor} transition-colors duration-500`}>P</span>arekh
-                <span className={`${accentColor} transition-colors duration-500`}>.</span>
+              <h1 className="font-bigger-scape text-sm xs:text-xl sm:text-2xl lg:text-3xl tracking-[0.04em] transition-colors duration-500 font-normal text-white">
+                <span className="text-attention">S</span>aumya{" "}
+                <span className="text-attention">P</span>arekh
+                <span className="text-attention">.</span>
               </h1>
             )}
           </Link>

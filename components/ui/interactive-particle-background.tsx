@@ -50,9 +50,44 @@ const CONSTELLATION_EDGES: ConstellationEdge[] = [
   { from: "cinematography", to: "motorcycles", group: 2 }
 ];
 
-export function InteractiveParticleBackground() {
+export function InteractiveParticleBackground({
+  showConstellations = false,
+  disableLines = false,
+  particleColor,
+  lineColor,
+  particleCountOverride,
+  particleSpeedOverride,
+  className = "fixed inset-0 w-full h-full pointer-events-none z-0 opacity-55",
+}: {
+  showConstellations?: boolean;
+  disableLines?: boolean;
+  particleColor?: string;
+  lineColor?: string;
+  particleCountOverride?: number;
+  particleSpeedOverride?: number;
+  className?: string;
+} = {}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { theme } = useOS();
+
+  // Safe OS theme context access
+  let osTheme = {
+    accent: "#d4af37",
+    accentGlow: "rgba(212, 175, 55, 0.15)",
+    particleSpeed: 0.5,
+    particleCount: 50,
+  };
+
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const os = useOS();
+    if (os && os.theme) {
+      osTheme = os.theme;
+    }
+  } catch {
+    // OSProvider not present, using default fallback
+  }
+
+  const { accent: defaultAccent, particleSpeed: defaultSpeed, particleCount: defaultCount } = osTheme;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -109,7 +144,7 @@ export function InteractiveParticleBackground() {
       canvas.height = window.innerHeight;
       
       particles = [];
-      const count = theme.particleCount;
+      const count = particleCountOverride || defaultCount;
       for (let i = 0; i < count; i++) {
         const baseVx = (Math.random() - 0.5) * 1.5;
         const baseVy = (Math.random() - 0.5) * 1.5;
@@ -139,70 +174,73 @@ export function InteractiveParticleBackground() {
       const forceRadius = 180;
       const borderThickness = 30;
 
-      // ── Calculate Constellation Node Positions and Hover States ──
-      const nodesWithPos = CONSTELLATION_NODES.map((node) => {
-        const baseX = canvas.width * node.pctX;
-        const baseY = canvas.height * node.pctY;
-        
-        // Float drift offset
-        const driftX = Math.sin(time / 1500 + node.phase) * 12;
-        const driftY = Math.cos(time / 1800 + node.phase) * 10;
-        
-        return {
-          ...node,
-          x: baseX + driftX,
-          y: baseY + driftY
-        };
-      });
-
       let activeGroup: number | null = null;
       let hoveredNodeId: string | null = null;
+      let nodesWithPos: Array<ConstellationNode & { x: number; y: number }> = [];
 
-      if (mouse.active) {
-        for (const node of nodesWithPos) {
-          const dx = node.x - mouse.x;
-          const dy = node.y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 55) {
-            activeGroup = node.group;
-            hoveredNodeId = node.id;
-            break;
+      // ── Calculate Constellation Node Positions and Hover States ──
+      if (showConstellations) {
+        nodesWithPos = CONSTELLATION_NODES.map((node) => {
+          const baseX = canvas.width * node.pctX;
+          const baseY = canvas.height * node.pctY;
+          
+          // Float drift offset
+          const driftX = Math.sin(time / 1500 + node.phase) * 12;
+          const driftY = Math.cos(time / 1800 + node.phase) * 10;
+          
+          return {
+            ...node,
+            x: baseX + driftX,
+            y: baseY + driftY
+          };
+        });
+
+        if (mouse.active) {
+          for (const node of nodesWithPos) {
+            const dx = node.x - mouse.x;
+            const dy = node.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 55) {
+              activeGroup = node.group;
+              hoveredNodeId = node.id;
+              break;
+            }
           }
         }
+
+        // ── Draw Constellation Connection Lines ──
+        CONSTELLATION_EDGES.forEach((edge) => {
+          const fromNode = nodesWithPos.find((n) => n.id === edge.from);
+          const toNode = nodesWithPos.find((n) => n.id === edge.to);
+          if (!fromNode || !toNode) return;
+
+          const isActive = activeGroup === edge.group;
+          
+          ctx.beginPath();
+          ctx.moveTo(fromNode.x, fromNode.y);
+          ctx.lineTo(toNode.x, toNode.y);
+          
+          if (isActive) {
+            // Highlight connection lines
+            ctx.strokeStyle = edge.group === 1 ? "#d4af37" : "#f97316";
+            ctx.globalAlpha = 0.55;
+            ctx.lineWidth = 1.6;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = ctx.strokeStyle;
+          } else {
+            // Faint backdrop lines
+            ctx.strokeStyle = lineColor || defaultAccent;
+            ctx.globalAlpha = 0.04;
+            ctx.lineWidth = 0.6;
+            ctx.shadowBlur = 0;
+          }
+          ctx.stroke();
+          ctx.globalAlpha = 1.0;
+          ctx.shadowBlur = 0;
+        });
       }
 
-      // ── 1. Draw Constellation Connection Lines ──
-      CONSTELLATION_EDGES.forEach((edge) => {
-        const fromNode = nodesWithPos.find((n) => n.id === edge.from);
-        const toNode = nodesWithPos.find((n) => n.id === edge.to);
-        if (!fromNode || !toNode) return;
-
-        const isActive = activeGroup === edge.group;
-        
-        ctx.beginPath();
-        ctx.moveTo(fromNode.x, fromNode.y);
-        ctx.lineTo(toNode.x, toNode.y);
-        
-        if (isActive) {
-          // Highlight connection lines
-          ctx.strokeStyle = edge.group === 1 ? "#d4af37" : "#f97316";
-          ctx.globalAlpha = 0.55;
-          ctx.lineWidth = 1.6;
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = ctx.strokeStyle;
-        } else {
-          // Faint backdrop lines
-          ctx.strokeStyle = theme.accent;
-          ctx.globalAlpha = 0.04;
-          ctx.lineWidth = 0.6;
-          ctx.shadowBlur = 0;
-        }
-        ctx.stroke();
-        ctx.globalAlpha = 1.0;
-        ctx.shadowBlur = 0;
-      });
-
-      // ── 2. Move and Update Regular Particles ──
+      // ── Move and Update Regular Particles ──
       particles.forEach((p) => {
         let currentVx = p.vx;
         let currentVy = p.vy;
@@ -235,8 +273,9 @@ export function InteractiveParticleBackground() {
         p.vx = currentVx;
         p.vy = currentVy;
 
-        p.x += p.vx * theme.particleSpeed;
-        p.y += p.vy * theme.particleSpeed;
+        const currentSpeed = particleSpeedOverride || defaultSpeed;
+        p.x += p.vx * currentSpeed;
+        p.y += p.vy * currentSpeed;
 
         if (p.x < 0) p.x = canvas.width;
         else if (p.x > canvas.width) p.x = 0;
@@ -262,13 +301,13 @@ export function InteractiveParticleBackground() {
         if (isLit) {
           ctx.arc(p.x, p.y, p.size * (1.0 + boundaryGlow * 0.6), 0, Math.PI * 2);
           ctx.shadowBlur = 12 * boundaryGlow;
-          ctx.shadowColor = theme.accent;
+          ctx.shadowColor = particleColor || defaultAccent;
           ctx.fillStyle = "#ffffff";
           ctx.globalAlpha = 0.9;
         } else {
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
           ctx.shadowBlur = 0;
-          ctx.fillStyle = theme.accent;
+          ctx.fillStyle = particleColor || defaultAccent;
           ctx.globalAlpha = 0.35;
         }
         ctx.fill();
@@ -276,111 +315,115 @@ export function InteractiveParticleBackground() {
         ctx.shadowBlur = 0;
       });
 
-      // ── 3. Draw Connections Between Nearby Regular Particles ──
-      for (let i = 0; i < particles.length; i++) {
-        const p1 = particles[i];
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      // ── Draw Connections Between Nearby Regular Particles ──
+      if (!disableLines) {
+        for (let i = 0; i < particles.length; i++) {
+          const p1 = particles[i];
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 95) {
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = theme.accent;
-            ctx.globalAlpha = ((95 - dist) / 95) * 0.08;
-            ctx.lineWidth = 0.4;
-            ctx.stroke();
-            ctx.globalAlpha = 1.0;
+            if (dist < 95) {
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = lineColor || defaultAccent;
+              ctx.globalAlpha = ((95 - dist) / 95) * 0.08;
+              ctx.lineWidth = 0.4;
+              ctx.stroke();
+              ctx.globalAlpha = 1.0;
+            }
           }
         }
       }
 
-      // ── 4. Draw Constellation Node Stars ──
-      nodesWithPos.forEach((node) => {
-        const isGroupActive = activeGroup === node.group;
-        const isNodeHovered = hoveredNodeId === node.id;
-
-        ctx.beginPath();
-        
-        if (isGroupActive) {
-          ctx.arc(node.x, node.y, isNodeHovered ? 5.5 : 3.5, 0, Math.PI * 2);
-          ctx.fillStyle = "#ffffff";
-          ctx.shadowBlur = isNodeHovered ? 16 : 8;
-          ctx.shadowColor = node.group === 1 ? "#d4af37" : "#f97316";
-          ctx.globalAlpha = 0.95;
-          ctx.fill();
-          
-          // Outer accent ring
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, isNodeHovered ? 11 : 8, 0, Math.PI * 2);
-          ctx.strokeStyle = node.group === 1 ? "rgba(212, 175, 55, 0.4)" : "rgba(212, 175, 55, 0.4)";
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        } else {
-          ctx.arc(node.x, node.y, 2.2, 0, Math.PI * 2);
-          ctx.fillStyle = theme.accent;
-          ctx.shadowBlur = 0;
-          ctx.globalAlpha = 0.55;
-          ctx.fill();
-        }
-        
-        ctx.globalAlpha = 1.0;
-        ctx.shadowBlur = 0;
-      });
-
-      // ── 5. Draw Sci-Fi HUD Callouts for Active Constellations ──
-      if (activeGroup !== null) {
+      // ── Draw Constellation Node Stars ──
+      if (showConstellations) {
         nodesWithPos.forEach((node) => {
-          if (node.group !== activeGroup) return;
-
-          const activeColor = node.group === 1 ? "#d4af37" : "#f97316";
+          const isGroupActive = activeGroup === node.group;
           const isNodeHovered = hoveredNodeId === node.id;
 
-          ctx.font = "9px monospace";
-          const categoryText = node.category;
-          const labelText = node.label.toUpperCase();
-          const fullText = `${categoryText} // ${labelText}`;
-          const textWidth = ctx.measureText(fullText).width;
-
-          // Responsive orientation (flip left on the right side of viewport)
-          const drawLeft = node.pctX > 0.55;
-          const lineDirection = drawLeft ? -1 : 1;
-          const startBoxX = drawLeft ? node.x - 40 - textWidth - 8 : node.x + 40;
-
-          // Leader Line
           ctx.beginPath();
-          ctx.moveTo(node.x, node.y);
-          ctx.lineTo(node.x + 15 * lineDirection, node.y - 15);
-          ctx.lineTo(node.x + 40 * lineDirection, node.y - 15);
-          ctx.strokeStyle = activeColor;
-          ctx.lineWidth = 0.8;
-          ctx.globalAlpha = isNodeHovered ? 0.9 : 0.5;
-          ctx.stroke();
-
-          // Label Box background
-          ctx.fillStyle = "rgba(8, 9, 11, 0.9)";
-          ctx.globalAlpha = 0.85;
-          ctx.fillRect(startBoxX, node.y - 25, textWidth + 8, 15);
-
-          // Label Box border
-          ctx.strokeStyle = activeColor;
-          ctx.lineWidth = 0.8;
-          ctx.globalAlpha = isNodeHovered ? 0.9 : 0.4;
-          ctx.strokeRect(startBoxX, node.y - 25, textWidth + 8, 15);
-
-          // Accent corner tick mark
-          ctx.fillStyle = activeColor;
-          ctx.globalAlpha = 0.9;
-          ctx.fillRect(drawLeft ? startBoxX + textWidth + 6 : startBoxX, node.y - 25, 2, 2);
-
-          // Write Text
-          ctx.fillStyle = isNodeHovered ? "#ffffff" : activeColor;
-          ctx.globalAlpha = isNodeHovered ? 1.0 : 0.85;
-          ctx.fillText(fullText, startBoxX + 4, node.y - 14);
+          
+          if (isGroupActive) {
+            ctx.arc(node.x, node.y, isNodeHovered ? 5.5 : 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffffff";
+            ctx.shadowBlur = isNodeHovered ? 16 : 8;
+            ctx.shadowColor = node.group === 1 ? "#d4af37" : "#f97316";
+            ctx.globalAlpha = 0.95;
+            ctx.fill();
+            
+            // Outer accent ring
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, isNodeHovered ? 11 : 8, 0, Math.PI * 2);
+            ctx.strokeStyle = node.group === 1 ? "rgba(212, 175, 55, 0.4)" : "rgba(212, 175, 55, 0.4)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          } else {
+            ctx.arc(node.x, node.y, 2.2, 0, Math.PI * 2);
+            ctx.fillStyle = particleColor || defaultAccent;
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 0.55;
+            ctx.fill();
+          }
+          
+          ctx.globalAlpha = 1.0;
+          ctx.shadowBlur = 0;
         });
+
+        // ── Draw Sci-Fi HUD Callouts for Active Constellations ──
+        if (activeGroup !== null) {
+          nodesWithPos.forEach((node) => {
+            if (node.group !== activeGroup) return;
+
+            const activeColor = node.group === 1 ? "#d4af37" : "#f97316";
+            const isNodeHovered = hoveredNodeId === node.id;
+
+            ctx.font = "9px monospace";
+            const categoryText = node.category;
+            const labelText = node.label.toUpperCase();
+            const fullText = `${categoryText} // ${labelText}`;
+            const textWidth = ctx.measureText(fullText).width;
+
+            // Responsive orientation
+            const drawLeft = node.pctX > 0.55;
+            const lineDirection = drawLeft ? -1 : 1;
+            const startBoxX = drawLeft ? node.x - 40 - textWidth - 8 : node.x + 40;
+
+            // Leader Line
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(node.x + 15 * lineDirection, node.y - 15);
+            ctx.lineTo(node.x + 40 * lineDirection, node.y - 15);
+            ctx.strokeStyle = activeColor;
+            ctx.lineWidth = 0.8;
+            ctx.globalAlpha = isNodeHovered ? 0.9 : 0.5;
+            ctx.stroke();
+
+            // Label Box background
+            ctx.fillStyle = "rgba(8, 9, 11, 0.9)";
+            ctx.globalAlpha = 0.85;
+            ctx.fillRect(startBoxX, node.y - 25, textWidth + 8, 15);
+
+            // Label Box border
+            ctx.strokeStyle = activeColor;
+            ctx.lineWidth = 0.8;
+            ctx.globalAlpha = isNodeHovered ? 0.9 : 0.4;
+            ctx.strokeRect(startBoxX, node.y - 25, textWidth + 8, 15);
+
+            // Accent corner tick mark
+            ctx.fillStyle = activeColor;
+            ctx.globalAlpha = 0.9;
+            ctx.fillRect(drawLeft ? startBoxX + textWidth + 6 : startBoxX, node.y - 25, 2, 2);
+
+            // Write Text
+            ctx.fillStyle = isNodeHovered ? "#ffffff" : activeColor;
+            ctx.globalAlpha = isNodeHovered ? 1.0 : 0.85;
+            ctx.fillText(fullText, startBoxX + 4, node.y - 14);
+          });
+        }
       }
 
       animationFrameId = requestAnimationFrame(animate);
@@ -396,12 +439,13 @@ export function InteractiveParticleBackground() {
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [theme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showConstellations, particleColor, lineColor, particleCountOverride, particleSpeedOverride, defaultAccent, defaultSpeed, defaultCount]);
 
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-55"
+      className={className}
     />
   );
 }

@@ -78,7 +78,6 @@ export const editorialSpreads: SpreadData[] = [
       { src: "/images/editorial/img_6ef56dffca.jpg", role: "Hero", alt: "Editorial Image" },
       { src: "/images/editorial/img_3107ed692e.jpg", role: "Texture", alt: "Editorial Image" },
       { src: "/images/editorial/img_a691268788.jpg", role: "Portrait", alt: "Editorial Image" },
-      { src: "/images/editorial/img_843ae6a188.jpg", role: "Detail", alt: "Editorial Image" },
       { src: "/images/editorial/img_3d6a477493.jpg", role: "Portrait", alt: "Editorial Image" },
       { src: "/images/editorial/img_9e5ab33498.jpg", role: "Texture", alt: "Editorial Image" },
       { src: "/images/editorial/img_4856e16c61.jpg", role: "Closing Frame", alt: "Editorial Image" }

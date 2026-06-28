@@ -62,8 +62,12 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["SFMono-Regular", "Consolas", "monospace"],
+        sans: ["var(--font-geist-sans)", "Inter", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "SFMono-Regular", "Consolas", "monospace"],
+        syne: ["var(--font-syne)", "sans-serif"],
+        space: ["var(--font-space-grotesk)", "sans-serif"],
+        cormorant: ["var(--font-cormorant)", "serif"],
+        "bigger-scape": ["var(--font-bigger-scape)", "sans-serif"],
       },
       boxShadow: {
         glow: "0 0 80px rgba(94, 234, 212, 0.16)",

@@ -47,7 +47,7 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.3em] text-attention-400 mb-4 block"
+            className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-attention-500 mb-4 block"
           >
             Civil Engineering &amp; Infrastructure Systems
           </motion.span>
@@ -57,10 +57,11 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white font-bold tracking-tight text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.04] mb-4"
+            className="text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide"
           >
-            <span className="block text-white font-sans">
-              Saumya Parekh
+            <span className="block text-white">
+              <span className="text-attention">S</span>aumya{" "}
+              <span className="text-attention">P</span>arekh
             </span>
           </motion.h1>
 
@@ -68,7 +69,7 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="block text-slate-400 font-mono text-[10px] sm:text-xs lg:text-sm tracking-[0.2em] uppercase mb-6"
+            className="block text-slate-300 font-mono text-[11px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase mb-6"
           >
             Computational Infrastructure Engineer
           </motion.span>
@@ -78,7 +79,7 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-md mb-8 pointer-events-auto"
+            className="text-slate-300 font-cormorant italic text-lg sm:text-xl md:text-2xl leading-relaxed max-w-lg mb-8 pointer-events-auto font-light"
           >
             Building intelligent infrastructure systems through civil
             engineering, data analysis, automation, and computational design.

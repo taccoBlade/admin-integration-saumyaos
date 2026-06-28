@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { OSProvider } from "@/lib/os-context";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
 import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background";
 
@@ -27,9 +26,7 @@ function GithubIcon({ className }: { className?: string }) {
 
 export default function ContactPage() {
   return (
-    <OSProvider>
-      <ContactPageContent />
-    </OSProvider>
+    <ContactPageContent />
   );
 }
 

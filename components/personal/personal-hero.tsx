@@ -142,8 +142,8 @@ export function PersonalHero({ setActiveDossier }: PersonalHeroProps) {
           </div>
 
           <div className="my-auto py-4 z-10">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-white font-mono select-none uppercase leading-none">
-              Saumya Parekh
+            <h1 className="text-4xl sm:text-5xl md:text-6xl text-white font-bigger-scape select-none leading-none font-normal tracking-wide">
+              <span className="text-attention">S</span>aumya <span className="text-attention">P</span>arekh
             </h1>
             <div className="flex flex-wrap items-center gap-2 mt-4 text-[9px] sm:text-xs font-bold font-mono tracking-wider">
               <span className="px-2.5 py-1 rounded border bg-white/5 uppercase transition-all duration-350" style={{ borderColor: theme.accent + "40", color: theme.accent }}>

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Syne, Space_Grotesk, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { PageTransition } from "@/components/ui/page-transition";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
+
+import { OSProvider } from "@/lib/os-context";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,6 +18,31 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const biggerScape = localFont({
+  src: "./fonts/BiggerScapeDemo-PKv37.ttf",
+  variable: "--font-bigger-scape",
+  weight: "400",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  weight: ["700", "800"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["400", "500", "600", "700"],
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -52,11 +80,13 @@ export default function RootLayout({
         </Script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#08090b]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${biggerScape.variable} antialiased bg-[#08090b]`}
       >
-        <Header />
-        <PageTransition>{children}</PageTransition>
-        <Analytics />
+        <OSProvider>
+          <Header />
+          <PageTransition>{children}</PageTransition>
+          <Analytics />
+        </OSProvider>
       </body>
     </html>
   );

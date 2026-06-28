@@ -20,18 +20,7 @@ const CatSilhouetteSVG = () => (
   </svg>
 );
 
-// High-visibility Vector outlines for Fitness section
-const DumbbellSVG = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-14 h-14 text-[#d4af37]/35 hover:text-[#d4af37]/80 transition-all duration-500 pointer-events-none select-none">
-    <path d="M6 4h2v16H6V4zM16 4h2v16h-2V4zM2 8h4v8H2V8zM18 8h4v8h-4V8zM6 12h10" fill="currentColor" fillOpacity="0.1" />
-  </svg>
-);
 
-const HeartRateSVG = () => (
-  <svg viewBox="0 0 100 30" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-36 h-12 text-[#d4af37]/30 pointer-events-none select-none">
-    <path d="M0 15 H25 L30 5 L35 25 L40 12 L45 18 L50 15 H100" />
-  </svg>
-);
 
 // High-visibility 7 Continents Sketch Map for Me section (Scribble Book background)
 const ContinentsScribble = () => (
@@ -139,35 +128,27 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
       break;
 
     case "Photo Dump":
-      // Staggered 3-column Polaroid Grid with 7 Continents travel scribble background
+      // Masonry Polaroid Column Grid with 7 Continents travel scribble background
       layoutContent = (
         <div className="w-full relative py-12">
           {/* Scribble Book Continents Background Overlay */}
           <ContinentsScribble />
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 w-full max-w-7xl mx-auto px-6 pb-24 z-10 relative">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative space-y-6">
             {photos.map((p, i) => {
-              const rotation = i % 2 === 0 ? "rotate-[-1.5deg]" : "rotate-[1.5deg]";
-              const offset = i % 3 === 1 ? "md:translate-y-12" : i % 3 === 2 ? "md:translate-y-20" : "";
+              const rotation = i % 3 === 0 ? "rotate-[-1.2deg]" : i % 3 === 1 ? "rotate-[1.2deg]" : "rotate-[0.6deg]";
               return (
                 <div 
                   key={i} 
-                  className={`relative flex flex-col justify-between bg-[#121212] border border-[#2A2A2A] p-4 rounded-lg shadow-2xl transition-all duration-500 hover:scale-105 hover:z-50 hover:border-[#444] ${rotation} ${offset}`}
+                  className={`break-inside-avoid relative flex flex-col justify-between bg-[#121212] border border-[#2A2A2A] p-4 rounded-lg shadow-2xl transition-all duration-500 hover:scale-[1.03] hover:z-50 hover:border-[#444] mb-6 ${rotation}`}
                 >
-                  <div className="aspect-[4/5] w-full overflow-hidden rounded bg-[#0A0A0A]">
+                  <div className="w-full overflow-hidden rounded bg-[#0A0A0A]">
                     <PhotoRenderer 
                       photo={p} 
-                      fill={true}
-                      className="w-full h-full" 
+                      fill={false}
+                      className="w-full h-auto" 
                       filterClass="saturate-[0.75] contrast-[1.1] hover:saturate-100 transition-all duration-500" 
                     />
-                  </div>
-                  <div className="mt-4 flex justify-between items-center select-none">
-                    <p className="text-[10px] text-[#6C6C6C] font-mono tracking-widest uppercase">
-                      FILE_0{i+1}.RAW {"//"} {p.role}
-                    </p>
-                    {/* Tiny sketchy scribble marker under the polaroids */}
-                    <span className="text-[8px] text-[#d4af37]/50 font-mono tracking-tighter">INDEX_LOC_{i * 45}</span>
                   </div>
                 </div>
               );
@@ -184,17 +165,6 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
           {/* Bold Gold Center Dashed Road Lane Line */}
           <div className="absolute inset-x-0 top-1/2 h-[3px] border-b-2 border-dashed border-[#d4af37]/25 z-0 pointer-events-none" />
           
-          <div className="absolute top-4 left-6 font-mono text-xs text-[#d4af37]/45 tracking-[0.22em] pointer-events-none select-none font-bold">
-            BIKE TELEMETRY {"//"} SYS.ACTIVE
-          </div>
-          <div className="absolute bottom-4 right-6 font-mono text-xs text-[#d4af37]/45 tracking-[0.22em] pointer-events-none select-none font-bold">
-            LAT: 27.2044° N {"//"} LON: 77.4912° E {"//"} SPD: 140 KM/H
-          </div>
-          <div className="absolute top-6 right-6 font-mono text-xs text-[#d4af37]/65 tracking-widest pointer-events-none select-none flex gap-6 font-bold">
-            <span>TIME: 23:42:01.84</span>
-            <span>LAP: 01</span>
-          </div>
-
           <div className="w-full max-w-5xl mx-auto border-y border-[#1C1C1C] relative bg-[#020202] z-10 shadow-2xl">
             <PhotoRenderer 
               photo={hero} 
@@ -213,10 +183,6 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
                     className="w-full h-full" 
                     filterClass="object-cover w-full h-full saturate-[0.6] opacity-60 group-hover:opacity-100 group-hover:saturate-100 transition-all duration-700" 
                   />
-                  {/* Subtle speed gauge overlay */}
-                  <div className="absolute bottom-2 left-2 font-mono text-[7px] text-white/50 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                    MKR_0{i+1} {"//"} 1000 RPM
-                  </div>
                 </div>
               ))}
             </div>
@@ -226,120 +192,28 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
       break;
 
     case "Lookbook":
-      // Fitness Scramble layout with dumbbells, sweat spot indicators and telemetry overlays
-      const sunsetHoop = photos[0];
-      const playBasketball = photos[2];
-      const posingDetail = photos[1];
-      
-      const bottomPosing1 = photos[3];
-      const bottomPosing2 = photos[4];
-
+      // Clean masonry column layout for Fitness photos, preserving natural aspect ratios and removing bars
       layoutContent = (
-        <div className="flex flex-col items-center w-full max-w-6xl mx-auto gap-12 px-6 pb-24 relative overflow-hidden">
-          {/* Prominent dumbbell & telemetry backdrop icons */}
-          <div className="absolute top-4 left-4 pointer-events-none select-none z-0">
-            <DumbbellSVG />
-          </div>
-          <div className="absolute bottom-12 right-4 pointer-events-none select-none z-0">
-            <DumbbellSVG />
-          </div>
-          <div className="absolute top-[40%] right-[10%] pointer-events-none select-none z-0 opacity-40">
-            <HeartRateSVG />
-          </div>
-          <div className="absolute bottom-24 left-[15%] pointer-events-none select-none z-0 opacity-40">
-            <HeartRateSVG />
-          </div>
-
-          {/* Top Row: Staggered Scramble */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end w-full z-10">
-            {/* Left side: Playing basketball */}
-            {playBasketball && (
-              <div className="md:col-span-3 border border-[#2A2A2A] bg-[#0E0E0E] p-2 rounded shadow-xl md:translate-y-6 relative group">
-                <div className="aspect-[3/4] w-full overflow-hidden rounded bg-[#0A0A0A]">
-                  <PhotoRenderer 
-                    photo={playBasketball} 
-                    fill={true} 
-                    filterClass="saturate-[0.8] contrast-[1.2] hover:saturate-100 transition-all duration-700" 
-                  />
+        <div className="w-full relative py-12">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative space-y-6">
+            {photos.map((p, i) => {
+              const rotation = i % 3 === 0 ? "rotate-[-0.8deg]" : i % 3 === 1 ? "rotate-[0.8deg]" : "rotate-[0.4deg]";
+              return (
+                <div 
+                  key={i} 
+                  className={`break-inside-avoid relative flex flex-col justify-between bg-[#121212] border border-[#2A2A2A] p-4 rounded-lg shadow-2xl transition-all duration-500 hover:scale-[1.03] hover:z-50 hover:border-[#444] mb-6 ${rotation}`}
+                >
+                  <div className="w-full overflow-hidden rounded bg-[#0A0A0A]">
+                    <PhotoRenderer 
+                      photo={p} 
+                      fill={false}
+                      className="w-full h-auto" 
+                      filterClass="saturate-[0.8] contrast-[1.15] hover:saturate-100 transition-all duration-500" 
+                    />
+                  </div>
                 </div>
-                <span className="mt-2 block text-[9px] text-[#6C6C6C] font-mono tracking-widest uppercase text-center">ACTION // BASKETBALL</span>
-                {/* Spot crosshair target watermark */}
-                <div className="absolute top-4 right-4 w-6 h-6 border-2 border-dashed border-[#d4af37]/45 rounded-full pointer-events-none group-hover:scale-125 transition-transform" />
-              </div>
-            )}
-            {/* Center: Sunset Basketball Hoop */}
-            {sunsetHoop && (
-              <div className="md:col-span-6 border border-[#2A2A2A] bg-[#0E0E0E] p-3 rounded shadow-2xl z-10 scale-105 relative group">
-                <div className="aspect-[4/3] md:aspect-[16/10] w-full overflow-hidden rounded bg-[#0A0A0A]">
-                  <PhotoRenderer 
-                    photo={sunsetHoop} 
-                    fill={true} 
-                    objectFit="contain"
-                    filterClass="bg-[#0E0E0E] w-full h-full saturate-[0.9] contrast-[1.1] hover:saturate-100 transition-all duration-1000" 
-                  />
-                </div>
-                <span className="mt-2 block text-[10px] text-[#8C8C8C] font-mono tracking-widest uppercase text-center font-bold">SILHOUETTE // SUNSET HORIZON</span>
-                {/* Spot target indicator */}
-                <div className="absolute top-6 left-6 w-6 h-6 border-2 border-[#d4af37]/40 flex items-center justify-center pointer-events-none">
-                  <div className="w-2.5 h-2.5 bg-[#d4af37]/65 rounded-full" />
-                </div>
-              </div>
-            )}
-            {/* Right side: gymposing */}
-            {posingDetail && (
-              <div className="md:col-span-3 border border-[#2A2A2A] bg-[#0E0E0E] p-2 rounded shadow-xl md:-translate-y-6 relative group">
-                <div className="aspect-[3/4] w-full overflow-hidden rounded bg-[#0A0A0A]">
-                  <PhotoRenderer 
-                    photo={posingDetail} 
-                    fill={true} 
-                    objectFit="contain"
-                    filterClass="bg-[#0E0E0E] w-full h-full saturate-[0.8] contrast-[1.2] hover:saturate-100 transition-all duration-700" 
-                  />
-                </div>
-                <span className="mt-2 block text-[9px] text-[#6C6C6C] font-mono tracking-widest uppercase text-center">DETAIL // GYMPOSING</span>
-                <div className="absolute bottom-16 right-4 pointer-events-none opacity-40">
-                  <HeartRateSVG />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Bottom Row: Big Aspect Posing Photos with full bicep visibility */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mt-8 z-10">
-            {bottomPosing1 && (
-              <div className="border border-[#2A2A2A] bg-[#0E0E0E] p-3 rounded-lg shadow-2xl relative group">
-                <div className="aspect-[3/4] md:aspect-[4/3] w-full overflow-hidden rounded bg-[#0A0A0A]">
-                  <PhotoRenderer 
-                    photo={bottomPosing1} 
-                    fill={true} 
-                    objectFit="contain"
-                    filterClass="bg-[#0E0E0E] w-full h-full saturate-[0.85] contrast-[1.15] hover:saturate-100 transition-all duration-1000" 
-                  />
-                </div>
-                <span className="mt-3 block text-[10px] text-[#8C8C8C] font-mono tracking-widest uppercase text-center">FORM // POSING IN GYM I</span>
-                {/* Spot telemetry */}
-                <div className="absolute top-6 right-6 font-mono text-[9px] text-[#d4af37]/65 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity font-bold">
-                  CAL: 420 KCAL // HR: 156 BPM
-                </div>
-              </div>
-            )}
-            {bottomPosing2 && (
-              <div className="border border-[#2A2A2A] bg-[#0E0E0E] p-3 rounded-lg shadow-2xl relative group">
-                <div className="aspect-[3/4] md:aspect-[4/3] w-full overflow-hidden rounded bg-[#0A0A0A]">
-                  <PhotoRenderer 
-                    photo={bottomPosing2} 
-                    fill={true} 
-                    objectFit="contain"
-                    filterClass="bg-[#0E0E0E] w-full h-full saturate-[0.85] contrast-[1.15] hover:saturate-100 transition-all duration-1000" 
-                  />
-                </div>
-                <span className="mt-3 block text-[10px] text-[#8C8C8C] font-mono tracking-widest uppercase text-center">FORM // POSING IN GYM II</span>
-                {/* Spot telemetry */}
-                <div className="absolute top-6 right-6 font-mono text-[9px] text-[#d4af37]/65 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity font-bold">
-                  SET: 04 // REP: 12 // VOL: 80KG
-                </div>
-              </div>
-            )}
+              );
+            })}
           </div>
         </div>
       );
@@ -348,9 +222,9 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
     case "Minimalist Horizon":
       // Horizon layout side-by-side, removing vertical deadspaces
       layoutContent = (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative items-start">
            {photos.map((p, i) => (
-              <div key={i} className="border border-[#2A2A2A] bg-[#0E0E0E] p-2 rounded shadow-xl">
+              <div key={i} className="border border-[#2A2A2A] bg-[#0E0E0E] p-2 rounded shadow-xl max-w-xs mx-auto w-full md:max-w-none">
                  <div className="aspect-[16/10] w-full overflow-hidden rounded bg-black">
                    <PhotoRenderer 
                      photo={p} 
@@ -358,7 +232,6 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
                      filterClass="w-full h-full object-cover saturate-[0.85] contrast-[1.1] hover:saturate-100 transition-all duration-1000" 
                    />
                  </div>
-                 <span className="mt-2 block text-[9px] text-[#6C6C6C] font-mono tracking-widest uppercase text-center">HORIZON // 0{i+1}</span>
               </div>
            ))}
         </div>
@@ -366,13 +239,13 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
       break;
 
     case "Comic Strip":
-      // Animals: Kept full color. Added outline animal vector decorators in card margins.
+      // Animals: Kept full color
       layoutContent = (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative items-start">
            {photos.map((p, i) => {
               const colSpan = i === 0 ? "col-span-1 sm:col-span-2 md:col-span-4" : i % 3 === 0 ? "col-span-1 sm:col-span-2" : "col-span-1 sm:col-span-2 md:col-span-2";
               return (
-                <div key={i} className={`${colSpan} border border-[#2A2A2A] bg-[#121212] p-4 flex flex-col justify-between group rounded-lg shadow-xl relative`}>
+                <div key={i} className={`${colSpan} border border-[#2A2A2A] bg-[#121212] p-4 flex flex-col justify-between group rounded-lg shadow-xl max-w-xs mx-auto w-full md:max-w-none relative`}>
                    {/* Absolute vector animal corner badge decorators - floating outside of image box */}
                    <div className="absolute -top-3.5 -right-3.5 z-30 bg-[#121212] p-1.5 rounded-full border border-[#2A2A2A] shadow-xl group-hover:border-[#d4af37]/60 group-hover:scale-110 transition-all duration-500">
                      {i % 2 === 0 ? <PawPrintSVG /> : <CatSilhouetteSVG />}
@@ -386,10 +259,6 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
                        filterClass="w-full h-full object-cover saturate-[0.85] hover:saturate-100 transition-all duration-700 ease-out" 
                      />
                    </div>
-                   <div className="mt-4 flex justify-between items-center px-1 select-none">
-                     <span className="text-[#8C8C8C] text-[10px] font-mono tracking-widest uppercase">{p.role}</span>
-                     <span className="text-[#8C8C8C] text-[10px] font-mono">PANEL 0{i+1}</span>
-                   </div>
                 </div>
               );
            })}
@@ -402,7 +271,7 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
       layoutContent = (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full max-w-7xl mx-auto px-6 pb-24 z-10 relative">
           {/* Main photo: Me watching plane landing */}
-          <div className="lg:col-span-7 border border-[#2A2A2A] bg-[#0E0E0E] p-3 rounded-lg shadow-2xl">
+          <div className="lg:col-span-7 border border-[#2A2A2A] bg-[#0E0E0E] p-3 rounded-lg shadow-2xl max-w-md mx-auto w-full lg:max-w-none">
              <div className="relative w-full aspect-[16/9] overflow-hidden rounded bg-black">
                <PhotoRenderer 
                  photo={hero} 
@@ -410,7 +279,6 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
                  filterClass="w-full h-full object-cover saturate-[0.6] contrast-[1.3] brightness-[0.85] hover:saturate-100 hover:brightness-100 transition-all duration-1000" 
                />
              </div>
-             <span className="mt-2 block text-[10px] text-[#8C8C8C] font-mono tracking-widest uppercase text-center font-bold">ME WATCHING // WINGS OF GLORY</span>
           </div>
           
           {/* Staggered overlapping detail photos with full wings visible */}
@@ -422,7 +290,7 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
                 return (
                   <div 
                     key={i} 
-                    className={`border border-[#2A2A2A] bg-[#0E0E0E] p-2 rounded shadow-xl transition-all duration-500 hover:scale-105 hover:z-30 hover:border-[#444] ${rotation} ${offset}`}
+                    className={`border border-[#2A2A2A] bg-[#0E0E0E] p-2 rounded shadow-xl transition-all duration-500 hover:scale-105 hover:z-30 hover:border-[#444] max-w-xs mx-auto w-full lg:max-w-none ${rotation} ${offset}`}
                   >
                     <div className="aspect-[16/9] w-full overflow-hidden rounded bg-black">
                       <PhotoRenderer 
@@ -432,7 +300,6 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
                         filterClass="w-full h-full object-cover saturate-[0.5] contrast-[1.2] hover:saturate-100 transition-all duration-700" 
                       />
                     </div>
-                    <span className="mt-2 block text-[9px] text-[#6C6C6C] font-mono tracking-widest uppercase text-center">WINGS // DET_0{i+1}</span>
                   </div>
                 );
               })}
@@ -444,13 +311,21 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
 
     case "Offset":
     default:
-      // Staggered asymmetrical layout
+      // Clean, 3-column horizontal grid layout with no deadspace (items-start ensures cards don't stretch vertically)
       layoutContent = (
-        <div className="flex flex-col w-full max-w-5xl mx-auto px-6 relative pb-24 z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative items-start">
           {photos.map((p, i) => (
-            <div key={i} className={`w-full md:w-[60%] ${i % 2 === 0 ? "ml-0" : "ml-auto"} ${i !== 0 ? "-mt-8 md:-mt-32 z-10" : "z-0"}`}>
-              <div className="border border-[#2A2A2A] bg-[#0E0E0E] p-2 rounded shadow-2xl">
-                <PhotoRenderer photo={p} filterClass="saturate-[0.8] contrast-[1.2] hover:saturate-100 transition-all duration-700" />
+            <div 
+              key={i} 
+              className="border border-[#2A2A2A] bg-[#0E0E0E] p-3 rounded shadow-2xl transition-all duration-500 hover:scale-[1.03]"
+            >
+              <div className="w-full overflow-hidden rounded bg-black">
+                <PhotoRenderer 
+                  photo={p} 
+                  fill={false}
+                  className="w-full h-auto"
+                  filterClass="w-full h-auto object-cover saturate-[0.85] contrast-[1.1] hover:saturate-100 transition-all duration-1000" 
+                />
               </div>
             </div>
           ))}
