@@ -5,7 +5,7 @@ const securityHeaders = [
   },
   {
     key: 'X-Frame-Options',
-    value: 'DENY',
+    value: 'SAMEORIGIN',
   },
   {
     key: 'X-XSS-Protection',
@@ -17,7 +17,7 @@ const securityHeaders = [
   },
   {
     key: 'Content-Security-Policy',
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://**.spotifycdn.com https://i.scdn.co https://grainy-gradients.vercel.app; media-src 'self' https://www.soundhelix.com; connect-src 'self' https://api.spotify.com https://www.soundhelix.com; font-src 'self' data:; frame-src 'self'; frame-ancestors 'none'; object-src 'none';",
+    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' blob: data: https://*.spotifycdn.com https://i.scdn.co https://*.mzstatic.com https://grainy-gradients.vercel.app; media-src 'self' https://www.soundhelix.com; connect-src 'self' https://api.spotify.com https://www.soundhelix.com https://api.open-meteo.com; font-src 'self' data: https://fonts.gstatic.com; frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
   },
   {
     key: 'Strict-Transport-Security',

@@ -348,8 +348,8 @@ function updateDOM(data) {
     
     // 2. Vision Feeds (Cache busting)
     const t = new Date().getTime();
-    feedRaw.src = `/static/raw_current.png?t=${t}`;
-    feedProcessed.src = `/static/processed_current.png?t=${t}`;
+    feedRaw.src = `./raw_current.png?t=${t}`;
+    feedProcessed.src = `./processed_current.png?t=${t}`;
     
     if (data.crack_detected) {
         anomalyBadge.className = "anomaly-badge danger";
