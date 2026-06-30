@@ -33,32 +33,36 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       {/* Global CSS for the premium dossier transitions */}
       <style dangerouslySetInnerHTML={{ __html: `
         /* Transition targets */
-        .dossier-title, h1 {
+        .dossier-page-container h1, .dossier-page-container .dossier-title {
           opacity: 0;
           transform: translateY(20px);
         }
-        .dossier-meta {
+        .dossier-page-container .dossier-meta {
           opacity: 0;
           transform: translateY(20px);
         }
-        .dossier-desc {
+        .dossier-page-container .dossier-desc {
           opacity: 0;
           transform: translateY(20px);
         }
-        .dossier-content, section, footer {
+        .dossier-page-container .dossier-content, 
+        .dossier-page-container section, 
+        .dossier-page-container footer {
           opacity: 0;
           transform: translateY(24px);
         }
         
         /* Soft Mask Reveal for images */
-        main img, section img, .dossier-content img {
+        .dossier-page-container main img, 
+        .dossier-page-container section img, 
+        .dossier-page-container .dossier-content img {
           clip-path: inset(100% 0 0 0);
           opacity: 0;
           transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out;
         }
 
         /* Active Reveal animations */
-        .dossier-active .dossier-title, .dossier-active h1 {
+        .dossier-active h1, .dossier-active .dossier-title {
           animation: dossier-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           animation-delay: 0.05s;
         }
@@ -119,7 +123,15 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
         /* Accessibility: prefers-reduced-motion */
         @media (prefers-reduced-motion: reduce) {
-          .dossier-title, h1, .dossier-meta, .dossier-desc, .dossier-content, section, footer, main img, section img {
+          .dossier-page-container h1, 
+          .dossier-page-container .dossier-title, 
+          .dossier-page-container .dossier-meta, 
+          .dossier-page-container .dossier-desc, 
+          .dossier-page-container .dossier-content, 
+          .dossier-page-container section, 
+          .dossier-page-container footer, 
+          .dossier-page-container main img, 
+          .dossier-page-container section img {
             transform: none !important;
             clip-path: none !important;
             animation: none !important;
@@ -178,10 +190,11 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         initial={{ opacity: 1 }}
         animate={{ opacity: isTransitioning ? 0 : 1 }}
         transition={{ duration: 0.18, ease: "easeInOut" }}
-        className={isDossierActive ? "dossier-active" : ""}
+        className={`dossier-page-container ${isDossierActive ? "dossier-active" : ""}`}
       >
         {displayChildren}
       </motion.div>
+
     </>
   );
 }
