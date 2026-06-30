@@ -2,7 +2,6 @@
 
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { springFluid } from "@/lib/motion";
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -60,18 +59,52 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Page content — spring-driven fade + lift on route change */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes page-glitch {
+          0% {
+            clip-path: inset(35% 0 40% 0);
+            transform: skewX(4deg) translateX(-4px);
+            opacity: 0.8;
+          }
+          15% {
+            clip-path: inset(80% 0 5% 0);
+            transform: skewX(-3deg) translateX(3px);
+            opacity: 0.95;
+          }
+          30% {
+            clip-path: inset(5% 0 85% 0);
+            transform: skewX(2deg) translateX(-2px);
+            opacity: 0.9;
+          }
+          45% {
+            clip-path: inset(60% 0 25% 0);
+            transform: skewX(-1deg) translateX(1px);
+            opacity: 0.97;
+          }
+          60% {
+            clip-path: inset(0 0 0 0);
+            transform: skewX(0deg) translateX(0);
+            opacity: 1;
+          }
+        }
+        .animate-page-glitch {
+          animation: page-glitch 0.2s steps(5) forwards;
+        }
+      `}} />
+
       <motion.div
         key={pathname}
-        initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
-        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{
-          ...springFluid,
-          delay: 0.05,
-          filter: { duration: 0.3, ease: "easeOut" },
+          duration: 0.25,
+          ease: "easeOut"
         }}
+        className="animate-page-glitch"
       >
         {children}
       </motion.div>
+
     </>
   );
 }
