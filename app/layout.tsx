@@ -131,13 +131,13 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         {/* Google tag (gtag.js) */}
-        <Script strategy="lazyOnload" src="https://www.googletagmanager.com/gtag/js?id=G-0SK1HVJPZG" />
+        <Script strategy="lazyOnload" src="https://www.googletagmanager.com/gtag/js?id=G-X4Z73QT8MB" />
         <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-0SK1HVJPZG');
+            gtag('config', 'G-X4Z73QT8MB');
           `}
         </Script>
         {/* WebSite Structured Data for Google Search Site Name */}
