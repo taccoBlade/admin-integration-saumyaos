@@ -271,7 +271,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
         audio.pause();
       }
     }
-  }, [isPlaying, isAudioLoaded]);
+  }, [isPlaying, isAudioLoaded, currentTrack]);
 
   // Controls implementations
   const togglePlay = () => {
