@@ -2,43 +2,8 @@ import Link from "next/link";
 import { getProject, getProjects } from "@/lib/content";
 import { ArrowLeft, Globe, Briefcase, Zap, Lightbulb, Download, Users, Clock, ShieldCheck } from "lucide-react";
 import { ArchitectureVisualizer, TreeNode } from "@/components/home/architecture-visualizer";
-import { DashboardEmbed } from "@/components/projects/dashboard-embed";
-import { ProductDemoFrame } from "@/components/projects/product-demo-frame";
 import { MetricsGrid } from "@/components/personal/metrics-grid";
 import React from "react";
-
-const PROJECT_DASHBOARD_MAP: Record<string, {
-  port: number;
-  title: string;
-  mockupDescription: string;
-  keyFeatures: string[];
-}> = {
-  "automated-soil-strain-and-settlement-analysis-system-with-iot-integration": {
-    port: 8085,
-    title: "Geotechnical Soil Strain & Settlement Analysis",
-    mockupDescription: "Interactive real-time soil telemetry console tracking strain gauge values, analog-to-digital converter (ADC) signals, and settlement profiles under varying compaction loads.",
-    keyFeatures: ["Real-time sensor calibration", "Telemetry charts with ADC filtering", "Consolidation settlement forecasts", "Continuous live telemetry stream"]
-  },
-  "promix-concrete-mix-design-compliance-dashboard": {
-    port: 5001,
-    title: "ProMix Concrete Mix Proportioning & Compliance Auditor",
-    mockupDescription: "Automated concrete mix design console executing proportioning calculations according to IS 10262:2019 and validating against IS 456 durability limits.",
-    keyFeatures: ["Automated IS 10262:2019 proportioning", "Multi-binder SCM blend calculations", "IS 456 durability limit validation", "Detailed mix proportions report export"]
-  },
-  "automation-intelligent-machine-guided-construction": {
-    port: 5002,
-    title: "NHAI Intelligent Compaction & Roller Tracking Map",
-    mockupDescription: "Intelligent compaction monitoring dashboard displaying live heavy roller trajectories, pass counts, soil temperature gradients, and compaction value mappings in real-time.",
-    keyFeatures: ["Live roller trajectory tracking", "Pass count map visualizer", "Compaction stiffness value profiles", "Simulated Socket.IO telemetry feeds"]
-  },
-  "soil-analysis-project-with-iot-integration": {
-    port: 5003,
-    title: "Precision Agricultural Crop Recommendation & Profit Engine",
-    mockupDescription: "IoT-driven agricultural analytics dashboard that consumes N-P-K soil composition levels, temperature, and moisture telemetry to generate crop recommendations and economic revenue forecasts.",
-    keyFeatures: ["Crop classifier using vector-distance", "Economic revenue & cost estimation", "Telemetry inputs for soil metrics", "Text-to-speech advisor recommendations"]
-  }
-};
-
 
 interface PageProps {
   params: {
@@ -55,7 +20,6 @@ export function generateStaticParams() {
 
 export default function ProjectPage({ params }: PageProps) {
   const project = getProject(params.id);
-  const dashboardConfig = project ? PROJECT_DASHBOARD_MAP[project.id] : undefined;
 
 
   if (!project) {
@@ -104,20 +68,6 @@ export default function ProjectPage({ params }: PageProps) {
           Project Ref: {project.id}
         </div>
       </header>
-
-      {/* Hero / Header Section */}
-      {project.heroVisualType === "dashboard" && dashboardConfig && (
-        <section className="relative z-20 w-full px-5 sm:px-8 lg:px-12 -mt-4 mb-12">
-          <ProductDemoFrame title={dashboardConfig.title} githubUrl={project.githubUrl}>
-            <DashboardEmbed
-              port={dashboardConfig.port}
-              title={dashboardConfig.title}
-              mockupDescription={dashboardConfig.mockupDescription}
-              keyFeatures={dashboardConfig.keyFeatures}
-            />
-          </ProductDemoFrame>
-        </section>
-      )}
 
       <section className="relative z-10 w-full max-w-7xl mx-auto px-5 pt-4 pb-8 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -299,43 +249,27 @@ export default function ProjectPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* 6. Screenshots / Dashboard */}
-          {(project.gallery && project.gallery.length > 0 || dashboardConfig) && (
+          {/* 6. Screenshots */}
+          {project.gallery && project.gallery.length > 0 && (
             <div className="space-y-4">
               <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
-                SCREENSHOTS & DASHBOARD
+                SCREENSHOTS
               </h2>
               
-              {dashboardConfig && project.heroVisualType !== "dashboard" && (
-                <div className="mb-8">
-                  <p className="text-sm text-slate-405 leading-relaxed mb-4">
-                    Interact with the real-time computational system dashboard.
-                  </p>
-                  <DashboardEmbed
-                    port={dashboardConfig.port}
-                    title={dashboardConfig.title}
-                    mockupDescription={dashboardConfig.mockupDescription}
-                    keyFeatures={dashboardConfig.keyFeatures}
-                  />
-                </div>
-              )}
-              
-              {project.gallery && project.gallery.length > 0 && (
-                <div className="editorial-gallery-grid">
-                  {project.gallery.map((img, idx) => (
-                    <div key={idx} className="editorial-gallery-card group">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img 
-                        src={img} 
-                        alt={`${project.title} - Asset ${idx + 1}`} 
-                      />
-                      <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5 rounded font-mono text-[9px] text-slate-400 border border-white/5 z-10">
-                        ASSET_{idx + 1}
-                      </div>
+              <div className="editorial-gallery-grid">
+                {project.gallery.map((img, idx) => (
+                  <div key={idx} className="editorial-gallery-card group">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img 
+                      src={img} 
+                      alt={`${project.title} - Asset ${idx + 1}`} 
+                    />
+                    <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5 rounded font-mono text-[9px] text-slate-400 border border-white/5 z-10">
+                      ASSET_{idx + 1}
                     </div>
-                  ))}
-                </div>
-              )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
