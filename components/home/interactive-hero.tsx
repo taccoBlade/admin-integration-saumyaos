@@ -59,13 +59,14 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white font-sans text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide"
+            className="text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide"
           >
             <span className="block text-white">
-              <span className="text-attention">S</span>aumya{" "}
-              <span className="text-attention">P</span>arekh
+              <span className="text-attention-500">S</span>aumya{" "}
+              <span className="text-attention-500">P</span>arekh
             </span>
           </motion.h1>
+
 
           <motion.span
             initial={{ opacity: 0, y: 20 }}
