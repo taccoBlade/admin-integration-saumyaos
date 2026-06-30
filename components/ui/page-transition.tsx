@@ -33,7 +33,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       {/* Global CSS for the premium dossier transitions */}
       <style dangerouslySetInnerHTML={{ __html: `
         /* Transition targets */
-        .dossier-page-container h1, .dossier-page-container .dossier-title {
+        .dossier-page-container h1:not(.no-dossier-reveal), .dossier-page-container .dossier-title {
           opacity: 0;
           transform: translateY(20px);
         }
@@ -62,7 +62,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         }
 
         /* Active Reveal animations */
-        .dossier-active h1, .dossier-active .dossier-title {
+        .dossier-active h1:not(.no-dossier-reveal), .dossier-active .dossier-title {
           animation: dossier-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
           animation-delay: 0.05s;
         }

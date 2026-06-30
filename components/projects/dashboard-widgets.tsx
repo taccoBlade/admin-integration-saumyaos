@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOS } from "@/lib/os-context";
 import { sysAudio } from "@/lib/audio-engine";
+import Image from "next/image";
 import {
   Music,
   Play,
@@ -259,10 +260,11 @@ export function DashboardWidgets() {
               
               {/* Album Art Image */}
               {trackArtworks[trackKey] ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={trackArtworks[trackKey]}
                   alt={`${track.title} cover`}
+                  width={128}
+                  height={128}
                   className="h-full w-full rounded-full object-cover pointer-events-none"
                 />
               ) : (

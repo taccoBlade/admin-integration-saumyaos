@@ -1,12 +1,33 @@
 import Link from "next/link";
 import { getProject, getProjects } from "@/lib/content";
+import Image from "next/image";
 import { ArrowLeft, Globe, Zap, Lightbulb, Users, Clock, ShieldCheck, Layers, Cpu, BarChart3, Wrench, ArrowRight } from "lucide-react";
 import { ArchitectureVisualizer, TreeNode } from "@/components/home/architecture-visualizer";
 import React from "react";
+import type { Metadata } from "next";
 
 interface PageProps {
   params: {
     id: string;
+  };
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const project = getProject(params.id);
+  if (!project) {
+    return {
+      title: "Project Not Found",
+    };
+  }
+  return {
+    title: project.title,
+    description: project.description || `Technical overview of the project: ${project.title}`,
+    openGraph: {
+      title: `${project.title} | Saumya Parekh`,
+      description: project.description,
+      url: `https://saumya.space/projects/${params.id}`,
+      type: "article",
+    },
   };
 }
 
@@ -413,11 +434,12 @@ export default function ProjectPage({ params }: PageProps) {
                     idx === 0 ? "md:col-span-2 aspect-video" : "aspect-video"
                   }`}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={img}
                     alt={`${project.title} - Asset ${idx + 1}`}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover"
                   />
                   <div className="absolute bottom-2 left-2 bg-black/70 px-2 py-0.5 rounded font-mono text-[9px] text-slate-400 border border-white/5">
                     ASSET_{idx + 1}

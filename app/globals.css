@@ -1,20 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap');
 
-@font-face {
-  font-family: 'Batman Forever';
-  src: url('./fonts/batmfa__.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Batman Forever Outline';
-  src: url('./fonts/batmfo__.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
 
 @tailwind base;
 @tailwind components;
@@ -52,11 +36,11 @@
 
 * {
   box-sizing: border-box;
-  font-family: 'Inter', var(--font-geist-sans), sans-serif;
+  font-family: var(--font-inter), var(--font-geist-sans), sans-serif;
 }
 
 .font-playfair {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-playfair), serif;
 }
 
 html {
@@ -278,12 +262,12 @@ body {
 
 /* Batman Typography */
 .batman-heading {
-  font-family: 'Batman Forever', sans-serif;
+  font-family: var(--font-batman-forever), sans-serif;
   color: var(--batman-yellow);
 }
 
 .batman-heading-outline {
-  font-family: 'Batman Forever Outline', sans-serif;
+  font-family: var(--font-batman-forever-outline), sans-serif;
   color: var(--batman-yellow);
 }
 

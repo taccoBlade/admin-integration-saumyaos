@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { Menu, X, Play, Pause, SkipForward, SkipBack, Shuffle, Music, Volume2, VolumeX } from "lucide-react";
 
 
@@ -76,14 +77,12 @@ export function HeaderMusicPlayer() {
         style={{ animationDuration: "8s" }}
       >
         {currentTrack.coverUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={currentTrack.coverUrl}
             className="w-full h-full object-cover pointer-events-none select-none"
-            alt=""
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
+            alt="Track cover"
+            width={24}
+            height={24}
           />
         ) : (
           <Music className="w-3 h-3" />

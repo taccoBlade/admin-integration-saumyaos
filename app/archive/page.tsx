@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Database, Download, FileSpreadsheet } from "lucide-react";
 import { Contact } from "@/components/layout/contact";
+
+export const metadata: Metadata = {
+  title: "Engineering Archive & Datasets",
+  description: "Explore geopolymer concrete strength logs, geotechnical telemetry data, and academic literature index compiled by Saumya Parekh.",
+};
 
 export default function ArchivePage() {
   const datasetLogs = [

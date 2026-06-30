@@ -73,7 +73,7 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
               <div key={category} className="flex flex-col items-center gap-6">
                 <div className="flex items-center gap-4 w-full">
                   <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent flex-1" />
-                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-slate-500 whitespace-nowrap">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-slate-400 whitespace-nowrap">
                     [ {category} ]
                   </span>
                   <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent flex-1" />

@@ -237,9 +237,8 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
     const audio = audioRef.current;
     if (!audio || !currentTrack) return;
 
-    audio.load();
-    
     if (isPlaying) {
+      audio.load();
       audio.play()
         .then(() => setIsPlaying(true))
         .catch((e) => {
@@ -364,7 +363,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
       <audio
         ref={audioRef}
         src={currentTrack?.src}
-        preload="auto"
+        preload="none"
         onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
         onDurationChange={(e) => {
           if (e.currentTarget.duration && !isNaN(e.currentTarget.duration)) {

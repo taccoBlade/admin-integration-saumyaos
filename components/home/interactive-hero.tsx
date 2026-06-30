@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 const ComputationalCanvas = dynamic(
@@ -10,6 +10,16 @@ const ComputationalCanvas = dynamic(
 );
 
 export function InteractiveHero() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(media.matches);
+    const listener = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, []);
+
   const scrollToSection = (id: string) => {
     const target = document.getElementById(id);
     if (target) target.scrollIntoView({ behavior: "smooth" });
@@ -22,9 +32,11 @@ export function InteractiveHero() {
       style={{ height: "100dvh" }}
     >
       {/* ── 3D CANVAS BACKGROUND ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <ComputationalCanvas />
-      </div>
+      {isDesktop && (
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <ComputationalCanvas />
+        </div>
+      )}
 
       {/* ── Vignette overlays for text readability ── */}
       <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#08090b] via-[#08090b]/20 to-transparent pointer-events-none" />
@@ -60,7 +72,7 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide uppercase"
+            className="no-dossier-reveal text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide uppercase"
           >
             <span className="block text-white">
               <span className="text-attention-500">S</span>aumya{" "}
@@ -124,7 +136,7 @@ export function InteractiveHero() {
         transition={{ delay: 1.5 }}
         className="hidden md:flex absolute bottom-16 left-1/2 -translate-x-1/2 z-30 flex-col items-center gap-2 pointer-events-none"
       >
-        <span className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-mono">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-slate-400 font-mono">
           Scroll
         </span>
         <motion.div

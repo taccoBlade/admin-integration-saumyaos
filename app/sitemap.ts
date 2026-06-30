@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://saumyaparekh.vercel.app'; // Update to your domain if different
+  const baseUrl = 'https://saumya.space'; // Update to your domain if different
 
   const staticPages = [
     '',
