@@ -8,46 +8,11 @@ import { hoverLift } from "@/lib/motion";
 import { DashboardEmbed } from "@/components/projects/dashboard-embed";
 
 export function FeaturedProjects({ projects }: { projects: Project[] }) {
-  // Feature the soil-strain project's UI in the preview
-  const featuredDashboard = {
-    port: 8085,
-    title: "Automated Soil Strain & Settlement",
-    mockupDescription: "This interactive terminal preview displays real-time displacement profiles, ultrasonic sensor measurements, and microstrain gauges (uE) logs to monitor soil consolidation rates under load test strip sequences.",
-    keyFeatures: [
-      "Consolidation Profile Calculations",
-      "Real-time Strain Over-limit Alarms",
-      "MQTT Hardware Telemetry Ingestion",
-      "Historical CSV Session Archival",
-    ]
-  };
-
   return (
     <section id="projects" className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12">
       <ScrollReveal variant="fadeUp" className="mb-16">
         <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">Portfolio Intelligence</h2>
         <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight text-white">Featured Projects</h3>
-      </ScrollReveal>
-
-      {/* Preview of Projects UI and Functions */}
-      <ScrollReveal variant="fadeUp" className="mb-20">
-        <div className="mb-6 flex items-center gap-4">
-          <h4 className="text-xl font-medium text-white">Interactive Terminal Preview</h4>
-          <div className="h-px bg-white/10 flex-grow" />
-        </div>
-        <DashboardEmbed
-          port={featuredDashboard.port}
-          title={featuredDashboard.title}
-          mockupDescription={featuredDashboard.mockupDescription}
-          keyFeatures={featuredDashboard.keyFeatures}
-        />
-      </ScrollReveal>
-
-      {/* Project Names and Links */}
-      <ScrollReveal variant="fadeUp">
-        <div className="mb-6 flex items-center gap-4">
-          <h4 className="text-xl font-medium text-white">Project Vault Access</h4>
-          <div className="h-px bg-white/10 flex-grow" />
-        </div>
       </ScrollReveal>
 
       <ScrollRevealStagger stagger={0.1} className="grid grid-cols-1 md:grid-cols-2 gap-4">
