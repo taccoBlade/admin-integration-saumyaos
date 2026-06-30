@@ -75,6 +75,7 @@ export function HeaderMusicPlayer() {
         style={{ animationDuration: "8s" }}
       >
         {currentTrack.coverUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={currentTrack.coverUrl}
             className="w-full h-full object-cover pointer-events-none select-none"

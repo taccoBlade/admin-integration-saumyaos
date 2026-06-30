@@ -77,7 +77,7 @@ export interface LogbookEntry {
 export interface Skill {
   id: string;
   name: string;
-  category: "Core Engineering" | "Technical Tools" | "Programming" | "Creative";
+  category: "Core Engineering" | "Technical Tools" | "Programming" | "Creative" | "Research";
   relatedProjects: string[];
   strength: number; // 1 to 10
 }
