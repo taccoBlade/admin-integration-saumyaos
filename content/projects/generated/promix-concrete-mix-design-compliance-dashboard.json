@@ -8,7 +8,9 @@
   "technologies": [
     "Python",
     "Flask",
-    "Pandas"
+    "Pandas",
+    "Chart.js",
+    "Excel"
   ],
   "engineering_concepts": [
     "IS 10262:2019 Mix Proportioning",
@@ -30,20 +32,11 @@
   ],
   "challenges": "",
   "outcomes": "Developed and verified the ProMix compliance dashboard. Successfully automated IS 10262:2019 calculations and audited designs against IS 456 durability limits, supporting multi-binder blends (GGBS, Fly Ash) with validation checks.",
-  "metrics": [
-    {
-      "value": "100%",
-      "label": "IS 10262 Compliance"
-    },
-    {
-      "value": "< 2s",
-      "label": "Calculation Time"
-    },
-    {
-      "value": "5+",
-      "label": "SCM Types Supported"
-    }
-  ],
+  "metrics": {
+    "calculation_time": "Instantaneous (less than 1s)",
+    "supported_grades": "M10 to M80",
+    "compliance_checks": "100% automated (IS 456 / IS 10262)"
+  },
   "timeline": "Jan 2026 - Present",
   "screenshots": [],
   "architecture_diagrams": [],
@@ -56,12 +49,7 @@
   "title": "ProMix – Concrete Mix Design & Compliance Dashboard",
   "description": "A web-based computational platform developed to automate concrete mix design calculations and streamline engineering workflows.",
   "overview": "PRO-MIX is a web-based computational platform developed to automate concrete mix design calculations and streamline engineering workflows. The application combines standards-based concrete mix design with analytical modules for supplementary cementitious materials (SCMs) and geopolymer mixtures, allowing users to evaluate both conventional and alternative binder systems within a single interface.",
-  "gallery": [
-    "/assets/promix/Screenshot 2026-06-28 130052.png",
-    "/assets/promix/Screenshot 2026-06-28 130100.png",
-    "/assets/promix/Screenshot 2026-06-28 130111.png",
-    "/assets/promix/Screenshot 2026-06-28 130120.png"
-  ],
+  "gallery": [],
   "detailedOverview": "### Overview\nPRO-MIX is a web-based computational platform developed to automate concrete mix design calculations and streamline engineering workflows. The application combines standards-based concrete mix design with analytical modules for supplementary cementitious materials (SCMs) and geopolymer mixtures, allowing users to evaluate both conventional and alternative binder systems within a single interface.\n\n### The Problem\nThe platform replaces repetitive manual calculations and spreadsheet-based workflows with a centralized computational engine capable of performing engineering calculations, validating user inputs, generating reports, and comparing material alternatives in real time.\n\n### Architecture & Design Philosophy\nThe platform follows a modular client-server architecture that separates engineering calculations from the user interface.\n\n### Backend\nA Python-Flask application performs all engineering calculations, validation, report generation, and data processing through independent computational modules.\n\n### Frontend\nA lightweight HTML, CSS, and JavaScript interface presents engineering data using an interactive dashboard optimized for rapid parameter input and result visualization.\n\n### Design Philosophy\nA lightweight technology stack was selected to simplify deployment, reduce dependencies, and maintain portability across laboratory, academic, and research environments while keeping the engineering logic independent from the presentation layer.\n\n### Implementation & Engineering Decisions\n### Engineering Decisions\n\n#### Independent Calculation Modules\nThe platform separates conventional concrete mix design from geopolymer analysis to ensure each workflow follows its own engineering methodology.\n\n*   **IS 10262:2019 Module** performs conventional concrete mix design calculations following the relevant provisions of the Indian Standard, including water-cement ratio evaluation, volume balancing, aggregate proportioning, and material quantity calculations.\n*   **Geopolymer Analysis Module** provides analytical calculations for alkali-activated binder systems using research-based design methodologies without treating these calculations as IS 10262 compliance.\n\nSeparating these workflows prevents experimental material studies from affecting standards-based concrete calculations while allowing both modules to coexist within a unified platform.\n\n#### Dynamic Material Management\nRather than relying on predefined material templates, the application stores constituent materials through a configurable data structure.\n\nThis enables users to create custom combinations of cement, fly ash, GGBS, silica fume, and other supplementary cementitious materials while automatically recalculating material properties, estimated costs, and environmental metrics throughout the application.\n\nThe modular approach also allows additional materials to be introduced without modifying the core calculation engine.\n\n#### Engineering Validation\nReliable engineering software depends on preventing invalid calculations before they occur.\n\nTo improve calculation reliability, multiple validation layers were implemented throughout the application. User inputs are verified before entering the computational engine, ensuring invalid values, incomplete datasets, or unrealistic parameter combinations cannot generate misleading engineering results.\n\nThis validation framework improves stability while maintaining consistency across all calculation modules.\n\n### AI-Assisted Development\nAI-assisted development was used to accelerate implementation of the user interface, backend scaffolding, and repetitive development tasks.\n\nThe engineering workflow, application architecture, calculation sequence, validation strategy, and implementation of engineering standards were independently designed and continuously verified throughout development. Additional validation and testing layers were incorporated to ensure that AI-assisted implementation did not compromise engineering calculations or platform reliability.\n\n### Current Capabilities\nThe current version of PRO-MIX includes:\n*   Automated conventional concrete mix design based on IS 10262:2019.\n*   Packing density calculations using the Toufar model.\n*   Comparative analysis of supplementary cementitious materials.\n*   Geopolymer mix analysis and activator calculations.\n*   Dynamic material database and configurable material management.\n*   Automatic engineering report generation.\n*   Excel export for laboratory documentation.\n*   Integrated engineering validation and input protection.\n*   Interactive dashboard for rapid design iteration.\n\n### Future Roadmap\nFuture development will focus on expanding the platform beyond standards-based calculations by introducing intelligent engineering assistance.\n\nPlanned improvements include:\n*   Machine learning models for compressive strength prediction.\n*   Cost optimization using regional material prices.\n*   Carbon footprint estimation and sustainability analysis.\n*   Support for additional international concrete design standards such as ACI and Eurocode.\n*   Cloud-based project management and collaboration.\n*   REST API integration for laboratory information systems and batching plant software.",
   "engineeringInsights": [
     "IS 10262:2019 Mix Proportioning Standards",
@@ -78,15 +66,12 @@
     "Integrating physical standard specifications directly into code constraints prevents illegal trial mixes prior to laboratory trials.",
     "Partial SCM replacements dramatically affect early-age strength gain curves, which requires adjusting structural stripping timelines."
   ],
-  "role": "",
-  "duration": "3 Months",
-  "teamSize": "1 (Solo Project)",
-  "heroVisualType": "dashboard",
   "problem": "The platform replaces repetitive manual calculations and spreadsheet-based workflows with a centralized computational engine capable of performing engineering calculations, validating user inputs, generating reports, and comparing material alternatives in real time.",
-  "mySolution": "",
   "architecture": "The platform follows a modular client-server architecture that separates engineering calculations from the user interface.\n\n### Backend\nA Python-Flask application performs all engineering calculations, validation, report generation, and data processing through independent computational modules.\n\n### Frontend\nA lightweight HTML, CSS, and JavaScript interface presents engineering data using an interactive dashboard optimized for rapid parameter input and result visualization.\n\n### Design Philosophy\nA lightweight technology stack was selected to simplify deployment, reduce dependencies, and maintain portability across laboratory, academic, and research environments while keeping the engineering logic independent from the presentation layer.",
   "implementation": "### Engineering Decisions\n\n#### Independent Calculation Modules\nThe platform separates conventional concrete mix design from geopolymer analysis to ensure each workflow follows its own engineering methodology.\n\n*   **IS 10262:2019 Module** performs conventional concrete mix design calculations following the relevant provisions of the Indian Standard, including water-cement ratio evaluation, volume balancing, aggregate proportioning, and material quantity calculations.\n*   **Geopolymer Analysis Module** provides analytical calculations for alkali-activated binder systems using research-based design methodologies without treating these calculations as IS 10262 compliance.\n\nSeparating these workflows prevents experimental material studies from affecting standards-based concrete calculations while allowing both modules to coexist within a unified platform.\n\n#### Dynamic Material Management\nRather than relying on predefined material templates, the application stores constituent materials through a configurable data structure.\n\nThis enables users to create custom combinations of cement, fly ash, GGBS, silica fume, and other supplementary cementitious materials while automatically recalculating material properties, estimated costs, and environmental metrics throughout the application.\n\nThe modular approach also allows additional materials to be introduced without modifying the core calculation engine.\n\n#### Engineering Validation\nReliable engineering software depends on preventing invalid calculations before they occur.\n\nTo improve calculation reliability, multiple validation layers were implemented throughout the application. User inputs are verified before entering the computational engine, ensuring invalid values, incomplete datasets, or unrealistic parameter combinations cannot generate misleading engineering results.\n\nThis validation framework improves stability while maintaining consistency across all calculation modules.\n\n### AI-Assisted Development\nAI-assisted development was used to accelerate implementation of the user interface, backend scaffolding, and repetitive development tasks.\n\nThe engineering workflow, application architecture, calculation sequence, validation strategy, and implementation of engineering standards were independently designed and continuously verified throughout development. Additional validation and testing layers were incorporated to ensure that AI-assisted implementation did not compromise engineering calculations or platform reliability.\n\n### Current Capabilities\nThe current version of PRO-MIX includes:\n*   Automated conventional concrete mix design based on IS 10262:2019.\n*   Packing density calculations using the Toufar model.\n*   Comparative analysis of supplementary cementitious materials.\n*   Geopolymer mix analysis and activator calculations.\n*   Dynamic material database and configurable material management.\n*   Automatic engineering report generation.\n*   Excel export for laboratory documentation.\n*   Integrated engineering validation and input protection.\n*   Interactive dashboard for rapid design iteration.",
+  "futureImprovements": "Future development will focus on expanding the platform beyond standards-based calculations by introducing intelligent engineering assistance.\n\nPlanned improvements include:\n*   Machine learning models for compressive strength prediction.\n*   Cost optimization using regional material prices.\n*   Carbon footprint estimation and sustainability analysis.\n*   Support for additional international concrete design standards such as ACI and Eurocode.\n*   Cloud-based project management and collaboration.\n*   REST API integration for laboratory information systems and batching plant software.",
+  "mySolution": "",
   "whatILearned": "",
   "currentStatus": "",
-  "futureImprovements": "Future development will focus on expanding the platform beyond standards-based calculations by introducing intelligent engineering assistance.\n\nPlanned improvements include:\n*   Machine learning models for compressive strength prediction.\n*   Cost optimization using regional material prices.\n*   Carbon footprint estimation and sustainability analysis.\n*   Support for additional international concrete design standards such as ACI and Eurocode.\n*   Cloud-based project management and collaboration.\n*   REST API integration for laboratory information systems and batching plant software."
+  "role": ""
 }

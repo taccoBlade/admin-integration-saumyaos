@@ -399,130 +399,315 @@ export default function ProjectPage({ params }: PageProps) {
 }
 
 // Simple and robust custom styled markdown converter supporting inline/block LaTeX equations
+function parseInlineContent(text: string): React.ReactNode {
+  if (!text) return "";
+  
+  // Match link, bold, italic, code, math
+  const tokenRegex = /(\[[^\]]+\]\(.+?\))|(\*\*.*?\*\*)|(\*.*?\*)|(`.*?`)|(\$.*?\$)/g;
+  const parts = text.split(tokenRegex);
+  
+  if (parts.length === 1) return text;
+  
+  return (
+    <>
+      {parts.filter(p => p !== undefined).map((part, idx) => {
+        // Link: [label](url)
+        if (part.startsWith("[") && part.includes("](")) {
+          const match = part.match(/\[(.*?)\]\((.*?)\)/);
+          if (match) {
+            const [, label, url] = match;
+            return (
+              <a
+                key={idx}
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-attention-400 hover:text-attention-hover hover:underline transition-colors inline-flex items-center gap-0.5 font-mono text-[13px] font-semibold"
+              >
+                {label}
+                <span className="text-[10px] font-sans">↗</span>
+              </a>
+            );
+          }
+        }
+        
+        // Bold: **text**
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return <strong key={idx} className="font-semibold text-white">{part.slice(2, -2)}</strong>;
+        }
+        
+        // Italic: *text*
+        if (part.startsWith("*") && part.endsWith("*")) {
+          return <em key={idx} className="italic text-slate-200">{part.slice(1, -1)}</em>;
+        }
+        
+        // Inline code: `code`
+        if (part.startsWith("`") && part.endsWith("`")) {
+          return (
+            <code key={idx} className="bg-white/5 border border-white/10 px-1.5 py-0.5 rounded font-mono text-attention-300 text-[11px] select-all">
+              {part.slice(1, -1)}
+            </code>
+          );
+        }
+        
+        // Inline math: $math$
+        if (part.startsWith("$") && part.endsWith("$")) {
+          return (
+            <span key={idx} className="font-mono text-attention-400 italic px-1 bg-attention-500/5 rounded">
+              {part.slice(1, -1)}
+            </span>
+          );
+        }
+        
+        return part;
+      })}
+    </>
+  );
+}
+
+function renderTable(tableLines: string[], key: number): React.ReactNode {
+  const parsedRows = tableLines.map(line => {
+    return line
+      .split("|")
+      .map(cell => cell.trim())
+      .filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+  });
+  
+  if (parsedRows.length < 2) return null;
+  
+  const headers = parsedRows[0];
+  const separator = parsedRows[1];
+  
+  const isSeparator = separator.every(cell => /^[:-]+$/.test(cell));
+  const rows = isSeparator ? parsedRows.slice(2) : parsedRows.slice(1);
+  
+  return (
+    <div key={`table-${key}`} className="my-8 overflow-x-auto rounded-xl border border-white/5 bg-white/[0.01] backdrop-blur-sm shadow-md">
+      <table className="w-full text-left border-collapse">
+        <thead>
+          <tr className="border-b border-white/10 bg-white/[0.02]">
+            {headers.map((header, idx) => (
+              <th key={idx} className="px-4 py-3 text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-400">
+                {parseInlineContent(header)}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-white/5">
+          {rows.map((row, rIdx) => (
+            <tr key={rIdx} className="hover:bg-white/[0.01] transition-colors">
+              {row.map((cell, cIdx) => {
+                const cleanCell = cell.replace(/\s/g, '');
+                const isNumeric = /^[₹0-9.,\-+±%xX\/]+$/.test(cleanCell);
+                return (
+                  <td key={cIdx} className="px-4 py-3 text-sm text-slate-350 font-light">
+                    <span className={isNumeric ? 'font-mono text-xs text-attention-300 font-medium' : ''}>
+                      {parseInlineContent(cell)}
+                    </span>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function renderBlockquote(bqLines: string[], key: number): React.ReactNode {
+  const text = bqLines.map(line => {
+    const trimmed = line.trim();
+    return trimmed.startsWith(">") ? trimmed.slice(1).trim() : trimmed;
+  }).join("\n");
+  
+  const alertMatch = text.match(/^\[!(NOTE|IMPORTANT|WARNING|TIP|CAUTION)\]/i);
+  let alertType = "";
+  let contentText = text;
+  
+  if (alertMatch) {
+    alertType = alertMatch[1].toUpperCase();
+    contentText = text.replace(/^\[!(NOTE|IMPORTANT|WARNING|TIP|CAUTION)\]\s*/i, "");
+  }
+  
+  let borderClass = "border-attention-500/20";
+  let bgClass = "bg-attention-500/[0.02]";
+  let textClass = "text-attention-400";
+  let title = "NOTE";
+  
+  if (alertType === "WARNING" || alertType === "CAUTION") {
+    borderClass = "border-red-500/30";
+    bgClass = "bg-red-500/[0.02]";
+    textClass = "text-red-400";
+    title = "WARNING";
+  } else if (alertType === "IMPORTANT") {
+    borderClass = "border-attention-500/40";
+    bgClass = "bg-attention-500/[0.03]";
+    textClass = "text-attention-300";
+    title = "IMPORTANT";
+  } else if (alertType === "TIP") {
+    borderClass = "border-emerald-500/30";
+    bgClass = "bg-emerald-500/[0.02]";
+    textClass = "text-emerald-400";
+    title = "TIP";
+  }
+  
+  return (
+    <div key={`bq-${key}`} className={`my-6 p-5 rounded-2xl border ${borderClass} ${bgClass} backdrop-blur-sm relative overflow-hidden shadow-sm`}>
+      {alertType && (
+        <div className={`text-[10px] font-mono font-bold uppercase tracking-wider mb-2 ${textClass}`}>
+          [{title}]
+        </div>
+      )}
+      <div className="prose prose-invert max-w-none text-slate-300 font-light italic leading-relaxed text-[15px]">
+        {renderMarkdown(contentText)}
+      </div>
+    </div>
+  );
+}
+
 function renderMarkdown(md: string): React.ReactNode {
   if (!md) return null;
   const processedMd = md.replace(/\\n/g, '\n');
   const lines = processedMd.split("\n");
-  let inList = false;
-  let inCode = false;
   const elements: React.ReactNode[] = [];
-  let listItems: string[] = [];
-  let codeLines: string[] = [];
-
-  const flushList = (key: number) => {
-    if (listItems.length > 0) {
-      elements.push(
-        <ul key={`list-${key}`} className="list-disc space-y-2 my-4 pl-5 text-slate-350 text-sm md:text-base">
-          {listItems.map((item, idx) => (
-            <li key={idx} className="leading-relaxed">{item}</li>
-          ))}
-        </ul>
-      );
-      listItems = [];
-      inList = false;
-    }
-  };
-
-  const flushCode = (key: number) => {
-    if (codeLines.length > 0) {
-      elements.push(
-        <pre key={`code-${key}`} className="bg-black/50 border border-white/10 rounded-xl p-4 my-4 font-mono text-xs sm:text-sm overflow-x-auto text-attention-300">
-          <code>{codeLines.join("\n")}</code>
-        </pre>
-      );
-      codeLines = [];
-      inCode = false;
-    }
-  };
-
-  for (let i = 0; i < lines.length; i++) {
+  
+  let i = 0;
+  while (i < lines.length) {
     const line = lines[i];
-
-    // Handle block LaTeX equations starting and ending with $$
-    if (line.startsWith("$$") && line.endsWith("$$")) {
-      flushList(i);
-      flushCode(i);
-      const eq = line.substring(2, line.length - 2);
+    
+    // 1. Block LaTeX equations
+    if (line.trim().startsWith("$$") && line.trim().endsWith("$$") && line.trim().length > 2) {
+      const eq = line.trim().substring(2, line.trim().length - 2);
       elements.push(
-        <div key={i} className="my-6 p-5 rounded-2xl border border-attention-500/10 bg-attention-500/[0.01] text-center font-mono text-xs sm:text-sm md:text-base text-attention-400 overflow-x-auto">
+        <div key={`eq-${i}`} className="my-6 p-5 rounded-2xl border border-attention-500/15 bg-attention-500/[0.02] text-center font-mono text-xs sm:text-sm md:text-base text-attention-400 overflow-x-auto shadow-sm">
           {eq}
         </div>
       );
+      i++;
       continue;
     }
-
-    if (line.startsWith("```")) {
-      if (inCode) {
-        flushCode(i);
-      } else {
-        flushList(i);
-        inCode = true;
+    
+    // 2. Code blocks
+    if (line.trim().startsWith("```")) {
+      const codeLines: string[] = [];
+      i++;
+      while (i < lines.length && !lines[i].trim().startsWith("```")) {
+        codeLines.push(lines[i]);
+        i++;
+      }
+      i++; // skip closing ```
+      elements.push(
+        <pre key={`code-${i}`} className="bg-black/40 border border-white/5 rounded-xl p-4 my-6 font-mono text-xs sm:text-sm overflow-x-auto text-attention-300 shadow-glass">
+          <code>{codeLines.join("\n")}</code>
+        </pre>
+      );
+      continue;
+    }
+    
+    // 3. Tables
+    if (line.trim().startsWith("|")) {
+      const tableLines: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith("|")) {
+        tableLines.push(lines[i]);
+        i++;
+      }
+      const tableNode = renderTable(tableLines, i);
+      if (tableNode) {
+        elements.push(tableNode);
       }
       continue;
     }
-
-    if (inCode) {
-      codeLines.push(line);
+    
+    // 4. Blockquotes
+    if (line.trim().startsWith(">")) {
+      const bqLines: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith(">")) {
+        bqLines.push(lines[i]);
+        i++;
+      }
+      elements.push(renderBlockquote(bqLines, i));
       continue;
     }
-
+    
+    // 5. Lists
     const listMatch = line.match(/^\s*[-\*+]\s+(.+)$/) || line.match(/^\s*\d+\.\s+(.+)$/);
     if (listMatch) {
-      inList = true;
-      listItems.push(listMatch[1]);
+      const listItems: string[] = [];
+      while (i < lines.length) {
+        const currLine = lines[i];
+        const currMatch = currLine.match(/^\s*[-\*+]\s+(.+)$/) || currLine.match(/^\s*\d+\.\s+(.+)$/);
+        if (currMatch) {
+          listItems.push(currMatch[1]);
+          i++;
+        } else if (currLine.trim() === "") {
+          i++;
+        } else {
+          break;
+        }
+      }
+      elements.push(
+        <ul key={`list-${i}`} className="space-y-2.5 my-5 pl-1">
+          {listItems.map((item, idx) => (
+            <li key={idx} className="flex items-start gap-2.5 text-slate-350 font-light leading-relaxed text-[15px]">
+              <span className="text-attention-500 select-none font-mono text-xs mt-1.5">▪</span>
+              <div className="flex-1">{parseInlineContent(item)}</div>
+            </li>
+          ))}
+        </ul>
+      );
       continue;
-    } else if (inList && line.trim() === "") {
-      // empty lines in list
-    } else if (inList) {
-      flushList(i);
     }
-
+    
+    // 6. Horizontal Rule
+    if (line.trim() === "---") {
+      elements.push(
+        <hr key={`hr-${i}`} className="my-8 border-t border-dashed border-white/10" />
+      );
+      i++;
+      continue;
+    }
+    
+    // 7. Headings
     if (line.startsWith("# ")) {
       elements.push(
-        <h1 key={i} className="text-2xl sm:text-3xl font-bold text-white mt-8 mb-4 border-b border-white/10 pb-2">
-          {line.substring(2)}
+        <h1 key={`h1-${i}`} className="text-2xl sm:text-3xl font-bold text-white mt-8 mb-4 border-b border-white/10 pb-2 tracking-tight">
+          {parseInlineContent(line.substring(2))}
         </h1>
       );
+      i++;
+      continue;
     } else if (line.startsWith("## ")) {
       elements.push(
-        <h2 key={i} className="text-xl sm:text-2xl font-semibold text-white mt-6 mb-3 flex items-center gap-2">
+        <h2 key={`h2-${i}`} className="text-xl sm:text-2xl font-semibold text-white mt-6 mb-3 flex items-center gap-2 tracking-tight">
           <span className="w-1.5 h-5 bg-attention-500 rounded-full inline-block" />
-          {line.substring(3)}
+          {parseInlineContent(line.substring(3))}
         </h2>
       );
+      i++;
+      continue;
     } else if (line.startsWith("### ")) {
       elements.push(
-        <h3 key={i} className="text-base sm:text-lg font-medium text-slate-200 mt-4 mb-2">
-          {line.substring(4)}
+        <h3 key={`h3-${i}`} className="text-base sm:text-lg font-medium text-slate-200 mt-4 mb-2 tracking-tight">
+          {parseInlineContent(line.substring(4))}
         </h3>
       );
-    } else if (line.trim() !== "") {
-      // Split by backticks for code blocks and then by dollar signs for inline math
-      const parts = line.split("`");
-      const renderedLine = parts.flatMap((part, idx) => {
-        if (idx % 2 === 1) {
-          return [<code key={`code-${idx}`} className="bg-white/10 px-1.5 py-0.5 rounded font-mono text-attention-300 text-[11px]">{part}</code>];
-        }
-        
-        const mathParts = part.split("$");
-        return mathParts.map((mPart, mIdx) => {
-          if (mIdx % 2 === 1) {
-            return <span key={`math-${idx}-${mIdx}`} className="font-mono text-attention-300 italic px-1 bg-white/[0.02] rounded">{mPart}</span>;
-          }
-          return mPart;
-        });
-      });
-
+      i++;
+      continue;
+    }
+    
+    // 8. Normal Paragraph
+    if (line.trim() !== "") {
       elements.push(
-        <p key={i} className="text-slate-300 font-light leading-relaxed text-[15px] mb-6">
-          {renderedLine}
+        <p key={`p-${i}`} className="text-slate-350 font-light leading-relaxed text-[15px] mb-6">
+          {parseInlineContent(line)}
         </p>
       );
     }
+    
+    i++;
   }
-
-  flushList(lines.length);
-  flushCode(lines.length);
-
+  
   return <div className="space-y-4">{elements}</div>;
 }
+

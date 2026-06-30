@@ -77,7 +77,7 @@ export function FeaturedProjects({ projects }: { projects: Project[] }) {
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[linear-gradient(rgba(212, 175, 55,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(212, 175, 55,0.03)_1px,transparent_1px)] bg-[size:10px_10px] pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col gap-1 pr-4">
-                  <span className="text-xs font-mono text-attention-400">{project.year} // {project.domain}</span>
+                  <span className="text-xs font-mono text-attention-400">{project.year} {"//"} {project.domain}</span>
                   <h4 className="text-lg font-semibold text-white group-hover:text-attention-400 transition-colors">{project.title}</h4>
                 </div>
                 
