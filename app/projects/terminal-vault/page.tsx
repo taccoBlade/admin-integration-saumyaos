@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import { DashboardEmbed } from "@/components/projects/dashboard-embed"
 import { Contact } from "@/components/layout/contact"
+import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background"
 
 interface DashboardInfo {
   id: string
@@ -119,7 +120,12 @@ function TerminalVaultContent() {
   }, [initialProject])
 
   return (
-    <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-attention-500/30 selection:text-attention-200">
+    <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-attention-500/30 selection:text-attention-200 relative">
+      <InteractiveParticleBackground 
+        showConstellations={false}
+        disableLines={true}
+        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-75"
+      />
       {/* Background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f29370a_1px,transparent_1px),linear-gradient(to_bottom,#1f29370a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-attention-500/5 rounded-full blur-[120px] pointer-events-none" />

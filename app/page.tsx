@@ -10,6 +10,8 @@ import { getProjects, getTimelineEvents, getSkills } from "@/lib/content";
 import Link from "next/link";
 import { BookOpen, Cpu, ArrowRight, HardHat, Code2, Plane, Eye, Wrench, Leaf } from "lucide-react";
 
+import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background";
+
 export default function Home() {
   const projects = getProjects();
   const timelineEvents = getTimelineEvents();
@@ -17,7 +19,12 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-transparent text-slate-200 selection:bg-attention-500/30 overflow-x-hidden relative">
-      
+      <InteractiveParticleBackground 
+        showConstellations={false}
+        disableLines={true}
+        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-75"
+      />
+
 
 
       {/* ── FOREGROUND CONTENT ── */}
