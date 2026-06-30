@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 
 const ComputationalCanvas = dynamic(
   () => import("./computational-canvas").then((m) => ({ default: m.ComputationalCanvas })),
-  { ssr: false, loading: () => <div className="absolute inset-0 bg-[#080a0d]" /> }
+  { ssr: false, loading: () => <div className="absolute inset-0 bg-[#08090b]" /> }
 );
 
 export function InteractiveHero() {
@@ -27,18 +27,19 @@ export function InteractiveHero() {
       </div>
 
       {/* ── Vignette overlays for text readability ── */}
-      <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#080A0D] via-[#080A0D]/20 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#080A0D]/60 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#08090b] via-[#08090b]/20 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 z-20 bg-gradient-to-b from-[#08090b]/60 via-transparent to-transparent pointer-events-none" />
       {/* Left-side darkening — reveals 3D on the right, keeps text crisp on the left */}
       <div
         className="hidden md:block absolute inset-0 z-20 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to right, #080A0D 12%, rgba(8,10,13,0.75) 35%, rgba(8,10,13,0.15) 60%, transparent 80%)",
+            "linear-gradient(to right, #08090b 12%, rgba(8,9,11,0.75) 35%, rgba(8,9,11,0.15) 60%, transparent 80%)",
         }}
       />
       {/* Mobile-specific overlay to ensure text is legible against the mesh */}
-      <div className="block md:hidden absolute inset-0 z-20 pointer-events-none bg-[#080A0D]/50 backdrop-blur-[3px]" />
+      <div className="block md:hidden absolute inset-0 z-20 pointer-events-none bg-[#08090b]/50 backdrop-blur-[3px]" />
+
 
       {/* ── CONTENT OVERLAY ── */}
       <div className="absolute inset-0 flex flex-col md:flex-row items-center px-6 sm:px-12 lg:px-20 max-w-7xl mx-auto w-full h-[100vh] pointer-events-none z-30 select-none">
@@ -59,13 +60,14 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide"
+            className="text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide uppercase"
           >
             <span className="block text-white">
               <span className="text-attention-500">S</span>aumya{" "}
               <span className="text-attention-500">P</span>arekh
             </span>
           </motion.h1>
+
 
 
           <motion.span
@@ -120,7 +122,7 @@ export function InteractiveHero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex-col items-center gap-2 pointer-events-none"
+        className="hidden md:flex absolute bottom-16 left-1/2 -translate-x-1/2 z-30 flex-col items-center gap-2 pointer-events-none"
       >
         <span className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-mono">
           Scroll
@@ -131,6 +133,7 @@ export function InteractiveHero() {
           className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent"
         />
       </motion.div>
+
     </section>
   );
 }

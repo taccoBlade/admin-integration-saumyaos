@@ -22,8 +22,9 @@ export default function Home() {
       <InteractiveParticleBackground 
         showConstellations={false}
         disableLines={true}
-        className="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-75"
+        className="fixed inset-0 w-full h-full pointer-events-none z-[20] opacity-75"
       />
+
 
 
 
@@ -33,7 +34,7 @@ export default function Home() {
         <InteractiveHero />
 
         {/* 2. Core Domain Expertise Section (Glassmorphism backdrop) */}
-        <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5 bg-[#08090b]/85 backdrop-blur-md rounded-t-3xl mt-[-2rem]">
+        <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5 bg-[#08090b] rounded-t-3xl mt-[-2rem]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <ScrollReveal variant="slideRight" className="lg:col-span-4">
               <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">01 — Engineering Focus</h2>
@@ -75,12 +76,12 @@ export default function Home() {
         </section>
 
         {/* 3. Featured Projects Section (Glassmorphism backdrop) */}
-        <div className="bg-[#08090b]/85 backdrop-blur-md">
+        <div className="bg-[#08090b]">
           <FeaturedProjects projects={projects} />
         </div>
 
         {/* 4. Research & Academic Focus Section (Glassmorphism backdrop) */}
-        <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5 bg-[#08090b]/85 backdrop-blur-md">
+        <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5 bg-[#08090b]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <ScrollReveal variant="slideRight" className="lg:col-span-4">
               <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">02 — Engineering Interests</h2>
@@ -124,17 +125,17 @@ export default function Home() {
         </section>
 
         {/* 6. Career Timeline / Experience Section (Glassmorphism backdrop) */}
-        <div className="bg-[#08090b]/85 backdrop-blur-md">
+        <div className="bg-[#08090b]">
           <CareerTimeline events={timelineEvents} />
         </div>
 
         {/* 7. Skills Network Section (Glassmorphism backdrop) */}
-        <div className="bg-[#08090b]/85 backdrop-blur-md">
+        <div className="bg-[#08090b]">
           <SkillsNetwork skills={skills} projects={projects} />
         </div>
 
         {/* 8. Personal Story Callout (Glassmorphism backdrop) */}
-        <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5 bg-[#08090b]/85 backdrop-blur-md">
+        <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5 bg-[#08090b]">
           <ScrollReveal variant="scaleIn">
             <div className="p-8 sm:p-12 rounded-3xl border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent backdrop-blur-lg relative overflow-hidden group max-w-4xl mx-auto text-center">
               <div className="absolute inset-0 bg-attention-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />

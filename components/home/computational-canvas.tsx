@@ -219,12 +219,12 @@ function TerrainMesh({ mouseWorld }: { mouseWorld: React.RefObject<THREE.Vector3
       const dx = x - mx
       const dz = z - mz
       const d2 = dx * dx + dz * dz
-      const mh = Math.exp(-d2 / 6) * 0.35
+      const mh = Math.exp(-d2 / 2.8) * 0.35
 
       pos.setY(i, h + mh)
 
       // Vertex colour — dim amber base, brighter near cursor
-      const prox = Math.max(0, 1 - Math.sqrt(d2) / 5)
+      const prox = Math.max(0, 1 - Math.sqrt(d2) / 2.8)
       const b = 0.035 + prox * 0.45
       col.setXYZ(i, A.r * b, A.g * b, A.b * b)
     }
@@ -287,12 +287,12 @@ function InfrastructureNetwork({ mouseWorld }: { mouseWorld: React.RefObject<THR
       const ddx = nx - mx
       const ddz = nz - mz
       const d2 = ddx * ddx + ddz * ddz
-      const mh = Math.exp(-d2 / 6) * 0.35
+      const mh = Math.exp(-d2 / 2.8) * 0.35
       const y = h + mh + 0.05
       wy.push(y)
 
       if (instRef.current) {
-        const prox = Math.max(0, 1 - Math.sqrt(d2) / 4)
+        const prox = Math.max(0, 1 - Math.sqrt(d2) / 2.8)
         const pulse = 1 + Math.sin(t * 0.5 + i * 0.8) * 0.1
         const s = (0.04 + prox * 0.06) * pulse
 
@@ -323,7 +323,7 @@ function InfrastructureNetwork({ mouseWorld }: { mouseWorld: React.RefObject<THR
       lPos[li + 3] = bx; lPos[li + 4] = by; lPos[li + 5] = bz
 
       const midDist = Math.sqrt(((ax + bx) / 2 - mx) ** 2 + ((az + bz) / 2 - mz) ** 2)
-      const prox = Math.max(0, 1 - midDist / 4.5)
+      const prox = Math.max(0, 1 - midDist / 2.8)
       const bri = 0.02 + prox * 0.3
       for (let k = 0; k < 6; k += 3) {
         lCol[li + k]     = A.r * bri
@@ -342,7 +342,7 @@ function InfrastructureNetwork({ mouseWorld }: { mouseWorld: React.RefObject<THR
       fPos[fi] = fx; fPos[fi + 1] = fy; fPos[fi + 2] = fz
 
       const fd = Math.sqrt((fx - mx) ** 2 + (fz - mz) ** 2)
-      const fp = Math.max(0, 1 - fd / 4)
+      const fp = Math.max(0, 1 - fd / 2.8)
       const fb = 0.1 + fp * 0.9
       fCol[fi]     = A.r * fb
       fCol[fi + 1] = A.g * fb
@@ -470,8 +470,9 @@ export function ComputationalCanvas() {
       gl={{ antialias: true, powerPreference: "high-performance" }}
       dpr={[1, 1.5]}
       onCreated={({ gl }) => {
-        gl.setClearColor("#080a0d", 1)
+        gl.setClearColor("#08090b", 1)
       }}
+
       style={{
         position: "absolute",
         top: 0,
