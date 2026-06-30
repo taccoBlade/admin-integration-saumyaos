@@ -58,59 +58,32 @@ export function InteractiveHero() {
         {/* Left Column (Content) */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-start mt-20 md:mt-0">
           {/* Tag */}
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-attention-500 mb-4 block"
-          >
+          <span className="animate-hero-tag text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-attention-500 mb-4 block">
             Civil Engineering &amp; Infrastructure Systems
-          </motion.span>
+          </span>
 
           {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="no-dossier-reveal text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide uppercase"
-          >
+          <h1 className="animate-hero-title no-dossier-reveal text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide uppercase">
             <span className="block text-white">
               <span className="text-attention-500">S</span>aumya{" "}
               <span className="text-attention-500">P</span>arekh
             </span>
-          </motion.h1>
+          </h1>
 
-
-
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="block text-slate-300 font-mono text-[11px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase mb-6"
-          >
+          <span className="animate-hero-subtitle block text-slate-300 font-mono text-[11px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase mb-6">
             Computational Infrastructure Engineer
-          </motion.span>
+          </span>
 
           {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-slate-300 font-cormorant italic text-lg sm:text-xl md:text-2xl leading-relaxed max-w-lg mb-8 pointer-events-auto font-light"
-          >
+          <p className="animate-hero-paragraph text-slate-300 font-cormorant italic text-lg sm:text-xl md:text-2xl leading-relaxed max-w-lg mb-8 pointer-events-auto font-light">
             Building intelligent infrastructure systems through civil
             engineering, data analysis, automation, and computational design.
             Specializing in concrete mix proportioning compliance and
             geotechnical site telemetry.
-          </motion.p>
+          </p>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-wrap gap-4 pointer-events-auto"
-          >
+          <div className="animate-hero-ctas flex flex-wrap gap-4 pointer-events-auto">
             <button
               onClick={() => scrollToSection("projects")}
               className="bg-white text-gray-900 text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-gray-100 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer"
@@ -125,7 +98,7 @@ export function InteractiveHero() {
             >
               Resume
             </a>
-          </motion.div>
+          </div>
         </div>
       </div>
 
