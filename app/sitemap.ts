@@ -1,15 +1,14 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://personalsite-eta-three.vercel.app'; // Update to your domain if different
+  const baseUrl = 'https://saumyaparekh.vercel.app'; // Update to your domain if different
 
   const staticPages = [
     '',
     '/personal',
     '/archive',
     '/contact',
-    '/lithos',
-    '/terrain'
+    '/lithos'
   ].map(route => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

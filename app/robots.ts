@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/',
       }
     ],
-    sitemap: 'https://personalsite-eta-three.vercel.app/sitemap.xml', // Update to your domain if different
+    sitemap: 'https://saumyaparekh.vercel.app/sitemap.xml', // Update to your domain if different
   };
 }
