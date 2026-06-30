@@ -251,7 +251,13 @@ export default function ProjectPage({ params }: PageProps) {
 
         {/* Metrics Strip */}
         {metricsArray.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px rounded-xl overflow-hidden border border-white/5 bg-white/5 mb-4">
+          <div className={`grid gap-px rounded-xl overflow-hidden border border-white/5 bg-white/5 mb-4 ${
+            metricsArray.length === 3 
+              ? "grid-cols-1 sm:grid-cols-3" 
+              : metricsArray.length === 2 
+                ? "grid-cols-2" 
+                : "grid-cols-2 md:grid-cols-4"
+          }`}>
             {metricsArray.map((m, idx) => (
               <div key={idx} className="bg-[#08090b] p-5 flex flex-col items-center text-center gap-1">
                 <span className="text-xl sm:text-2xl md:text-3xl font-bold font-mono text-attention-400 tracking-tight">
