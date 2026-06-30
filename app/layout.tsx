@@ -58,6 +58,9 @@ export const metadata: Metadata = {
     "PDEU",
   ],
   authors: [{ name: "Saumya Parekh" }],
+  verification: {
+    google: "ZPx2ij9gQ2S42Ni4bDZSQ2AX--M4o0wAq2D5crT9CLI",
+  },
 };
 
 export default function RootLayout({
