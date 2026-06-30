@@ -139,7 +139,7 @@ export default function ProjectPage({ params }: PageProps) {
                 {project.status.toUpperCase()}
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] mb-6">
               {project.title}
             </h1>
             <p className="text-lg sm:text-xl text-slate-400 max-w-3xl leading-relaxed">
@@ -235,7 +235,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 1. Overview */}
           {project.overview && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 OVERVIEW
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -247,7 +247,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 2. Problem */}
           {project.problem && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 THE PROBLEM
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -259,7 +259,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 3. My Solution */}
           {project.mySolution && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 MY SOLUTION
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -271,7 +271,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 4. Architecture */}
           {project.architecture && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 ARCHITECTURE
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -290,7 +290,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 5. Implementation */}
           {project.implementation && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 IMPLEMENTATION
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -302,7 +302,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 6. Screenshots / Dashboard */}
           {(project.gallery && project.gallery.length > 0 || dashboardConfig) && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 SCREENSHOTS & DASHBOARD
               </h2>
               
@@ -342,7 +342,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 7. Challenges I Faced */}
           {project.challenges && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 CHALLENGES I FACED
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -354,7 +354,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 8. What I Learned */}
           {project.whatILearned && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 WHAT I LEARNED
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -366,7 +366,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 9. Current Status */}
           {project.currentStatus && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 CURRENT STATUS
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -378,7 +378,7 @@ export default function ProjectPage({ params }: PageProps) {
           {/* 10. Future Improvements */}
           {project.futureImprovements && (
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-attention-400 border-b border-white/5 pb-2">
+              <h2 className="text-[11px] font-mono font-semibold uppercase tracking-[0.25em] text-slate-500 pb-2">
                 FUTURE IMPROVEMENTS
               </h2>
               <div className="prose prose-invert max-w-none text-slate-300">
@@ -392,8 +392,8 @@ export default function ProjectPage({ params }: PageProps) {
         <div className="lg:col-span-4 space-y-12">
           {/* Key Outcomes */}
           <div className="p-6 rounded-2xl bg-[#08090b] border border-attention-500/10 hover:border-attention-500/20 transition-colors space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-attention-400 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-attention-400" />
+            <h3 className="text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-400 flex items-center gap-2 mb-2">
+              <Zap className="w-3.5 h-3.5 text-attention-400" />
               KEY OUTCOMES
             </h3>
             <ul className="space-y-3 font-mono text-xs">
@@ -408,8 +408,8 @@ export default function ProjectPage({ params }: PageProps) {
 
           {/* Lessons Learned */}
           <div className="p-6 rounded-2xl bg-[#08090b] border border-attention-500/10 hover:border-attention-500/20 transition-colors space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-attention-400 flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-attention-400" />
+            <h3 className="text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-400 flex items-center gap-2 mb-2">
+              <Lightbulb className="w-3.5 h-3.5 text-attention-400" />
               LESSONS LEARNED
             </h3>
             <ul className="space-y-3 font-mono text-xs">
@@ -424,8 +424,8 @@ export default function ProjectPage({ params }: PageProps) {
 
           {/* Download solver card template */}
           <div className="p-6 rounded-2xl bg-[#08090b] border border-white/5 space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white flex items-center gap-2">
-              <Download className="w-4 h-4 text-attention-400" />
+            <h3 className="text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-400 flex items-center gap-2 mb-2">
+              <Download className="w-3.5 h-3.5 text-attention-400" />
               CALCULATIONS SOLVER
             </h3>
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -467,7 +467,8 @@ export default function ProjectPage({ params }: PageProps) {
 // Simple and robust custom styled markdown converter supporting inline/block LaTeX equations
 function renderMarkdown(md: string): React.ReactNode {
   if (!md) return null;
-  const lines = md.split("\n");
+  const processedMd = md.replace(/\\n/g, '\n');
+  const lines = processedMd.split("\n");
   let inList = false;
   let inCode = false;
   const elements: React.ReactNode[] = [];
@@ -579,7 +580,7 @@ function renderMarkdown(md: string): React.ReactNode {
       });
 
       elements.push(
-        <p key={i} className="text-slate-350 leading-relaxed text-sm md:text-base mb-4">
+        <p key={i} className="text-slate-300 font-light leading-relaxed text-[15px] mb-6">
           {renderedLine}
         </p>
       );
