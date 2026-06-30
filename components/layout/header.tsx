@@ -221,15 +221,28 @@ export function Header() {
           <Link href="/" className="z-[110] shrink-0">
             {isPersonal ? (
               <div className="relative group px-1 sm:px-2 py-1 flex items-center h-10 select-none">
-                <span className="font-bigger-scape text-[10px] xs:text-sm sm:text-base md:text-lg tracking-[0.1em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal">
-                  <span className="text-attention">S</span>AUMYA <span className="text-attention">P</span>AREKH
+                <span className="font-bigger-scape text-sm sm:text-base md:text-lg tracking-[0.1em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal">
+                  <span className="inline sm:hidden">
+                    <span className="text-attention">S</span>
+                    <span className="text-attention">P</span>
+                  </span>
+                  <span className="hidden sm:inline">
+                    <span className="text-attention">S</span>AUMYA <span className="text-attention">P</span>AREKH
+                  </span>
                 </span>
               </div>
             ) : (
-              <h1 className="font-bigger-scape text-sm xs:text-xl sm:text-2xl lg:text-3xl tracking-[0.04em] transition-colors duration-500 font-normal text-white">
-                <span className="text-attention">S</span>aumya{" "}
-                <span className="text-attention">P</span>arekh
-                <span className="text-attention">.</span>
+              <h1 className="font-bigger-scape text-base xs:text-xl sm:text-2xl lg:text-3xl tracking-[0.04em] transition-colors duration-500 font-normal text-white">
+                <span className="inline sm:hidden">
+                  <span className="text-attention">S</span>
+                  <span className="text-attention">P</span>
+                  <span className="text-attention text-[#d4af37]">.</span>
+                </span>
+                <span className="hidden sm:inline">
+                  <span className="text-attention">S</span>aumya{" "}
+                  <span className="text-attention">P</span>arekh
+                  <span className="text-attention">.</span>
+                </span>
               </h1>
             )}
           </Link>
