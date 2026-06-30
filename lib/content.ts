@@ -49,30 +49,23 @@ export function getTimelineEvents(): TimelineEvent[] {
     {
       id: "edu-pdeu",
       year: 2024,
-      title: "Started Civil Engineering at PDEU",
-      description: "Began formal education in civil and geotechnical engineering.",
+      title: "Started B.Tech in Civil Engineering — PDEU",
+      description: "Began academic specialization in structural, geotechnical, transportation, and construction engineering.",
       type: "Education"
     },
     {
       id: "exp-brahmand",
       year: 2025,
-      title: "Brahmand Club Content Writing",
-      description: "Began digital content creation and storytelling.",
+      title: "Brahmand Club Content Writer & Creative Team",
+      description: "Produced technical and promotional content for university events.",
       type: "Experience"
     },
     {
       id: "exp-cssi",
       year: 2025,
       title: "CSSI Internship",
-      description: "Community Development Work.",
+      description: "Community development and social infrastructure initiatives.",
       type: "Experience"
-    },
-    {
-      id: "exp-geotech",
-      year: 2026,
-      title: "Advanced Coursework in Geotechnical Engineering",
-      description: "Deep excavation engineering and ground behavior analysis.",
-      type: "Education"
     }
   ];
 
@@ -93,26 +86,24 @@ export function getTimelineEvents(): TimelineEvent[] {
 export function getSkills(): Skill[] {
   const baseSkills: { name: string; category: Skill["category"]; baseStrength: number }[] = [
     { name: "Concrete Technology", category: "Core Engineering", baseStrength: 9 },
-    { name: "Geotechnical Engineering", category: "Core Engineering", baseStrength: 9 },
-    { name: "Surveying", category: "Core Engineering", baseStrength: 8 },
-    { name: "Transportation Engineering", category: "Core Engineering", baseStrength: 8 },
-    { name: "Concrete Mix Design", category: "Core Engineering", baseStrength: 9 },
     { name: "Construction Materials", category: "Core Engineering", baseStrength: 8 },
-    { name: "AutoCAD", category: "Technical Tools", baseStrength: 8 },
-    { name: "Civil 3D", category: "Technical Tools", baseStrength: 7 },
-    { name: "QGIS", category: "Technical Tools", baseStrength: 8 },
-    { name: "STAAD Pro", category: "Technical Tools", baseStrength: 7 },
-    { name: "ETABS", category: "Technical Tools", baseStrength: 7 },
+    { name: "Concrete Mix Design", category: "Core Engineering", baseStrength: 9 },
+    { name: "Surveying", category: "Core Engineering", baseStrength: 8 },
+    { name: "Engineering Software", category: "Core Engineering", baseStrength: 8 },
+    { name: "QGIS", category: "Core Engineering", baseStrength: 8 },
     { name: "Python", category: "Programming", baseStrength: 9 },
     { name: "Flask", category: "Programming", baseStrength: 8 },
     { name: "OpenCV", category: "Programming", baseStrength: 8 },
     { name: "Arduino", category: "Programming", baseStrength: 8 },
-    { name: "Data Interpretation", category: "Programming", baseStrength: 8 },
-    { name: "Problem Solving", category: "Programming", baseStrength: 8 },
+    { name: "Embedded Systems", category: "Research", baseStrength: 8 },
+    { name: "Sensor Integration", category: "Research", baseStrength: 8 },
+    { name: "IoT", category: "Research", baseStrength: 8 },
+    { name: "Computer Vision", category: "Research", baseStrength: 8 },
+    { name: "Infrastructure Automation", category: "Research", baseStrength: 8 },
     { name: "Photography", category: "Creative", baseStrength: 7 },
     { name: "Cinematography", category: "Creative", baseStrength: 8 },
-    { name: "Graphic Design", category: "Creative", baseStrength: 7 },
-    { name: "Video Editing", category: "Creative", baseStrength: 8 }
+    { name: "Video Editing", category: "Creative", baseStrength: 8 },
+    { name: "Graphic Design", category: "Creative", baseStrength: 7 }
   ];
 
   const projects = getProjects();

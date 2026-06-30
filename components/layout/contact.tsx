@@ -38,7 +38,7 @@ export function Contact() {
         {/* Center: Name */}
         <ScrollReveal variant="fadeUp" delay={0.1}>
           <div className="text-center">
-            <span className="text-xl text-white font-bigger-scape font-normal tracking-wide">
+            <span className="text-xl text-white font-sans font-normal tracking-wide">
               <span className="text-attention">S</span>aumya <span className="text-attention">P</span>arekh<span className="text-attention-400">.</span>
             </span>
             <p className="text-xs text-slate-500 mt-1 font-mono">
@@ -87,7 +87,7 @@ export function Contact() {
       <ScrollReveal variant="fadeIn" delay={0.3}>
         <div className="relative z-10 mt-8 text-center">
           <p className="text-[11px] text-slate-600 font-mono">
-            © {new Date().getFullYear()} <span className="font-bigger-scape font-normal text-white"><span className="text-attention">S</span>aumya <span className="text-attention">P</span>arekh</span>. Built with Next.js &amp;
+            © {new Date().getFullYear()} <span className="font-sans font-normal text-white"><span className="text-attention">S</span>aumya <span className="text-attention">P</span>arekh</span>. Built with Next.js &amp;
             passion.
           </p>
         </div>

@@ -37,6 +37,8 @@ export function InteractiveHero() {
             "linear-gradient(to right, #080A0D 12%, rgba(8,10,13,0.75) 35%, rgba(8,10,13,0.15) 60%, transparent 80%)",
         }}
       />
+      {/* Mobile-specific overlay to ensure text is legible against the mesh */}
+      <div className="block md:hidden absolute inset-0 z-20 pointer-events-none bg-[#080A0D]/50 backdrop-blur-[3px]" />
 
       {/* ── CONTENT OVERLAY ── */}
       <div className="absolute inset-0 flex flex-col md:flex-row items-center px-6 sm:px-12 lg:px-20 max-w-7xl mx-auto w-full h-[100vh] pointer-events-none z-30 select-none">
@@ -57,7 +59,7 @@ export function InteractiveHero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide"
+            className="text-white font-sans text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide"
           >
             <span className="block text-white">
               <span className="text-attention">S</span>aumya{" "}
@@ -100,6 +102,14 @@ export function InteractiveHero() {
             >
               View Projects
             </button>
+            <a
+              href="/saumya-resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center bg-transparent border border-white/20 text-white text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-white/10 hover:border-white/40 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer"
+            >
+              Resume
+            </a>
           </motion.div>
         </div>
       </div>

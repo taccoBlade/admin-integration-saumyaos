@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Play, Pause, SkipForward, SkipBack, Shuffle, Music, Volume2, VolumeX } from "lucide-react";
 
@@ -204,10 +204,18 @@ export function HeaderMusicPlayer() {
 export function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isPlaying, togglePlay } = useOS();
 
   if (pathname === "/lithos") return null;
 
   const isPersonal = pathname === "/personal" || pathname.startsWith("/personal/");
+
+  // Stop music when exiting personal page
+  useEffect(() => {
+    if (!isPersonal && isPlaying) {
+      togglePlay();
+    }
+  }, [isPersonal, isPlaying, togglePlay]);
   const accentColor   = isPersonal ? "text-[#d4af37]"        : "text-attention-400";
   const headerBg      = isPersonal ? "bg-[#050505]/45"        : "bg-[#08090b]/45";
   const mobileMenuBg  = isPersonal ? "bg-[#050505]/98"        : "bg-[#08090b]/98";
@@ -221,7 +229,7 @@ export function Header() {
           <Link href="/" className="z-[110] shrink-0">
             {isPersonal ? (
               <div className="relative group px-1 sm:px-2 py-1 flex items-center h-10 select-none">
-                <span className="font-bigger-scape text-sm sm:text-base md:text-lg tracking-[0.1em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal">
+                <span className="font-sans text-sm sm:text-base md:text-lg tracking-[0.1em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal">
                   <span className="inline sm:hidden">
                     <span className="text-attention">S</span>
                     <span className="text-attention">P</span>
@@ -232,7 +240,7 @@ export function Header() {
                 </span>
               </div>
             ) : (
-              <h1 className="font-bigger-scape text-base xs:text-xl sm:text-2xl lg:text-3xl tracking-[0.04em] transition-colors duration-500 font-normal text-white">
+              <h1 className="font-sans text-base xs:text-xl sm:text-2xl lg:text-3xl tracking-[0.04em] transition-colors duration-500 font-normal text-white">
                 <span className="inline sm:hidden">
                   <span className="text-attention">S</span>
                   <span className="text-attention">P</span>
@@ -249,7 +257,7 @@ export function Header() {
 
           {/* Desktop: player + nav */}
           <div className="hidden xl:flex items-center gap-8">
-            <HeaderMusicPlayer />
+            {isPersonal && <HeaderMusicPlayer />}
             <nav className="flex items-center gap-8">
               {navItems.map((item) => {
                 const isActive = item.href === "/"
@@ -280,7 +288,7 @@ export function Header() {
 
           {/* Mobile: player + hamburger */}
           <div className="flex xl:hidden items-center gap-4 z-[110]">
-            <HeaderMusicPlayer />
+            {isPersonal && <HeaderMusicPlayer />}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`p-2 ${accentColor} transition-colors duration-500`}

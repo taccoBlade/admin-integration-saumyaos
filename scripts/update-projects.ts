@@ -23,10 +23,10 @@ for (const file of files) {
     if (file.includes("soil")) {
       data.heroVisualType = "dashboard";
       data.metrics = [
-        { value: "0.2mm", label: "Strain Resolution" },
+        { value: "5 μstrain", label: "Strain Resolution" },
         { value: "24/7", label: "Uptime" },
-        { value: "0.5 mm", label: "Settlement Precision" },
-        { value: "100 Hz", label: "Data Rate" }
+        { value: "±1 mm", label: "Settlement Precision" },
+        { value: "80 Hz", label: "Data Rate" }
       ];
     } else if (file.includes("promix")) {
       data.heroVisualType = "dashboard";

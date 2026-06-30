@@ -32,7 +32,7 @@ export default function Home() {
               <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">01 — Engineering Focus</h2>
               <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight text-white">Core Domain Expertise</h3>
               <p className="text-slate-400 text-sm mt-4 leading-relaxed">
-                Bridging traditional civil engineering with modern computational technologies to build smarter, more connected infrastructure systems.
+                Applying computational technologies, embedded systems, and intelligent automation to solve practical challenges in civil engineering.
               </p>
             </ScrollReveal>
             <ScrollRevealStagger stagger={0.12} delay={0.1} className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -40,17 +40,17 @@ export default function Home() {
                 {
                   icon: BookOpen,
                   title: "Concrete Engineering",
-                  desc: "Computational mix design, sustainable materials, and standards-based engineering.",
+                  desc: "Standards-based concrete mix design, computational material analysis, and sustainable binder systems.",
                 },
                 {
                   icon: Cpu,
                   title: "Geotechnical Monitoring",
-                  desc: "Real-time sensing, settlement analysis, and infrastructure telemetry.",
+                  desc: "Real-time sensing, settlement monitoring, wireless telemetry, and engineering data visualization.",
                 },
                 {
                   icon: Cpu,
                   title: "Infrastructure Intelligence",
-                  desc: "Embedded systems, automation, computer vision, and data-driven construction technologies.",
+                  desc: "Construction automation, edge computing, sensor integration, and machine-guided engineering systems.",
                 },
               ].map((item, idx) => (
                 <RevealItem key={idx}>
@@ -79,9 +79,9 @@ export default function Home() {
               <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-attention-400 mb-3">02 — Engineering Interests</h2>
               <h3 className="text-3xl sm:text-4xl font-semibold text-foreground tracking-tight text-white">Research &amp; Academic Focus</h3>
               <div className="mt-8 p-5 rounded-2xl border border-attention-500/20 bg-attention-500/5 backdrop-blur-sm">
-                <h4 className="text-attention-400 font-semibold text-xs uppercase tracking-widest mb-3">Long-Term Goal</h4>
+                <h4 className="text-attention-400 font-semibold text-xs uppercase tracking-widest mb-3">Long-Term Vision</h4>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  To contribute to the next generation of intelligent infrastructure by combining civil engineering with automation, robotics, computer vision, remote sensing, and computational technologies.
+                  To contribute to the future of intelligent infrastructure by integrating civil engineering with sensing technologies, automation, artificial intelligence, and computational engineering.
                 </p>
               </div>
             </ScrollReveal>
@@ -91,13 +91,13 @@ export default function Home() {
                   <h4 className="text-white font-semibold text-base mb-6">Current Areas of Exploration</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {[
-                      { icon: HardHat, title: "Infrastructure Innovation", desc: "Developing practical engineering solutions that modernize workflows." },
-                      { icon: Code2, title: "Digital Construction", desc: "Computational engineering, BIM workflows, and data methodologies." },
-                      { icon: Plane, title: "Drone Mapping", desc: "UAV-based surveying, photogrammetry, and progress monitoring." },
-                      { icon: Cpu, title: "Sensor Networks", desc: "Smart sensing, wireless telemetry, and real-time monitoring." },
-                      { icon: Eye, title: "Computer Vision", desc: "Crack detection and visual inspection using AI and OpenCV." },
-                      { icon: Wrench, title: "Intelligent Equipment", desc: "Machine-guided construction and autonomous systems." },
-                      { icon: Leaf, title: "Sustainable Concrete", desc: "Advanced materials, mix optimization, and greener practices." },
+                      { icon: HardHat, title: "Intelligent Infrastructure", desc: "Digital technologies for monitoring, automation, and infrastructure management." },
+                      { icon: Code2, title: "Construction Automation", desc: "Machine-guided construction and computational engineering workflows." },
+                      { icon: Cpu, title: "Smart Sensing", desc: "Wireless telemetry, embedded systems, and real-time structural monitoring." },
+                      { icon: Eye, title: "Computer Vision", desc: "Inspection, monitoring, and engineering analysis using AI and OpenCV." },
+                      { icon: Leaf, title: "Sustainable Materials", desc: "Concrete technology, supplementary cementitious materials, and low-carbon construction." },
+                      { icon: Plane, title: "Geospatial Technologies", desc: "Drone surveying, photogrammetry, GIS, and digital site mapping." },
+                      { icon: Wrench, title: "Data-Driven Engineering", desc: "Engineering analytics, visualization, and computational decision support." },
                     ].map((item, idx) => (
                       <div key={idx} className={`p-4 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.05] transition-colors flex gap-4 items-start ${idx === 6 ? "sm:col-span-2" : ""}`}>
                          <div className="p-2 bg-attention-500/10 rounded-lg text-attention-400 shrink-0">

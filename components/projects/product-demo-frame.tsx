@@ -31,7 +31,7 @@ export function ProductDemoFrame({ children, title, githubUrl }: ProductDemoFram
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       className={`flex flex-col overflow-hidden rounded-xl border border-white/10 bg-black/80 shadow-2xl ${
-        isFullscreen ? "fixed inset-0 z-50 rounded-none border-none" : "w-full max-w-5xl mx-auto my-12 relative"
+        isFullscreen ? "fixed inset-0 z-[999] rounded-none border-none" : "w-full max-w-5xl mx-auto my-12 relative"
       }`}
     >
       {/* Browser / Frame Header */}
