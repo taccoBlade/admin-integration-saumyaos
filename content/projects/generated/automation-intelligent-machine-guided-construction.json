@@ -79,7 +79,7 @@
     "Mechanical dampening materials must be carefully selected; too much dampening filters out actual compaction-related drum hopping data.",
     "Thermal windows of asphalt are highly localized; wind speed and sub-base moisture content are major variables in cooling rates."
   ],
-  "role": "Principal Researcher & System Architect",
+  "role": "I independently researched intelligent compaction systems, studied existing literature, analysed the NHAI problem statement, designed the proposed system architecture, selected the hardware stack, prepared the technical documentation, and developed the overall product concept.\n\nTo accelerate development, I used AI-assisted development for the dashboard interface and software visualization while directing the architecture, feature planning, user experience, and complete system workflow.",
   "duration": "3 Months",
   "teamSize": "1 (Solo Project)",
   "problem": "Conventional pavement compaction quality control relies on destructive testing methods performed after construction. This creates delayed feedback, incomplete quality records, and increases the risk of under-compaction, over-compaction, and premature pavement failure. The hackathon challenged participants to develop a technology-driven, self-sustaining monitoring system that combines geospatial positioning with electronic sensors to automate quality assurance.",
