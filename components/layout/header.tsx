@@ -206,8 +206,6 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isPlaying, togglePlay } = useOS();
 
-  if (pathname === "/lithos") return null;
-
   const isPersonal = pathname === "/personal" || pathname.startsWith("/personal/");
 
   // Stop music when exiting personal page
@@ -216,6 +214,8 @@ export function Header() {
       togglePlay();
     }
   }, [isPersonal, isPlaying, togglePlay]);
+
+  if (pathname === "/lithos") return null;
   const accentColor   = isPersonal ? "text-[#d4af37]"        : "text-attention-400";
   const headerBg      = isPersonal ? "bg-[#050505]/45"        : "bg-[#08090b]/45";
   const mobileMenuBg  = isPersonal ? "bg-[#050505]/98"        : "bg-[#08090b]/98";
