@@ -148,6 +148,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
   const [activePlaylist, setPlaylistState] = useState<PlaylistName>("mix");
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isAudioLoaded, setIsAudioLoaded] = useState(false);
   const [volume, setVolumeState] = useState(0.5);
   const [isMuted, setIsMutedState] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -235,7 +236,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
   // Track changes logic
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio || !currentTrack) return;
+    if (!audio || !currentTrack || !isAudioLoaded) return;
 
     if (isPlaying) {
       audio.load();
@@ -249,34 +250,50 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTrack]);
 
-  // Controls implementations
-  const togglePlay = () => {
+  // Synchronize playing state with Audio element
+  useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !currentTrack) return;
 
     if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
+      if (!isAudioLoaded) {
+        setIsAudioLoaded(true);
+      } else {
+        audio.play()
+          .then(() => setIsPlaying(true))
+          .catch((e) => {
+            console.error("Playback error:", e);
+            setIsPlaying(false);
+          });
+      }
     } else {
-      audio.volume = isMuted ? 0 : volume;
-      audio.play()
-        .then(() => setIsPlaying(true))
-        .catch((e) => {
-          console.error("Toggle play error:", e);
-          setIsPlaying(false);
-        });
+      if (isAudioLoaded) {
+        audio.pause();
+      }
     }
+  }, [isPlaying, isAudioLoaded]);
+
+  // Controls implementations
+  const togglePlay = () => {
+    if (!currentTrack) return;
+    setIsPlaying(!isPlaying);
   };
 
   const nextTrack = () => {
     const currentTracks = getTracks(activePlaylist);
     if (currentTracks.length === 0) return;
+    if (!isAudioLoaded) {
+      setIsAudioLoaded(true);
+    }
     setCurrentTrackIndex((prev) => (prev + 1) % currentTracks.length);
   };
 
   const prevTrack = () => {
     const currentTracks = getTracks(activePlaylist);
     if (currentTracks.length === 0) return;
+    if (!isAudioLoaded) {
+      setIsAudioLoaded(true);
+    }
     setCurrentTrackIndex((prev) => (prev - 1 + currentTracks.length) % currentTracks.length);
   };
 
@@ -305,6 +322,9 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
   };
 
   const playTrack = (playlistName: PlaylistName, index: number) => {
+    if (!isAudioLoaded) {
+      setIsAudioLoaded(true);
+    }
     setPlaylistState(playlistName);
     setCurrentTrackIndex(index);
     setIsPlaying(true);
@@ -362,7 +382,7 @@ export function OSProvider({ children }: { children: React.ReactNode }) {
       {children}
       <audio
         ref={audioRef}
-        src={currentTrack?.src}
+        src={isAudioLoaded ? currentTrack?.src : undefined}
         preload="none"
         onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
         onDurationChange={(e) => {
