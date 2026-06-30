@@ -67,6 +67,7 @@ export function HeaderMusicPlayer() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       layout
+      transition={{ layout: { type: "tween", duration: 0.2, ease: "easeOut" } }}
       className="flex items-center gap-1 sm:gap-2 bg-white/5 border border-white/10 rounded-full py-1 px-2 sm:py-1.5 sm:px-3.5 backdrop-blur-md text-white select-none shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden h-9 sm:h-11 transition-colors duration-300 hover:bg-neutral-900/75 hover:border-white/15"
     >
       {/* Cover image (spinning vinyl record effect) */}
@@ -230,8 +231,9 @@ export function Header() {
           <Link href="/" className="z-[110] shrink-0 min-w-0">
             {isPersonal ? (
               <div className="relative group px-1 sm:px-2 py-1 flex items-center h-10 select-none overflow-hidden">
-                <span className="font-sans text-[10px] xs:text-xs sm:text-base md:text-lg tracking-[0.1em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal uppercase truncate">
-                  <span className="text-attention">S</span>aumya <span className="text-attention">P</span>arekh
+                <span className="font-sans text-[15px] xs:text-lg sm:text-2xl lg:text-3xl tracking-[0.04em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal uppercase truncate">
+                  <span className="text-attention">S</span>
+                  <span className="text-attention">P</span>
                 </span>
               </div>
             ) : (
@@ -242,6 +244,7 @@ export function Header() {
               </h1>
             )}
           </Link>
+
 
           {/* Desktop: player + nav */}
           <div className="hidden xl:flex items-center gap-8">

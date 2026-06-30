@@ -21,10 +21,10 @@ export function PhotoRenderer({
   return (
     <motion.div 
       className={`relative w-full select-none overflow-hidden ${fill ? 'h-full' : ''} ${className}`}
-      initial={{ opacity: 0, filter: 'blur(4px)' }}
-      whileInView={{ opacity: 1, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 1.5, ease: "easeOut" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       onContextMenu={(e) => e.preventDefault()}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
