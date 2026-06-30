@@ -231,19 +231,20 @@ export function Header() {
           <Link href="/" className="z-[110] shrink-0 min-w-0">
             {isPersonal ? (
               <div className="relative group px-1 sm:px-2 py-1 flex items-center h-10 select-none overflow-hidden">
-                <span className="font-sans text-[15px] xs:text-lg sm:text-2xl lg:text-3xl tracking-[0.04em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal uppercase truncate">
-                  <span className="text-attention">S</span>
-                  <span className="text-attention">P</span>
+                <span className="font-bigger-scape text-[15px] xs:text-lg sm:text-2xl lg:text-3xl tracking-[0.04em] text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] font-normal uppercase truncate">
+                  <span className="text-attention-500">S</span>
+                  <span className="text-attention-500">P</span>
                 </span>
               </div>
             ) : (
-              <h1 className="font-sans text-[15px] xs:text-lg sm:text-2xl lg:text-3xl tracking-[0.04em] transition-colors duration-500 font-normal text-white truncate">
-                <span className="text-attention">S</span>aumya{" "}
-                <span className="text-attention">P</span>arekh
-                <span className="text-attention">.</span>
+              <h1 className="font-bigger-scape text-[15px] xs:text-lg sm:text-2xl lg:text-3xl tracking-[0.04em] transition-colors duration-500 font-normal text-white truncate">
+                <span className="text-attention-500">S</span>aumya{" "}
+                <span className="text-attention-500">P</span>arekh
+                <span className="text-attention-500">.</span>
               </h1>
             )}
           </Link>
+
 
 
           {/* Desktop: player + nav */}
