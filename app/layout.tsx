@@ -5,8 +5,6 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { PageTransition } from "@/components/ui/page-transition";
 import { Analytics } from "@vercel/analytics/next";
-import Script from "next/script";
-
 import { OSProvider } from "@/lib/os-context";
 
 const geistSans = localFont({
@@ -131,15 +129,17 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         {/* Google tag (gtag.js) */}
-        <Script strategy="lazyOnload" src="https://www.googletagmanager.com/gtag/js?id=G-X4Z73QT8MB" />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
+        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4Z73QT8MB"></script>
+        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-X4Z73QT8MB');
-          `}
-        </Script>
+          `
+        }} />
         {/* WebSite Structured Data for Google Search Site Name */}
         <script
           type="application/ld+json"
