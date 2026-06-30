@@ -2,109 +2,186 @@
 
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [displayChildren, setDisplayChildren] = useState(children);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isDossierActive, setIsDossierActive] = useState(true);
+
+  useEffect(() => {
+    if (children !== displayChildren) {
+      setIsTransitioning(true);
+      setIsDossierActive(false);
+
+      // Phase 1: Fade out the current layout content over 180ms
+      const fadeOutTimer = setTimeout(() => {
+        setDisplayChildren(children);
+        
+        // Phase 2: Fade in the new content & start stagger animations
+        setIsDossierActive(true);
+        setIsTransitioning(false);
+      }, 180);
+
+      return () => clearTimeout(fadeOutTimer);
+    }
+  }, [children, displayChildren]);
 
   return (
     <>
-      {/* Ambient light beams (decorative) */}
-      <div className="max-w-full overflow-hidden pointer-events-none fixed inset-0 h-full w-full z-[1]">
-        {/* Left beam */}
-        <div className="absolute top-0 left-0 w-screen h-screen pointer-events-none">
-          <div
-            className="absolute top-0 left-0"
-            style={{
-              transform: "translateY(-350px) rotate(-45deg)",
-              background:
-                "radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(185, 100%, 85%, .06) 0, hsla(185, 100%, 55%, .02) 50%, hsla(185, 100%, 45%, 0) 80%)",
-              width: "560px",
-              height: "1380px",
-            }}
-          />
-          <div
-            className="absolute top-0 left-0 origin-top-left"
-            style={{
-              transform: "rotate(-45deg) translate(5%, -50%)",
-              background:
-                "radial-gradient(50% 50% at 50% 50%, hsla(185, 100%, 85%, .04) 0, hsla(185, 100%, 55%, .02) 80%, transparent 100%)",
-              width: "240px",
-              height: "1380px",
-            }}
-          />
-        </div>
-        {/* Right beam */}
-        <div className="absolute top-0 right-0 w-screen h-screen pointer-events-none">
-          <div
-            className="absolute top-0 right-0"
-            style={{
-              transform: "translateY(-350px) rotate(45deg)",
-              background:
-                "radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(185, 100%, 85%, .06) 0, hsla(185, 100%, 55%, .02) 50%, hsla(185, 100%, 45%, 0) 80%)",
-              width: "560px",
-              height: "1380px",
-            }}
-          />
-          <div
-            className="absolute top-0 right-0 origin-top-right"
-            style={{
-              transform: "rotate(45deg) translate(-5%, -50%)",
-              background:
-                "radial-gradient(50% 50% at 50% 50%, hsla(185, 100%, 85%, .04) 0, hsla(185, 100%, 55%, .02) 80%, transparent 100%)",
-              width: "240px",
-              height: "1380px",
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Page content — spring-driven fade + lift on route change */}
+      {/* Global CSS for the premium dossier transitions */}
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes page-glitch {
-          0% {
-            clip-path: inset(35% 0 40% 0);
-            transform: skewX(4deg) translateX(-4px);
-            opacity: 0.8;
-          }
-          15% {
-            clip-path: inset(80% 0 5% 0);
-            transform: skewX(-3deg) translateX(3px);
-            opacity: 0.95;
-          }
-          30% {
-            clip-path: inset(5% 0 85% 0);
-            transform: skewX(2deg) translateX(-2px);
-            opacity: 0.9;
-          }
-          45% {
-            clip-path: inset(60% 0 25% 0);
-            transform: skewX(-1deg) translateX(1px);
-            opacity: 0.97;
-          }
-          60% {
-            clip-path: inset(0 0 0 0);
-            transform: skewX(0deg) translateX(0);
+        /* Transition targets */
+        .dossier-title, h1 {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        .dossier-meta {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        .dossier-desc {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        .dossier-content, section, footer {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        
+        /* Soft Mask Reveal for images */
+        main img, section img, .dossier-content img {
+          clip-path: inset(100% 0 0 0);
+          opacity: 0;
+          transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out;
+        }
+
+        /* Active Reveal animations */
+        .dossier-active .dossier-title, .dossier-active h1 {
+          animation: dossier-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-delay: 0.05s;
+        }
+        .dossier-active .dossier-meta {
+          animation: dossier-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-delay: 0.11s;
+        }
+        .dossier-active .dossier-desc {
+          animation: dossier-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-delay: 0.17s;
+        }
+        .dossier-active .dossier-content, .dossier-active section, .dossier-active footer {
+          animation: dossier-reveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation-delay: 0.23s;
+        }
+        
+        .dossier-active main img, .dossier-active section img, .dossier-active .dossier-content img {
+          clip-path: inset(0 0 0 0);
+          opacity: 1;
+        }
+        
+        @keyframes dossier-reveal {
+          to {
             opacity: 1;
+            transform: translateY(0);
           }
         }
-        .animate-page-glitch {
-          animation: page-glitch 0.2s steps(5) forwards;
+        
+        /* Scanline sweep animation */
+        @keyframes scanline-sweep {
+          0% {
+            transform: translateY(0);
+            opacity: 0;
+          }
+          15% {
+            opacity: 0.8;
+          }
+          85% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(100vh);
+            opacity: 0;
+          }
+        }
+        .scanline {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, #d4af37 40%, #d4af37 60%, transparent);
+          box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+          z-index: 100;
+          pointer-events: none;
+          animation: scanline-sweep 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Accessibility: prefers-reduced-motion */
+        @media (prefers-reduced-motion: reduce) {
+          .dossier-title, h1, .dossier-meta, .dossier-desc, .dossier-content, section, footer, main img, section img {
+            transform: none !important;
+            clip-path: none !important;
+            animation: none !important;
+            transition: none !important;
+            opacity: 1 !important;
+          }
+          .scanline {
+            display: none !important;
+          }
         }
       `}} />
 
-      <motion.div
-        key={pathname}
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.25,
-          ease: "easeOut"
-        }}
-        className="animate-page-glitch"
-      >
-        {children}
-      </motion.div>
+      {/* ── PERSISTENT DOSSIER BACKGROUND GRID ── */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div 
+          className="absolute inset-0 bg-[#08090b]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(212, 175, 55, 0.015) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(212, 175, 55, 0.015) 1px, transparent 1px)
+            `,
+            backgroundSize: "40px 40px",
+          }}
+        />
+        
+        {/* Technical Corner Crop Marks */}
+        <div className="absolute top-8 left-8 w-4 h-4 border-l border-t border-attention-500/20" />
+        <div className="absolute top-8 right-8 w-4 h-4 border-r border-t border-attention-500/20" />
+        <div className="absolute bottom-8 left-8 w-4 h-4 border-l border-b border-attention-500/20" />
+        <div className="absolute bottom-8 right-8 w-4 h-4 border-r border-b border-attention-500/20" />
+        
+        {/* Technical Labelings */}
+        <div className="absolute top-8 left-16 text-[9px] font-mono text-slate-600 uppercase tracking-widest hidden md:block select-none">
+          SYS_REF: IND-3529 // DOSSIER_MODE
+        </div>
+        <div className="absolute bottom-8 left-16 text-[9px] font-mono text-slate-600 uppercase tracking-widest hidden md:block select-none">
+          CONFIDENTIAL // SUBJECT TO AUDIT
+        </div>
+      </div>
 
+      {/* ── TRANSITION OVERLAY ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isTransitioning ? 0.35 : 0 }}
+        transition={{ duration: 0.18 }}
+        className="fixed inset-0 bg-black z-[5] pointer-events-none"
+      />
+
+      {/* ── THIN GOLD SCANLINE SWEEP ── */}
+      {isTransitioning && (
+        <div key={pathname} className="scanline" />
+      )}
+
+      {/* ── TRANSITION CONTENT LAYER ── */}
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: isTransitioning ? 0 : 1 }}
+        transition={{ duration: 0.18, ease: "easeInOut" }}
+        className={isDossierActive ? "dossier-active" : ""}
+      >
+        {displayChildren}
+      </motion.div>
     </>
   );
 }
