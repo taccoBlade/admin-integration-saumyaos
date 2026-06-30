@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState, useEffect } from "react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import { 
   ArrowLeft, Cpu, Database, Activity, Terminal, 
@@ -99,8 +100,23 @@ const DASHBOARDS: DashboardInfo[] = [
   }
 ]
 
-export default function TerminalVaultPage() {
+function TerminalVaultContent() {
+  const searchParams = useSearchParams()
+  const initialProject = searchParams.get("project")
+
   const [activeDashboard, setActiveDashboard] = useState<DashboardInfo | null>(null)
+
+  useEffect(() => {
+    if (initialProject) {
+      const db = DASHBOARDS.find(d => d.id === initialProject || d.slug === initialProject)
+      if (db) {
+        setActiveDashboard(db)
+        setTimeout(() => {
+          document.getElementById("terminal-view")?.scrollIntoView({ behavior: "smooth", block: "start" })
+        }, 100)
+      }
+    }
+  }, [initialProject])
 
   return (
     <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-attention-500/30 selection:text-attention-200">
@@ -250,5 +266,13 @@ export default function TerminalVaultPage() {
       </main>
       <Contact />
     </div>
+  )
+}
+
+export default function TerminalVaultPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#08090b]" />}>
+      <TerminalVaultContent />
+    </Suspense>
   )
 }

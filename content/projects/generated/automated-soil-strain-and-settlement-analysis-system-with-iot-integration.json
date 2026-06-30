@@ -78,7 +78,7 @@
     "Waterproofing connection terminals with industrial silicone potting is mandatory for long-term geotechnical burial.",
     "High-precision ADC filters are required to eliminate high-frequency motor noise from heavy rollers on compaction sites."
   ],
-  "role": "I was responsible for the overall system design, hardware selection, sensor integration, testing, calibration, and validation of the prototype.\\n\\nTo accelerate development, I leveraged AI-assisted programming for portions of the firmware and the web application while directing the implementation, integrating the hardware with the software stack, debugging the complete workflow, and ensuring the final system performed as intended.",
+  "role": "Systems Designer & Lead Engineer",
   "duration": "3 Months",
   "teamSize": "1 (Solo Project)",
   "heroVisualType": "dashboard",
