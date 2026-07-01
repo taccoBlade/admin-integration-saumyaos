@@ -1,55 +1,116 @@
-import fs from "fs";
-import path from "path";
 import { Project, TimelineEvent, Skill } from "./types";
 
-const contentDir = path.join(process.cwd(), "content");
-const generatedProjectsDir = path.join(contentDir, "projects", "generated");
-
-// Helper to safely read JSON files
-function readJsonFile<T>(filePath: string): T | null {
-  try {
-    if (fs.existsSync(filePath)) {
-      const fileContents = fs.readFileSync(filePath, "utf8");
-      return JSON.parse(fileContents) as T;
-    }
-  } catch (error) {
-    console.error(`Error reading ${filePath}:`, error);
-  }
-  return null;
+interface SupabaseProjectRow {
+  slug: string;
+  title: string;
+  description: string | null;
+  overview: string | null;
+  year: number;
+  status_label: string;
+  complexity_score: string | null;
+  source_json: Record<string, unknown> | null;
 }
 
-export function getProjects(): Project[] {
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY;
+
+function getSupabaseConfig() {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL/SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY/SUPABASE_ANON_KEY.");
+  }
+
+  return {
+    restUrl: `${supabaseUrl.replace(/\/$/, "")}/rest/v1`,
+    headers: {
+      apikey: supabaseAnonKey,
+      authorization: `Bearer ${supabaseAnonKey}`,
+    },
+  };
+}
+
+async function supabaseSelect<T>(table: string, query: string, tags: string[]): Promise<T[]> {
+  const { restUrl, headers } = getSupabaseConfig();
+  const response = await fetch(`${restUrl}/${table}?${query}`, {
+    headers,
+    next: {
+      tags,
+      revalidate: 300,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Supabase ${table} query failed: ${response.status} ${await response.text()}`);
+  }
+
+  return (await response.json()) as T[];
+}
+
+function mapProject(row: SupabaseProjectRow): Project {
+  const source = (row.source_json ?? {}) as Record<string, unknown>;
+
+  return {
+    ...source,
+    id: typeof source.id === "string" ? source.id : row.slug,
+    title: typeof source.title === "string" ? source.title : row.title,
+    description: typeof source.description === "string" ? source.description : row.description ?? "",
+    year: typeof source.year === "number" ? source.year : row.year,
+    domain: typeof source.domain === "string" ? source.domain : "Civil Engineering",
+    technologies: Array.isArray(source.technologies) ? source.technologies.map(String) : [],
+    status:
+      source.status === "Completed" || source.status === "In Progress" || source.status === "Research"
+        ? source.status
+        : row.status_label === "In Progress" || row.status_label === "Research"
+          ? row.status_label
+          : "Completed",
+    complexityScore:
+      source.complexityScore === "Fundamental" ||
+      source.complexityScore === "Intermediate" ||
+      source.complexityScore === "Advanced"
+        ? source.complexityScore
+        : row.complexity_score === "Fundamental" || row.complexity_score === "Intermediate"
+          ? row.complexity_score
+          : "Advanced",
+    overview: typeof source.overview === "string" ? source.overview : row.overview ?? "",
+    gallery: Array.isArray(source.gallery) ? source.gallery.map(String) : [],
+  } as Project;
+}
+
+export async function getProjects(): Promise<Project[]> {
   try {
-    if (!fs.existsSync(generatedProjectsDir)) return [];
-    
-    const files = fs.readdirSync(generatedProjectsDir);
-    const projects: Project[] = [];
-    
-    for (const file of files) {
-      if (file.endsWith(".json")) {
-        const project = readJsonFile<Project>(path.join(generatedProjectsDir, file));
-        if (project) projects.push(project);
-      }
-    }
-    
-    return projects.sort((a, b) => b.year - a.year);
+    const rows = await supabaseSelect<SupabaseProjectRow>(
+      "projects",
+      "select=slug,title,description,overview,year,status_label,complexity_score,source_json&status=eq.published&order=year.desc",
+      ["projects"]
+    );
+
+    return rows.map(mapProject).sort((a, b) => b.year - a.year);
   } catch (error) {
-    console.error("Error reading projects:", error);
+    console.error("Error reading projects from Supabase:", error);
     return [];
   }
 }
 
-export function getProject(id: string): Project | null {
-  const projects = getProjects();
-  return projects.find(p => p.id === id) || null;
+export async function getProject(id: string): Promise<Project | null> {
+  try {
+    const rows = await supabaseSelect<SupabaseProjectRow>(
+      "projects",
+      `select=slug,title,description,overview,year,status_label,complexity_score,source_json&slug=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
+      [`project:${id}`]
+    );
+
+    return rows[0] ? mapProject(rows[0]) : null;
+  } catch (error) {
+    console.error(`Error reading project ${id} from Supabase:`, error);
+    return null;
+  }
 }
 
-export function getTimelineEvents(): TimelineEvent[] {
+export async function getTimelineEvents(): Promise<TimelineEvent[]> {
   const staticEvents: TimelineEvent[] = [
     {
       id: "edu-pdeu",
       year: 2024,
-      title: "Started B.Tech in Civil Engineering — PDEU",
+      title: "Started B.Tech in Civil Engineering â€” PDEU",
       description: "Began academic specialization in structural, geotechnical, transportation, and construction engineering.",
       type: "Education"
     },
@@ -69,7 +130,7 @@ export function getTimelineEvents(): TimelineEvent[] {
     }
   ];
 
-  const projects = getProjects();
+  const projects = await getProjects();
   const projectEvents: TimelineEvent[] = projects.map(proj => ({
     id: `timeline-${proj.id}`,
     year: proj.year,
@@ -79,11 +140,10 @@ export function getTimelineEvents(): TimelineEvent[] {
     relatedProjectId: proj.id
   }));
 
-  // Combine and sort chronologically (ascending)
   return [...staticEvents, ...projectEvents].sort((a, b) => a.year - b.year);
 }
 
-export function getSkills(): Skill[] {
+export async function getSkills(): Promise<Skill[]> {
   const baseSkills: { name: string; category: Skill["category"]; baseStrength: number }[] = [
     { name: "Concrete Technology", category: "Core Engineering", baseStrength: 9 },
     { name: "Construction Materials", category: "Core Engineering", baseStrength: 8 },
@@ -106,10 +166,9 @@ export function getSkills(): Skill[] {
     { name: "Graphic Design", category: "Creative", baseStrength: 7 }
   ];
 
-  const projects = getProjects();
+  const projects = await getProjects();
   const skillsMap = new Map<string, Skill>();
 
-  // Initialize base skills
   baseSkills.forEach((s, idx) => {
     skillsMap.set(s.name.toLowerCase(), {
       id: `skill-${idx}`,
@@ -120,7 +179,6 @@ export function getSkills(): Skill[] {
     });
   });
 
-  // Process projects to map relationships
   projects.forEach(proj => {
     const projRecord = proj as unknown as Record<string, unknown>;
     const subdomain = typeof projRecord.subdomain === "string" ? projRecord.subdomain : "";
@@ -150,7 +208,6 @@ export function getSkills(): Skill[] {
       if (projectText.includes(name)) {
         isMatch = true;
       } else {
-        // Custom keyword mapping to match projects to skills
         const keywordsMap: Record<string, string[]> = {
           "civil engineering": ["civil", "concrete", "soil", "compaction", "geotechnical"],
           "qgis and drone mapping": ["qgis", "drone", "gis", "mapping", "surveying", "aerial"],
@@ -175,18 +232,14 @@ export function getSkills(): Skill[] {
         }
       }
 
-      if (isMatch) {
-        if (!skill.relatedProjects.includes(proj.id)) {
-          skill.relatedProjects.push(proj.id);
-        }
+      if (isMatch && !skill.relatedProjects.includes(proj.id)) {
+        skill.relatedProjects.push(proj.id);
       }
     });
   });
 
-  // Re-calculate strength based on the number of related projects
   const finalSkills = Array.from(skillsMap.values()).map(skill => {
     const projectCount = skill.relatedProjects.length;
-    // Increase strength by 1 for every project utilizing it, capped at 10
     const strength = Math.min(10, skill.strength + projectCount);
     return {
       ...skill,
@@ -194,7 +247,5 @@ export function getSkills(): Skill[] {
     };
   });
 
-  // Sort by strength descending
   return finalSkills.sort((a, b) => b.strength - a.strength);
 }
-

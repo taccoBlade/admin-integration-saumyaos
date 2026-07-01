@@ -13,7 +13,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const project = getProject(params.id);
+  const project = await getProject(params.id);
   if (!project) {
     return {
       title: "Project Not Found",
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  const projects = getProjects();
+  const projects = await getProjects();
   return projects.map((p) => ({ id: p.id }));
 }
 
@@ -133,8 +133,8 @@ function formatMetricLabel(key: string): string {
    PAGE COMPONENT
    ───────────────────────────────────────────────────────────── */
 
-export default function ProjectPage({ params }: PageProps) {
-  const project = getProject(params.id);
+export default async function ProjectPage({ params }: PageProps) {
+  const project = await getProject(params.id);
   if (!project) {
     return (
       <main className="min-h-screen bg-[#08090b] flex items-center justify-center text-white">
@@ -183,7 +183,7 @@ export default function ProjectPage({ params }: PageProps) {
     .filter(s => s.length > 0);
 
   // Related projects
-  const allProjects = getProjects();
+  const allProjects = await getProjects();
   const relatedProjects = allProjects
     .filter(p => p.id !== project.id && p.domain === project.domain)
     .slice(0, 3);

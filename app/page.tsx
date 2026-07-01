@@ -12,10 +12,12 @@ import { BookOpen, Cpu, ArrowRight, HardHat, Code2, Plane, Eye, Wrench, Leaf } f
 
 import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background";
 
-export default function Home() {
-  const projects = getProjects();
-  const timelineEvents = getTimelineEvents();
-  const skills = getSkills();
+export default async function Home() {
+  const [projects, timelineEvents, skills] = await Promise.all([
+    getProjects(),
+    getTimelineEvents(),
+    getSkills(),
+  ]);
 
   return (
     <main className="min-h-screen bg-transparent text-slate-200 selection:bg-attention-500/30 overflow-x-hidden relative">
