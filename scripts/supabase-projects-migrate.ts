@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { createSupabaseAdminClient } from "../lib/supabase/admin";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -163,87 +164,47 @@ function stableStringify(value: unknown): string {
   return JSON.stringify(value);
 }
 
-class SupabaseRest {
-  private readonly baseUrl: string;
-  private readonly headers: HeadersInit;
-
-  constructor(url: string, serviceRoleKey: string) {
-    this.baseUrl = `${url.replace(/\/$/, "")}/rest/v1`;
-    this.headers = {
-      apikey: serviceRoleKey,
-      authorization: `Bearer ${serviceRoleKey}`,
-      "content-type": "application/json",
-    };
-  }
-
-  async upsert<T>(table: string, rows: JsonRecord[], onConflict: string): Promise<T[]> {
-    const response = await fetch(`${this.baseUrl}/${table}?on_conflict=${encodeURIComponent(onConflict)}`, {
-      method: "POST",
-      headers: {
-        ...this.headers,
-        prefer: "resolution=merge-duplicates,return=representation",
-      },
-      body: JSON.stringify(rows),
-    });
-
-    if (!response.ok) {
-      throw new Error(`${table} upsert failed: ${response.status} ${await response.text()}`);
-    }
-
-    return (await response.json()) as T[];
-  }
-
-  async select<T>(table: string, query: string): Promise<T[]> {
-    const response = await fetch(`${this.baseUrl}/${table}?${query}`, {
-      headers: this.headers,
-    });
-
-    if (!response.ok) {
-      throw new Error(`${table} select failed: ${response.status} ${await response.text()}`);
-    }
-
-    return (await response.json()) as T[];
-  }
-}
-
 async function main() {
   loadLocalEnv();
 
-  const supabaseUrl = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error("Missing SUPABASE_URL/NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.");
-  }
-
-  const supabase = new SupabaseRest(supabaseUrl, serviceRoleKey);
+  const supabase = createSupabaseAdminClient();
   const projects = readProjects();
 
   const domains = Array.from(new Set(projects.map((project) => project.domain))).sort();
-  const domainRows = await supabase.upsert<{ id: string; name: string; slug: string }>(
-    "taxonomy_terms",
-    domains.map((domain, index) => ({
+  const { data: domainRows, error: domainError } = await supabase
+    .from("taxonomy_terms")
+    .upsert(
+      domains.map((domain, index) => ({
       taxonomy_type: "domain",
       slug: slugify(domain),
       name: domain,
       sort_order: index,
-    })),
-    "taxonomy_type,slug"
-  );
+      })),
+      { onConflict: "taxonomy_type,slug" }
+    )
+    .select("id,name,slug");
 
-  const domainIdByName = new Map(domainRows.map((row) => [row.name, row.id]));
+  if (domainError) throw domainError;
+
+  const domainIdByName = new Map((domainRows ?? []).map((row) => [row.name, row.id]));
   const projectRows = projects.map((project, index) =>
     projectPayload(project, domainIdByName.get(project.domain) ?? null, index)
   );
 
-  await supabase.upsert<SupabaseProjectRow>("projects", projectRows, "slug");
+  const { error: projectError } = await supabase
+    .from("projects")
+    .upsert(projectRows, { onConflict: "slug" });
 
-  const insertedRows = await supabase.select<SupabaseProjectRow>(
-    "projects",
-    `select=id,slug,title,year,source_json&slug=in.(${projects.map((project) => `"${project.id}"`).join(",")})`
-  );
+  if (projectError) throw projectError;
 
-  const insertedBySlug = new Map(insertedRows.map((row) => [row.slug, row]));
+  const { data: insertedRows, error: compareError } = await supabase
+    .from("projects")
+    .select("id,slug,title,year,source_json")
+    .in("slug", projects.map((project) => project.id));
+
+  if (compareError) throw compareError;
+
+  const insertedBySlug = new Map(((insertedRows ?? []) as SupabaseProjectRow[]).map((row) => [row.slug, row]));
   const mismatches: string[] = [];
 
   for (const project of projects) {

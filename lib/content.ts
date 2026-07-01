@@ -1,3 +1,4 @@
+import { createSupabaseServerClient } from "./supabase/server";
 import { Project, TimelineEvent, Skill } from "./types";
 
 interface SupabaseProjectRow {
@@ -9,40 +10,6 @@ interface SupabaseProjectRow {
   status_label: string;
   complexity_score: string | null;
   source_json: Record<string, unknown> | null;
-}
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY;
-
-function getSupabaseConfig() {
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL/SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY/SUPABASE_ANON_KEY.");
-  }
-
-  return {
-    restUrl: `${supabaseUrl.replace(/\/$/, "")}/rest/v1`,
-    headers: {
-      apikey: supabaseAnonKey,
-      authorization: `Bearer ${supabaseAnonKey}`,
-    },
-  };
-}
-
-async function supabaseSelect<T>(table: string, query: string, tags: string[]): Promise<T[]> {
-  const { restUrl, headers } = getSupabaseConfig();
-  const response = await fetch(`${restUrl}/${table}?${query}`, {
-    headers,
-    next: {
-      tags,
-      revalidate: 300,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Supabase ${table} query failed: ${response.status} ${await response.text()}`);
-  }
-
-  return (await response.json()) as T[];
 }
 
 function mapProject(row: SupabaseProjectRow): Project {
@@ -77,11 +44,16 @@ function mapProject(row: SupabaseProjectRow): Project {
 
 export async function getProjects(): Promise<Project[]> {
   try {
-    const rows = await supabaseSelect<SupabaseProjectRow>(
-      "projects",
-      "select=slug,title,description,overview,year,status_label,complexity_score,source_json&status=eq.published&order=year.desc",
-      ["projects"]
-    );
+    const supabase = createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("projects")
+      .select("slug,title,description,overview,year,status_label,complexity_score,source_json")
+      .eq("status", "published")
+      .order("year", { ascending: false });
+
+    if (error) throw error;
+
+    const rows = (data ?? []) as SupabaseProjectRow[];
 
     return rows.map(mapProject).sort((a, b) => b.year - a.year);
   } catch (error) {
@@ -92,13 +64,18 @@ export async function getProjects(): Promise<Project[]> {
 
 export async function getProject(id: string): Promise<Project | null> {
   try {
-    const rows = await supabaseSelect<SupabaseProjectRow>(
-      "projects",
-      `select=slug,title,description,overview,year,status_label,complexity_score,source_json&slug=eq.${encodeURIComponent(id)}&status=eq.published&limit=1`,
-      [`project:${id}`]
-    );
+    const supabase = createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("projects")
+      .select("slug,title,description,overview,year,status_label,complexity_score,source_json")
+      .eq("slug", id)
+      .eq("status", "published")
+      .limit(1)
+      .maybeSingle();
 
-    return rows[0] ? mapProject(rows[0]) : null;
+    if (error) throw error;
+
+    return data ? mapProject(data as SupabaseProjectRow) : null;
   } catch (error) {
     console.error(`Error reading project ${id} from Supabase:`, error);
     return null;
