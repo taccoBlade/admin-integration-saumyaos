@@ -1,0 +1,807 @@
+[
+  {
+    "source": "app/archive/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/archive/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/archive/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/archive/page.tsx",
+    "target": "components/layout/contact.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/contact/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/contact/page.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "app/contact/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/contact/page.tsx",
+    "target": "components/ui/interactive-particle-background.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "app/globals.css",
+    "type": "import"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "components/layout/header.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "components/ui/page-transition.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "package:@vercel/analytics",
+    "type": "dependency"
+  },
+  {
+    "source": "app/layout.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/lithos/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/lithos/page.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/lithos/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/lithos/page.tsx",
+    "target": "components/ui/reveal-layer.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/lithos/page.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/page.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/page.tsx",
+    "target": "lib/content.ts",
+    "type": "import"
+  },
+  {
+    "source": "app/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/page.tsx",
+    "target": "components/layout/contact.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/page.tsx",
+    "target": "components/projects/engineering-visualizers.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/personal/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/personal/page.tsx",
+    "target": "components/personal/EditorialLayout.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/personal/page.tsx",
+    "target": "components/personal/ParticleBackground.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/personal/page.tsx",
+    "target": "data/photos.ts",
+    "type": "import"
+  },
+  {
+    "source": "app/projects/terminal-vault/layout.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "components/projects/dashboard-embed.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "components/layout/contact.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/projects/terminal-vault/page.tsx",
+    "target": "components/ui/interactive-particle-background.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "lib/content.ts",
+    "type": "import"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "components/home/architecture-visualizer.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "components/projects/engineering-visualizers.tsx",
+    "type": "import"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "app/projects/[id]/page.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/robots.ts",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "app/sitemap.ts",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/architecture-visualizer.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/architecture-visualizer.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/architecture-visualizer.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/beliefs-terminal.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/beliefs-terminal.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/home/beliefs-terminal.tsx",
+    "target": "lib/audio-engine.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/home/beliefs-terminal.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/bento-grid.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/bento-grid.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/bento-grid.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/career-timeline.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/career-timeline.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/career-timeline.tsx",
+    "target": "lib/types.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/home/career-timeline.tsx",
+    "target": "components/ui/scroll-reveal.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/home/career-timeline.tsx",
+    "target": "lib/motion.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/home/computational-canvas.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/computational-canvas.tsx",
+    "target": "package:@react-three/fiber",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/computational-canvas.tsx",
+    "target": "package:three",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/computational-canvas.tsx",
+    "target": "package:simplex-noise",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/featured-projects.tsx",
+    "target": "lib/types.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/home/featured-projects.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/featured-projects.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/featured-projects.tsx",
+    "target": "components/ui/scroll-reveal.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/home/featured-projects.tsx",
+    "target": "lib/motion.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/home/interactive-hero.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/interactive-hero.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/interactive-hero.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/pull-cord.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/pull-cord.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/skills-network.tsx",
+    "target": "lib/types.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/home/skills-network.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/home/skills-network.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/contact.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/contact.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/contact.tsx",
+    "target": "components/ui/scroll-reveal.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/layout/contact.tsx",
+    "target": "lib/motion.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/layout/header.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/header.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/header.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/header.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/header.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/header.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/layout/header.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/EditorialLayout.tsx",
+    "target": "data/photos.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/EditorialLayout.tsx",
+    "target": "components/personal/PhotoRenderer.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/hobbies-grid.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/hobbies-grid.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/life-carousel.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/life-carousel.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/life-carousel.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/metrics-grid.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/motorcycle-dashboard.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/motorcycle-dashboard.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/ParticleBackground.tsx",
+    "target": "components/ui/interactive-particle-background.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/personal-boot-screen.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-boot-screen.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-boot-screen.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/personal-boot-screen.tsx",
+    "target": "lib/audio-engine.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/personal-builds.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-builds.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-builds.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-hero.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-hero.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-hero.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/personal-hero.tsx",
+    "target": "components/personal/life-carousel.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/personal-hero.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/personal-os-hud.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/PhotoRenderer.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/PhotoRenderer.tsx",
+    "target": "data/photos.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/personal/PhotoRenderer.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/routine-timeline.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/routine-timeline.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/personal/routine-timeline.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/dashboard-embed.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/dashboard-embed.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/dashboard-widgets.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/dashboard-widgets.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/dashboard-widgets.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/projects/dashboard-widgets.tsx",
+    "target": "lib/audio-engine.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/projects/dashboard-widgets.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/dashboard-widgets.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/dashboard-widgets.tsx",
+    "target": "lib/playlists.ts",
+    "type": "import"
+  },
+  {
+    "source": "components/projects/engineering-visualizers.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/goals-list.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/goals-list.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/product-demo-frame.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/product-demo-frame.tsx",
+    "target": "package:lucide-react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/projects/product-demo-frame.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/interactive-particle-background.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/interactive-particle-background.tsx",
+    "target": "lib/os-context.tsx",
+    "type": "import"
+  },
+  {
+    "source": "components/ui/page-transition.tsx",
+    "target": "package:next",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/page-transition.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/page-transition.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/reveal-layer.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/scroll-reveal.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/scroll-reveal.tsx",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "components/ui/scroll-reveal.tsx",
+    "target": "lib/motion.ts",
+    "type": "import"
+  },
+  {
+    "source": "lib/content.ts",
+    "target": "package:fs",
+    "type": "dependency"
+  },
+  {
+    "source": "lib/content.ts",
+    "target": "package:path",
+    "type": "dependency"
+  },
+  {
+    "source": "lib/content.ts",
+    "target": "lib/types.ts",
+    "type": "import"
+  },
+  {
+    "source": "lib/motion.ts",
+    "target": "package:framer-motion",
+    "type": "dependency"
+  },
+  {
+    "source": "lib/os-context.tsx",
+    "target": "package:react",
+    "type": "dependency"
+  },
+  {
+    "source": "lib/os-context.tsx",
+    "target": "lib/playlists.ts",
+    "type": "import"
+  }
+]

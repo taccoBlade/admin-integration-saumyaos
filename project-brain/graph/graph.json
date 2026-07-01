@@ -1,0 +1,1399 @@
+{
+  "nodes": [
+    {
+      "id": "app/archive/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/archive/page.tsx",
+      "size": 9509
+    },
+    {
+      "id": "app/contact/layout.tsx",
+      "label": "layout.tsx",
+      "type": "page",
+      "path": "app/contact/layout.tsx",
+      "size": 366
+    },
+    {
+      "id": "app/contact/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/contact/page.tsx",
+      "size": 10142
+    },
+    {
+      "id": "app/layout.tsx",
+      "label": "layout.tsx",
+      "type": "page",
+      "path": "app/layout.tsx",
+      "size": 5853
+    },
+    {
+      "id": "app/lithos/layout.tsx",
+      "label": "layout.tsx",
+      "type": "page",
+      "path": "app/lithos/layout.tsx",
+      "size": 307
+    },
+    {
+      "id": "app/lithos/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/lithos/page.tsx",
+      "size": 7975
+    },
+    {
+      "id": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/layout.tsx",
+      "label": "layout.tsx",
+      "type": "page",
+      "path": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/layout.tsx",
+      "size": 428
+    },
+    {
+      "id": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+      "size": 5703
+    },
+    {
+      "id": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/layout.tsx",
+      "label": "layout.tsx",
+      "type": "page",
+      "path": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/layout.tsx",
+      "size": 417
+    },
+    {
+      "id": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+      "size": 5696
+    },
+    {
+      "id": "app/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/page.tsx",
+      "size": 11777
+    },
+    {
+      "id": "app/personal/layout.tsx",
+      "label": "layout.tsx",
+      "type": "page",
+      "path": "app/personal/layout.tsx",
+      "size": 412
+    },
+    {
+      "id": "app/personal/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/personal/page.tsx",
+      "size": 1044
+    },
+    {
+      "id": "app/projects/terminal-vault/layout.tsx",
+      "label": "layout.tsx",
+      "type": "page",
+      "path": "app/projects/terminal-vault/layout.tsx",
+      "size": 379
+    },
+    {
+      "id": "app/projects/terminal-vault/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/projects/terminal-vault/page.tsx",
+      "size": 13591
+    },
+    {
+      "id": "app/projects/[id]/page.tsx",
+      "label": "page.tsx",
+      "type": "page",
+      "path": "app/projects/[id]/page.tsx",
+      "size": 25748
+    },
+    {
+      "id": "app/robots.ts",
+      "label": "robots.ts",
+      "type": "page",
+      "path": "app/robots.ts",
+      "size": 672
+    },
+    {
+      "id": "app/sitemap.ts",
+      "label": "sitemap.ts",
+      "type": "page",
+      "path": "app/sitemap.ts",
+      "size": 1237
+    },
+    {
+      "id": "components/home/architecture-visualizer.tsx",
+      "label": "architecture-visualizer.tsx",
+      "type": "component",
+      "path": "components/home/architecture-visualizer.tsx",
+      "size": 8122
+    },
+    {
+      "id": "components/home/beliefs-terminal.tsx",
+      "label": "beliefs-terminal.tsx",
+      "type": "component",
+      "path": "components/home/beliefs-terminal.tsx",
+      "size": 7342
+    },
+    {
+      "id": "components/home/bento-grid.tsx",
+      "label": "bento-grid.tsx",
+      "type": "component",
+      "path": "components/home/bento-grid.tsx",
+      "size": 16487
+    },
+    {
+      "id": "components/home/career-timeline.tsx",
+      "label": "career-timeline.tsx",
+      "type": "component",
+      "path": "components/home/career-timeline.tsx",
+      "size": 3885
+    },
+    {
+      "id": "components/home/computational-canvas.tsx",
+      "label": "computational-canvas.tsx",
+      "type": "component",
+      "path": "components/home/computational-canvas.tsx",
+      "size": 19160
+    },
+    {
+      "id": "components/home/current-focus.tsx",
+      "label": "current-focus.tsx",
+      "type": "component",
+      "path": "components/home/current-focus.tsx",
+      "size": 2377
+    },
+    {
+      "id": "components/home/current-obsessions.tsx",
+      "label": "current-obsessions.tsx",
+      "type": "component",
+      "path": "components/home/current-obsessions.tsx",
+      "size": 928
+    },
+    {
+      "id": "components/home/featured-projects.tsx",
+      "label": "featured-projects.tsx",
+      "type": "component",
+      "path": "components/home/featured-projects.tsx",
+      "size": 5406
+    },
+    {
+      "id": "components/home/interactive-hero.tsx",
+      "label": "interactive-hero.tsx",
+      "type": "component",
+      "path": "components/home/interactive-hero.tsx",
+      "size": 5571
+    },
+    {
+      "id": "components/home/pull-cord.tsx",
+      "label": "pull-cord.tsx",
+      "type": "component",
+      "path": "components/home/pull-cord.tsx",
+      "size": 5610
+    },
+    {
+      "id": "components/home/skills-network.tsx",
+      "label": "skills-network.tsx",
+      "type": "component",
+      "path": "components/home/skills-network.tsx",
+      "size": 9282
+    },
+    {
+      "id": "components/layout/contact.tsx",
+      "label": "contact.tsx",
+      "type": "component",
+      "path": "components/layout/contact.tsx",
+      "size": 4248
+    },
+    {
+      "id": "components/layout/header.tsx",
+      "label": "header.tsx",
+      "type": "component",
+      "path": "components/layout/header.tsx",
+      "size": 8019
+    },
+    {
+      "id": "components/personal/EditorialLayout.tsx",
+      "label": "EditorialLayout.tsx",
+      "type": "component",
+      "path": "components/personal/EditorialLayout.tsx",
+      "size": 17614
+    },
+    {
+      "id": "components/personal/hobbies-grid.tsx",
+      "label": "hobbies-grid.tsx",
+      "type": "component",
+      "path": "components/personal/hobbies-grid.tsx",
+      "size": 26136
+    },
+    {
+      "id": "components/personal/life-carousel.tsx",
+      "label": "life-carousel.tsx",
+      "type": "component",
+      "path": "components/personal/life-carousel.tsx",
+      "size": 38704
+    },
+    {
+      "id": "components/personal/metrics-grid.tsx",
+      "label": "metrics-grid.tsx",
+      "type": "component",
+      "path": "components/personal/metrics-grid.tsx",
+      "size": 1168
+    },
+    {
+      "id": "components/personal/motorcycle-dashboard.tsx",
+      "label": "motorcycle-dashboard.tsx",
+      "type": "component",
+      "path": "components/personal/motorcycle-dashboard.tsx",
+      "size": 64996
+    },
+    {
+      "id": "components/personal/ParticleBackground.tsx",
+      "label": "ParticleBackground.tsx",
+      "type": "component",
+      "path": "components/personal/ParticleBackground.tsx",
+      "size": 352
+    },
+    {
+      "id": "components/personal/personal-boot-screen.tsx",
+      "label": "personal-boot-screen.tsx",
+      "type": "component",
+      "path": "components/personal/personal-boot-screen.tsx",
+      "size": 22467
+    },
+    {
+      "id": "components/personal/personal-builds.tsx",
+      "label": "personal-builds.tsx",
+      "type": "component",
+      "path": "components/personal/personal-builds.tsx",
+      "size": 14909
+    },
+    {
+      "id": "components/personal/personal-hero.tsx",
+      "label": "personal-hero.tsx",
+      "type": "component",
+      "path": "components/personal/personal-hero.tsx",
+      "size": 27923
+    },
+    {
+      "id": "components/personal/personal-os-hud.tsx",
+      "label": "personal-os-hud.tsx",
+      "type": "component",
+      "path": "components/personal/personal-os-hud.tsx",
+      "size": 1205
+    },
+    {
+      "id": "components/personal/PhotoRenderer.tsx",
+      "label": "PhotoRenderer.tsx",
+      "type": "component",
+      "path": "components/personal/PhotoRenderer.tsx",
+      "size": 2264
+    },
+    {
+      "id": "components/personal/routine-timeline.tsx",
+      "label": "routine-timeline.tsx",
+      "type": "component",
+      "path": "components/personal/routine-timeline.tsx",
+      "size": 6603
+    },
+    {
+      "id": "components/projects/dashboard-embed.tsx",
+      "label": "dashboard-embed.tsx",
+      "type": "component",
+      "path": "components/projects/dashboard-embed.tsx",
+      "size": 3477
+    },
+    {
+      "id": "components/projects/dashboard-widgets.tsx",
+      "label": "dashboard-widgets.tsx",
+      "type": "component",
+      "path": "components/projects/dashboard-widgets.tsx",
+      "size": 23193
+    },
+    {
+      "id": "components/projects/engineering-logbook.tsx",
+      "label": "engineering-logbook.tsx",
+      "type": "component",
+      "path": "components/projects/engineering-logbook.tsx",
+      "size": 1650
+    },
+    {
+      "id": "components/projects/engineering-visualizers.tsx",
+      "label": "engineering-visualizers.tsx",
+      "type": "component",
+      "path": "components/projects/engineering-visualizers.tsx",
+      "size": 13778
+    },
+    {
+      "id": "components/projects/goals-list.tsx",
+      "label": "goals-list.tsx",
+      "type": "component",
+      "path": "components/projects/goals-list.tsx",
+      "size": 5215
+    },
+    {
+      "id": "components/projects/product-demo-frame.tsx",
+      "label": "product-demo-frame.tsx",
+      "type": "component",
+      "path": "components/projects/product-demo-frame.tsx",
+      "size": 3664
+    },
+    {
+      "id": "components/ui/interactive-particle-background.tsx",
+      "label": "interactive-particle-background.tsx",
+      "type": "component",
+      "path": "components/ui/interactive-particle-background.tsx",
+      "size": 15200
+    },
+    {
+      "id": "components/ui/page-transition.tsx",
+      "label": "page-transition.tsx",
+      "type": "component",
+      "path": "components/ui/page-transition.tsx",
+      "size": 2257
+    },
+    {
+      "id": "components/ui/reveal-layer.tsx",
+      "label": "reveal-layer.tsx",
+      "type": "component",
+      "path": "components/ui/reveal-layer.tsx",
+      "size": 2394
+    },
+    {
+      "id": "components/ui/scroll-reveal.tsx",
+      "label": "scroll-reveal.tsx",
+      "type": "component",
+      "path": "components/ui/scroll-reveal.tsx",
+      "size": 3418
+    },
+    {
+      "id": "lib/audio-engine.ts",
+      "label": "audio-engine.ts",
+      "type": "lib",
+      "path": "lib/audio-engine.ts",
+      "size": 12793
+    },
+    {
+      "id": "lib/content.ts",
+      "label": "content.ts",
+      "type": "lib",
+      "path": "lib/content.ts",
+      "size": 7789
+    },
+    {
+      "id": "lib/motion.ts",
+      "label": "motion.ts",
+      "type": "lib",
+      "path": "lib/motion.ts",
+      "size": 3884
+    },
+    {
+      "id": "lib/os-context.tsx",
+      "label": "os-context.tsx",
+      "type": "lib",
+      "path": "lib/os-context.tsx",
+      "size": 11097
+    },
+    {
+      "id": "lib/playlists.ts",
+      "label": "playlists.ts",
+      "type": "lib",
+      "path": "lib/playlists.ts",
+      "size": 6822
+    },
+    {
+      "id": "lib/spotifyTracks.ts",
+      "label": "spotifyTracks.ts",
+      "type": "lib",
+      "path": "lib/spotifyTracks.ts",
+      "size": 39097
+    },
+    {
+      "id": "lib/types.ts",
+      "label": "types.ts",
+      "type": "lib",
+      "path": "lib/types.ts",
+      "size": 2353
+    },
+    {
+      "id": "data/logbook/challenges-in-intelligent-compaction-for-indian-highways.json",
+      "label": "challenges-in-intelligent-compaction-for-indian-highways.json",
+      "type": "data",
+      "path": "data/logbook/challenges-in-intelligent-compaction-for-indian-highways.json",
+      "size": 342
+    },
+    {
+      "id": "data/logbook/why-is-10262-calculators-often-produce-unrealistic-results.json",
+      "label": "why-is-10262-calculators-often-produce-unrealistic-results.json",
+      "type": "data",
+      "path": "data/logbook/why-is-10262-calculators-often-produce-unrealistic-results.json",
+      "size": 341
+    },
+    {
+      "id": "data/photos.ts",
+      "label": "photos.ts",
+      "type": "data",
+      "path": "data/photos.ts",
+      "size": 5876
+    },
+    {
+      "id": "data/portfolio_evolution_report.md",
+      "label": "portfolio_evolution_report.md",
+      "type": "data",
+      "path": "data/portfolio_evolution_report.md",
+      "size": 3048
+    },
+    {
+      "id": "data/portfolio_stats.json",
+      "label": "portfolio_stats.json",
+      "type": "data",
+      "path": "data/portfolio_stats.json",
+      "size": 1027
+    },
+    {
+      "id": "data/projects/automated-soil-strain-and-settlement-analysis-system-with-iot-integration.json",
+      "label": "automated-soil-strain-and-settlement-analysis-system-with-iot-integration.json",
+      "type": "data",
+      "path": "data/projects/automated-soil-strain-and-settlement-analysis-system-with-iot-integration.json",
+      "size": 11796
+    },
+    {
+      "id": "data/projects/automation-intelligent-machine-guided-construction.json",
+      "label": "automation-intelligent-machine-guided-construction.json",
+      "type": "data",
+      "path": "data/projects/automation-intelligent-machine-guided-construction.json",
+      "size": 11833
+    },
+    {
+      "id": "data/projects/promix-concrete-mix-design-compliance-dashboard.json",
+      "label": "promix-concrete-mix-design-compliance-dashboard.json",
+      "type": "data",
+      "path": "data/projects/promix-concrete-mix-design-compliance-dashboard.json",
+      "size": 13571
+    },
+    {
+      "id": "data/projects/soil-analysis-project-with-iot-integration.json",
+      "label": "soil-analysis-project-with-iot-integration.json",
+      "type": "data",
+      "path": "data/projects/soil-analysis-project-with-iot-integration.json",
+      "size": 14613
+    },
+    {
+      "id": "content/projects/generated/automated-soil-strain-and-settlement-analysis-system-with-iot-integration.json",
+      "label": "automated-soil-strain-and-settlement-analysis-system-with-iot-integration.json",
+      "type": "content",
+      "path": "content/projects/generated/automated-soil-strain-and-settlement-analysis-system-with-iot-integration.json",
+      "size": 11796
+    },
+    {
+      "id": "content/projects/generated/automation-intelligent-machine-guided-construction.json",
+      "label": "automation-intelligent-machine-guided-construction.json",
+      "type": "content",
+      "path": "content/projects/generated/automation-intelligent-machine-guided-construction.json",
+      "size": 11833
+    },
+    {
+      "id": "content/projects/generated/project-brain-v2-ai-runtime.json",
+      "label": "project-brain-v2-ai-runtime.json",
+      "type": "content",
+      "path": "content/projects/generated/project-brain-v2-ai-runtime.json",
+      "size": 6600
+    },
+    {
+      "id": "content/projects/generated/promix-concrete-mix-design-compliance-dashboard.json",
+      "label": "promix-concrete-mix-design-compliance-dashboard.json",
+      "type": "content",
+      "path": "content/projects/generated/promix-concrete-mix-design-compliance-dashboard.json",
+      "size": 13571
+    },
+    {
+      "id": "content/projects/generated/soil-analysis-project-with-iot-integration.json",
+      "label": "soil-analysis-project-with-iot-integration.json",
+      "type": "content",
+      "path": "content/projects/generated/soil-analysis-project-with-iot-integration.json",
+      "size": 14613
+    },
+    {
+      "id": "package:next",
+      "label": "next",
+      "type": "package",
+      "path": "node_modules/next",
+      "size": 0
+    },
+    {
+      "id": "package:lucide-react",
+      "label": "lucide-react",
+      "type": "package",
+      "path": "node_modules/lucide-react",
+      "size": 0
+    },
+    {
+      "id": "package:framer-motion",
+      "label": "framer-motion",
+      "type": "package",
+      "path": "node_modules/framer-motion",
+      "size": 0
+    },
+    {
+      "id": "package:@vercel/analytics",
+      "label": "@vercel/analytics",
+      "type": "package",
+      "path": "node_modules/@vercel/analytics",
+      "size": 0
+    },
+    {
+      "id": "package:react",
+      "label": "react",
+      "type": "package",
+      "path": "node_modules/react",
+      "size": 0
+    },
+    {
+      "id": "package:@react-three/fiber",
+      "label": "@react-three/fiber",
+      "type": "package",
+      "path": "node_modules/@react-three/fiber",
+      "size": 0
+    },
+    {
+      "id": "package:three",
+      "label": "three",
+      "type": "package",
+      "path": "node_modules/three",
+      "size": 0
+    },
+    {
+      "id": "package:simplex-noise",
+      "label": "simplex-noise",
+      "type": "package",
+      "path": "node_modules/simplex-noise",
+      "size": 0
+    },
+    {
+      "id": "package:fs",
+      "label": "fs",
+      "type": "package",
+      "path": "node_modules/fs",
+      "size": 0
+    },
+    {
+      "id": "package:path",
+      "label": "path",
+      "type": "package",
+      "path": "node_modules/path",
+      "size": 0
+    }
+  ],
+  "edges": [
+    {
+      "source": "app/archive/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/archive/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/archive/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/archive/page.tsx",
+      "target": "components/layout/contact.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/contact/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/contact/page.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "app/contact/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/contact/page.tsx",
+      "target": "components/ui/interactive-particle-background.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "app/globals.css",
+      "type": "import"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "components/layout/header.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "components/ui/page-transition.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "package:@vercel/analytics",
+      "type": "dependency"
+    },
+    {
+      "source": "app/layout.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/lithos/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/lithos/page.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/lithos/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/lithos/page.tsx",
+      "target": "components/ui/reveal-layer.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/lithos/page.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/challenges-in-intelligent-compaction-for-indian-highways/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "app/logbook/why-is-10262-calculators-often-produce-unrealistic-results/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/page.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/page.tsx",
+      "target": "lib/content.ts",
+      "type": "import"
+    },
+    {
+      "source": "app/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/page.tsx",
+      "target": "components/layout/contact.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/page.tsx",
+      "target": "components/projects/engineering-visualizers.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/personal/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/personal/page.tsx",
+      "target": "components/personal/EditorialLayout.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/personal/page.tsx",
+      "target": "components/personal/ParticleBackground.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/personal/page.tsx",
+      "target": "data/photos.ts",
+      "type": "import"
+    },
+    {
+      "source": "app/projects/terminal-vault/layout.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "components/projects/dashboard-embed.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "components/layout/contact.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/projects/terminal-vault/page.tsx",
+      "target": "components/ui/interactive-particle-background.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "lib/content.ts",
+      "type": "import"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "components/home/architecture-visualizer.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "components/projects/engineering-visualizers.tsx",
+      "type": "import"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "app/projects/[id]/page.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/robots.ts",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "app/sitemap.ts",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/architecture-visualizer.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/architecture-visualizer.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/architecture-visualizer.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/beliefs-terminal.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/beliefs-terminal.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/home/beliefs-terminal.tsx",
+      "target": "lib/audio-engine.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/home/beliefs-terminal.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/bento-grid.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/bento-grid.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/bento-grid.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/career-timeline.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/career-timeline.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/career-timeline.tsx",
+      "target": "lib/types.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/home/career-timeline.tsx",
+      "target": "components/ui/scroll-reveal.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/home/career-timeline.tsx",
+      "target": "lib/motion.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/home/computational-canvas.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/computational-canvas.tsx",
+      "target": "package:@react-three/fiber",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/computational-canvas.tsx",
+      "target": "package:three",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/computational-canvas.tsx",
+      "target": "package:simplex-noise",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/featured-projects.tsx",
+      "target": "lib/types.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/home/featured-projects.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/featured-projects.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/featured-projects.tsx",
+      "target": "components/ui/scroll-reveal.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/home/featured-projects.tsx",
+      "target": "lib/motion.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/home/interactive-hero.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/interactive-hero.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/interactive-hero.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/pull-cord.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/pull-cord.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/skills-network.tsx",
+      "target": "lib/types.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/home/skills-network.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/home/skills-network.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/contact.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/contact.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/contact.tsx",
+      "target": "components/ui/scroll-reveal.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/layout/contact.tsx",
+      "target": "lib/motion.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/layout/header.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/header.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/header.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/header.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/header.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/header.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/layout/header.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/EditorialLayout.tsx",
+      "target": "data/photos.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/EditorialLayout.tsx",
+      "target": "components/personal/PhotoRenderer.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/hobbies-grid.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/hobbies-grid.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/life-carousel.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/life-carousel.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/life-carousel.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/metrics-grid.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/motorcycle-dashboard.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/motorcycle-dashboard.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/ParticleBackground.tsx",
+      "target": "components/ui/interactive-particle-background.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/personal-boot-screen.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-boot-screen.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-boot-screen.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/personal-boot-screen.tsx",
+      "target": "lib/audio-engine.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/personal-builds.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-builds.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-builds.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-hero.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-hero.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-hero.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/personal-hero.tsx",
+      "target": "components/personal/life-carousel.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/personal-hero.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/personal-os-hud.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/PhotoRenderer.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/PhotoRenderer.tsx",
+      "target": "data/photos.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/personal/PhotoRenderer.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/routine-timeline.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/routine-timeline.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/personal/routine-timeline.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/dashboard-embed.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/dashboard-embed.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/dashboard-widgets.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/dashboard-widgets.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/dashboard-widgets.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/projects/dashboard-widgets.tsx",
+      "target": "lib/audio-engine.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/projects/dashboard-widgets.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/dashboard-widgets.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/dashboard-widgets.tsx",
+      "target": "lib/playlists.ts",
+      "type": "import"
+    },
+    {
+      "source": "components/projects/engineering-visualizers.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/goals-list.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/goals-list.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/product-demo-frame.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/product-demo-frame.tsx",
+      "target": "package:lucide-react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/projects/product-demo-frame.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/interactive-particle-background.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/interactive-particle-background.tsx",
+      "target": "lib/os-context.tsx",
+      "type": "import"
+    },
+    {
+      "source": "components/ui/page-transition.tsx",
+      "target": "package:next",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/page-transition.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/page-transition.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/reveal-layer.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/scroll-reveal.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/scroll-reveal.tsx",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "components/ui/scroll-reveal.tsx",
+      "target": "lib/motion.ts",
+      "type": "import"
+    },
+    {
+      "source": "lib/content.ts",
+      "target": "package:fs",
+      "type": "dependency"
+    },
+    {
+      "source": "lib/content.ts",
+      "target": "package:path",
+      "type": "dependency"
+    },
+    {
+      "source": "lib/content.ts",
+      "target": "lib/types.ts",
+      "type": "import"
+    },
+    {
+      "source": "lib/motion.ts",
+      "target": "package:framer-motion",
+      "type": "dependency"
+    },
+    {
+      "source": "lib/os-context.tsx",
+      "target": "package:react",
+      "type": "dependency"
+    },
+    {
+      "source": "lib/os-context.tsx",
+      "target": "lib/playlists.ts",
+      "type": "import"
+    }
+  ]
+}
