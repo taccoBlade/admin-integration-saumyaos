@@ -153,6 +153,23 @@ export default function RootLayout({
             }),
           }}
         />
+        {/* Organization Structured Data for Google Search Brand Logo */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Saumya Parekh",
+              "url": "https://saumya.space",
+              "logo": "https://saumya.space/opengraph-image.jpg",
+              "sameAs": [
+                "https://www.linkedin.com/in/saumyaparekh",
+                "https://github.com/taccoBlade"
+              ]
+            }),
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} ${syne.variable} ${spaceGrotesk.variable} ${cormorant.variable} ${biggerScape.variable} ${batmanForever.variable} ${batmanForeverOutline.variable} antialiased bg-[#08090b]`}
