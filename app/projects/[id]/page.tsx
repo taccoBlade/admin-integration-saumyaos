@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from "next/link";
 import { getProject, getProjects } from "@/lib/content";
 import Image from "next/image";

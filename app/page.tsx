@@ -1,11 +1,13 @@
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-dynamic';
+
+import nextDynamic from 'next/dynamic';
 import { InteractiveHero } from "@/components/home/interactive-hero";
 import { Contact } from "@/components/layout/contact";
 import { ScrollReveal, ScrollRevealStagger, RevealItem } from "@/components/ui/scroll-reveal";
 
-const FeaturedProjects = dynamic(() => import("@/components/home/featured-projects").then(mod => mod.FeaturedProjects));
-const CareerTimeline = dynamic(() => import("@/components/home/career-timeline").then(mod => mod.CareerTimeline));
-const SkillsNetwork = dynamic(() => import("@/components/home/skills-network").then(mod => mod.SkillsNetwork));
+const FeaturedProjects = nextDynamic(() => import("@/components/home/featured-projects").then(mod => mod.FeaturedProjects));
+const CareerTimeline = nextDynamic(() => import("@/components/home/career-timeline").then(mod => mod.CareerTimeline));
+const SkillsNetwork = nextDynamic(() => import("@/components/home/skills-network").then(mod => mod.SkillsNetwork));
 import { getProjects, getTimelineEvents, getSkills } from "@/lib/content";
 import Link from "next/link";
 import { BookOpen, Cpu, ArrowRight, HardHat, Code2, Plane, Eye, Wrench, Leaf } from "lucide-react";
