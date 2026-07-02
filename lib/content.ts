@@ -14,30 +14,38 @@ interface SupabaseProjectRow {
 
 function mapProject(row: SupabaseProjectRow): Project {
   const source = (row.source_json ?? {}) as Record<string, unknown>;
+  const sourceStatus =
+    source.status === "Completed" || source.status === "In Progress" || source.status === "Research"
+      ? source.status
+      : "Completed";
+  const normalizedStatus =
+    row.status_label === "Completed" || row.status_label === "In Progress" || row.status_label === "Research"
+      ? row.status_label
+      : null;
+  const sourceComplexity =
+    source.complexityScore === "Fundamental" ||
+    source.complexityScore === "Intermediate" ||
+    source.complexityScore === "Advanced"
+      ? source.complexityScore
+      : "Advanced";
+  const normalizedComplexity =
+    row.complexity_score === "Fundamental" ||
+    row.complexity_score === "Intermediate" ||
+    row.complexity_score === "Advanced"
+      ? row.complexity_score
+      : null;
 
   return {
     ...source,
     id: typeof source.id === "string" ? source.id : row.slug,
-    title: typeof source.title === "string" ? source.title : row.title,
-    description: typeof source.description === "string" ? source.description : row.description ?? "",
-    year: typeof source.year === "number" ? source.year : row.year,
+    title: row.title || (typeof source.title === "string" ? source.title : ""),
+    description: row.description ?? (typeof source.description === "string" ? source.description : ""),
+    year: row.year ?? (typeof source.year === "number" ? source.year : 0),
     domain: typeof source.domain === "string" ? source.domain : "Civil Engineering",
     technologies: Array.isArray(source.technologies) ? source.technologies.map(String) : [],
-    status:
-      source.status === "Completed" || source.status === "In Progress" || source.status === "Research"
-        ? source.status
-        : row.status_label === "In Progress" || row.status_label === "Research"
-          ? row.status_label
-          : "Completed",
-    complexityScore:
-      source.complexityScore === "Fundamental" ||
-      source.complexityScore === "Intermediate" ||
-      source.complexityScore === "Advanced"
-        ? source.complexityScore
-        : row.complexity_score === "Fundamental" || row.complexity_score === "Intermediate"
-          ? row.complexity_score
-          : "Advanced",
-    overview: typeof source.overview === "string" ? source.overview : row.overview ?? "",
+    status: normalizedStatus ?? sourceStatus,
+    complexityScore: normalizedComplexity ?? sourceComplexity,
+    overview: row.overview ?? (typeof source.overview === "string" ? source.overview : ""),
     gallery: Array.isArray(source.gallery) ? source.gallery.map(String) : [],
   } as Project;
 }
