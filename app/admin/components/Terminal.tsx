@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Terminal as TerminalIcon, X, ChevronRight } from "lucide-react";
 import { logoutAction } from "../../auth/actions";
 
@@ -35,8 +36,6 @@ export default function Terminal({ isOpen, onClose, email }: TerminalProps) {
     }
   }, [history, isOpen]);
 
-  if (!isOpen) return null;
-
   const handleCommand = async (cmd: string) => {
     const trimmed = cmd.trim();
     if (!trimmed) return;
@@ -63,14 +62,14 @@ export default function Terminal({ isOpen, onClose, email }: TerminalProps) {
 
       case "roadmap":
         newHistory.push({
-          text: `SAUMYA.OS Roadmap\n\n  ✓ Technical Design\n  ✓ Database\n  ✓ Supabase\n  ✓ Migration\n  ✓ Authentication\n\n  ▶ Admin Shell\n\n  Upcoming\n\n  Media\n  AI\n  Content Modules\n  Deployment`,
+          text: `SAUMYA.OS Roadmap\n\n  ✓ Technical Design\n  ✓ Database\n  ✓ Supabase\n  ✓ Migration\n  ✓ Authentication\n  ✓ Admin Shell (Phase 6)\n  ✓ Media Library (Phase 7)\n  ✓ AI Assistant & Reviewer (Phase 9A/9B)\n  ✓ Content Modules (Phase 10: Hero Section)\n\n  ▶ Upcoming: Additional CMS Modules & Deployment`,
           type: "output",
         });
         break;
 
       case "version":
         newHistory.push({
-          text: `SAUMYA.OS\n  v0.6\n  Current Phase: Admin Shell`,
+          text: `SAUMYA.OS\n  v1.0\n  Current Phase: Content Modules (Hero Section)`,
           type: "output",
         });
         break;
@@ -105,59 +104,68 @@ export default function Terminal({ isOpen, onClose, email }: TerminalProps) {
   };
 
   return (
-    <div className="h-64 border-t border-white/5 bg-[#08090b] flex flex-col font-mono text-xs select-none">
-      {/* Top Header / Titlebar */}
-      <div className="px-4 py-2 border-b border-white/5 flex items-center justify-between text-[var(--muted)] bg-[#0c0d12]">
-        <div className="flex items-center gap-2">
-          <TerminalIcon className="w-3.5 h-3.5 text-[var(--accent-purple)]" />
-          <span>Console Panel (saumya@os: ~)</span>
-        </div>
-        <button
-          onClick={onClose}
-          className="p-1 rounded-md hover:text-white hover:bg-white/5 transition-all"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 264, opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-hidden border-t border-white/[0.08] bg-[#07080b]/95 font-mono text-xs shadow-[0_-24px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl lg:left-[17rem]"
         >
-          <X className="w-3.5 h-3.5" />
-        </button>
-      </div>
+          <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.025] px-4 py-2 text-slate-500">
+            <div className="flex items-center gap-2">
+              <TerminalIcon className="h-3.5 w-3.5 text-violet-300" />
+              <span>Console Panel</span>
+              <span className="hidden text-slate-600 sm:inline">(saumya@os: ~)</span>
+            </div>
+            <button
+              onClick={onClose}
+              className="rounded-md p-1 transition-all hover:bg-white/[0.06] hover:text-white"
+              aria-label="Close console"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
 
-      {/* History Output Area */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-1.5 scrollbar-thin">
-        {history.map((line, idx) => {
-          let color = "text-slate-300";
-          if (line.type === "system") color = "text-[var(--muted)]";
-          if (line.type === "input") color = "text-white font-semibold";
-          if (line.type === "error") color = "text-red-400";
-          if (line.type === "output") color = "text-slate-300";
+          <div className="flex-1 space-y-1.5 overflow-y-auto p-4">
+            {history.map((line, idx) => {
+              let color = "text-slate-300";
+              if (line.type === "system") color = "text-slate-500";
+              if (line.type === "input") color = "text-white font-semibold";
+              if (line.type === "error") color = "text-red-300";
+              if (line.type === "output") color = "text-slate-300";
 
-          return (
-            <pre key={idx} className={`whitespace-pre-wrap ${color}`}>
-              {line.text}
-            </pre>
-          );
-        })}
-        <div ref={consoleEndRef} />
-      </div>
+              return (
+                <pre key={idx} className={`whitespace-pre-wrap leading-relaxed ${color}`}>
+                  {line.text}
+                </pre>
+              );
+            })}
+            <div ref={consoleEndRef} />
+          </div>
 
-      {/* CLI Input Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="px-4 py-2 border-t border-white/5 flex items-center bg-[#0c0d12]/50 text-white"
-      >
-        <span className="flex items-center text-[var(--accent-blue)] mr-2 select-none">
-          <span>saumya@os</span>
-          <span className="text-white mx-0.5">:</span>
-          <span className="text-[var(--accent-purple)]">~</span>
-          <ChevronRight className="w-3 h-3 text-[var(--accent-blue)] ml-1" />
-        </span>
-        <input
-          type="text"
-          value={inputVal}
-          onChange={(e) => setInputVal(e.target.value)}
-          className="flex-1 bg-transparent border-0 outline-none focus:ring-0 p-0 text-xs text-white"
-          placeholder="Type 'help'..."
-          autoFocus
-        />
-      </form>
-    </div>
+          <form
+            onSubmit={handleSubmit}
+            className="flex items-center border-t border-white/[0.08] bg-white/[0.025] px-4 py-2 text-white"
+          >
+            <span className="mr-2 flex items-center text-cyan-300 select-none">
+              <span>saumya@os</span>
+              <span className="mx-0.5 text-white">:</span>
+              <span className="text-violet-300">~</span>
+              <ChevronRight className="ml-1 h-3 w-3 text-cyan-300" />
+            </span>
+            <input
+              type="text"
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              className="flex-1 border-0 bg-transparent p-0 text-xs text-white outline-none placeholder:text-slate-600 focus:ring-0"
+              placeholder="Type 'help'..."
+              autoFocus
+            />
+          </form>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -7,8 +7,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/api/',
-          '/_next/static/media/', // Prevent scrapers from easily crawling original high-res assets
+          '/admin/',        // Private CMS — never index
+          '/auth/',         // Login routes — never index
+          '/api/',          // API endpoints — never index
+          '/_next/static/media/', // Prevent scraping high-res assets
         ],
       },
       {
@@ -17,6 +19,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/',
       }
     ],
-    sitemap: 'https://saumya.space/sitemap.xml', // Update to your domain if different
+    sitemap: 'https://saumya.space/sitemap.xml',
   };
 }

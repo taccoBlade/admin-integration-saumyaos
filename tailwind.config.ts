@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        tablet: '768px',
+        desktop: '1024px',
+      },
       spacing: {
         gutter: "1.5rem",
       },

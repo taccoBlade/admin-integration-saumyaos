@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saumya Parekh — Personal Site
+
+Production-grade portfolio built with **Next.js 16**, **Supabase**, **Tailwind CSS**, and **Framer Motion**.  
+Live at → **[saumya.space](https://saumya.space)**
+
+---
+
+## Table of Contents
+
+1. [Getting Started](#getting-started)
+2. [Environment Variables](#environment-variables)
+3. [Security](#security)
+4. [Accessibility](#accessibility)
+5. [Mobile Polish](#mobile-polish)
+6. [Testing](#testing)
+7. [Deployment](#deployment)
+8. [Backup Strategy](#backup-strategy)
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Copy and fill in environment variables
+cp .env.example .env.local
+
+# Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+All required env vars are documented in [`.env.example`](.env.example).  
+**Never commit `.env.local` — it is in `.gitignore`.**
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Public anon key |
+| `SUPABASE_SERVICE_ROLE_KEY` | ✅ (server) | Service role key – server only |
+| `ADMIN_ALLOWED_EMAIL` | ✅ | Email allowed into /admin |
+| `ADMIN_TEST_USER_ID` | dev only | UUID for test-password script |
+| `ADMIN_TEST_PASSWORD` | dev only | Dev-only test password |
+| `BACKUP_BUCKET_URL` | optional | PUT endpoint for backup uploads |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Security
 
-## Deploy on Vercel
+See **[docs/SECURITY.md](docs/SECURITY.md)** for a full audit report and mitigation notes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Key measures already in place:
+- HTTP security headers (CSP, HSTS, X-Frame-Options, etc.) applied globally in `next.config.mjs`
+- Admin routes protected by Supabase auth + email allowlist in `middleware.ts`
+- No credentials stored in source — all via env vars
+- `npm run audit` reports **0** high/critical CVEs (2 moderate in Next.js nested PostCSS; upstream Next.js issue, tracked)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Accessibility
+
+See **[docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md)** for full a11y standards and manual checklist.
+
+- `eslint-plugin-jsx-a11y` enforced via `npm run lint:accessibility`
+- Custom `ConfirmModal` replaces native `alert()`/`confirm()` with accessible focus-trapped dialogs
+- All interactive components use `aria-label` and visible focus outlines
+
+---
+
+## Mobile Polish
+
+- Tailwind responsive breakpoints: `sm` (640 px), `tablet` (768 px), `desktop` (1024 px), `lg` (1280 px)
+- `SwipeNav` component for touch-swipeable image galleries
+- All pages tested at 375 px, 768 px, and 1440 px widths
+
+---
+
+## Testing
+
+```bash
+# Lint (Next.js ESLint)
+npm run lint
+
+# Accessibility lint report (→ reports/a11y-report.txt)
+npm run lint:accessibility
+
+# Security audit
+npm run audit
+
+# Cross-browser Playwright suite (Chrome, Firefox, WebKit)
+npm run test:browser
+
+# Visual / smoke test via Puppeteer
+npm run test:web
+```
+
+CI cross-browser matrix runs on every push via **[.github/workflows/browser-test.yml](.github/workflows/browser-test.yml)**.
+
+---
+
+## Deployment
+
+See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** for step-by-step instructions.
+
+```bash
+# Deploy to Vercel production
+bash scripts/deploy.sh
+
+# Deploy to preview / staging
+bash scripts/deploy.sh --preview
+```
+
+---
+
+## Backup Strategy
+
+See **[docs/BACKUP.md](docs/BACKUP.md)** for restore instructions.
+
+```bash
+# Create a timestamped zip of public/, content/, data/
+bash scripts/backup.sh
+
+# With automatic upload to a bucket
+BACKUP_BUCKET_URL=https://your-bucket.example.com bash scripts/backup.sh
+```
+
+Backups are stored in `backups/` (gitignored).

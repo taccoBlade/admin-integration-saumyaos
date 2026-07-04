@@ -1,6 +1,23 @@
 import React from "react";
-import { LayoutDashboard, FolderGit2, Image, Cpu, Settings, LogOut, Terminal as TerminalIcon } from "lucide-react";
+import {
+  Award,
+  BookOpen,
+  Calendar,
+  Camera,
+  ChevronRight,
+  Cpu,
+  FileText,
+  FolderGit2,
+  Home,
+  Image,
+  LayoutDashboard,
+  LogOut,
+  Settings,
+  Terminal as TerminalIcon,
+} from "lucide-react";
+import { motion } from "framer-motion";
 import { logoutAction } from "../../auth/actions";
+import packageJson from "../../../package.json";
 
 interface SidebarProps {
   activeTab: string;
@@ -15,85 +32,104 @@ export default function Sidebar({
   setActiveTab,
   displayName,
   terminalOpen,
-  setTerminalOpen
+  setTerminalOpen,
 }: SidebarProps) {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { id: "hero", label: "Hero Section", icon: Home },
+    { id: "about", label: "About Section", icon: FileText },
     { id: "projects", label: "Projects", icon: FolderGit2 },
+    { id: "timeline", label: "Timeline", icon: Calendar },
+    { id: "research", label: "Research Archive", icon: BookOpen },
+    { id: "photography", label: "Photo Spreads", icon: Camera },
+    { id: "resume", label: "Resume", icon: Award },
+    { id: "skills", label: "Skills Network", icon: Cpu },
     { id: "media", label: "Media Library", icon: Image },
     { id: "ai", label: "AI Workspace", icon: Cpu },
     { id: "settings", label: "Settings", icon: Settings },
   ];
 
   return (
-    <aside className="w-64 border-r border-white/5 bg-[#08090b] flex flex-col justify-between font-mono select-none h-screen">
-      {/* Top Header */}
-      <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between border-b border-white/5 pb-4">
+    <aside className="fixed inset-x-0 top-0 z-30 flex max-h-screen flex-col border-b border-white/[0.08] bg-[#07080b]/95 font-mono backdrop-blur-xl lg:inset-y-0 lg:left-0 lg:right-auto lg:w-[17rem] lg:border-b-0 lg:border-r">
+      <div className="flex items-center justify-between px-4 py-3 lg:block lg:p-5 lg:pb-3">
+        <div className="flex items-center justify-between lg:border-b lg:border-white/[0.08] lg:pb-5">
           <div>
-            <h1 className="text-sm font-bold text-white tracking-wider">SAUMYA.OS</h1>
-            <span className="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider">v0.6 · ONLINE</span>
+            <h1 className="text-sm font-semibold tracking-[0.18em] text-white">SAUMYA.OS</h1>
+            <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-300">
+              v{packageJson.version} / Online
+            </span>
           </div>
-          <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="hidden h-9 w-px bg-gradient-to-b from-emerald-300 via-cyan-300 to-violet-300 lg:block" />
         </div>
+      </div>
 
-        {/* Navigation Menu */}
-        <nav className="space-y-1.5">
+      <div className="flex-1 overflow-x-auto px-4 pb-3 lg:overflow-y-auto lg:px-5">
+        <nav className="flex gap-2 lg:flex-col lg:gap-1.5">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
+
             return (
-              <button
+              <motion.button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs transition-all duration-150 ${
+                whileHover={{ x: isActive ? 0 : 2 }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative flex min-w-max items-center gap-3 rounded-lg border px-3.5 py-2.5 text-[11px] transition-all duration-200 lg:w-full lg:min-w-0 ${
                   isActive
-                    ? "bg-white/5 text-white font-medium border border-white/5"
-                    : "text-[var(--muted)] hover:text-slate-200 hover:bg-white/[0.02] border border-transparent"
+                    ? "border-white/10 bg-white/[0.07] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                    : "border-transparent text-slate-500 hover:border-white/[0.06] hover:bg-white/[0.035] hover:text-slate-200"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-[var(--accent-blue)]" : ""}`} />
-                <span>{item.label}</span>
-              </button>
+                {isActive && (
+                  <motion.span
+                    layoutId="admin-active-rail"
+                    className="absolute left-0 top-1/2 hidden h-5 w-0.5 -translate-y-1/2 rounded-full bg-cyan-300 lg:block"
+                  />
+                )}
+                <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-cyan-300" : ""}`} />
+                <span className="truncate">{item.label}</span>
+                {isActive && <ChevronRight className="ml-auto hidden h-3.5 w-3.5 text-slate-500 lg:block" />}
+              </motion.button>
             );
           })}
         </nav>
       </div>
 
-      {/* Footer Profile & Controls */}
-      <div className="p-6 border-t border-white/5 space-y-4">
-        {/* Terminal Toggle Helper */}
-        <button
-          onClick={() => setTerminalOpen(!terminalOpen)}
-          className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-xs border transition-all duration-150 ${
-            terminalOpen 
-              ? "bg-[var(--accent-purple)]/10 text-[var(--accent-purple)] border-[var(--accent-purple)]/20" 
-              : "text-[var(--muted)] hover:text-slate-200 bg-white/[0.01] hover:bg-white/[0.02] border-white/5"
-          }`}
-        >
-          <span className="flex items-center gap-2">
-            <TerminalIcon className="w-3.5 h-3.5" />
-            Console
-          </span>
-          <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/5 uppercase border border-white/5">
-            {terminalOpen ? "Open" : "Close"}
-          </span>
-        </button>
+      <div className="hidden border-t border-white/[0.08] p-5 lg:block">
+        <div className="space-y-4">
+          <button
+            onClick={() => setTerminalOpen(!terminalOpen)}
+            className={`flex w-full items-center justify-between rounded-lg border px-3.5 py-2.5 text-[11px] transition-all duration-200 ${
+              terminalOpen
+                ? "border-violet-300/25 bg-violet-300/10 text-violet-200"
+                : "border-white/[0.08] bg-white/[0.02] text-slate-500 hover:bg-white/[0.04] hover:text-slate-200"
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <TerminalIcon className="h-3.5 w-3.5" />
+              Console
+            </span>
+            <span className="rounded border border-white/[0.08] bg-white/[0.04] px-1.5 py-0.5 text-[9px] uppercase tracking-wider">
+              {terminalOpen ? "Open" : "Closed"}
+            </span>
+          </button>
 
-        <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
-            <p className="text-xs text-white truncate max-w-[120px]">{displayName}</p>
-            <p className="text-[9px] text-[var(--muted)] uppercase">Operator</p>
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <p className="max-w-[130px] truncate text-xs text-white">{displayName}</p>
+              <p className="text-[9px] uppercase tracking-[0.2em] text-slate-500">Operator</p>
+            </div>
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                className="rounded-lg border border-transparent p-2 text-slate-500 transition-all hover:border-white/[0.08] hover:bg-white/[0.04] hover:text-white"
+                title="Logout"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </form>
           </div>
-          <form action={logoutAction}>
-            <button
-              type="submit"
-              className="p-2 rounded-xl text-[var(--muted)] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/5 transition-all"
-              title="Logout"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
-          </form>
         </div>
       </div>
     </aside>

@@ -17,13 +17,15 @@ async function getActorProfileId(supabase: SupabaseClient) {
 }
 
 export async function updateProjectAction(projectId: string, formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const actorId = await getActorProfileId(supabase);
 
   const title = formData.get("title") as string;
   const year = parseInt(formData.get("year") as string) || new Date().getFullYear();
   const description = formData.get("description") as string;
   const overview = formData.get("overview") as string;
+  const technologies = formData.get("technologies") as string || "";
+  const tags = formData.get("tags") as string || "";
   
   // Custom workflow status ('draft' | 'review' | 'scheduled' | 'published' | 'archived')
   const workflowStatus = formData.get("status") as string; 
@@ -39,6 +41,12 @@ export async function updateProjectAction(projectId: string, formData: FormData)
 
   const scheduledAt = workflowStatus === "scheduled" ? new Date().toISOString() : null;
 
+  const coverImage = formData.get("coverImage") as string || "";
+  const galleryImagesRaw = formData.get("galleryImages") as string || "";
+  const galleryUrls = galleryImagesRaw
+    ? galleryImagesRaw.split(",").map((s) => s.trim()).filter((s) => s.length > 0)
+    : [];
+
   try {
     const adminDb = createSupabaseAdminClient();
 
@@ -52,6 +60,20 @@ export async function updateProjectAction(projectId: string, formData: FormData)
     if (fetchErr) throw fetchErr;
 
     // 2. Perform DB update
+    const nextSourceJson: Record<string, unknown> = {
+      ...(currentProject.source_json as Record<string, unknown>),
+      workflow_status: workflowStatus,
+      title,
+      year,
+      description,
+      overview,
+      cover_image: coverImage,
+      gallery: galleryUrls,
+      technologies,
+      tags,
+      cover_media_id: (currentProject.source_json as Record<string, unknown>)?.cover_media_id || null,
+    };
+
     const { data: updatedProject, error: updateErr } = await adminDb
       .from("projects")
       .update({
@@ -61,20 +83,67 @@ export async function updateProjectAction(projectId: string, formData: FormData)
         overview,
         status: dbStatus,
         scheduled_at: scheduledAt,
-        source_json: {
-          ...(currentProject.source_json as object),
-          workflow_status: workflowStatus,
-          title,
-          year,
-          description,
-          overview
-        }
+        source_json: nextSourceJson,
       })
       .eq("id", projectId)
       .select()
       .single();
 
     if (updateErr) throw updateErr;
+
+    // 3. Sync project_media relationships
+    // First, delete old relationships
+    await adminDb.from("project_media").delete().eq("project_id", projectId);
+
+    // Resolve IDs for cover image and gallery images
+    const allUrls = [coverImage, ...galleryUrls].filter((u) => u.length > 0);
+    if (allUrls.length > 0) {
+      const { data: assets } = await adminDb
+        .from("media_assets")
+        .select("id, public_url")
+        .in("public_url", allUrls);
+
+      if (assets && assets.length > 0) {
+        const mediaInsertRows: {
+          project_id: string;
+          media_asset_id: string;
+          usage_type: string;
+          sort_order: number;
+        }[] = [];
+
+        // Cover mapping
+        const coverAsset = assets.find((a) => a.public_url === coverImage);
+        if (coverAsset) {
+          mediaInsertRows.push({
+            project_id: projectId,
+            media_asset_id: coverAsset.id,
+            usage_type: "cover",
+            sort_order: 0,
+          });
+          // Also set cover_media_id in source_json for usage query optimization
+          nextSourceJson.cover_media_id = coverAsset.id;
+          await adminDb.from("projects").update({ source_json: nextSourceJson }).eq("id", projectId);
+        }
+
+        // Gallery mapping
+        galleryUrls.forEach((url, index) => {
+          const match = assets.find((a) => a.public_url === url);
+          if (match) {
+            mediaInsertRows.push({
+              project_id: projectId,
+              media_asset_id: match.id,
+              usage_type: "gallery",
+              sort_order: index,
+            });
+          }
+        });
+
+        if (mediaInsertRows.length > 0) {
+          const { error: linkErr } = await adminDb.from("project_media").insert(mediaInsertRows);
+          if (linkErr) console.error("Error creating project_media rows:", linkErr);
+        }
+      }
+    }
 
     // 3. Determine next version number
     const { data: latestVer } = await adminDb
@@ -118,7 +187,7 @@ export async function updateProjectAction(projectId: string, formData: FormData)
 }
 
 export async function rollbackProjectAction(projectId: string, versionId: string) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const actorId = await getActorProfileId(supabase);
 
   try {

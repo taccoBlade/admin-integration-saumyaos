@@ -1,8 +1,12 @@
 import { EditorialLayout } from "@/components/personal/EditorialLayout"
 import { ParticleBackground } from "@/components/personal/ParticleBackground"
-import { editorialSpreads } from "@/data/photos"
+import { getPhotoSpreads } from "@/lib/content"
 
-export default function PersonalPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function PersonalPage() {
+  const spreads = await getPhotoSpreads();
+
   return (
     <div className="bg-[#0A0A0A] text-[#F0F0F0] min-h-screen overflow-x-hidden selection:bg-[#1A1A1A] selection:text-[#F0F0F0] relative">
       
@@ -16,7 +20,7 @@ export default function PersonalPage() {
       <div className="fixed inset-0 z-50 pointer-events-none shadow-[inset_0_0_200px_rgba(0,0,0,0.8)]" />
       
       <main className="relative z-10 flex flex-col pt-12 pb-32">
-        {editorialSpreads.map((spread) => (
+        {spreads.map((spread) => (
           <EditorialLayout key={spread.id} spread={spread} />
         ))}
       </main>

@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import Link from "next/link";
-import { getProject, getProjects } from "@/lib/content";
+import { getProject, getProjects, getProjectsPublic } from "@/lib/content";
 import Image from "next/image";
 import { ArrowLeft, Globe, Zap, Lightbulb, Users, Clock, ShieldCheck, Layers, Cpu, BarChart3, Wrench, ArrowRight } from "lucide-react";
 import { ArchitectureVisualizer, TreeNode } from "@/components/home/architecture-visualizer";
@@ -34,7 +34,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  const projects = await getProjects();
+  // Use cookie-free public client — cookies() is unavailable at build time.
+  const projects = await getProjectsPublic();
   return projects.map((p) => ({ id: p.id }));
 }
 

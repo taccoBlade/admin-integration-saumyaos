@@ -8,19 +8,19 @@ export const metadata: Metadata = {
   description: "Explore geopolymer concrete strength logs, geotechnical telemetry data, and academic literature index compiled by Saumya Parekh.",
 };
 
-export default function ArchivePage() {
+import { getResearchEntries } from "@/lib/content";
+
+export const dynamic = 'force-dynamic';
+
+export default async function ArchivePage() {
+  const researchEntries = await getResearchEntries();
+
   const datasetLogs = [
     { date: "12 Mar 2026", id: "C-GP-04", param: "Na2SiO3/NaOH ratio", standard: "IS 10262:2019", val: "2.51 (Molarity: 10M)", status: "OPTIMAL" },
     { date: "14 Mar 2026", id: "C-GP-08", param: "Compressive Strength (28-day)", standard: "IS 516:1959", val: "44.2 MPa", status: "COMPLIANT" },
     { date: "18 Mar 2026", id: "S-CL-02", param: "Oven-Dried Water Content (w)", standard: "ASTM D2216", val: "18.4%", status: "VERIFIED" },
     { date: "22 Mar 2026", id: "P-IC-09", param: "Compaction index vibration harmonic", standard: "IRC:37-2018", val: "0.68 Cv (30Hz fundamental)", status: "STABLE" },
     { date: "05 Apr 2026", id: "S-CL-05", param: "Borehole clay consolidation (Cv)", standard: "ASTM D2435", val: "2.4 * 10^-3 cm²/sec", status: "STABLE" }
-  ];
-
-  const literatureList = [
-    { title: "Theoretical Soil Mechanics", author: "Terzaghi, K.", year: "1943", focus: "One-dimensional consolidation calculations and pore pressure deflection equations." },
-    { title: "Properties of Concrete", author: "Neville, A. M.", year: "2011", focus: "Water-cement ratio parameters, aggregate grading limits, and geopolymerization boundaries." },
-    { title: "IRC:37-2018 Flexible Pavement Design", author: "Indian Roads Congress", year: "2018", focus: "Resilient modulus (MR) mapping of subgrade soil compaction characteristics." }
   ];
 
   const calculationsList = [
@@ -112,16 +112,38 @@ export default function ArchivePage() {
             2. Academic Literature Catalog
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {literatureList.map((lit, idx) => (
-              <div key={idx} className="p-6 rounded-2xl border border-white/5 bg-white/[0.01] flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <span className="text-[9px] font-mono text-attention-400 uppercase tracking-widest">[REF_{idx + 1}]</span>
-                  <h4 className="text-base font-semibold text-white leading-snug">{lit.title}</h4>
-                  <p className="text-xs text-slate-400 font-mono">{lit.author} ({lit.year})</p>
-                  <p className="text-xs text-slate-500 leading-relaxed font-sans">{lit.focus}</p>
+            {researchEntries.map((lit, idx) => {
+              const authors = (lit.authors || []).join(", ");
+              const year = lit.publication_date ? new Date(lit.publication_date).getFullYear().toString() : "N/A";
+              return (
+                <div key={lit.id || idx} className="p-6 rounded-2xl border border-white/5 bg-white/[0.01] flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <span className="text-[9px] font-mono text-attention-400 uppercase tracking-widest">[REF_{idx + 1}]</span>
+                    <h4 className="text-base font-semibold text-white leading-snug">{lit.title}</h4>
+                    <p className="text-xs text-slate-400 font-mono">{authors} ({year})</p>
+                    {lit.publication_journal && (
+                      <p className="text-[10px] text-slate-500 font-mono italic">{lit.publication_journal}</p>
+                    )}
+                    {lit.abstract && (
+                      <p className="text-xs text-slate-550 leading-relaxed font-sans mt-2">{lit.abstract}</p>
+                    )}
+                  </div>
+                  {lit.download_url && (
+                    <div className="border-t border-white/5 pt-3 mt-auto">
+                      <a 
+                        href={lit.download_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 hover:border-attention-500/30 hover:bg-attention-500/10 text-attention-400 hover:text-white transition-all text-[10px] font-mono font-bold uppercase cursor-pointer"
+                      >
+                        <Download className="w-3 h-3" />
+                        <span>Download PDF</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

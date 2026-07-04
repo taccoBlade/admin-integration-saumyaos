@@ -396,3 +396,18 @@ This report presents a comprehensive, multi-perspective audit of the website fro
 ### 5. Things that should be simplified:
 *   **Alternative Timelines:** Simplify the "what-if" text to focus on clean career paths, removing references to "empty space collapses."
 *   **Personal Stats:** Refine the stats widget on the personal page to display simple, clear hobbies.
+
+Before writing code:
+1. Explain implementation plan.
+2. List files to modify.
+3. List risks.
+4. Request approval for major architectural changes.
+
+Never:
+• Skip phases.
+• Invent functionality.
+• Break existing pages.
+• Auto-publish.
+• Redesign unrelated components.
+
+Maintain production-quality code, modular architecture, security, and backward compatibility.

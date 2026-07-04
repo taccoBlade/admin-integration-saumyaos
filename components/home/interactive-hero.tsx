@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 const ComputationalCanvas = dynamic(
@@ -9,7 +9,29 @@ const ComputationalCanvas = dynamic(
   { ssr: false, loading: () => <div className="absolute inset-0 bg-[#08090b]" /> }
 );
 
-export function InteractiveHero() {
+interface InteractiveHeroProps {
+  title?: string;
+  tagline?: string;
+  subtitle?: string;
+  description?: string;
+  cover_image?: string;
+  cta_text?: string;
+  cta_url?: string;
+  secondary_cta_text?: string;
+  secondary_cta_url?: string;
+}
+
+export function InteractiveHero({
+  title = "Saumya Parekh",
+  tagline = "Civil Engineering & Infrastructure Systems",
+  subtitle = "Computational Infrastructure Engineer",
+  description = "Building intelligent infrastructure systems through civil engineering, data analysis, automation, and computational design. Specializing in concrete mix proportioning compliance and geotechnical site telemetry.",
+  cover_image = "",
+  cta_text = "View Projects",
+  cta_url = "#projects",
+  secondary_cta_text = "Resume",
+  secondary_cta_url = "/saumya-resume.pdf",
+}: InteractiveHeroProps) {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -25,17 +47,23 @@ export function InteractiveHero() {
     if (target) target.scrollIntoView({ behavior: "smooth" });
   };
 
+  const nameWords = title.split(" ");
+
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden h-screen"
+      className="relative w-full overflow-hidden h-screen animate-fade-in"
       style={{ height: "100dvh" }}
     >
-      {/* ── 3D CANVAS BACKGROUND ── */}
-      {isDesktop && (
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <ComputationalCanvas />
-        </div>
+      {/* ── 3D CANVAS BACKGROUND OR COVER IMAGE ── */}
+      {cover_image ? (
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${cover_image})` }} />
+      ) : (
+        isDesktop && (
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <ComputationalCanvas />
+          </div>
+        )
       )}
 
       {/* ── Vignette overlays for text readability ── */}
@@ -52,52 +80,68 @@ export function InteractiveHero() {
       {/* Mobile-specific overlay to ensure text is legible against the mesh */}
       <div className="block md:hidden absolute inset-0 z-20 pointer-events-none bg-[#08090b]/50 backdrop-blur-[3px]" />
 
-
       {/* ── CONTENT OVERLAY ── */}
       <div className="absolute inset-0 flex flex-col md:flex-row items-center px-6 sm:px-12 lg:px-20 max-w-7xl mx-auto w-full h-[100vh] pointer-events-none z-30 select-none">
         {/* Left Column (Content) */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-start mt-20 md:mt-0">
           {/* Tag */}
           <span className="animate-hero-tag text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-attention-500 mb-4 block">
-            Civil Engineering &amp; Infrastructure Systems
+            {tagline}
           </span>
 
           {/* Headline */}
           <h1 className="animate-hero-title no-dossier-reveal text-white font-bigger-scape text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] leading-[0.95] mb-5 font-normal tracking-wide uppercase">
             <span className="block text-white">
-              <span className="text-attention-500">S</span>aumya{" "}
-              <span className="text-attention-500">P</span>arekh
+              {nameWords.map((word, idx) => (
+                <React.Fragment key={idx}>
+                  {idx > 0 && " "}
+                  <span className="inline-block">
+                    <span className="text-attention-500">{word.charAt(0)}</span>
+                    {word.slice(1)}
+                  </span>
+                </React.Fragment>
+              ))}
             </span>
           </h1>
 
           <span className="animate-hero-subtitle block text-slate-300 font-mono text-[11px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase mb-6">
-            Computational Infrastructure Engineer
+            {subtitle}
           </span>
 
           {/* Subheading */}
           <p className="animate-hero-paragraph text-slate-300 font-cormorant italic text-lg sm:text-xl md:text-2xl leading-relaxed max-w-lg mb-8 pointer-events-auto font-light">
-            Building intelligent infrastructure systems through civil
-            engineering, data analysis, automation, and computational design.
-            Specializing in concrete mix proportioning compliance and
-            geotechnical site telemetry.
+            {description}
           </p>
 
           {/* CTA Buttons */}
           <div className="animate-hero-ctas flex flex-wrap gap-4 pointer-events-auto">
-            <button
-              onClick={() => scrollToSection("projects")}
-              className="bg-white text-gray-900 text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-gray-100 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer"
-            >
-              View Projects
-            </button>
-            <a
-              href="/saumya-resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center bg-transparent border border-white/20 text-white text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-white/10 hover:border-white/40 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer"
-            >
-              Resume
-            </a>
+            {cta_text && cta_url && (
+              cta_url.startsWith("#") ? (
+                <button
+                  onClick={() => scrollToSection(cta_url.slice(1))}
+                  className="bg-white text-gray-900 text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-gray-100 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer"
+                >
+                  {cta_text}
+                </button>
+              ) : (
+                <a
+                  href={cta_url}
+                  className="flex items-center justify-center bg-white text-gray-900 text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-gray-100 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer animate-fade-in"
+                >
+                  {cta_text}
+                </a>
+              )
+            )}
+            {secondary_cta_text && secondary_cta_url && (
+              <a
+                href={secondary_cta_url}
+                target={secondary_cta_url.startsWith("http") || secondary_cta_url.endsWith(".pdf") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="flex items-center justify-center bg-transparent border border-white/20 text-white text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-white/10 hover:border-white/40 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer"
+              >
+                {secondary_cta_text}
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -118,7 +162,6 @@ export function InteractiveHero() {
           className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent"
         />
       </motion.div>
-
     </section>
   );
 }

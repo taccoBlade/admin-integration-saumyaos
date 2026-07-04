@@ -18,7 +18,7 @@ async function getActorProfileId(supabase: SupabaseClient) {
 }
 
 export async function createProjectAction(formData: FormData) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const actorId = await getActorProfileId(supabase);
 
   const title = formData.get("title") as string;
@@ -78,6 +78,25 @@ export async function createProjectAction(formData: FormData) {
     }
 
     // Insert new project
+    const nextSourceJson: Record<string, unknown> = {
+      title,
+      slug,
+      year,
+      domain,
+      workflow_status: workflowStatus,
+      description,
+      overview,
+      technologies,
+      gallery,
+      cover_image: coverImage,
+      githubUrl,
+      liveUrl,
+      researchPaperUrl,
+      documentationUrl,
+      tags,
+      cover_media_id: null
+    };
+
     const { data: newProject, error: insertErr } = await adminDb
       .from("projects")
       .insert({
@@ -91,35 +110,68 @@ export async function createProjectAction(formData: FormData) {
         scheduled_at: scheduledAt,
         engineering_concepts_json: concepts,
         research_areas_json: researchAreas,
-        source_json: {
-          title,
-          slug,
-          year,
-          domain,
-          workflow_status: workflowStatus,
-          description,
-          overview,
-          technologies,
-          gallery,
-          cover_image: coverImage,
-          githubUrl,
-          liveUrl,
-          researchPaperUrl,
-          documentationUrl,
-          tags
-        }
+        source_json: nextSourceJson
       })
       .select()
       .single();
 
     if (insertErr) throw insertErr;
 
+    // Sync project_media relationships
+    const allUrls = [coverImage, ...gallery].filter((u) => u.length > 0);
+    if (allUrls.length > 0) {
+      const { data: assets } = await adminDb
+        .from("media_assets")
+        .select("id, public_url")
+        .in("public_url", allUrls);
+
+      if (assets && assets.length > 0) {
+        const mediaInsertRows: {
+          project_id: string;
+          media_asset_id: string;
+          usage_type: string;
+          sort_order: number;
+        }[] = [];
+
+        // Cover mapping
+        const coverAsset = assets.find((a) => a.public_url === coverImage);
+        if (coverAsset) {
+          mediaInsertRows.push({
+            project_id: newProject.id,
+            media_asset_id: coverAsset.id,
+            usage_type: "cover",
+            sort_order: 0,
+          });
+          nextSourceJson.cover_media_id = coverAsset.id;
+          await adminDb.from("projects").update({ source_json: nextSourceJson }).eq("id", newProject.id);
+        }
+
+        // Gallery mapping
+        gallery.forEach((url, index) => {
+          const match = assets.find((a) => a.public_url === url);
+          if (match) {
+            mediaInsertRows.push({
+              project_id: newProject.id,
+              media_asset_id: match.id,
+              usage_type: "gallery",
+              sort_order: index,
+            });
+          }
+        });
+
+        if (mediaInsertRows.length > 0) {
+          const { error: linkErr } = await adminDb.from("project_media").insert(mediaInsertRows);
+          if (linkErr) console.error("Error creating project_media rows:", linkErr);
+        }
+      }
+    }
+
     // Create v1 content version
     await adminDb.from("content_versions").insert({
       target_type: "project",
       target_id: newProject.id,
       version_number: 1,
-      snapshot_json: newProject,
+      snapshot_json: { ...newProject, source_json: nextSourceJson },
       change_summary: "Initial project creation",
       change_source: "manual",
       created_by_user_id: actorId,

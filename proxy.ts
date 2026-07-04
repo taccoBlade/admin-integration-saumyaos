@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request,
   });
@@ -40,6 +40,12 @@ export async function middleware(request: NextRequest) {
   if (path.startsWith("/admin")) {
     if (!user) {
       const redirectUrl = new URL("/auth/login", request.url);
+      // Add security headers before redirect
+      response.headers.set('X-Content-Type-Options', 'nosniff');
+      response.headers.set('X-Frame-Options', 'DENY');
+      response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+      response.headers.set('Permissions-Policy', 'geolocation=(), microphone=()');
+      response.headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https: wss:;");
       return NextResponse.redirect(redirectUrl);
     }
 

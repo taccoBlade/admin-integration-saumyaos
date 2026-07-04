@@ -13,7 +13,7 @@ export async function loginAction(state: unknown, formData: FormData) {
   }
 
   // 1. Authenticate with Supabase Auth
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -73,7 +73,7 @@ export async function loginAction(state: unknown, formData: FormData) {
 }
 
 export async function logoutAction() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   await supabase.auth.signOut();
   redirect("/auth/login");
 }

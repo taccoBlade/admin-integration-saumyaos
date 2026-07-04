@@ -8,17 +8,20 @@ import { ScrollReveal, ScrollRevealStagger, RevealItem } from "@/components/ui/s
 const FeaturedProjects = nextDynamic(() => import("@/components/home/featured-projects").then(mod => mod.FeaturedProjects));
 const CareerTimeline = nextDynamic(() => import("@/components/home/career-timeline").then(mod => mod.CareerTimeline));
 const SkillsNetwork = nextDynamic(() => import("@/components/home/skills-network").then(mod => mod.SkillsNetwork));
-import { getProjects, getTimelineEvents, getSkills } from "@/lib/content";
+import { getProjects, getTimelineEvents, getSkills, getHero, getAbout } from "@/lib/content";
+import { CurrentFocus } from "@/components/home/current-focus";
 import Link from "next/link";
 import { BookOpen, Cpu, ArrowRight, HardHat, Code2, Plane, Eye, Wrench, Leaf } from "lucide-react";
 
 import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background";
 
 export default async function Home() {
-  const [projects, timelineEvents, skills] = await Promise.all([
+  const [projects, timelineEvents, skills, heroData, aboutData] = await Promise.all([
     getProjects(),
     getTimelineEvents(),
     getSkills(),
+    getHero(),
+    getAbout(),
   ]);
 
   return (
@@ -34,8 +37,17 @@ export default async function Home() {
 
       {/* ── FOREGROUND CONTENT ── */}
       <div className="relative z-10">
-        {/* 1. Engineering Identity & Hero Section (Transparent so 3D is fully visible) */}
-        <InteractiveHero />
+        <InteractiveHero 
+          title={heroData.title}
+          tagline={heroData.tagline}
+          subtitle={heroData.subtitle}
+          description={heroData.description}
+          cover_image={heroData.cover_image}
+          cta_text={heroData.cta_text}
+          cta_url={heroData.cta_url}
+          secondary_cta_text={heroData.secondary_cta_text}
+          secondary_cta_url={heroData.secondary_cta_url}
+        />
 
         {/* 2. Core Domain Expertise Section (Glassmorphism backdrop) */}
         <section className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 border-t border-white/5 bg-[#08090b] rounded-t-3xl mt-[-2rem]">
@@ -127,9 +139,14 @@ export default async function Home() {
             </ScrollRevealStagger>
           </div>
         </section>
+        
+        {/* 5. About / Current Focus Section */}
+        <div className="bg-[#08090b] border-t border-white/5">
+          <CurrentFocus data={aboutData} />
+        </div>
 
         {/* 6. Career Timeline / Experience Section (Glassmorphism backdrop) */}
-        <div className="bg-[#08090b]">
+        <div className="bg-[#08090b] border-t border-white/5">
           <CareerTimeline events={timelineEvents} />
         </div>
 

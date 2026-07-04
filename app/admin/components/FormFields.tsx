@@ -6,6 +6,7 @@ interface FormFieldProps {
   type?: string;
   required?: boolean;
   defaultValue?: string | number;
+  value?: string | number;
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -16,12 +17,13 @@ export function FormField({
   type = "text",
   required = false,
   defaultValue,
+  value,
   placeholder,
   onChange,
 }: FormFieldProps) {
   return (
-    <div>
-      <label className="block text-[10px] uppercase text-[var(--muted)] mb-1.5 font-mono">
+    <div className="space-y-1.5">
+      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
         {label} {required && <span className="text-red-400">*</span>}
       </label>
       <input
@@ -29,9 +31,10 @@ export function FormField({
         name={name}
         required={required}
         defaultValue={defaultValue}
+        value={value}
         placeholder={placeholder}
         onChange={onChange}
-        className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-[var(--accent-purple)]/50 font-mono"
+        className="block w-full rounded-lg border border-white/[0.08] bg-white/[0.035] px-3 py-2.5 font-mono text-xs text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-slate-600 focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
       />
     </div>
   );
@@ -42,6 +45,7 @@ interface FormTextareaProps {
   name: string;
   required?: boolean;
   defaultValue?: string;
+  value?: string;
   placeholder?: string;
   rows?: number;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -52,23 +56,25 @@ export function FormTextarea({
   name,
   required = false,
   defaultValue,
+  value,
   placeholder,
   rows = 3,
   onChange,
 }: FormTextareaProps) {
   return (
-    <div>
-      <label className="block text-[10px] uppercase text-[var(--muted)] mb-1.5 font-mono">
+    <div className="space-y-1.5">
+      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
         {label} {required && <span className="text-red-400">*</span>}
       </label>
       <textarea
         name={name}
         required={required}
         defaultValue={defaultValue}
+        value={value}
         placeholder={placeholder}
         rows={rows}
         onChange={onChange}
-        className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-[var(--accent-purple)]/50 font-mono"
+        className="block w-full rounded-lg border border-white/[0.08] bg-white/[0.035] px-3 py-2.5 font-mono text-xs leading-relaxed text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-slate-600 focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
       />
     </div>
   );
@@ -79,6 +85,7 @@ interface FormSelectProps {
   name: string;
   required?: boolean;
   defaultValue?: string;
+  value?: string;
   options: { value: string; label: string }[];
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -88,20 +95,22 @@ export function FormSelect({
   name,
   required = false,
   defaultValue,
+  value,
   options,
   onChange,
 }: FormSelectProps) {
   return (
-    <div>
-      <label className="block text-[10px] uppercase text-[var(--muted)] mb-1.5 font-mono">
+    <div className="space-y-1.5">
+      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
         {label} {required && <span className="text-red-400">*</span>}
       </label>
       <select
         name={name}
         required={required}
         defaultValue={defaultValue}
+        value={value}
         onChange={onChange}
-        className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white focus:outline-none focus:ring-1 focus:ring-[var(--accent-purple)]/50 font-mono"
+        className="block w-full rounded-lg border border-white/[0.08] bg-white/[0.035] px-3 py-2.5 font-mono text-xs text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

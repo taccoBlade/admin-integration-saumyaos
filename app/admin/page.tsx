@@ -5,7 +5,7 @@ import AdminShell from "./components/AdminShell";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const {
     data: { user },
@@ -41,6 +41,7 @@ export default async function AdminPage() {
     description: proj.description || "",
     overview: proj.overview || "",
     status: ((proj.source_json as Record<string, unknown>)?.workflow_status as string) || proj.status,
+    source_json: proj.source_json,
   }));
 
   return (

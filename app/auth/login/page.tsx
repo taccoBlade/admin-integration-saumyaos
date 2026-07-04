@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { loginAction } from "../actions";
 import { useSearchParams } from "next/navigation";
 import { Lock, Mail, ShieldAlert } from "lucide-react";
@@ -34,7 +35,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const errorParam = searchParams.get("error");
 
-  const [state, formAction] = useFormState(loginAction, null);
+  const [state, formAction] = useActionState(loginAction, null);
 
   // Determine if there is an active error to show
   let displayError = state?.error || null;
@@ -76,7 +77,7 @@ function LoginForm() {
           <form action={formAction} className="space-y-6">
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[var(--muted)] mb-2">
+                <label htmlFor="email" className="block text-xs font-mono uppercase tracking-wider text-[var(--muted)] mb-2">
                   Admin Email
                 </label>
                 <div className="relative">
@@ -96,7 +97,7 @@ function LoginForm() {
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[var(--muted)] mb-2">
+                <label htmlFor="password" className="block text-xs font-mono uppercase tracking-wider text-[var(--muted)] mb-2">
                   Security Phrase / Password
                 </label>
                 <div className="relative">
