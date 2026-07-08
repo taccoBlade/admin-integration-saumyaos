@@ -120,13 +120,38 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+import { getGlobalThemeAction } from "./admin/settings-actions";
+
+function hexToRgb(hex: string) {
+  // If it's already an rgb string like "212, 175, 55" or "212 175 55"
+  if (!hex.startsWith("#")) {
+    return hex.replace(/,/g, " ").replace(/\s+/g, " ").trim();
+  }
+  
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? 
+    `${parseInt(result[1], 16)} ${parseInt(result[2], 16)} ${parseInt(result[3], 16)}` 
+    : "212 175 55";
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch global theme
+  let globalTheme = "212 175 55"; // default golden
+  try {
+    const res = await getGlobalThemeAction();
+    if (res.success && res.theme) {
+      globalTheme = hexToRgb(res.theme);
+    }
+  } catch (e) {
+    // silently fail back to default
+  }
+
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" style={{ "--theme-accent": globalTheme } as React.CSSProperties}>
       <head>
         {/* Google tag (gtag.js) */}
         {/* eslint-disable-next-line @next/next/next-script-for-ga */}

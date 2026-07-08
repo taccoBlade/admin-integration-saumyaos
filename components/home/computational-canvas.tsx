@@ -17,7 +17,7 @@ const SEG_D = 64
 // Noise octaves
 const N = { s1: 0.2, s2: 0.5, t1: 0.06, t2: 0.1, a1: 0.5, a2: 0.12 }
 
-// Gold / amber accent (#D4AF37)
+// Theme accent - defaults to gold but updates via DOM
 const A = { r: 0.831, g: 0.686, b: 0.216 }
 
 // Shared noise seed — all components produce consistent terrain
@@ -102,6 +102,10 @@ function CameraRig() {
   }, [])
 
   useFrame(({ camera, clock }) => {
+    if (typeof document !== "undefined" && document.hidden) return
+    const isOutOfView = typeof window !== "undefined" && window.scrollY > (window.innerHeight * 0.95)
+    if (isOutOfView) return
+
     const t = clock.getElapsedTime()
     const s = scrollY.current // 0 to 1
 
@@ -155,6 +159,10 @@ function useMouseWorld() {
   }, [gl])
 
   useFrame(({ camera, pointer, clock }) => {
+    if (typeof document !== "undefined" && document.hidden) return
+    const isOutOfView = typeof window !== "undefined" && window.scrollY > (window.innerHeight * 0.95)
+    if (isOutOfView) return
+
     rc.setFromCamera(pointer, camera)
     if (hovering.current && rc.ray.intersectPlane(plane, hit)) {
       world.current.lerp(hit, 0.06)
@@ -201,6 +209,10 @@ function TerrainMesh({ mouseWorld }: { mouseWorld: React.RefObject<THREE.Vector3
   }, [])
 
   useFrame(({ clock }) => {
+    if (typeof document !== "undefined" && document.hidden) return
+    const isOutOfView = typeof window !== "undefined" && window.scrollY > (window.innerHeight * 0.95)
+    if (isOutOfView) return
+
     if (!meshRef.current) return
     const t = clock.getElapsedTime()
     const pos = geometry.attributes.position as THREE.BufferAttribute
@@ -275,6 +287,10 @@ function InfrastructureNetwork({ mouseWorld }: { mouseWorld: React.RefObject<THR
   }, [fPos, fCol])
 
   useFrame(({ clock }) => {
+    if (typeof document !== "undefined" && document.hidden) return
+    const isOutOfView = typeof window !== "undefined" && window.scrollY > (window.innerHeight * 0.95)
+    if (isOutOfView) return
+
     const t = clock.getElapsedTime()
     const mx = mouseWorld.current!.x
     const mz = mouseWorld.current!.z
@@ -410,6 +426,10 @@ function FloatingLabels() {
   }, [])
 
   useFrame(({ clock }) => {
+    if (typeof document !== "undefined" && document.hidden) return
+    const isOutOfView = typeof window !== "undefined" && window.scrollY > (window.innerHeight * 0.95)
+    if (isOutOfView) return
+
     if (!groupRef.current) return
     const t = clock.getElapsedTime()
 
@@ -464,6 +484,30 @@ function FloatingLabels() {
    ═══════════════════════════════════════════════════════════════════ */
 
 export function ComputationalCanvas() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    // Attempt to read global theme variable
+    const el = document.documentElement;
+    const style = getComputedStyle(el);
+    let rgbString = style.getPropertyValue('--theme-accent').trim();
+    
+    // Fallback to checking body if not found on root element
+    if (!rgbString) {
+      rgbString = getComputedStyle(document.body).getPropertyValue('--theme-accent').trim();
+    }
+    
+    if (rgbString) {
+      // Handles both space-separated and comma-separated RGB values
+      const parts = rgbString.split(/[\s,]+/).filter(Boolean).map(s => parseInt(s, 10));
+      if (parts.length >= 3 && !isNaN(parts[0])) {
+        A.r = parts[0] / 255;
+        A.g = parts[1] / 255;
+        A.b = parts[2] / 255;
+      }
+    }
+  }, []);
+
   return (
     <Canvas
       camera={{ position: [0, 5.5, 9], fov: 50, near: 0.1, far: 100 }}

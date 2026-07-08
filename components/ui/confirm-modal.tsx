@@ -23,6 +23,17 @@ interface ConfirmModalState extends ConfirmOptions {
   resolve: (value: boolean) => void;
 }
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
 export function useConfirmModal() {
   const [state, setState] = useState<ConfirmModalState | null>(null);
   const resolveRef = useRef<((v: boolean) => void) | null>(null);
@@ -43,52 +54,29 @@ export function useConfirmModal() {
   }, [state]);
 
   const modal = state ? (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-modal-title"
-      aria-describedby={state.description ? "confirm-modal-desc" : undefined}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm"
-    >
-      <div className="bg-[#121417] border border-white/10 rounded-xl shadow-glass w-full max-w-sm mx-4 p-6 flex flex-col gap-4">
-        <h2
-          id="confirm-modal-title"
-          className="text-base font-semibold text-white"
-        >
-          {state.title}
-        </h2>
-        {state.description && (
-          <p
-            id="confirm-modal-desc"
-            className="text-sm text-white/60 leading-relaxed"
-          >
-            {state.description}
-          </p>
-        )}
-        <div className="flex gap-3 justify-end mt-2">
-          <button
-            type="button"
-            aria-label={state.cancelLabel ?? "Cancel"}
-            onClick={() => handleClose(false)}
-            className="px-4 py-2 rounded-lg text-sm font-medium text-white/70 border border-white/10 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition"
-          >
+    <AlertDialog open={!!state} onOpenChange={(open) => {
+      if (!open) handleClose(false);
+    }}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{state.title}</AlertDialogTitle>
+          {state.description && (
+            <AlertDialogDescription>{state.description}</AlertDialogDescription>
+          )}
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => handleClose(false)}>
             {state.cancelLabel ?? "Cancel"}
-          </button>
-          <button
-            type="button"
-            aria-label={state.confirmLabel ?? "Confirm"}
+          </AlertDialogCancel>
+          <AlertDialogAction 
             onClick={() => handleClose(true)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 transition ${
-              state.danger
-                ? "bg-red-600 hover:bg-red-500 text-white focus-visible:ring-red-400"
-                : "bg-attention-500 hover:bg-attention-hover text-black focus-visible:ring-attention-400"
-            }`}
+            className={state.danger ? "bg-red-600 hover:bg-red-700 text-white" : ""}
           >
             {state.confirmLabel ?? "Confirm"}
-          </button>
-        </div>
-      </div>
-    </div>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   ) : null;
 
   return { modal, confirm };

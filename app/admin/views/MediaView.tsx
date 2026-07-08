@@ -95,8 +95,9 @@ export default function MediaView() {
   const handleFileUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
     const file = files[0];
-    if (!file.type.startsWith("image/")) {
-      alert("Only images are supported.");
+    const isPdf = file.type === "application/pdf";
+    if (!file.type.startsWith("image/") && !isPdf) {
+      alert("Only images and PDFs are supported.");
       return;
     }
 
@@ -115,20 +116,27 @@ export default function MediaView() {
         }
       }
 
-      const [thumbBlob, medBlob, lgBlob] = await Promise.all([
-        resizeImage(file, 150),
-        resizeImage(file, 600),
-        resizeImage(file, 1200),
-      ]);
+      let thumbBlob: Blob | null = null;
+      let medBlob: Blob | null = null;
+      let lgBlob: Blob | null = null;
+      let dimensions = { w: 0, h: 0 };
 
-      const dimensions = await new Promise<{ w: number; h: number }>((resolve) => {
-        const img = new Image();
-        img.src = URL.createObjectURL(file);
-        img.onload = () => resolve({ w: img.width, h: img.height });
-      });
+      if (!isPdf) {
+        [thumbBlob, medBlob, lgBlob] = await Promise.all([
+          resizeImage(file, 150),
+          resizeImage(file, 600),
+          resizeImage(file, 1200),
+        ]);
+
+        dimensions = await new Promise<{ w: number; h: number }>((resolve) => {
+          const img = new Image();
+          img.src = URL.createObjectURL(file);
+          img.onload = () => resolve({ w: img.width, h: img.height });
+        });
+      }
 
       const bucketName = "project-media";
-      const catName = "Projects";
+      const catName = isPdf ? "Resume" : "Projects";
       const folder = `${catName}/`;
       const timestamp = Date.now();
       const baseName = file.name.replace(/\.[^/.]+$/, "");
@@ -136,21 +144,31 @@ export default function MediaView() {
       const cleanName = baseName.replace(/[^a-z0-9]/gi, "_").toLowerCase();
 
       const origPath = `${folder}${cleanName}_${timestamp}.${ext}`;
-      const thumbPath = `${folder}${cleanName}_${timestamp}_thumbnail.${ext}`;
-      const medPath = `${folder}${cleanName}_${timestamp}_medium.${ext}`;
-      const lgPath = `${folder}${cleanName}_${timestamp}_large.${ext}`;
+      
+      const uploadPromises = [supabase.storage.from(bucketName).upload(origPath, file)];
+      
+      let thumbPath, medPath, lgPath;
+      if (!isPdf && thumbBlob && medBlob && lgBlob) {
+        thumbPath = `${folder}${cleanName}_${timestamp}_thumbnail.${ext}`;
+        medPath = `${folder}${cleanName}_${timestamp}_medium.${ext}`;
+        lgPath = `${folder}${cleanName}_${timestamp}_large.${ext}`;
+        
+        uploadPromises.push(
+          supabase.storage.from(bucketName).upload(thumbPath, thumbBlob),
+          supabase.storage.from(bucketName).upload(medPath, medBlob),
+          supabase.storage.from(bucketName).upload(lgPath, lgBlob)
+        );
+      }
 
-      await Promise.all([
-        supabase.storage.from(bucketName).upload(origPath, file),
-        supabase.storage.from(bucketName).upload(thumbPath, thumbBlob),
-        supabase.storage.from(bucketName).upload(medPath, medBlob),
-        supabase.storage.from(bucketName).upload(lgPath, lgBlob),
-      ]);
+      await Promise.all(uploadPromises);
 
       const origUrl = supabase.storage.from(bucketName).getPublicUrl(origPath).data.publicUrl;
-      const thumbUrl = supabase.storage.from(bucketName).getPublicUrl(thumbPath).data.publicUrl;
-      const medUrl = supabase.storage.from(bucketName).getPublicUrl(medPath).data.publicUrl;
-      const lgUrl = supabase.storage.from(bucketName).getPublicUrl(lgPath).data.publicUrl;
+      let thumbUrl = null, medUrl = null, lgUrl = null;
+      if (!isPdf && thumbPath && medPath && lgPath) {
+        thumbUrl = supabase.storage.from(bucketName).getPublicUrl(thumbPath).data.publicUrl;
+        medUrl = supabase.storage.from(bucketName).getPublicUrl(medPath).data.publicUrl;
+        lgUrl = supabase.storage.from(bucketName).getPublicUrl(lgPath).data.publicUrl;
+      }
 
       const saveRes = await saveMediaAssetAction({
         bucket: bucketName,
@@ -158,21 +176,21 @@ export default function MediaView() {
         publicUrl: origUrl,
         fileName: file.name,
         mimeType: file.type,
-        mediaType: "image",
+        mediaType: isPdf ? "document" : "image",
         fileSize: file.size,
-        width: dimensions.w,
-        height: dimensions.h,
+        width: dimensions.w || undefined,
+        height: dimensions.h || undefined,
         hash,
         category: catName,
-        sizes: {
-          thumbnail: thumbUrl,
-          medium: medUrl,
-          large: lgUrl,
+        sizes: isPdf ? {} : {
+          thumbnail: thumbUrl || "",
+          medium: medUrl || "",
+          large: lgUrl || "",
         },
       });
 
       if (saveRes.error) throw new Error(saveRes.error);
-      alert("Image uploaded successfully!");
+      alert(isPdf ? "PDF uploaded successfully!" : "Image uploaded successfully!");
       loadAssets();
     } catch (err: unknown) {
       const e = err as Error;
@@ -186,23 +204,23 @@ export default function MediaView() {
 
   return (
     <div className="flex gap-6 h-[78vh] font-mono text-xs text-slate-300 select-none">
-      <div className="flex-1 flex flex-col bg-[#07080b] border border-white/5 rounded-3xl p-6 overflow-hidden">
+      <div className="flex-1 flex flex-col bg-[#0e0721] border border-purple-500/15 rounded-3xl p-6 overflow-hidden">
         <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-3 mb-6">
           <div className="relative flex-1">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-500" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-purple-400/80" />
             <input
               type="text"
               placeholder="Search media library..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#0c0d12] border border-white/5 py-2.5 pl-9 pr-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--accent-purple)] text-white"
+              className="w-full bg-[#130a2a] border border-purple-500/15 py-2.5 pl-9 pr-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[var(--accent-purple)] text-white"
             />
           </div>
           <div className="flex gap-2">
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-[#0c0d12] border border-white/5 px-3 py-2.5 rounded-xl text-white focus:outline-none"
+              className="bg-[#130a2a] border border-purple-500/15 px-3 py-2.5 rounded-xl text-white focus:outline-none"
             >
               <option value="all">All folders</option>
               <option value="projects">Projects/</option>
@@ -218,13 +236,13 @@ export default function MediaView() {
               className="flex items-center gap-1.5 px-4 py-2 bg-[var(--accent-purple)] text-white hover:bg-[var(--accent-purple)]/90 rounded-xl font-semibold transition-all"
             >
               <UploadCloud className="w-3.5 h-3.5" />
-              Upload Image
+              Upload File
             </button>
             <input
               type="file"
               ref={fileInputRef}
               onChange={(e) => handleFileUpload(e.target.files)}
-              accept="image/*"
+              accept="image/*,application/pdf"
               className="hidden"
             />
           </div>
@@ -239,11 +257,11 @@ export default function MediaView() {
           }}
         >
           {loading ? (
-            <div className="flex items-center justify-center py-20 text-slate-500">
+            <div className="flex items-center justify-center py-20 text-purple-400/80">
               Loading assets...
             </div>
           ) : filteredAssets.length === 0 ? (
-            <div className="border border-dashed border-white/5 rounded-3xl flex flex-col items-center justify-center py-24 text-slate-500">
+            <div className="border border-dashed border-purple-500/15 rounded-3xl flex flex-col items-center justify-center py-24 text-purple-400/80">
               <UploadCloud className="w-8 h-8 opacity-30 mb-2" />
               <p>Drag & drop image files to upload</p>
             </div>
@@ -260,7 +278,7 @@ export default function MediaView() {
                     className={`aspect-square border rounded-2xl overflow-hidden cursor-pointer bg-[#0e1014] transition-all group ${
                       isSelected
                         ? "border-[var(--accent-blue)] scale-[0.98] ring-1 ring-[var(--accent-blue)]/30"
-                        : "border-white/5 hover:border-white/10 hover:scale-[1.02]"
+                        : "border-purple-500/15 hover:border-white/10 hover:scale-[1.02]"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -87,7 +87,7 @@ export default function HeroEditorView({
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              className="p-2 rounded-xl text-[var(--muted)] hover:text-white hover:bg-white/5 border border-white/5 transition-all"
+              className="p-2 rounded-xl text-[var(--muted)] hover:text-white hover:bg-white/5 border border-purple-500/15 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
@@ -102,7 +102,7 @@ export default function HeroEditorView({
             className={`py-2 px-3 rounded-xl border transition-all flex items-center gap-1.5 ${
               aiOpen
                 ? "bg-purple-500/10 border-purple-500/30 text-purple-400 font-bold"
-                : "border-white/5 text-[var(--muted)] hover:text-white hover:bg-white/5"
+                : "border-purple-500/15 text-[var(--muted)] hover:text-white hover:bg-white/5"
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -110,7 +110,7 @@ export default function HeroEditorView({
           </button>
         </div>
 
-        <form onSubmit={(e) => e.preventDefault()} className="border border-white/5 bg-[#0c0d12]/50 p-6 rounded-2xl space-y-4">
+        <form onSubmit={(e) => e.preventDefault()} className="border border-purple-500/15 bg-[#130a2a]/50 p-6 rounded-2xl space-y-4">
           <div>
             <label className="block text-[10px] uppercase text-[var(--muted)] mb-1.5">Main Title (Owner Name)</label>
             <input
@@ -118,7 +118,7 @@ export default function HeroEditorView({
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+              className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
             />
           </div>
 
@@ -128,7 +128,7 @@ export default function HeroEditorView({
               type="text"
               value={tagline}
               onChange={(e) => setTagline(e.target.value)}
-              className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+              className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
             />
           </div>
 
@@ -138,7 +138,7 @@ export default function HeroEditorView({
               type="text"
               value={subtitle}
               onChange={(e) => setSubtitle(e.target.value)}
-              className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+              className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
             />
           </div>
 
@@ -148,7 +148,7 @@ export default function HeroEditorView({
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+              className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
             />
           </div>
 
@@ -160,7 +160,7 @@ export default function HeroEditorView({
                 placeholder="View Projects"
                 value={ctaText}
                 onChange={(e) => setCtaText(e.target.value)}
-                className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+                className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
               />
             </div>
             <div>
@@ -170,7 +170,7 @@ export default function HeroEditorView({
                 placeholder="#projects"
                 value={ctaUrl}
                 onChange={(e) => setCtaUrl(e.target.value)}
-                className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+                className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
               />
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function HeroEditorView({
                 placeholder="Resume"
                 value={secondaryCtaText}
                 onChange={(e) => setSecondaryCtaText(e.target.value)}
-                className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+                className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
               />
             </div>
             <div>
@@ -193,7 +193,7 @@ export default function HeroEditorView({
                 placeholder="/resume.pdf"
                 value={secondaryCtaUrl}
                 onChange={(e) => setSecondaryCtaUrl(e.target.value)}
-                className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+                className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
               />
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function HeroEditorView({
           <div>
             <label className="block text-[10px] uppercase text-[var(--muted)] mb-1.5">Cover Background Image</label>
             {coverImage ? (
-              <div className="relative w-40 h-24 border border-white/5 rounded-xl overflow-hidden mb-2 group">
+              <div className="relative w-40 h-24 border border-purple-500/15 rounded-xl overflow-hidden mb-2 group">
                 <img src={coverImage} alt="Cover Preview" className="w-full h-full object-cover" />
                 <button
                   type="button"
@@ -215,7 +215,7 @@ export default function HeroEditorView({
               <button
                 type="button"
                 onClick={() => setPickerOpen(true)}
-                className="py-2.5 px-4 bg-white/5 border border-white/5 hover:bg-white/10 text-white rounded-xl transition-all mb-2 flex items-center gap-1.5"
+                className="py-2.5 px-4 bg-white/5 border border-purple-500/15 hover:bg-white/10 text-white rounded-xl transition-all mb-2 flex items-center gap-1.5"
               >
                 <ImageIcon className="w-3.5 h-3.5" /> Choose Image
               </button>
@@ -227,7 +227,7 @@ export default function HeroEditorView({
               type="button"
               onClick={() => handleSubmit(false)}
               disabled={isPending}
-              className="flex-1 py-3 px-4 bg-white/5 border border-white/5 hover:bg-white/10 text-white font-semibold rounded-xl text-xs disabled:opacity-50 transition-all"
+              className="flex-1 py-3 px-4 bg-white/5 border border-purple-500/15 hover:bg-white/10 text-white font-semibold rounded-xl text-xs disabled:opacity-50 transition-all"
             >
               Save Draft
             </button>
@@ -260,7 +260,7 @@ export default function HeroEditorView({
 
       {pickerOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
-          <div className="w-full max-w-4xl max-h-[85vh] bg-[#0c0d12] border border-white/5 rounded-3xl p-6 relative overflow-hidden flex flex-col">
+          <div className="w-full max-w-4xl max-h-[85vh] bg-[#130a2a] border border-purple-500/15 rounded-3xl p-6 relative overflow-hidden flex flex-col">
             <MediaPicker
               onClose={() => setPickerOpen(false)}
               onSelect={(assets) => {

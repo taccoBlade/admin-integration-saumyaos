@@ -1,7 +1,5 @@
-export const dynamic = 'force-dynamic';
-
 import Link from "next/link";
-import { getProject, getProjects, getProjectsPublic } from "@/lib/content";
+import { getProject, getProjects } from "@/lib/content";
 import Image from "next/image";
 import { ArrowLeft, Globe, Zap, Lightbulb, Users, Clock, ShieldCheck, Layers, Cpu, BarChart3, Wrench, ArrowRight } from "lucide-react";
 import { ArchitectureVisualizer, TreeNode } from "@/components/home/architecture-visualizer";
@@ -9,13 +7,14 @@ import React from "react";
 import type { Metadata } from "next";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const project = await getProject(params.id);
+  const { id } = await params;
+  const project = await getProject(id);
   if (!project) {
     return {
       title: "Project Not Found",
@@ -27,16 +26,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${project.title} | Saumya Parekh`,
       description: project.description,
-      url: `https://saumya.space/projects/${params.id}`,
+      url: `https://saumya.space/projects/${id}`,
       type: "article",
     },
   };
 }
 
 export async function generateStaticParams() {
-  // Use cookie-free public client — cookies() is unavailable at build time.
-  const projects = await getProjectsPublic();
-  return projects.map((p) => ({ id: p.id }));
+  const projects = await getProjects();
+  return projects.map((p: any) => ({ id: p.id }));
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -137,7 +135,8 @@ function formatMetricLabel(key: string): string {
    ───────────────────────────────────────────────────────────── */
 
 export default async function ProjectPage({ params }: PageProps) {
-  const project = await getProject(params.id);
+  const { id } = await params;
+  const project = await getProject(id);
   if (!project) {
     return (
       <main className="min-h-screen bg-[#08090b] flex items-center justify-center text-white">

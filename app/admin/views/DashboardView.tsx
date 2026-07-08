@@ -62,7 +62,7 @@ export default function DashboardView({ displayName }: DashboardViewProps) {
 
   return (
     <div className="max-w-5xl space-y-8">
-      <div className="flex flex-col gap-3 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-3 border-b border-purple-500/20 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-2">
           <p className="admin-section-title">System operation dashboard</p>
           <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
@@ -79,7 +79,7 @@ export default function DashboardView({ displayName }: DashboardViewProps) {
           <button
             onClick={runCheck}
             disabled={isPending}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] text-slate-300 transition hover:bg-white/[0.07] hover:text-white disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-purple-500/20 bg-white/[0.04] px-3 py-1.5 font-mono text-[11px] text-slate-300 transition hover:bg-white/[0.07] hover:text-white disabled:opacity-50"
           >
             {isPending ? (
               <Loader2 className="h-3 w-3 animate-spin" />
@@ -103,11 +103,11 @@ export default function DashboardView({ displayName }: DashboardViewProps) {
               transition={{ delay: index * 0.04, duration: 0.28 }}
               className="admin-card p-4"
             >
-              <div className="mb-5 flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
+              <div className="mb-5 flex h-9 w-9 items-center justify-center rounded-lg border border-purple-500/20 bg-white/[0.04]">
                 <Icon
                   className={`h-4 w-4 ${
                     isOnline === null
-                      ? "text-slate-500"
+                      ? "text-purple-400/80"
                       : isOnline
                       ? "text-cyan-300"
                       : "text-red-400"
@@ -118,7 +118,7 @@ export default function DashboardView({ displayName }: DashboardViewProps) {
               <p
                 className={`mt-1 text-sm font-semibold ${
                   isOnline === null
-                    ? "text-slate-500"
+                    ? "text-purple-400/80"
                     : isOnline
                     ? "text-white"
                     : "text-red-400"
@@ -132,11 +132,11 @@ export default function DashboardView({ displayName }: DashboardViewProps) {
       </div>
 
       <div className="admin-card space-y-6 p-6">
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
+        <div className="flex items-center justify-between border-b border-purple-500/20 pb-4">
           <h2 className="admin-section-title">System Status</h2>
           <div className="flex items-center gap-2">
             {checks && (
-              <span className="font-mono text-[10px] text-slate-500">
+              <span className="font-mono text-[10px] text-purple-400/80">
                 {checks.latencyMs}ms
               </span>
             )}
@@ -168,14 +168,14 @@ export default function DashboardView({ displayName }: DashboardViewProps) {
         </ul>
 
         {checks && (
-          <p className="font-mono text-[11px] text-slate-500 border-t border-white/5 pt-3">
+          <p className="font-mono text-[11px] text-purple-400/80 border-t border-purple-500/15 pt-3">
             {checks.details}
           </p>
         )}
 
         {!checks && (
           <p className="font-mono text-[11px] text-slate-600">
-            Click <span className="text-slate-400">Run Check</span> to verify system health.
+            Click <span className="text-purple-300">Run Check</span> to verify system health.
           </p>
         )}
       </div>

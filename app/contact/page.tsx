@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
-import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background";
+import { ClientParticleBackground } from "@/components/personal/ClientParticleBackground";
 
 /* ── Inline SVG icons for socials ── */
 function LinkedinIcon({ className }: { className?: string }) {
@@ -33,8 +33,8 @@ export default function ContactPage() {
 function ContactPageContent() {
   return (
     <main className="min-h-screen bg-[#08090b] text-white overflow-hidden relative select-none">
-      {/* Dynamic Repulsion Particles Backdrop */}
-      <InteractiveParticleBackground />
+      {/* Background Interactive Particles */}
+      <ClientParticleBackground />
 
       {/* Cybernetic grid overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none z-0" />

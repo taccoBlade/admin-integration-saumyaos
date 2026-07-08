@@ -1,3 +1,1077 @@
+function validateMix(mix_type, inputs, results, platform_mode = "compliance") {
+    const checklist = {};
+    let passed_count = 0;
+    const total_checks = 6;
+
+    const vol_total = results.absolute_volume_total ? results.absolute_volume_total.value : 0.0;
+    const vol_balanced = vol_total >= 0.99 && vol_total <= 1.01;
+    checklist.volume_balanced = {
+        status: vol_balanced,
+        message: vol_balanced ? `Absolute volume total is ${vol_total.toFixed(3)} m³ (Target: 1.00 ± 0.01)` : `Volume mismatch: ${vol_total.toFixed(3)} m³ (Must be 1.00 ± 0.01)`
+    };
+    if (vol_balanced) passed_count++;
+
+    let sgs_valid = true;
+    const missing_fields = [];
+    const sg_fields = mix_type === "normal" 
+        ? ["sg_cement", "sg_ca", "sg_fa"] 
+        : ["sg_fly_ash", "sg_ggbs", "sg_ca", "sg_fa", "sg_ss", "sg_sh"];
+        
+    for (let field of sg_fields) {
+        let val = parseFloat(inputs[field] || 0);
+        if (val <= 0) {
+            sgs_valid = false;
+            missing_fields.push(field);
+        }
+    }
+            
+    checklist.material_data_complete = {
+        status: sgs_valid,
+        message: sgs_valid ? "All specific gravity inputs are complete and valid." : `Missing/Invalid SGs for: ${missing_fields.join(', ')}`
+    };
+    if (sgs_valid) passed_count++;
+
+    if (mix_type === "normal") {
+        const grade = parseFloat(inputs.grade || 30);
+        const wc_ratio = parseFloat(inputs.wc_ratio || 0.45);
+        const is10262_compliant = grade >= 10 && grade <= 60 && wc_ratio >= 0.30 && wc_ratio <= 0.60;
+        
+        checklist.is_10262_compliant = {
+            status: is10262_compliant,
+            message: is10262_compliant ? "Grade M10-M60 and W/C ratio within standard guidelines." : "Grade must be M10-M60 and W/C ratio 0.30-0.60."
+        };
+        if (is10262_compliant) passed_count++;
+
+        const exposure = (inputs.exposure || "severe").toLowerCase().replace(/ /g, "_");
+        const rules = getDurabilityRules();
+        const rule = rules[exposure] || rules["severe"];
+        
+        const min_cement = rule.min_cement;
+        const max_wc = rule.max_wc;
+        const min_grade_num = parseInt(rule.min_grade.replace("M", ""));
+        
+        const calc_cement = results.cement_content ? results.cement_content.value : 0.0;
+        
+        const wc_ok = wc_ratio <= max_wc;
+        const cement_ok = calc_cement >= min_cement;
+        const grade_ok = grade >= min_grade_num;
+        
+        const is_456_ok = wc_ok && cement_ok && grade_ok;
+        
+        const fail_msgs = [];
+        if (!wc_ok) fail_msgs.push(`W/C ratio exceeds max allowed ${max_wc}`);
+        if (!cement_ok) fail_msgs.push(`Binder content ${calc_cement.toFixed(1)} < minimum ${min_cement}`);
+        if (!grade_ok) fail_msgs.push(`Grade M${grade} < minimum M${min_grade_num} for ${exposure}`);
+        
+        checklist.is_456_compliant = {
+            status: is_456_ok,
+            message: is_456_ok ? "Durability requirements satisfied (IS 456 Table 5)." : fail_msgs.join("; ")
+        };
+        if (is_456_ok) passed_count++;
+
+        const pct_fa = parseFloat(inputs.fly_ash_percent || 0);
+        const pct_ggbs = parseFloat(inputs.ggbs_percent || 0);
+        const pct_sf = parseFloat(inputs.silica_fume_percent || 0);
+        const pct_mk = parseFloat(inputs.metakaolin_percent || 0);
+        const pct_cement = parseFloat(inputs.cement_percent !== undefined ? inputs.cement_percent : 100.0 - (pct_fa + pct_ggbs + pct_sf + pct_mk));
+        
+        const is_cement_limit_ok = pct_cement >= 20;
+        checklist.cement_limit_satisfied = {
+            status: is_cement_limit_ok,
+            message: is_cement_limit_ok ? "Cement forms at least 20% of binder." : "WARNING: Cement percentage is dangerously low (<20%)."
+        };
+        if (is_cement_limit_ok) passed_count++;
+
+        const ca_ratio = results.coarse_agg_ratio ? results.coarse_agg_ratio.value : 0;
+        const fa_ratio = results.fine_agg_ratio ? results.fine_agg_ratio.value : 0;
+        
+        const binder_admix_sum = pct_fa + pct_ggbs + pct_sf + pct_mk;
+        const binder_total = binder_admix_sum + pct_cement;
+        const binder_sum_ok = Math.abs(binder_total - 100.0) < 0.01;
+        
+        const agg_ok = (ca_ratio >= 0.30 && ca_ratio <= 0.80 && fa_ratio >= 0.20 && fa_ratio <= 0.70 && binder_admix_sum <= 100.0 && binder_sum_ok);
+        
+        const msg_parts = [];
+        if (!(ca_ratio >= 0.30 && ca_ratio <= 0.80 && fa_ratio >= 0.20 && fa_ratio <= 0.70)) {
+            msg_parts.push(`Unusual aggregate split: CA=${ca_ratio.toFixed(3)}, FA=${fa_ratio.toFixed(3)}`);
+        } else {
+            msg_parts.push(`Aggregates balanced: CA=${ca_ratio.toFixed(3)}, FA=${fa_ratio.toFixed(3)}`);
+        }
+            
+        if (binder_admix_sum > 100.0) msg_parts.push(`Binder admixture split ${binder_admix_sum}% exceeds 100% limit`);
+        if (!binder_sum_ok) msg_parts.push(`Binder percentages sum to ${binder_total}% (must be 100%)`);
+            
+        checklist.aggregate_ratios_valid = {
+            status: agg_ok,
+            message: msg_parts.join("; ")
+        };
+        if (agg_ok) passed_count++;
+
+    } else {
+        checklist.is_10262_compliant = { status: true, message: "N/A - Calculated using Pavithra et al. (2016) Geopolymer Engine." };
+        passed_count++;
+
+        checklist.is_456_compliant = { status: true, message: "N/A - Standard IS 456 durability limits do not govern Geopolymers." };
+        passed_count++;
+
+        checklist.cement_limit_satisfied = { status: true, message: "PASSED - 100% Cement-free Geopolymer mix." };
+        passed_count++;
+
+        const ca_pct = parseFloat(inputs.ca_percent || 65.0);
+        const fa_pct = parseFloat(inputs.fa_percent || 35.0);
+        const agg_sum_ok = Math.abs((ca_pct + fa_pct) - 100.0) < 0.01;
+        
+        const fa_binder = parseFloat(inputs.fly_ash_percent || 0.0);
+        const ggbs_binder = parseFloat(inputs.ggbs_percent || 0.0);
+        const mk_binder = parseFloat(inputs.metakaolin_percent || 0.0);
+        const rha_binder = parseFloat(inputs.rice_husk_ash_percent || 0.0);
+        const sf_binder = parseFloat(inputs.silica_fume_percent || 0.0);
+        const binder_sum = fa_binder + ggbs_binder + mk_binder + rha_binder + sf_binder;
+        const binder_ok = Math.abs(binder_sum - 100.0) < 0.01;
+
+        const agg_ok = agg_sum_ok && binder_ok;
+        const msg_parts = [];
+        if (!agg_sum_ok) msg_parts.push(`Aggregate sum is ${ca_pct + fa_pct}% (Must be 100%)`);
+        if (!binder_ok) msg_parts.push(`Binder composition sum is ${binder_sum}% (Must be 100%)`);
+            
+        checklist.aggregate_ratios_valid = {
+            status: agg_ok,
+            message: agg_ok ? "Aggregate splits and binder ratios sum correctly to 100%." : `Validation failed: ${msg_parts.join(', ')}`
+        };
+        if (agg_ok) passed_count++;
+    }
+
+    return {
+        checklist: checklist,
+        score: `${passed_count}/${total_checks}`,
+        passed_all: passed_count === total_checks
+    };
+}
+
+
+function getDurabilityRules() {
+    return {
+        "mild": { min_grade: "M20", min_cement: 300, max_wc: 0.55 },
+        "moderate": { min_grade: "M25", min_cement: 300, max_wc: 0.50 },
+        "severe": { min_grade: "M30", min_cement: 320, max_wc: 0.45 },
+        "very_severe": { min_grade: "M35", min_cement: 340, max_wc: 0.45 },
+        "extreme": { min_grade: "M40", min_cement: 360, max_wc: 0.40 }
+    };
+}
+
+function recommendGrade(exposure, target_strength) {
+    const rules = getDurabilityRules();
+    const exposure_lower = exposure.toLowerCase().replace(/ /g, "_");
+    const rule = rules[exposure_lower];
+    
+    if (!rule) {
+        return { error: `Exposure '${exposure}' not found in durability rules` };
+    }
+        
+    let min_grade_val = parseInt(rule.min_grade.replace("M", "")) || 20;
+    
+    let targetInt = parseInt(target_strength) || 20;
+    let remainder = targetInt % 5;
+    let targetAdjusted = targetInt + (remainder !== 0 ? 5 - remainder : 0);
+    
+    let rec_grade_val = Math.max(min_grade_val, targetAdjusted);
+    let rec_grade = "M" + rec_grade_val;
+    
+    return {
+        min_grade: rec_grade,
+        max_wc: rule.max_wc,
+        min_binder: rule.min_cement,
+        source: "IS 456:2000 Table 5"
+    };
+}
+
+function optimizeMix(currentInputs, objective = "balanced") {
+    // Requires validateMix to exist (will port validation_engine shortly)
+    const candidates = [];
+    
+    const COMPATIBILITY_RULES = KNOWLEDGE_BASE.compatibility_rules || { max_total_scm_replacement: 70 };
+    const max_total_scm = COMPATIBILITY_RULES.max_total_scm_replacement || 70;
+    
+    for (let opc = 40; opc <= 100; opc += 5) {
+        for (let fa = 0; fa <= 35; fa += 5) {
+            for (let ggbs = 0; ggbs <= 70; ggbs += 5) {
+                for (let sf = 0; sf <= 10; sf += 5) {
+                    for (let mk = 0; mk <= 10; mk += 5) {
+                        if (opc + fa + ggbs + sf + mk === 100) {
+                            const total_scm = fa + ggbs + sf + mk;
+                            if (total_scm > max_total_scm) continue;
+                            
+                            const inputs = Object.assign({}, currentInputs);
+                            inputs.cement_percent = opc;
+                            inputs.fly_ash_percent = fa;
+                            inputs.ggbs_percent = ggbs;
+                            inputs.silica_fume_percent = sf;
+                            inputs.metakaolin_percent = mk;
+                            
+                            try {
+                                const results = calculateNormalMix(inputs);
+                                const validation = validateMix("normal", inputs, results, "compliance");
+                                
+                                if (validation.checklist.is_456_compliant.status && validation.checklist.aggregate_ratios_valid.status) {
+                                    const cost = results.economics && results.economics.total_cost ? results.economics.total_cost.value : 0;
+                                    const co2 = results.economics && results.economics.total_co2 ? results.economics.total_co2.value : 0;
+                                    const binder_content = results.cement_content ? results.cement_content.value : 0;
+                                    
+                                    candidates.push({
+                                        binder_split: { cement: opc, fly_ash: fa, ggbs: ggbs, silica_fume: sf, metakaolin: mk },
+                                        cost: cost,
+                                        co2: co2,
+                                        binder_content: binder_content
+                                    });
+                                }
+                            } catch (e) {
+                                // ignore
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    if (candidates.length === 0) return { candidates: [] };
+    
+    let current_cost = 1, current_co2 = 1;
+    try {
+        const current_results = calculateNormalMix(currentInputs);
+        if (current_results.economics && current_results.economics.total_cost) current_cost = current_results.economics.total_cost.value;
+        if (current_results.economics && current_results.economics.total_co2) current_co2 = current_results.economics.total_co2.value;
+    } catch(e) { }
+    
+    const max_cost = Math.max(...candidates.map(c => c.cost)) || 1;
+    const max_co2 = Math.max(...candidates.map(c => c.co2)) || 1;
+    
+    for (let c of candidates) {
+        c.delta_cost_pct = current_cost ? ((c.cost - current_cost) / current_cost) * 100 : 0;
+        c.delta_co2_pct = current_co2 ? ((c.co2 - current_co2) / current_co2) * 100 : 0;
+        
+        if (objective === "min_cost") {
+            c.score = c.cost;
+        } else if (objective === "min_co2") {
+            c.score = c.co2;
+        } else {
+            let binder_efficiency = Math.min(Math.max((c.binder_content - 300) / 200, 0), 1);
+            c.score = 0.4 * (c.cost / max_cost) + 0.4 * (c.co2 / max_co2) + 0.2 * (1.0 - binder_efficiency);
+        }
+    }
+    
+    candidates.sort((a, b) => a.score - b.score);
+    return { candidates: candidates.slice(0, 3) };
+}
+
+function evaluateAggregateBlend(sieve_data_10mm, sieve_data_20mm, pct_10mm, pct_20mm) {
+    const ideal = { s475: 48.7, s236: 34.4, s118: 24.3, s600: 17.3, s300: 12.2, s150: 8.7 };
+    const combined = {};
+    let deviations = 0;
+    
+    for (let sieve in ideal) {
+        let val_10 = sieve_data_10mm[sieve] || 0;
+        let val_20 = sieve_data_20mm[sieve] || 0;
+        let comb_val = (pct_10mm / 100) * val_10 + (pct_20mm / 100) * val_20;
+        combined[sieve] = comb_val;
+        deviations += Math.abs(comb_val - ideal[sieve]);
+    }
+    
+    let score = 100 - (deviations / 6);
+    score = Math.max(0, Math.min(100, score));
+    
+    let rating;
+    if (score >= 90) rating = "Excellent";
+    else if (score >= 75) rating = "Good";
+    else if (score >= 60) rating = "Acceptable";
+    else rating = "Needs Improvement";
+    
+    return {
+        score: score,
+        rating: rating,
+        combined_grading: combined,
+        ideal_grading: ideal
+    };
+}
+
+
+function calculateGeopolymerMix(inputs) {
+    const density = parseFloat(inputs.density || 2400.0);
+    const ca_percent = parseFloat(inputs.ca_percent || 65.0);
+    const fa_percent = parseFloat(inputs.fa_percent || 35.0);
+    const aas_binder_ratio = parseFloat(inputs.aas_binder_ratio || 0.45);
+    const ss_sh_ratio = parseFloat(inputs.ss_sh_ratio || 2.5);
+    const naoh_molarity = inputs.naoh_molarity || "12M";
+    const extra_water = parseFloat(inputs.extra_water || 0.0);
+    
+    const fa_percent_binder = parseFloat(inputs.fly_ash_percent || 70.0);
+    const ggbs_percent = parseFloat(inputs.ggbs_percent || 30.0);
+    const mk_percent = parseFloat(inputs.metakaolin_percent || 0.0);
+    const rha_percent = parseFloat(inputs.rice_husk_ash_percent || 0.0);
+    const sf_percent = parseFloat(inputs.silica_fume_percent || 0.0);
+    
+    const sg_fa = parseFloat(inputs.sg_fly_ash || getSg("binders", "Fly Ash Class F"));
+    const sg_ggbs = parseFloat(inputs.sg_ggbs || getSg("binders", "GGBS"));
+    const sg_mk = parseFloat(inputs.sg_metakaolin || getSg("binders", "Metakaolin"));
+    const sg_rha = parseFloat(inputs.sg_rice_husk_ash || 2.10);
+    const sg_sf = parseFloat(inputs.sg_silica_fume || getSg("binders", "Silica Fume"));
+    
+    const sg_ca = parseFloat(inputs.sg_ca || getSg("coarse_aggregates", "20 mm"));
+    const sg_fa_aggregate = parseFloat(inputs.sg_fa || getSg("fine_aggregates", "River Sand"));
+    
+    const sg_ss = parseFloat(inputs.sg_ss || 1.60);
+    const sg_sh = parseFloat(inputs.sg_sh || 1.50);
+    
+    const wa_ca = parseFloat(inputs.wa_ca || 0.5);
+    const fm_ca = parseFloat(inputs.fm_ca || 0.0);
+    const wa_fa = parseFloat(inputs.wa_fa || 1.0);
+    const fm_fa = parseFloat(inputs.fm_fa || 2.0);
+
+    const econ = inputs.economics || MATERIAL_ECONOMICS || {};
+    const getEcon = (key, prop, def) => {
+        if (econ[key] && econ[key][prop] !== undefined) return parseFloat(econ[key][prop]);
+        if (MATERIAL_ECONOMICS && MATERIAL_ECONOMICS[key] && MATERIAL_ECONOMICS[key][prop] !== undefined) return parseFloat(MATERIAL_ECONOMICS[key][prop]);
+        return def;
+    };
+
+    const cost_fa_b = getEcon("fly_ash", "cost", 1.2);
+    const co2_fa_b = getEcon("fly_ash", "co2", 0.02);
+    const cost_ggbs = getEcon("ggbs", "cost", 3.5);
+    const co2_ggbs = getEcon("ggbs", "co2", 0.07);
+    const cost_mk = getEcon("metakaolin", "cost", 12.0);
+    const co2_mk = getEcon("metakaolin", "co2", 0.12);
+    const cost_rha = getEcon("rice_husk_ash", "cost", 2.5);
+    const co2_rha = getEcon("rice_husk_ash", "co2", 0.03);
+    const cost_sf = getEcon("silica_fume", "cost", 25.0);
+    const co2_sf = getEcon("silica_fume", "co2", 0.15);
+    
+    const cost_ca = getEcon("ca", "cost", 1.4);
+    const co2_ca = getEcon("ca", "co2", 0.008);
+    const cost_fa_agg = getEcon("fa", "cost", 1.6);
+    const co2_fa_agg = getEcon("fa", "co2", 0.015);
+    
+    const cost_ss = getEcon("sodium_silicate", "cost", 15.0);
+    const co2_ss = getEcon("sodium_silicate", "co2", 0.30);
+    const cost_sh = getEcon("sodium_hydroxide", "cost", 18.0);
+    const co2_sh = getEcon("sodium_hydroxide", "co2", 0.35);
+    const cost_water = getEcon("water", "cost", 0.05);
+    const co2_water = getEcon("water", "co2", 0.0001);
+
+    const results = {};
+
+    const mass_agg = density * 0.80;
+    results.total_aggregate_mass = { value: mass_agg, source: "Pavithra et al. (2016) Step 2", revision: "2016" };
+
+    const mass_ca_ssd = mass_agg * (ca_percent / 100.0);
+    const mass_fa_ssd = mass_agg * (fa_percent / 100.0);
+
+    results.mass_ca_ssd = { value: mass_ca_ssd, source: "Pavithra et al. (2016) Step 2", revision: "2016" };
+    results.mass_fa_ssd = { value: mass_fa_ssd, source: "Pavithra et al. (2016) Step 2", revision: "2016" };
+
+    const mass_paste = density - mass_agg;
+    results.total_paste_mass = { value: mass_paste, source: "Pavithra et al. (2016) Step 3", revision: "2016" };
+
+    const mass_binder = mass_paste / (1.0 + aas_binder_ratio);
+    results.total_binder_mass = { value: mass_binder, source: "Pavithra et al. (2016) Step 3", revision: "2016" };
+
+    const mass_aas = mass_paste - mass_binder;
+    results.total_activator_mass = { value: mass_aas, source: "Pavithra et al. (2016) Step 3", revision: "2016" };
+
+    const m_fly_ash = mass_binder * (fa_percent_binder / 100.0);
+    const m_ggbs = mass_binder * (ggbs_percent / 100.0);
+    const m_metakaolin = mass_binder * (mk_percent / 100.0);
+    const m_rice_husk_ash = mass_binder * (rha_percent / 100.0);
+    const m_silica_fume = mass_binder * (sf_percent / 100.0);
+
+    results.mass_fly_ash = { value: m_fly_ash, source: "Binder Partitioning", revision: "2016" };
+    results.mass_ggbs = { value: m_ggbs, source: "Binder Partitioning", revision: "2016" };
+    results.mass_metakaolin = { value: m_metakaolin, source: "Binder Partitioning", revision: "2016" };
+    results.mass_rice_husk_ash = { value: m_rice_husk_ash, source: "Binder Partitioning", revision: "2016" };
+    results.mass_silica_fume = { value: m_silica_fume, source: "Binder Partitioning", revision: "2016" };
+
+    const mass_sh = mass_aas / (1.0 + ss_sh_ratio);
+    const mass_ss = mass_aas - mass_sh;
+
+    results.mass_sh_solution = { value: mass_sh, source: "Pavithra et al. (2016) Step 4", revision: "2016" };
+    results.mass_ss_solution = { value: mass_ss, source: "Pavithra et al. (2016) Step 4", revision: "2016" };
+
+    const naoh_composition = {
+        "8M": { solids: 26.2, water: 73.8 },
+        "12M": { solids: 36.1, water: 63.9 },
+        "16M": { solids: 44.4, water: 55.6 }
+    };
+    const naoh_limits = naoh_composition[naoh_molarity] || naoh_composition["12M"];
+    const naoh_solids_pct = naoh_limits.solids;
+    const naoh_water_pct = naoh_limits.water;
+
+    const water_total = (mass_sh * (naoh_water_pct / 100.0)) + (mass_ss * 0.5124) + extra_water;
+    const solids_total = mass_binder + (mass_sh * (naoh_solids_pct / 100.0)) + (mass_ss * 0.4876);
+    const w_gs_ratio = water_total / solids_total;
+
+    results.water_total = { value: water_total, source: "Pavithra et al. (2016) Step 5", revision: "2016" };
+    results.solids_total = { value: solids_total, source: "Pavithra et al. (2016) Step 5", revision: "2016" };
+    results.w_gs_ratio = { value: w_gs_ratio, source: "Pavithra et al. (2016) Step 5", revision: "2016" };
+
+    const v_binders = (
+        (sg_fa > 0 ? m_fly_ash / (sg_fa * 1000.0) : 0) +
+        (sg_ggbs > 0 ? m_ggbs / (sg_ggbs * 1000.0) : 0) +
+        (sg_mk > 0 ? m_metakaolin / (sg_mk * 1000.0) : 0) +
+        (sg_rha > 0 ? m_rice_husk_ash / (sg_rha * 1000.0) : 0) +
+        (sg_sf > 0 ? m_silica_fume / (sg_sf * 1000.0) : 0)
+    );
+    const v_ss = mass_ss / (sg_ss * 1000.0);
+    const v_sh = mass_sh / (sg_sh * 1000.0);
+    const v_ca = mass_ca_ssd / (sg_ca * 1000.0);
+    const v_fa = mass_fa_ssd / (sg_fa_aggregate * 1000.0);
+    const v_extra_water = extra_water / 1000.0;
+    
+    const total_volume = v_binders + v_ss + v_sh + v_ca + v_fa + v_extra_water;
+    results.absolute_volume_total = { value: total_volume, source: "Volumetric Sum check", revision: "2016" };
+
+    const ca_correction_ratio = (fm_ca - wa_ca) / 100.0;
+    const fa_correction_ratio = (fm_fa - wa_fa) / 100.0;
+    
+    const mass_ca_site = mass_ca_ssd * (1.0 + ca_correction_ratio);
+    const mass_fa_site = mass_fa_ssd * (1.0 + fa_correction_ratio);
+    
+    const contributed_water = (mass_ca_ssd * ca_correction_ratio) + (mass_fa_ssd * fa_correction_ratio);
+    const mass_aas_site = mass_aas - contributed_water;
+
+    results.mass_ca_site = { value: mass_ca_site, source: "Moisture Corrections", revision: "2016" };
+    results.mass_fa_site = { value: mass_fa_site, source: "Moisture Corrections", revision: "2016" };
+    results.mass_aas_site = { value: mass_aas_site, source: "Moisture Corrections", revision: "2016" };
+
+    const cost_binders = (m_fly_ash * cost_fa_b) + (m_ggbs * cost_ggbs) + (m_metakaolin * cost_mk) + (m_rice_husk_ash * cost_rha) + (m_silica_fume * cost_sf);
+    const cost_solution_ss = mass_ss * cost_ss;
+    const cost_solution_sh = mass_sh * cost_sh;
+    const cost_ca_ssd_calc = mass_ca_ssd * cost_ca;
+    const cost_fa_ssd_calc = mass_fa_ssd * cost_fa_agg;
+    const cost_ext_water = extra_water * cost_water;
+    const total_cost = cost_binders + cost_solution_ss + cost_solution_sh + cost_ca_ssd_calc + cost_fa_ssd_calc + cost_ext_water;
+
+    const co2_binders = (m_fly_ash * co2_fa_b) + (m_ggbs * co2_ggbs) + (m_metakaolin * co2_mk) + (m_rice_husk_ash * co2_rha) + (m_silica_fume * co2_sf);
+    const co2_solution_ss = mass_ss * co2_ss;
+    const co2_solution_sh = mass_sh * co2_sh;
+    const co2_ca_ssd_calc = mass_ca_ssd * co2_ca;
+    const co2_fa_ssd_calc = mass_fa_ssd * co2_fa_agg;
+    const co2_ext_water = extra_water * co2_water;
+    const total_co2 = co2_binders + co2_solution_ss + co2_solution_sh + co2_ca_ssd_calc + co2_fa_ssd_calc + co2_ext_water;
+
+    results.economics = {
+        total_cost: { value: total_cost, source: "Cost Estimate", revision: "2016" },
+        total_co2: { value: total_co2, source: "CO2 Emissions", revision: "2016" },
+        breakdown: {
+            cost: { binders: cost_binders, ss: cost_solution_ss, sh: cost_solution_sh, ca: cost_ca_ssd_calc, fa: cost_fa_ssd_calc },
+            co2: { binders: co2_binders, ss: co2_solution_ss, sh: co2_solution_sh, ca: co2_ca_ssd_calc, fa: co2_fa_ssd_calc }
+        }
+    };
+
+    return results;
+}
+
+
+function getSg(category, name) {
+    if (KNOWLEDGE_BASE[category] && KNOWLEDGE_BASE[category][name]) {
+        return KNOWLEDGE_BASE[category][name].typical_sg || KNOWLEDGE_BASE[category][name].sg || 2.7;
+    }
+    return 2.7; // Fallback
+}
+
+function getMaterialProperty(category, name, prop) {
+    if (KNOWLEDGE_BASE[category] && KNOWLEDGE_BASE[category][name]) {
+        return KNOWLEDGE_BASE[category][name][prop];
+    }
+    return null;
+}
+
+function calculateNormalMix(inputs) {
+    const results = {};
+    const warnings = [];
+    
+    const calc_mode = inputs.calculation_mode || "Strict IS 10262";
+    
+    const fck = parseFloat(inputs.grade || 30);
+    const msa = parseInt(inputs.msa || 20);
+    const slump = parseFloat(inputs.slump || 100);
+    const agg_shape = inputs.agg_shape || "angular";
+    
+    const admixture_product = inputs.admixture_product || "Generic SP (IS 10262 Reference)";
+    let sp_percent = 0.0;
+    let sp_dosage = 0.0;
+    
+    if (admixture_product === "None") {
+        sp_percent = 0.0;
+        sp_dosage = 0.0;
+    } else {
+        if (inputs.sp_percent !== undefined && inputs.sp_percent !== null && inputs.sp_percent !== "") {
+            sp_percent = parseFloat(inputs.sp_percent);
+        } else {
+            sp_percent = parseFloat(getMaterialProperty("admixtures", admixture_product, "recommended_reduction"));
+        }
+        
+        if (inputs.sp_dosage !== undefined && inputs.sp_dosage !== null && inputs.sp_dosage !== "") {
+            sp_dosage = parseFloat(inputs.sp_dosage);
+        } else {
+            const rng = getMaterialProperty("admixtures", admixture_product, "typical_dosage_range") || [0.8, 1.2];
+            sp_dosage = (rng[0] + rng[1]) / 2.0;
+        }
+        
+        const max_dosage = parseFloat(getMaterialProperty("admixtures", admixture_product, "maximum_dosage"));
+        if (sp_dosage > max_dosage) {
+            warnings.push(`Admixture dosage (${sp_dosage}%) exceeds manufacturer maximum (${max_dosage}%).`);
+        }
+    }
+    
+    const wc_ratio = parseFloat(inputs.wc_ratio || 0.45);
+    const fa_zone = inputs.fa_zone || "II";
+    const is_pumped = inputs.is_pumped === true || inputs.is_pumped === "true";
+    
+    const cement_type = inputs.cement_type || "OPC 43";
+    const fa_type = inputs.fa_type || "River Sand";
+    const ca_type = inputs.ca_type || "20 mm";
+    
+    const sg_cement = parseFloat(inputs.sg_cement || getSg("binders", cement_type));
+    const sg_fa_b = parseFloat(inputs.sg_fly_ash || getSg("binders", "Fly Ash Class F"));
+    const sg_ggbs = parseFloat(inputs.sg_ggbs || getSg("binders", "GGBS"));
+    const sg_sf = parseFloat(inputs.sg_silica_fume || getSg("binders", "Silica Fume"));
+    const sg_mk = parseFloat(inputs.sg_metakaolin || getSg("binders", "Metakaolin"));
+    
+    const sg_ca = parseFloat(inputs.sg_ca || getSg("coarse_aggregates", ca_type));
+    const sg_fa = parseFloat(inputs.sg_fa || getSg("fine_aggregates", fa_type));
+    
+    let sg_adm = 1.0;
+    if (admixture_product !== "None") {
+        sg_adm = parseFloat(inputs.sg_admixture || getMaterialProperty("admixtures", admixture_product, "typical_sg") || 1.145);
+    }
+    
+    let wa_ca = parseFloat(inputs.wa_ca || 0.0);
+    let fm_ca = parseFloat(inputs.fm_ca || 0.0);
+    let wa_fa = parseFloat(inputs.wa_fa || 0.0);
+    let fm_fa = parseFloat(inputs.fm_fa || 0.0);
+
+    const pct_fa = parseFloat(inputs.fly_ash_percent || 0);
+    const pct_ggbs = parseFloat(inputs.ggbs_percent || 0);
+    const pct_sf = parseFloat(inputs.silica_fume_percent || 0);
+    const pct_mk = parseFloat(inputs.metakaolin_percent || 0);
+    const pct_cement = parseFloat(inputs.cement_percent !== undefined ? inputs.cement_percent : 100.0 - (pct_fa + pct_ggbs + pct_sf + pct_mk));
+
+    const econ = inputs.economics || MATERIAL_ECONOMICS || {};
+    const getEcon = (key, prop, def) => {
+        if (econ[key] && econ[key][prop] !== undefined) return parseFloat(econ[key][prop]);
+        if (MATERIAL_ECONOMICS && MATERIAL_ECONOMICS[key] && MATERIAL_ECONOMICS[key][prop] !== undefined) return parseFloat(MATERIAL_ECONOMICS[key][prop]);
+        return def;
+    };
+
+    const cost_c = getEcon("cement", "cost", 7.0);
+    const co2_c = getEcon("cement", "co2", 0.90);
+    const cost_fa_b = getEcon("fly_ash", "cost", 1.2);
+    const co2_fa_b = getEcon("fly_ash", "co2", 0.02);
+    const cost_ggbs = getEcon("ggbs", "cost", 3.5);
+    const co2_ggbs = getEcon("ggbs", "co2", 0.07);
+    const cost_sf = getEcon("silica_fume", "cost", 25.0);
+    const co2_sf = getEcon("silica_fume", "co2", 0.15);
+    const cost_mk = getEcon("metakaolin", "cost", 12.0);
+    const co2_mk = getEcon("metakaolin", "co2", 0.12);
+    const cost_w = getEcon("water", "cost", 0.05);
+    const co2_w = getEcon("water", "co2", 0.0001);
+    const cost_ca = getEcon("ca", "cost", 1.4);
+    const co2_ca = getEcon("ca", "co2", 0.008);
+    const cost_fa = getEcon("fa", "cost", 1.6);
+    const co2_fa = getEcon("fa", "co2", 0.015);
+    const cost_adm = getEcon("admixture", "cost", 80.0);
+    const co2_adm = getEcon("admixture", "co2", 0.25);
+
+    if (warnings.length > 0) {
+        results.warnings = warnings;
+    }
+
+    let s_val, x_val;
+    if (fck <= 15) { s_val = 3.5; x_val = 5.0; }
+    else if (fck <= 25) { s_val = 4.0; x_val = 5.5; }
+    else if (fck <= 55) { s_val = 5.0; x_val = 6.5; }
+    else { s_val = 6.0; x_val = 8.0; }
+
+    const fck_eq1 = fck + (1.65 * s_val);
+    const fck_eq2 = fck + x_val;
+    const target_strength = Math.max(fck_eq1, fck_eq2);
+
+    results.target_strength = { value: target_strength, source: "IS 10262:2019 Clause 4.2", revision: "2019" };
+
+    let v_air_percent = 1.0;
+    if (msa === 10) v_air_percent = 1.5;
+    else if (msa === 40) v_air_percent = 0.8;
+    
+    const v_air = v_air_percent / 100.0;
+    results.air_content = { value: v_air, source: "IS 10262:2019 Table 3", revision: "2019" };
+
+    let w_base = 186.0;
+    if (msa === 10) w_base = 208.0;
+    else if (msa === 40) w_base = 165.0;
+
+    results.base_water = { value: w_base, source: "IS 10262:2019 Table 4", revision: "2019" };
+
+    const slump_dev = slump - 50.0;
+    const w_slump_adj = (slump_dev / 25.0) * 0.03 * w_base;
+    const w_slump = w_base + w_slump_adj;
+    
+    const shape_reductions = {
+        "angular": 0.0,
+        "sub-angular": -10.0,
+        "gravel-crushed": -15.0,
+        "rounded": -20.0
+    };
+    const w_shape_adj = shape_reductions[agg_shape] || 0.0;
+    const w_before_sp = w_slump + w_shape_adj;
+
+    const w_final = w_before_sp * (1.0 - (sp_percent / 100.0));
+    
+    results.water_content = { value: w_final, source: "IS 10262:2019 Clause 5.3 Note 3", revision: "2019" };
+
+    const base_binder_content = w_final / wc_ratio;
+    const cm_increase = parseFloat(inputs.cm_increase_percent || 0);
+    const binder_content = base_binder_content * (1.0 + (cm_increase / 100.0));
+    
+    results.cement_content = { value: binder_content, source: "IS 10262:2019 Clause 5.4 (Modified per Annex B)", revision: "2019" };
+
+    const mass_cement = binder_content * (pct_cement / 100.0);
+    const mass_fa_b = binder_content * (pct_fa / 100.0);
+    const mass_ggbs = binder_content * (pct_ggbs / 100.0);
+    const mass_sf = binder_content * (pct_sf / 100.0);
+    const mass_mk = binder_content * (pct_mk / 100.0);
+
+    results.mass_cement_ssd = { value: mass_cement, source: "IS 10262:2019 Clause 5.4", revision: "2019" };
+    results.mass_fly_ash_ssd = { value: mass_fa_b, source: "IS 10262:2019 Clause 5.4", revision: "2019" };
+    results.mass_ggbs_ssd = { value: mass_ggbs, source: "IS 10262:2019 Clause 5.4", revision: "2019" };
+    results.mass_silica_fume_ssd = { value: mass_sf, source: "IS 10262:2019 Clause 5.4", revision: "2019" };
+    results.mass_metakaolin_ssd = { value: mass_mk, source: "IS 10262:2019 Clause 5.4", revision: "2019" };
+
+    const v_ca_lookup = {
+        10: { "I": 0.48, "II": 0.50, "III": 0.52, "IV": 0.54 },
+        20: { "I": 0.60, "II": 0.62, "III": 0.64, "IV": 0.66 },
+        40: { "I": 0.69, "II": 0.71, "III": 0.72, "IV": 0.73 }
+    };
+    
+    let v_ca_base = 0.62;
+    if (v_ca_lookup[msa] && v_ca_lookup[msa][fa_zone]) {
+        v_ca_base = v_ca_lookup[msa][fa_zone];
+    }
+    
+    const effective_w_cm_ratio = w_final / binder_content;
+    const v_ca_adjusted = v_ca_base + ((0.50 - effective_w_cm_ratio) / 0.05) * 0.01;
+    const v_ca_final = is_pumped ? v_ca_adjusted * 0.90 : v_ca_adjusted;
+    const v_fa_final = 1.0 - v_ca_final;
+
+    results.coarse_agg_ratio = { value: v_ca_final, source: "IS 10262:2019 Table 5", revision: "2019" };
+    results.fine_agg_ratio = { value: v_fa_final, source: "IS 10262:2019 Clause 5.5.2", revision: "2019" };
+
+    const v_c = mass_cement / (sg_cement * 1000.0);
+    const v_fa_b_v = sg_fa_b > 0 ? mass_fa_b / (sg_fa_b * 1000.0) : 0;
+    const v_ggbs_v = sg_ggbs > 0 ? mass_ggbs / (sg_ggbs * 1000.0) : 0;
+    const v_sf_v = sg_sf > 0 ? mass_sf / (sg_sf * 1000.0) : 0;
+    const v_mk_v = sg_mk > 0 ? mass_mk / (sg_mk * 1000.0) : 0;
+    const v_binder_total = v_c + v_fa_b_v + v_ggbs_v + v_sf_v + v_mk_v;
+
+    const v_w = w_final / 1000.0;
+    const admixture_mass = binder_content * (sp_dosage / 100.0);
+    const v_adm = admixture_mass / (sg_adm * 1000.0);
+    
+    const v_agg = 1.0 - (v_air + v_binder_total + v_w + v_adm);
+    results.volume_all_aggregates = { value: v_agg, source: "IS 10262:2019 Clause 5.6", revision: "2019" };
+
+    const mass_ca_ssd = v_agg * v_ca_final * sg_ca * 1000.0;
+    const mass_fa_ssd = v_agg * v_fa_final * sg_fa * 1000.0;
+
+    results.mass_water_ssd = { value: w_final, source: "IS 10262:2019 Clause 5.3", revision: "2019" };
+    results.mass_ca_ssd = { value: mass_ca_ssd, source: "IS 10262:2019 Clause 5.6", revision: "2019" };
+    results.mass_fa_ssd = { value: mass_fa_ssd, source: "IS 10262:2019 Clause 5.6", revision: "2019" };
+    results.mass_admixture_ssd = { value: admixture_mass, source: "IS 10262:2019 Clause 5.6", revision: "2019" };
+
+    results.absolute_volume_total = {
+        value: v_binder_total + v_w + v_adm + v_agg + v_air,
+        source: "IS 10262:2019 Clause 5.6 Balance Check",
+        revision: "2019"
+    };
+
+    const ca_correction_ratio = (fm_ca - wa_ca) / 100.0;
+    const fa_correction_ratio = (fm_fa - wa_fa) / 100.0;
+    
+    const mass_ca_site = mass_ca_ssd * (1.0 + ca_correction_ratio);
+    const mass_fa_site = mass_fa_ssd * (1.0 + fa_correction_ratio);
+    
+    const contributed_water = (mass_ca_ssd * ca_correction_ratio) + (mass_fa_ssd * fa_correction_ratio);
+    const added_water_site = w_final - contributed_water;
+
+    results.mass_ca_site = { value: mass_ca_site, source: "IS 10262:2019 Clause 7", revision: "2019" };
+    results.mass_fa_site = { value: mass_fa_site, source: "IS 10262:2019 Clause 7", revision: "2019" };
+    results.mass_water_site = { value: added_water_site, source: "IS 10262:2019 Clause 7", revision: "2019" };
+
+    const cost_cement = mass_cement * cost_c;
+    const cost_fa_b_total = mass_fa_b * cost_fa_b;
+    const cost_ggbs_total = mass_ggbs * cost_ggbs;
+    const cost_sf_total = mass_sf * cost_sf;
+    const cost_mk_total = mass_mk * cost_mk;
+    const cost_binders = cost_cement + cost_fa_b_total + cost_ggbs_total + cost_sf_total + cost_mk_total;
+
+    const cost_water = w_final * cost_w;
+    const cost_ca_ssd = mass_ca_ssd * cost_ca;
+    const cost_fa_ssd = mass_fa_ssd * cost_fa;
+    const cost_sp = admixture_mass * cost_adm;
+    const total_cost = cost_binders + cost_water + cost_ca_ssd + cost_fa_ssd + cost_sp;
+
+    const co2_cement = mass_cement * co2_c;
+    const co2_fa_b_total = mass_fa_b * co2_fa_b;
+    const co2_ggbs_total = mass_ggbs * co2_ggbs;
+    const co2_sf_total = mass_sf * co2_sf;
+    const co2_mk_total = mass_mk * co2_mk;
+    const co2_binders = co2_cement + co2_fa_b_total + co2_ggbs_total + co2_sf_total + co2_mk_total;
+
+    const co2_water = w_final * co2_w;
+    const co2_ca_ssd = mass_ca_ssd * co2_ca;
+    const co2_fa_ssd = mass_fa_ssd * co2_fa;
+    const co2_sp = admixture_mass * co2_adm;
+    const total_co2 = co2_binders + co2_water + co2_ca_ssd + co2_fa_ssd + co2_sp;
+
+    results.economics = {
+        total_cost: { value: total_cost, source: "Cost Estimate", revision: "2019" },
+        total_co2: { value: total_co2, source: "CO2 Emissions", revision: "2019" },
+        breakdown: {
+            cost: { cement: cost_cement, fly_ash: cost_fa_b_total, ggbs: cost_ggbs_total, silica_fume: cost_sf_total, metakaolin: cost_mk_total, water: cost_water, ca: cost_ca_ssd, fa: cost_fa_ssd, admixture: cost_sp },
+            co2: { cement: co2_cement, fly_ash: co2_fa_b_total, ggbs: co2_ggbs_total, silica_fume: co2_sf_total, metakaolin: co2_mk_total, water: co2_water, ca: co2_ca_ssd, fa: co2_fa_ssd, admixture: co2_sp }
+        }
+    };
+
+    return results;
+}
+
+
+const KNOWLEDGE_BASE = {
+  "binders": {
+    "OPC 33": {
+      "name": "Ordinary Portland Cement Grade 33",
+      "typical_sg": 3.15,
+      "measured_sg": null,
+      "bulk_density": 1440.0,
+      "source": "IS 10262 Typical Value",
+      "early_strength": "Low",
+      "recommended_replacement_max": 100,
+      "durability_flags": {
+        "marine_excellent": false
+      }
+    },
+    "OPC 43": {
+      "name": "Ordinary Portland Cement Grade 43",
+      "typical_sg": 3.15,
+      "measured_sg": null,
+      "bulk_density": 1440.0,
+      "source": "IS 10262 Typical Value",
+      "early_strength": "Medium",
+      "recommended_replacement_max": 100,
+      "durability_flags": {
+        "marine_excellent": false
+      }
+    },
+    "OPC 53": {
+      "name": "Ordinary Portland Cement Grade 53",
+      "typical_sg": 3.15,
+      "measured_sg": null,
+      "bulk_density": 1440.0,
+      "source": "IS 10262 Typical Value",
+      "early_strength": "High",
+      "recommended_replacement_max": 100,
+      "durability_flags": {
+        "marine_excellent": false
+      }
+    },
+    "PPC": {
+      "name": "Portland Pozzolana Cement",
+      "typical_sg": 2.9,
+      "measured_sg": null,
+      "bulk_density": 1300.0,
+      "source": "Typical Engineering Value",
+      "early_strength": "Low",
+      "recommended_replacement_max": 100,
+      "durability_flags": {
+        "marine_excellent": true
+      }
+    },
+    "Fly Ash Class F": {
+      "name": "Class F Fly Ash (Pozzolanic)",
+      "typical_sg": 2.2,
+      "measured_sg": null,
+      "bulk_density": 1100.0,
+      "source": "Typical Engineering Value",
+      "early_strength": "Slow",
+      "recommended_replacement_max": 35,
+      "durability_flags": {
+        "sulfate_resistant": true
+      }
+    },
+    "GGBS": {
+      "name": "Ground Granulated Blast-Furnace Slag",
+      "typical_sg": 2.9,
+      "measured_sg": null,
+      "bulk_density": 1200.0,
+      "source": "Typical Engineering Value",
+      "early_strength": "Moderate",
+      "recommended_replacement_max": 70,
+      "durability_flags": {
+        "marine_excellent": true,
+        "sulfate_resistant": true
+      }
+    },
+    "Silica Fume": {
+      "name": "Silica Fume",
+      "typical_sg": 2.2,
+      "measured_sg": null,
+      "bulk_density": 600.0,
+      "source": "Typical Engineering Value",
+      "early_strength": "Very High",
+      "recommended_replacement_max": 10,
+      "durability_flags": {
+        "high_strength": true
+      }
+    },
+    "Metakaolin": {
+      "name": "Metakaolin",
+      "typical_sg": 2.6,
+      "measured_sg": null,
+      "bulk_density": 800.0,
+      "source": "Typical Engineering Value",
+      "early_strength": "High",
+      "recommended_replacement_max": 15,
+      "durability_flags": {
+        "alkali_silica_mitigation": true
+      }
+    }
+  },
+  "fine_aggregates": {
+    "River Sand": {
+      "name": "Natural River Sand",
+      "typical_sg": 2.6,
+      "measured_sg": null,
+      "typical_moisture": 2.0,
+      "absorption": 1.0,
+      "source": "Typical Material Default"
+    },
+    "M Sand Zone I": {
+      "name": "Manufactured Sand - Zone I",
+      "typical_sg": 2.65,
+      "measured_sg": null,
+      "typical_moisture": 1.0,
+      "absorption": 1.5,
+      "source": "Typical Material Default"
+    },
+    "M Sand Zone II": {
+      "name": "Manufactured Sand - Zone II",
+      "typical_sg": 2.65,
+      "measured_sg": null,
+      "typical_moisture": 1.0,
+      "absorption": 1.5,
+      "source": "Typical Material Default"
+    }
+  },
+  "coarse_aggregates": {
+    "10 mm": {
+      "name": "Crushed Aggregate 10mm",
+      "typical_sg": 2.7,
+      "measured_sg": null,
+      "typical_moisture": 0.5,
+      "absorption": 0.5,
+      "source": "Typical Material Default"
+    },
+    "20 mm": {
+      "name": "Crushed Aggregate 20mm",
+      "typical_sg": 2.74,
+      "measured_sg": null,
+      "typical_moisture": 0.5,
+      "absorption": 0.5,
+      "source": "Typical Material Default"
+    }
+  },
+  "admixtures": {
+    "Superplasticizer": {
+      "MasterGlenium SKY 8233": {
+        "typical_sg": 1.145,
+        "measured_sg": null,
+        "typical_dosage_range": [
+          0.8,
+          1.5
+        ],
+        "maximum_dosage": 2.0,
+        "typical_water_reduction_range": [
+          18,
+          30
+        ],
+        "recommended_reduction": 20,
+        "source": "Manufacturer Data (MasterBuilders)"
+      },
+      "Sika ViscoCrete 20 HE": {
+        "typical_sg": 1.08,
+        "measured_sg": null,
+        "typical_dosage_range": [
+          0.2,
+          2.0
+        ],
+        "maximum_dosage": 2.5,
+        "typical_water_reduction_range": [
+          20,
+          35
+        ],
+        "recommended_reduction": 25,
+        "source": "Manufacturer Data (Sika)"
+      },
+      "Generic SP (IS 10262 Reference)": {
+        "typical_sg": 1.145,
+        "measured_sg": null,
+        "typical_dosage_range": [
+          0.5,
+          1.5
+        ],
+        "maximum_dosage": 2.0,
+        "typical_water_reduction_range": [
+          15,
+          25
+        ],
+        "recommended_reduction": 20,
+        "source": "IS 10262 Annex Assumptions"
+      }
+    },
+    "Plasticizer": {
+      "Generic Water Reducer": {
+        "typical_sg": 1.2,
+        "measured_sg": null,
+        "typical_dosage_range": [
+          0.3,
+          0.8
+        ],
+        "maximum_dosage": 1.5,
+        "typical_water_reduction_range": [
+          5,
+          12
+        ],
+        "recommended_reduction": 10,
+        "source": "Typical Engineering Value"
+      }
+    },
+    "None": {
+      "None": {
+        "typical_sg": 1.0,
+        "measured_sg": null,
+        "typical_dosage_range": [
+          0.0,
+          0.0
+        ],
+        "maximum_dosage": 0.0,
+        "typical_water_reduction_range": [
+          0,
+          0
+        ],
+        "recommended_reduction": 0,
+        "source": "N/A"
+      }
+    }
+  }
+};
+const MATERIAL_ECONOMICS = {
+  "OPC 33": {
+    "cost": 6.5,
+    "co2": 0.9
+  },
+  "OPC 43": {
+    "cost": 7.0,
+    "co2": 0.9
+  },
+  "OPC 53": {
+    "cost": 7.5,
+    "co2": 0.9
+  },
+  "PPC": {
+    "cost": 6.0,
+    "co2": 0.6
+  },
+  "PSC": {
+    "cost": 5.8,
+    "co2": 0.5
+  },
+  "Fly Ash Class F": {
+    "cost": 1.2,
+    "co2": 0.02
+  },
+  "Fly Ash Class C": {
+    "cost": 1.5,
+    "co2": 0.03
+  },
+  "GGBS": {
+    "cost": 3.5,
+    "co2": 0.07
+  },
+  "Metakaolin": {
+    "cost": 12.0,
+    "co2": 0.12
+  },
+  "Silica Fume": {
+    "cost": 25.0,
+    "co2": 0.15
+  },
+  "Rice Husk Ash": {
+    "cost": 2.5,
+    "co2": 0.03
+  },
+  "River Sand": {
+    "cost": 2.0,
+    "co2": 0.01
+  },
+  "M Sand Zone I": {
+    "cost": 1.5,
+    "co2": 0.015
+  },
+  "M Sand Zone II": {
+    "cost": 1.6,
+    "co2": 0.015
+  },
+  "M Sand Zone III": {
+    "cost": 1.7,
+    "co2": 0.015
+  },
+  "10 mm": {
+    "cost": 1.3,
+    "co2": 0.008
+  },
+  "20 mm": {
+    "cost": 1.4,
+    "co2": 0.008
+  },
+  "40 mm": {
+    "cost": 1.5,
+    "co2": 0.008
+  },
+  "NaOH": {
+    "cost": 18.0,
+    "co2": 0.35
+  },
+  "KOH": {
+    "cost": 28.0,
+    "co2": 0.45
+  },
+  "Sodium Silicate": {
+    "cost": 15.0,
+    "co2": 0.3
+  },
+  "Potassium Silicate": {
+    "cost": 26.0,
+    "co2": 0.4
+  },
+  "Superplasticizer": {
+    "cost": 80.0,
+    "co2": 0.25
+  },
+  "Water": {
+    "cost": 0.05,
+    "co2": 0.0001
+  }
+};
+
+
 // PRO-MIX App logic: Handles sieve analysis, economics, scaling, comparisons, validation evidence, and charts.
 
 let materialsDb = {};
@@ -61,53 +1135,106 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Fetch default cost/CO2 from server
 async function fetchEconomics() {
-  try {
-    const res = await fetch("/api/economics");
-    defaultEcon = await res.json();
-  } catch (err) {
-    console.error("Error loading economics:", err);
-  }
+  defaultEcon = MATERIAL_ECONOMICS || {};
 }
 
 // Fetch materials
-// Fetch materials
 async function fetchMaterials() {
-  try {
-    const res = await fetch("/api/materials");
-    materialsDb = await res.json();
-    initializeActiveBinders(activeTheme);
-    renderBinderCards();
-    renderMaterialSelectors();
-  } catch (err) {
-    console.error("Error loading materials DB:", err);
+  materialsDb = KNOWLEDGE_BASE || {};
+  initializeActiveBinders(activeTheme);
+  renderBinderCards();
+  renderMaterialSelectors();
+    renderAdmixtures();
+}
+
+function renderAdmixtures() {
+  const select = document.getElementById("admixture_product");
+  if (!select || !materialsDb.admixtures) return;
+  select.innerHTML = "";
+  
+  let firstVal = null;
+  
+  Object.keys(materialsDb.admixtures).forEach(cat => {
+    const optgroup = document.createElement("optgroup");
+    optgroup.label = cat;
+    Object.keys(materialsDb.admixtures[cat]).forEach(prod => {
+      const opt = document.createElement("option");
+      opt.value = prod;
+      opt.innerText = prod;
+      opt.dataset.cat = cat;
+      optgroup.appendChild(opt);
+      if(!firstVal) firstVal = prod;
+    });
+    select.appendChild(optgroup);
+  });
+  
+  if (firstVal) {
+    select.value = firstVal;
+    handleAdmixtureChange();
+  }
+}
+
+function handleAdmixtureChange() {
+  const select = document.getElementById("admixture_product");
+  if (!select || select.selectedIndex === -1) return;
+  const prod = select.value;
+  const opt = select.options[select.selectedIndex];
+  if (!opt) return;
+  const cat = opt.dataset.cat;
+  
+  if (cat && materialsDb.admixtures[cat] && materialsDb.admixtures[cat][prod]) {
+    const data = materialsDb.admixtures[cat][prod];
+    
+    document.getElementById("admixture_provenance").innerText = data.source === "N/A" ? "" : "Source: " + data.source;
+    
+    const doseHint = document.getElementById("dosage-range-hint");
+    if (doseHint) {
+      if (data.maximum_dosage > 0) {
+        doseHint.innerText = `(Typical: ${data.typical_dosage_range[0]}-${data.typical_dosage_range[1]}%, Max: ${data.maximum_dosage}%)`;
+      } else {
+        doseHint.innerText = "";
+      }
+    }
+    
+    const recHint = document.getElementById("reduction-range-hint");
+    if (recHint) {
+      if (data.recommended_reduction > 0) {
+        recHint.innerText = `(Recommended: ${data.recommended_reduction}%, Range: ${data.typical_water_reduction_range[0]}-${data.typical_water_reduction_range[1]}%)`;
+      } else {
+        recHint.innerText = "";
+      }
+    }
+    
+    // Auto-update values
+    document.getElementById("sp_percent").value = data.recommended_reduction;
+    document.getElementById("sp-perc-val").innerText = data.recommended_reduction + "%";
+    
+    // Average dosage
+    document.getElementById("sp_dosage").value = ((data.typical_dosage_range[0] + data.typical_dosage_range[1]) / 2).toFixed(2);
+    
+    runCalculations();
   }
 }
 
 async function fetchBenchmarks() {
-  try {
-    const res = await fetch("/api/benchmarks");
-    const data = await res.json();
-    benchmarkLibrary = data.benchmarks || [];
-    const select = document.getElementById('benchmark-select');
-    if (select) {
-      select.innerHTML = '<option value="">Select benchmark...</option>';
-      benchmarkLibrary.forEach(b => {
-        const opt = document.createElement('option');
-        opt.value = b.id;
-        opt.innerText = b.name;
-        select.appendChild(opt);
-      });
-      // Load custom presets from localStorage
-      const customPresets = JSON.parse(localStorage.getItem('promix_custom_presets') || '{}');
-      Object.values(customPresets).forEach(p => {
-        const opt = document.createElement('option');
-        opt.value = p.id;
-        opt.innerText = p.name;
-        select.appendChild(opt);
-      });
-    }
-  } catch (err) {
-    console.error("Error loading benchmarks:", err);
+  benchmarkLibrary = []; // Handled entirely local now
+  const select = document.getElementById('benchmark-select');
+  if (select) {
+    select.innerHTML = '<option value="">Select benchmark...</option>';
+    benchmarkLibrary.forEach(b => {
+      const opt = document.createElement('option');
+      opt.value = b.id;
+      opt.innerText = b.name;
+      select.appendChild(opt);
+    });
+    // Load custom presets from localStorage
+    const customPresets = JSON.parse(localStorage.getItem('promix_custom_presets') || '{}');
+    Object.values(customPresets).forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.innerText = p.name;
+      select.appendChild(opt);
+    });
   }
 }
 
@@ -116,26 +1243,32 @@ function setTheme(theme) {
   activeTheme = theme;
   document.body.setAttribute('data-theme', theme);
   
-  document.getElementById('btn-normal').classList.toggle('active', theme === 'normal');
-  document.getElementById('btn-geopolymer').classList.toggle('active', theme === 'geopolymer');
+  const btnNormal = document.getElementById('btn-normal');
+  if (btnNormal && btnNormal.classList) btnNormal.classList.toggle('active', theme === 'normal');
+  const btnGeo = document.getElementById('btn-geopolymer');
+  if (btnGeo && btnGeo.classList) btnGeo.classList.toggle('active', theme === 'geopolymer');
 
-  document.getElementById('inputs-normal-card').classList.toggle('hidden', theme === 'geopolymer');
-  document.getElementById('inputs-geopolymer-card').classList.toggle('hidden', theme === 'normal');
+  const cardNormal = document.getElementById('inputs-normal-card');
+  if (cardNormal && cardNormal.classList) cardNormal.classList.toggle('hidden', theme === 'geopolymer');
+  const cardGeo = document.getElementById('inputs-geopolymer-card');
+  if (cardGeo && cardGeo.classList) cardGeo.classList.toggle('hidden', theme === 'normal');
 
   // Update report status
   const statusBadge = document.getElementById("report-status");
   const confBadge = document.getElementById("calc-confidence");
   
-  if (theme === 'normal') {
-    statusBadge.innerText = "✓ Code Compliant";
-    statusBadge.className = "badge badge-success";
-    confBadge.innerText = "High (Validated)";
-    confBadge.className = "badge badge-accent";
-  } else {
-    statusBadge.innerText = "⚠️ Research Methodology";
-    statusBadge.className = "badge badge-error";
-    confBadge.innerText = "Medium (Research)";
-    confBadge.className = "badge badge-accent";
+  if (statusBadge && confBadge) {
+    if (theme === 'normal') {
+      statusBadge.innerText = "✓ Code Compliant";
+      statusBadge.className = "badge badge-success";
+      confBadge.innerText = "High (Validated)";
+      confBadge.className = "badge badge-accent";
+    } else {
+      statusBadge.innerText = "⚠️ Research Methodology";
+      statusBadge.className = "badge badge-error";
+      confBadge.innerText = "Medium (Research)";
+      confBadge.className = "badge badge-accent";
+    }
   }
 
   initializeActiveBinders(theme);
@@ -146,8 +1279,10 @@ function setTheme(theme) {
 
 function setMode(mode) {
   platformMode = mode;
-  document.getElementById('mode-compliance').classList.toggle('active', mode === 'compliance');
-  document.getElementById('mode-research').classList.toggle('active', mode === 'research');
+  const compEl = document.getElementById('mode-compliance');
+  if (compEl && compEl.classList) compEl.classList.toggle('active', mode === 'compliance');
+  const resEl = document.getElementById('mode-research');
+  if (resEl && resEl.classList) resEl.classList.toggle('active', mode === 'research');
   
   const optimizerCard = document.getElementById('optimizer-card');
   if (optimizerCard) {
@@ -280,6 +1415,7 @@ function handleAddBinder(theme) {
 // Render dynamic Material selectors with economics overrides
 function renderMaterialSelectors() {
   const container = document.getElementById("material-db-container");
+  if (!container) return;
   container.innerHTML = "";
 
   activeBinders.forEach(b => {
@@ -471,6 +1607,57 @@ function runSieveAnalysis() {
   runCalculations();
 }
 
+// Automatically update estimated W/C ratio based on grade, then calculate
+function handleGradeChange() {
+  const grade = parseInt(document.getElementById('grade').value) || 30;
+  let estimatedWC = 0.45;
+  
+  if (grade <= 15) estimatedWC = 0.60;
+  else if (grade <= 20) estimatedWC = 0.55;
+  else if (grade <= 25) estimatedWC = 0.50;
+  else if (grade <= 30) estimatedWC = 0.45;
+  else if (grade <= 35) estimatedWC = 0.41;
+  else if (grade <= 40) estimatedWC = 0.38;
+  else if (grade <= 45) estimatedWC = 0.35;
+  else if (grade <= 50) estimatedWC = 0.32;
+  else if (grade <= 55) estimatedWC = 0.30;
+  else estimatedWC = 0.28;
+  
+  const wcInput = document.getElementById('wc_ratio');
+  wcInput.value = estimatedWC;
+  
+  // Highlight the change to the user visually
+  wcInput.style.transition = "background-color 0.3s";
+  wcInput.style.backgroundColor = "rgba(var(--accent-rgb), 0.2)";
+  setTimeout(() => { wcInput.style.backgroundColor = "var(--input-bg)"; }, 800);
+  
+  runCalculations();
+}
+
+function handleGradeChange_noCalc() {
+  const grade = parseInt(document.getElementById('grade').value) || 30;
+  let estimatedWC = 0.45;
+  
+  if (grade <= 15) estimatedWC = 0.60;
+  else if (grade <= 20) estimatedWC = 0.55;
+  else if (grade <= 25) estimatedWC = 0.50;
+  else if (grade <= 30) estimatedWC = 0.45;
+  else if (grade <= 35) estimatedWC = 0.41;
+  else if (grade <= 40) estimatedWC = 0.38;
+  else if (grade <= 45) estimatedWC = 0.35;
+  else if (grade <= 50) estimatedWC = 0.32;
+  else if (grade <= 55) estimatedWC = 0.30;
+  else estimatedWC = 0.28;
+  
+  const wcInput = document.getElementById('wc_ratio');
+  wcInput.value = estimatedWC;
+  
+  // Highlight the change to the user visually
+  wcInput.style.transition = "background-color 0.3s";
+  wcInput.style.backgroundColor = "rgba(var(--accent-rgb), 0.2)";
+  setTimeout(() => { wcInput.style.backgroundColor = "var(--input-bg)"; }, 800);
+}
+
 // Master calculation runner
 async function runCalculations() {
   const payload = {
@@ -546,7 +1733,7 @@ async function runCalculations() {
     if (active) {
       const el = document.getElementById(BINDER_DETAILS[cat].sgId);
       if (el) return parseFloat(el.value) || defaultSg;
-      return materialsDb.binders && materialsDb.binders[active.id] ? materialsDb.binders[active.id].sg : defaultSg;
+      return materialsDb.binders && materialsDb.binders[active.id] ? (materialsDb.binders[active.id].typical_sg || materialsDb.binders[active.id].sg || defaultSg) : defaultSg;
     }
     return defaultSg;
   };
@@ -562,6 +1749,21 @@ async function runCalculations() {
     payload.inputs.sp_dosage = parseFloat(document.getElementById("sp_dosage").value) || 1.0;
     payload.inputs.sp_percent = parseFloat(document.getElementById("sp_percent").value) || 0;
     payload.inputs.is_pumped = document.getElementById("is_pumped").checked;
+    
+    const cm_increase_el = document.getElementById("cm_increase_percent");
+    if (cm_increase_el) {
+        payload.inputs.cm_increase_percent = parseFloat(cm_increase_el.value) || 0;
+    }
+
+    const calcMode = document.getElementById("calculation_mode");
+    if (calcMode) {
+      payload.inputs.calculation_mode = calcMode.value;
+    }
+    
+    const admProd = document.getElementById("admixture_product");
+    if (admProd) {
+      payload.inputs.admixture_product = admProd.value;
+    }
 
     payload.inputs.fly_ash_percent = fly_ash_percent;
     payload.inputs.ggbs_percent = ggbs_percent;
@@ -635,15 +1837,21 @@ async function runCalculations() {
     updateBinderSum('geopolymer');
   }
 
-  try {
-    const res = await fetch("/api/calculate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-    
-    if (res.ok) {
-      const data = await res.json();
+    try {
+      const results = activeTheme === 'normal' 
+          ? calculateNormalMix(payload.inputs) 
+          : calculateGeopolymerMix(payload.inputs);
+      
+      const validation = validateMix(activeTheme, payload.inputs, results, "compliance");
+      
+      const data = {
+          inputs: payload.inputs,
+          results: results,
+          validation: validation,
+          timestamp: new Date().toLocaleTimeString(),
+          trace_id: "MX-" + new Date().getFullYear() + "-" + Math.floor(Math.random() * 10000).toString().padStart(4, '0')
+      };
+
       calculationData = data;
       
       if (activeTheme === 'normal') {
@@ -653,64 +1861,81 @@ async function runCalculations() {
       }
       
       renderOutputs(data);
+    } catch (err) {
+      console.error("Calculation Error:", err);
     }
-  } catch (err) {
-    console.error("Calculation Error:", err);
-  }
 }
 
 // Render dynamic elements
 function renderOutputs(data) {
-  document.getElementById("mix-id").innerText = data.trace_id;
-  document.getElementById("timestamp").innerText = `Calculated: ${data.timestamp}`;
+  const mixId = document.getElementById("mix-id");
+  if (mixId) mixId.innerText = data.trace_id;
+  const timestamp = document.getElementById("timestamp");
+  if (timestamp) timestamp.innerText = `Calculated: ${data.timestamp}`;
 
   const results = data.results;
   const validation = data.validation;
 
   // 1. Checklist
-  document.getElementById("val-score").innerText = validation.score;
+  const valScore = document.getElementById("val-score");
+  if (valScore) valScore.innerText = validation.score;
   const checklistBox = document.getElementById("checklist-items");
-  checklistBox.innerHTML = "";
-  for (let key in validation.checklist) {
-    const item = validation.checklist[key];
-    const itemDiv = document.createElement("div");
-    itemDiv.className = `checklist-item ${item.status ? 'pass' : 'fail'}`;
-    itemDiv.innerHTML = `<span class="checklist-icon">${item.status ? "✓" : "❌"}</span><span class="body-xs">${formatChecklistLabel(key)}: ${item.message}</span>`;
-    checklistBox.appendChild(itemDiv);
+  if (checklistBox) {
+    checklistBox.innerHTML = "";
+    for (let key in validation.checklist) {
+      const item = validation.checklist[key];
+      const itemDiv = document.createElement("div");
+      itemDiv.className = `checklist-item ${item.status ? 'pass' : 'fail'}`;
+      itemDiv.innerHTML = `<span class="checklist-icon">${item.status ? "✓" : "✗"}</span><span class="body-xs">${formatChecklistLabel(key)}: ${item.message}</span>`;
+      checklistBox.appendChild(itemDiv);
+    }
+    
+    if (data.warnings && data.warnings.length > 0) {
+      data.warnings.forEach(warn => {
+        const wDiv = document.createElement("div");
+        wDiv.className = `checklist-item fail`;
+        wDiv.innerHTML = `<span class="checklist-icon">⚠️</span><span class="body-xs">Warning: ${warn}</span>`;
+        checklistBox.appendChild(wDiv);
+      });
+    }
   }
 
   // 2. Volume Balance Tag
   const balTag = document.getElementById("vol-balanced-tag");
-  const volBalanced = validation.checklist.volume_balanced.status;
-  balTag.className = volBalanced ? "badge badge-success" : "badge badge-error";
-  balTag.innerText = volBalanced ? "Volume Balanced" : "Volume Imbalance";
+  if (balTag) {
+    const volBalanced = validation.checklist.volume_balanced.status;
+    balTag.className = volBalanced ? "badge badge-success" : "badge badge-error";
+    balTag.innerText = volBalanced ? "Volume Balanced" : "Volume Imbalance";
+  }
 
-  // 3. Assumptions Log
+  // 3. Methodology & Assumptions Log
   const assumptionsBox = document.getElementById("assumptions-log");
-  assumptionsBox.innerHTML = "";
-  renderAssumptions(assumptionsBox, data.inputs);
+  if (assumptionsBox) {
+    assumptionsBox.innerHTML = "";
+    renderAssumptions(assumptionsBox, data.inputs);
+  }
 
   // 4. Yield Proportions Table
   renderProportionsTable(results);
 
   // 5. Update Donut Chart
-  updateChart(results);
+  try { updateChart(results); } catch(e){}
 
   // 6. Step-by-Step Calculation Trail
-  renderCalculationTrail(results);
+  try { renderCalculationTrail(results); } catch(e){}
 
   // 7. Render validation evidence board actuals & deviations
-  renderValidationEvidence(results);
+  try { renderValidationEvidence(results); } catch(e){}
 
   // 8. Render Sustainability parameters (Total Cost & Carbon)
-  renderSustainability(results);
+  try { renderSustainability(results); } catch(e){}
 
   // 9. Update Mix Comparison Grid
-  renderMixComparison();
+  try { renderMixComparison(); } catch(e){}
 
   // 10. Render AI Reviewer
   if (data.review) {
-    renderReviewer(data.review);
+    try { renderReviewer(data.review); } catch(e){}
   }
 }
 
@@ -890,61 +2115,84 @@ function renderMixComparison() {
     el.innerText = delta > 0 ? `+${delta}%` : `${delta}%`;
   };
 
-  const nr = lastNormalResults?.results;
-  const ni = lastNormalResults?.inputs;
-  const gr = lastGeopolymerResults?.results;
-  const gi = lastGeopolymerResults?.inputs;
+  const ur = lastUserCalculatedResults?.results;
+  const ui = lastUserCalculatedResults?.inputs;
+  const or = lastOptimizedResults?.results;
+  const oi = lastOptimizedResults?.inputs;
 
-  const nCost = nr?.economics?.total_cost?.value;
-  const gCost = gr?.economics?.total_cost?.value;
-  setCell("comp-cost-conv", nCost ? nCost.toFixed(1) : null, " ₹");
-  setCell("comp-cost-geo", gCost ? gCost.toFixed(1) : null, " ₹");
-  setDelta("comp-cost-delta", nCost, gCost);
+  const uCost = ur?.economics?.total_cost?.value;
+  const oCost = or?.economics?.total_cost?.value;
+  setCell("comp-cost-conv", uCost ? uCost.toFixed(1) : null, " ₹");
+  setCell("comp-cost-geo", oCost ? oCost.toFixed(1) : null, " ₹");
+  setDelta("comp-cost-delta", uCost, oCost);
 
-  const nCo2 = nr?.economics?.total_co2?.value;
-  const gCo2 = gr?.economics?.total_co2?.value;
-  setCell("comp-co2-conv", nCo2 ? nCo2.toFixed(0) : null, " kg");
-  setCell("comp-co2-geo", gCo2 ? gCo2.toFixed(0) : null, " kg");
-  setDelta("comp-co2-delta", nCo2, gCo2);
+  const uCo2 = ur?.economics?.total_co2?.value;
+  const oCo2 = or?.economics?.total_co2?.value;
+  setCell("comp-co2-conv", uCo2 ? uCo2.toFixed(0) : null, " kg");
+  setCell("comp-co2-geo", oCo2 ? oCo2.toFixed(0) : null, " kg");
+  setDelta("comp-co2-delta", uCo2, oCo2);
 
-  const nBinder = nr?.cement_content?.value;
-  const gBinder = gr?.total_binder_mass?.value;
-  setCell("comp-binder-conv", nBinder ? nBinder.toFixed(1) : null, " kg");
-  setCell("comp-binder-geo", gBinder ? gBinder.toFixed(1) : null, " kg");
-  setDelta("comp-binder-delta", nBinder, gBinder);
+  const uBinder = ur?.cement_content?.value;
+  const oBinder = or?.cement_content?.value;
+  setCell("comp-binder-conv", uBinder ? uBinder.toFixed(1) : null, " kg");
+  setCell("comp-binder-geo", oBinder ? oBinder.toFixed(1) : null, " kg");
+  setDelta("comp-binder-delta", uBinder, oBinder);
 
-  const nWater = nr?.mass_water_ssd?.value;
-  const gWater = gr?.water_total?.value;
-  setCell("comp-water-conv", nWater ? nWater.toFixed(1) : null, " kg");
-  setCell("comp-water-geo", gWater ? gWater.toFixed(1) : null, " kg");
-  setDelta("comp-water-delta", nWater, gWater);
+  const uWater = ur?.mass_water_ssd?.value;
+  const oWater = or?.mass_water_ssd?.value;
+  setCell("comp-water-conv", uWater ? uWater.toFixed(1) : null, " kg");
+  setCell("comp-water-geo", oWater ? oWater.toFixed(1) : null, " kg");
+  setDelta("comp-water-delta", uWater, oWater);
 
-  const nOpc = ni ? (100 - (parseFloat(ni.fly_ash_percent)||0) - (parseFloat(ni.ggbs_percent)||0) - (parseFloat(ni.silica_fume_percent)||0) - (parseFloat(ni.metakaolin_percent)||0)) : null;
-  setCell("comp-opc-conv", nOpc !== null ? nOpc.toFixed(0) : null, "%");
-  setCell("comp-opc-geo", "N/A");
-  setCell("comp-opc-delta", "--");
+  const uOpc = ui ? (100 - (parseFloat(ui.fly_ash_percent)||0) - (parseFloat(ui.ggbs_percent)||0) - (parseFloat(ui.silica_fume_percent)||0) - (parseFloat(ui.metakaolin_percent)||0)) : null;
+  const oOpc = oi ? (100 - (parseFloat(oi.fly_ash_percent)||0) - (parseFloat(oi.ggbs_percent)||0) - (parseFloat(oi.silica_fume_percent)||0) - (parseFloat(oi.metakaolin_percent)||0)) : null;
+  setCell("comp-opc-conv", uOpc !== null ? uOpc.toFixed(0) : null, "%");
+  setCell("comp-opc-geo", oOpc !== null ? oOpc.toFixed(0) : null, "%");
+  setDelta("comp-opc-delta", uOpc, oOpc);
 
-  setCell("comp-fa-conv", ni ? (parseFloat(ni.fly_ash_percent)||0).toFixed(0) : null, "%");
-  setCell("comp-fa-geo", gi ? (parseFloat(gi.fly_ash_percent)||0).toFixed(0) : null, "%");
-  setCell("comp-fa-delta", "--");
+  const uFa = ui ? (parseFloat(ui.fly_ash_percent)||0) : null;
+  const oFa = oi ? (parseFloat(oi.fly_ash_percent)||0) : null;
+  setCell("comp-fa-conv", uFa !== null ? uFa.toFixed(0) : null, "%");
+  setCell("comp-fa-geo", oFa !== null ? oFa.toFixed(0) : null, "%");
+  setDelta("comp-fa-delta", uFa, oFa);
 
-  setCell("comp-ggbs-conv", ni ? (parseFloat(ni.ggbs_percent)||0).toFixed(0) : null, "%");
-  setCell("comp-ggbs-geo", gi ? (parseFloat(gi.ggbs_percent)||0).toFixed(0) : null, "%");
-  setCell("comp-ggbs-delta", "--");
+  const uGgbs = ui ? (parseFloat(ui.ggbs_percent)||0) : null;
+  const oGgbs = oi ? (parseFloat(oi.ggbs_percent)||0) : null;
+  setCell("comp-ggbs-conv", uGgbs !== null ? uGgbs.toFixed(0) : null, "%");
+  setCell("comp-ggbs-geo", oGgbs !== null ? oGgbs.toFixed(0) : null, "%");
+  setDelta("comp-ggbs-delta", uGgbs, oGgbs);
 
-  const nWc = ni?.wc_ratio;
-  setCell("comp-wc-conv", nWc ? parseFloat(nWc).toFixed(2) : null);
-  setCell("comp-wc-geo", "N/A");
-  setCell("comp-wc-delta", "--");
+  const uWc = ui?.wc_ratio;
+  const oWc = oi?.wc_ratio;
+  setCell("comp-wc-conv", uWc ? parseFloat(uWc).toFixed(2) : null);
+  setCell("comp-wc-geo", oWc ? parseFloat(oWc).toFixed(2) : null);
+  setDelta("comp-wc-delta", uWc, oWc);
 
-  const nSlump = ni?.slump;
-  setCell("comp-slump-conv", nSlump ? parseFloat(nSlump).toFixed(0) : null);
-  setCell("comp-slump-geo", "N/A");
-  setCell("comp-slump-delta", "--");
+  const uSlump = ui?.slump;
+  const oSlump = oi?.slump;
+  setCell("comp-slump-conv", uSlump ? parseFloat(uSlump).toFixed(0) : null);
+  setCell("comp-slump-geo", oSlump ? parseFloat(oSlump).toFixed(0) : null);
+  setDelta("comp-slump-delta", uSlump, oSlump);
 
-  setCell("comp-density-conv", 2400);
-  setCell("comp-density-geo", gi?.density);
-  setDelta("comp-density-delta", 2400, gi?.density);
+  const getDensity = (r) => {
+    if (!r) return null;
+    return (
+        (r.mass_cement_ssd?.value || 0) +
+        (r.mass_fly_ash_ssd?.value || 0) +
+        (r.mass_ggbs_ssd?.value || 0) +
+        (r.mass_silica_fume_ssd?.value || 0) +
+        (r.mass_metakaolin_ssd?.value || 0) +
+        (r.mass_water_ssd?.value || 0) +
+        (r.mass_ca_ssd?.value || 0) +
+        (r.mass_fa_ssd?.value || 0) +
+        (r.mass_admixture_ssd?.value || 0)
+    );
+  };
+  const uDensity = getDensity(ur);
+  const oDensity = getDensity(or);
+  setCell("comp-density-conv", uDensity ? uDensity.toFixed(0) : null);
+  setCell("comp-density-geo", oDensity ? oDensity.toFixed(0) : null);
+  setDelta("comp-density-delta", uDensity, oDensity);
 }
 
 // Update composition chart
@@ -1349,17 +2597,12 @@ async function runOptimizer() {
   };
   
   try {
-    const res = await fetch('/api/optimize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ inputs, objective })
-    });
-    const data = await res.json();
+    const data = optimizeMix(inputs, objective);
     
-    if (data.error) {
-      statusEl.innerText = 'Error';
+    if (data.error || !data.candidates || data.candidates.length === 0) {
+      statusEl.innerText = 'No Mix Found';
       statusEl.className = 'badge badge-error';
-      resultsEl.innerHTML = `<div class="text-dim body-xs">${data.error}</div>`;
+      resultsEl.innerHTML = `<div class="text-dim body-xs">${data.error || "No valid mixes"}</div>`;
       return;
     }
     
@@ -1408,14 +2651,24 @@ async function runOptimizer() {
 
 function applyOptimizerCandidate(c) {
   activeBinders = [];
-  if (c.binder_split.cement > 0) activeBinders.push({ name: "OPC 53", pct: c.binder_split.cement });
-  if (c.binder_split.fly_ash > 0) activeBinders.push({ name: "Fly Ash Class F", pct: c.binder_split.fly_ash });
-  if (c.binder_split.ggbs > 0) activeBinders.push({ name: "GGBS", pct: c.binder_split.ggbs });
-  if (c.binder_split.silica_fume > 0) activeBinders.push({ name: "Silica Fume", pct: c.binder_split.silica_fume });
-  if (c.binder_split.metakaolin > 0) activeBinders.push({ name: "Metakaolin", pct: c.binder_split.metakaolin });
+  if (c.binder_split.cement > 0) activeBinders.push({ id: "OPC 53", pct: c.binder_split.cement });
+  if (c.binder_split.fly_ash > 0) activeBinders.push({ id: "Fly Ash Class F", pct: c.binder_split.fly_ash });
+  if (c.binder_split.ggbs > 0) activeBinders.push({ id: "GGBS", pct: c.binder_split.ggbs });
+  if (c.binder_split.silica_fume > 0) activeBinders.push({ id: "Silica Fume", pct: c.binder_split.silica_fume });
+  if (c.binder_split.metakaolin > 0) activeBinders.push({ id: "Metakaolin", pct: c.binder_split.metakaolin });
   
+  renderBinderCards();
   renderMaterialSelectors();
+  if (activeTheme === 'normal') updateBinderSum('normal');
+  else updateBinderSum('geo');
   runCalculations();
+  
+  if (calculationData) {
+    lastOptimizedResults = JSON.parse(JSON.stringify(calculationData));
+    renderMixComparison();
+    const compPanel = document.getElementById('comp-panel');
+    if (compPanel) compPanel.style.display = 'flex';
+  }
 }
 
 // === Grade Recommendation ===
@@ -1424,12 +2677,7 @@ async function runGradeRecommendation() {
   const strength = parseFloat(document.getElementById('rec-strength').value) || 30;
   
   try {
-    const res = await fetch('/api/recommend-grade', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ exposure, target_strength: strength })
-    });
-    const data = await res.json();
+    const data = recommendGrade(exposure, strength);
     
     document.getElementById('rec-grade').innerText = data.min_grade || '--';
     document.getElementById('rec-wc').innerText = data.max_wc || '--';
@@ -1713,3 +2961,22 @@ function importProject(event) {
   reader.readAsText(file);
   event.target.value = ''; // Reset file input
 }
+
+// Global variables for comparison
+let lastUserCalculatedResults = null;
+let lastOptimizedResults = null;
+
+function calculateUserMix() {
+  runCalculations();
+  if (calculationData) {
+    lastUserCalculatedResults = JSON.parse(JSON.stringify(calculationData));
+    // Reset optimized results on new user calculation so comparison waits for optimizer run
+    lastOptimizedResults = null;
+    renderMixComparison();
+  }
+}
+
+
+
+
+

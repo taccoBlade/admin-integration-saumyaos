@@ -163,7 +163,7 @@ export default function AboutView() {
           {about && (
             <button
               onClick={() => setViewState("history")}
-              className="flex items-center gap-1.5 px-4 py-2 border border-white/5 bg-white/[0.01] hover:bg-white/5 rounded-xl text-slate-200 transition-all font-mono"
+              className="flex items-center gap-1.5 px-4 py-2 border border-purple-500/15 bg-white/[0.01] hover:bg-white/5 rounded-xl text-purple-50 transition-all font-mono"
             >
               <History className="w-3.5 h-3.5" /> History
             </button>
@@ -177,8 +177,8 @@ export default function AboutView() {
         </div>
       </div>
 
-      <div className="border border-white/5 bg-[#0c0d12]/50 p-6 rounded-2xl space-y-6">
-        <div className="flex items-center justify-between border-b border-white/5 pb-4">
+      <div className="border border-purple-500/15 bg-[#130a2a]/50 p-6 rounded-2xl space-y-6">
+        <div className="flex items-center justify-between border-b border-purple-500/15 pb-4">
           <div className="space-y-1">
             <span className="text-[10px] text-[var(--muted)]">WORKFLOW STATUS</span>
             <div className="flex items-center gap-2">
@@ -198,19 +198,19 @@ export default function AboutView() {
           <div className="space-y-4">
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Section Title</span>
-              <p className="text-white font-bold text-sm bg-black/20 p-3 border border-white/5 rounded-xl">{titleVal}</p>
+              <p className="text-white font-bold text-sm bg-black/20 p-3 border border-purple-500/15 rounded-xl">{titleVal}</p>
             </div>
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Eyebrow Tag</span>
-              <p className="text-slate-350 bg-black/20 p-3 border border-white/5 rounded-xl">{eyebrowVal}</p>
+              <p className="text-slate-350 bg-black/20 p-3 border border-purple-500/15 rounded-xl">{eyebrowVal}</p>
             </div>
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Focus Cards</span>
               <div className="space-y-2">
                 {focusCardsVal.map((card, idx) => (
-                  <div key={idx} className="bg-black/20 p-3 border border-white/5 rounded-xl">
+                  <div key={idx} className="bg-black/20 p-3 border border-purple-500/15 rounded-xl">
                     <strong className="text-white block mb-1">{card.title}</strong>
-                    <span className="text-slate-400 leading-normal">{card.description || "No description provided."}</span>
+                    <span className="text-purple-300 leading-normal">{card.description || "No description provided."}</span>
                   </div>
                 ))}
               </div>
@@ -220,7 +220,7 @@ export default function AboutView() {
           <div className="space-y-4">
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Current Obsessions</span>
-              <ul className="list-disc pl-5 text-slate-300 space-y-1 bg-black/20 p-4 border border-white/5 rounded-xl">
+              <ul className="list-disc pl-5 text-slate-300 space-y-1 bg-black/20 p-4 border border-purple-500/15 rounded-xl">
                 {obsessionsVal.map((item, idx) => (
                   <li key={idx}>{item}</li>
                 ))}

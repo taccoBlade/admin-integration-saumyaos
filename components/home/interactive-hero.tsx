@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const ComputationalCanvas = dynamic(
   () => import("./computational-canvas").then((m) => ({ default: m.ComputationalCanvas })),
@@ -57,7 +58,16 @@ export function InteractiveHero({
     >
       {/* ── 3D CANVAS BACKGROUND OR COVER IMAGE ── */}
       {cover_image ? (
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${cover_image})` }} />
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <Image
+            src={cover_image}
+            alt={title}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover pointer-events-none"
+          />
+        </div>
       ) : (
         isDesktop && (
           <div className="absolute inset-0 z-0 pointer-events-none">

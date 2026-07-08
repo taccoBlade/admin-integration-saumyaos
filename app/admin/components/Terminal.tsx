@@ -111,9 +111,9 @@ export default function Terminal({ isOpen, onClose, email }: TerminalProps) {
           animate={{ height: 264, opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-hidden border-t border-white/[0.08] bg-[#07080b]/95 font-mono text-xs shadow-[0_-24px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl lg:left-[17rem]"
+          className="fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-hidden border-t border-purple-500/20 bg-[#0e0721]/95 font-mono text-xs shadow-[0_-24px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl lg:left-[17rem]"
         >
-          <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.025] px-4 py-2 text-slate-500">
+          <div className="flex items-center justify-between border-b border-purple-500/20 bg-white/[0.025] px-4 py-2 text-purple-400/80">
             <div className="flex items-center gap-2">
               <TerminalIcon className="h-3.5 w-3.5 text-violet-300" />
               <span>Console Panel</span>
@@ -131,7 +131,7 @@ export default function Terminal({ isOpen, onClose, email }: TerminalProps) {
           <div className="flex-1 space-y-1.5 overflow-y-auto p-4">
             {history.map((line, idx) => {
               let color = "text-slate-300";
-              if (line.type === "system") color = "text-slate-500";
+              if (line.type === "system") color = "text-purple-400/80";
               if (line.type === "input") color = "text-white font-semibold";
               if (line.type === "error") color = "text-red-300";
               if (line.type === "output") color = "text-slate-300";
@@ -147,7 +147,7 @@ export default function Terminal({ isOpen, onClose, email }: TerminalProps) {
 
           <form
             onSubmit={handleSubmit}
-            className="flex items-center border-t border-white/[0.08] bg-white/[0.025] px-4 py-2 text-white"
+            className="flex items-center border-t border-purple-500/20 bg-white/[0.025] px-4 py-2 text-white"
           >
             <span className="mr-2 flex items-center text-cyan-300 select-none">
               <span>saumya@os</span>

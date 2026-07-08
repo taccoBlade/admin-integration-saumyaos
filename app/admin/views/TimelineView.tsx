@@ -145,7 +145,7 @@ export default function TimelineView({ projects = [] }: TimelineViewProps) {
 
   return (
     <div className="space-y-8 font-mono select-none text-xs">
-      <div className="flex flex-col gap-4 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-4 border-b border-purple-500/20 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1">
           <p className="admin-section-title">Workspace registry</p>
           <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Timeline</h1>
@@ -167,24 +167,24 @@ export default function TimelineView({ projects = [] }: TimelineViewProps) {
       )}
 
       <div className="admin-card overflow-hidden">
-        <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
+        <div className="flex items-center justify-between border-b border-purple-500/20 px-5 py-4">
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-cyan-300" />
             <span className="admin-section-title">Timeline milestones</span>
           </div>
-          <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-slate-500">
+          <span className="rounded-full border border-purple-500/20 bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
             {events.length} total
           </span>
         </div>
 
         {isLoading ? (
-          <div className="py-20 text-center text-slate-500">Loading timeline events...</div>
+          <div className="py-20 text-center text-purple-400/80">Loading timeline events...</div>
         ) : events.length === 0 ? (
           <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-dashed border-white/[0.12] bg-white/[0.025]">
-              <Calendar className="h-5 w-5 text-slate-500" />
+              <Calendar className="h-5 w-5 text-purple-400/80" />
             </div>
-            <p className="max-w-sm text-xs leading-relaxed text-slate-500">
+            <p className="max-w-sm text-xs leading-relaxed text-purple-400/80">
               No timeline events found in the database. Add career milestones or education history above.
             </p>
           </div>
@@ -192,7 +192,7 @@ export default function TimelineView({ projects = [] }: TimelineViewProps) {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-white/[0.01] text-[10px] uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-purple-500/20 bg-white/[0.01] text-[10px] uppercase tracking-wider text-purple-400/80">
                   <th className="px-6 py-3 font-semibold w-24">Year</th>
                   <th className="px-6 py-3 font-semibold w-36">Type</th>
                   <th className="px-6 py-3 font-semibold">Title</th>
@@ -236,7 +236,7 @@ export default function TimelineView({ projects = [] }: TimelineViewProps) {
                         event.status === "published"
                           ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                           : event.status === "archived"
-                          ? "bg-slate-500/10 text-slate-400 border-slate-500/20"
+                          ? "bg-slate-500/10 text-purple-300 border-slate-500/20"
                           : "bg-amber-500/10 text-amber-400 border-amber-500/20"
                       }`}>
                         {event.status.toUpperCase()}
@@ -246,13 +246,13 @@ export default function TimelineView({ projects = [] }: TimelineViewProps) {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => openEditModal(event)}
-                          className="p-1.5 hover:bg-white/5 rounded text-slate-400 hover:text-white transition-all"
+                          className="p-1.5 hover:bg-white/5 rounded text-purple-300 hover:text-white transition-all"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDelete(event.id, event.title)}
-                          className="p-1.5 hover:bg-red-500/10 rounded text-slate-500 hover:text-red-400 transition-all"
+                          className="p-1.5 hover:bg-red-500/10 rounded text-purple-400/80 hover:text-red-400 transition-all"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -269,14 +269,14 @@ export default function TimelineView({ projects = [] }: TimelineViewProps) {
       {/* Editor Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md border border-white/5 bg-[#0c0d12] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+          <div className="w-full max-w-md border border-purple-500/15 bg-[#130a2a] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl">
+            <div className="flex items-center justify-between border-b border-purple-500/15 pb-4 mb-4">
               <h3 className="text-sm font-bold text-white uppercase">
                 {editingEvent ? "Edit Timeline Event" : "Add Timeline Event"}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1 hover:bg-white/5 rounded text-slate-400 hover:text-white"
+                className="p-1 hover:bg-white/5 rounded text-purple-300 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -339,11 +339,11 @@ export default function TimelineView({ projects = [] }: TimelineViewProps) {
                 onChange={(e) => setFormStatus(e.target.value)}
               />
 
-              <div className="flex justify-end gap-2 pt-4 border-t border-white/5">
+              <div className="flex justify-end gap-2 pt-4 border-t border-purple-500/15">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
+                  className="px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
                 >
                   Cancel
                 </button>

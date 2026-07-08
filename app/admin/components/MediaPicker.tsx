@@ -273,38 +273,38 @@ export default function MediaPicker({ onClose, onSelect, multiSelect = false }: 
 
   return (
     <div className="fixed inset-0 bg-black/85 flex items-center justify-center z-[999] p-6 font-mono select-none">
-      <div className="bg-[#07080b] border border-white/10 w-full max-w-4xl h-[85vh] flex flex-col rounded-3xl overflow-hidden shadow-2xl">
+      <div className="bg-[#0e0721] border border-white/10 w-full max-w-4xl h-[85vh] flex flex-col rounded-3xl overflow-hidden shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#090b0e]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-purple-500/15 bg-[#090b0e]">
           <div>
             <h2 className="text-sm font-bold text-white uppercase">Choose Image</h2>
             <p className="text-[9px] text-[var(--muted)]">SELECT ASSETS FROM MEDIA LIBRARY</p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl border border-white/5 text-[var(--muted)] hover:text-white hover:bg-white/5 transition-all"
+            className="p-1.5 rounded-xl border border-purple-500/15 text-[var(--muted)] hover:text-white hover:bg-white/5 transition-all"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Filters and Upload bar */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 p-4 border-b border-white/5 bg-[#08090c]/50">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 p-4 border-b border-purple-500/15 bg-[#08090c]/50">
           <div className="relative flex-1">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-slate-500" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-purple-400/80" />
             <input
               type="text"
               placeholder="Search images..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#0c0d12] border border-white/5 py-2 pl-9 pr-3 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--accent-blue)] text-white"
+              className="w-full bg-[#130a2a] border border-purple-500/15 py-2 pl-9 pr-3 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[var(--accent-blue)] text-white"
             />
           </div>
           <div className="flex gap-2">
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-[#0c0d12] border border-white/5 px-3 py-2 rounded-xl text-xs text-white focus:outline-none"
+              className="bg-[#130a2a] border border-purple-500/15 px-3 py-2 rounded-xl text-xs text-white focus:outline-none"
             >
               <option value="all">All Folders</option>
               <option value="projects">Projects/</option>
@@ -319,7 +319,7 @@ export default function MediaPicker({ onClose, onSelect, multiSelect = false }: 
             <select
               value={categoryToUpload}
               onChange={(e) => setCategoryToUpload(e.target.value)}
-              className="bg-[#0c0d12] border border-white/5 px-3 py-2 rounded-xl text-xs text-amber-500 focus:outline-none"
+              className="bg-[#130a2a] border border-purple-500/15 px-3 py-2 rounded-xl text-xs text-amber-500 focus:outline-none"
             >
               <option value="Projects">Upload to: Projects/</option>
               <option value="Research">Upload to: Research/</option>
@@ -359,10 +359,10 @@ export default function MediaPicker({ onClose, onSelect, multiSelect = false }: 
         >
           {/* Upload Queue Section */}
           {uploadQueue.length > 0 && (
-            <div className="mb-6 border border-white/5 bg-[#0a0c0f] rounded-2xl p-4 space-y-3">
+            <div className="mb-6 border border-purple-500/15 bg-[#0a0c0f] rounded-2xl p-4 space-y-3">
               <h4 className="text-[10px] font-bold text-amber-500 uppercase">Active Uploads</h4>
               {uploadQueue.map((item) => (
-                <div key={item.id} className="flex items-center justify-between text-xs bg-white/[0.02] border border-white/5 px-3 py-2 rounded-xl">
+                <div key={item.id} className="flex items-center justify-between text-xs bg-white/[0.02] border border-purple-500/15 px-3 py-2 rounded-xl">
                   <div className="flex-1 mr-4">
                     <div className="flex justify-between text-[10px] text-slate-300 mb-1">
                       <span className="truncate max-w-[200px]">{item.name}</span>
@@ -384,12 +384,12 @@ export default function MediaPicker({ onClose, onSelect, multiSelect = false }: 
           )}
 
           {loading ? (
-            <div className="flex flex-col items-center justify-center h-48 text-slate-500 text-xs">
+            <div className="flex flex-col items-center justify-center h-48 text-purple-400/80 text-xs">
               <div className="animate-spin rounded-full h-5 w-5 border-t border-slate-500 border-r border-transparent mb-2" />
               Loading Media Assets...
             </div>
           ) : filteredAssets.length === 0 ? (
-            <div className="border-2 border-dashed border-white/5 flex flex-col items-center justify-center py-20 rounded-3xl text-slate-500">
+            <div className="border-2 border-dashed border-purple-500/15 flex flex-col items-center justify-center py-20 rounded-3xl text-purple-400/80">
               <UploadCloud className="w-8 h-8 mb-3 opacity-30" />
               <p className="text-xs">Drag and drop images here, or browse files</p>
               <p className="text-[10px] opacity-50 mt-1">Organized under {categoryToUpload}/</p>
@@ -407,7 +407,7 @@ export default function MediaPicker({ onClose, onSelect, multiSelect = false }: 
                     className={`relative aspect-square border rounded-2xl overflow-hidden cursor-pointer bg-[#0e1014] transition-all group select-none ${
                       isSelected
                         ? "border-[var(--accent-blue)] ring-1 ring-[var(--accent-blue)]/50 scale-[0.98]"
-                        : "border-white/5 hover:border-white/10 hover:scale-[1.02]"
+                        : "border-purple-500/15 hover:border-white/10 hover:scale-[1.02]"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -432,14 +432,14 @@ export default function MediaPicker({ onClose, onSelect, multiSelect = false }: 
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-white/5 bg-[#090b0e]">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-purple-500/15 bg-[#090b0e]">
           <p className="text-[10px] text-[var(--muted)]">
             {selectedIds.length} file{selectedIds.length === 1 ? "" : "s"} selected
           </p>
           <div className="flex gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-slate-300 text-xs font-semibold transition-all"
+              className="px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-slate-300 text-xs font-semibold transition-all"
             >
               Cancel
             </button>

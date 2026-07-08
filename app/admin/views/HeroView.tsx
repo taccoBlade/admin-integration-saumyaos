@@ -166,7 +166,7 @@ export default function HeroView() {
         <div className="flex gap-2">
           <button
             onClick={() => setViewState("history")}
-            className="flex items-center gap-1.5 px-4 py-2 border border-white/5 bg-white/[0.01] hover:bg-white/5 rounded-xl text-slate-200 transition-all font-mono"
+            className="flex items-center gap-1.5 px-4 py-2 border border-purple-500/15 bg-white/[0.01] hover:bg-white/5 rounded-xl text-purple-50 transition-all font-mono"
           >
             <History className="w-3.5 h-3.5" /> History
           </button>
@@ -179,8 +179,8 @@ export default function HeroView() {
         </div>
       </div>
 
-      <div className="border border-white/5 bg-[#0c0d12]/50 p-6 rounded-2xl space-y-6">
-        <div className="flex items-center justify-between border-b border-white/5 pb-4">
+      <div className="border border-purple-500/15 bg-[#130a2a]/50 p-6 rounded-2xl space-y-6">
+        <div className="flex items-center justify-between border-b border-purple-500/15 pb-4">
           <div className="space-y-1">
             <span className="text-[10px] text-[var(--muted)]">WORKFLOW STATUS</span>
             <div className="flex items-center gap-2">
@@ -200,20 +200,20 @@ export default function HeroView() {
           <div className="space-y-4">
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Title (Owner Name)</span>
-              <p className="text-white font-bold text-sm bg-black/20 p-3 border border-white/5 rounded-xl">{hero?.title}</p>
+              <p className="text-white font-bold text-sm bg-black/20 p-3 border border-purple-500/15 rounded-xl">{hero?.title}</p>
             </div>
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Eyebrow Tagline</span>
-              <p className="text-slate-300 bg-black/20 p-3 border border-white/5 rounded-xl">{hero?.tagline || "N/A"}</p>
+              <p className="text-slate-300 bg-black/20 p-3 border border-purple-500/15 rounded-xl">{hero?.tagline || "N/A"}</p>
             </div>
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Subtitle (Role)</span>
-              <p className="text-slate-300 bg-black/20 p-3 border border-white/5 rounded-xl">{hero?.subtitle || "N/A"}</p>
+              <p className="text-slate-300 bg-black/20 p-3 border border-purple-500/15 rounded-xl">{hero?.subtitle || "N/A"}</p>
             </div>
             {hero?.cover_image && (
               <div>
                 <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Cover background image</span>
-                <div className="relative w-full max-w-xs h-32 overflow-hidden border border-white/5 rounded-xl">
+                <div className="relative w-full max-w-xs h-32 overflow-hidden border border-purple-500/15 rounded-xl">
                   <Image
                     src={hero.cover_image}
                     alt="Cover Preview"
@@ -230,21 +230,21 @@ export default function HeroView() {
           <div className="space-y-4">
             <div>
               <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Description Paragraph</span>
-              <p className="text-slate-300 leading-relaxed bg-black/20 p-3 border border-white/5 rounded-xl whitespace-pre-wrap">
+              <p className="text-slate-300 leading-relaxed bg-black/20 p-3 border border-purple-500/15 rounded-xl whitespace-pre-wrap">
                 {hero?.description || "N/A"}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Primary CTA Button</span>
-                <p className="text-slate-300 bg-black/20 p-3 border border-white/5 rounded-xl text-center truncate">
-                  {hero?.cta_text || "N/A"} <span className="text-[9px] text-slate-500 block">({hero?.cta_url})</span>
+                <p className="text-slate-300 bg-black/20 p-3 border border-purple-500/15 rounded-xl text-center truncate">
+                  {hero?.cta_text || "N/A"} <span className="text-[9px] text-purple-400/80 block">({hero?.cta_url})</span>
                 </p>
               </div>
               <div>
                 <span className="text-[10px] text-[var(--muted)] uppercase block mb-1">Secondary CTA Button</span>
-                <p className="text-slate-300 bg-black/20 p-3 border border-white/5 rounded-xl text-center truncate">
-                  {hero?.secondary_cta_text || "N/A"} <span className="text-[9px] text-slate-500 block">({hero?.secondary_cta_url})</span>
+                <p className="text-slate-300 bg-black/20 p-3 border border-purple-500/15 rounded-xl text-center truncate">
+                  {hero?.secondary_cta_text || "N/A"} <span className="text-[9px] text-purple-400/80 block">({hero?.secondary_cta_url})</span>
                 </p>
               </div>
             </div>

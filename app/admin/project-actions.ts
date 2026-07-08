@@ -2,7 +2,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 async function getActorProfileId(supabase: SupabaseClient) {
@@ -21,6 +21,7 @@ export async function updateProjectAction(projectId: string, formData: FormData)
   const actorId = await getActorProfileId(supabase);
 
   const title = formData.get("title") as string;
+  const slug = formData.get("slug") as string;
   const year = parseInt(formData.get("year") as string) || new Date().getFullYear();
   const description = formData.get("description") as string;
   const overview = formData.get("overview") as string;
@@ -29,6 +30,14 @@ export async function updateProjectAction(projectId: string, formData: FormData)
   
   // Custom workflow status ('draft' | 'review' | 'scheduled' | 'published' | 'archived')
   const workflowStatus = formData.get("status") as string; 
+
+  const challenges = formData.get("challenges") as string || "";
+  const implementation = formData.get("implementation") as string || "";
+  const outcomes = formData.get("outcomes") as string || "";
+  const futureImprovements = formData.get("futureImprovements") as string || "";
+  const githubUrl = formData.get("githubUrl") as string || "";
+  const liveUrl = formData.get("liveUrl") as string || "";
+  const domain = formData.get("domain") as string || "Civil Engineering";
 
   if (!title) {
     return { error: "Title is required." };
@@ -60,17 +69,31 @@ export async function updateProjectAction(projectId: string, formData: FormData)
     if (fetchErr) throw fetchErr;
 
     // 2. Perform DB update
+    const parseList = (str: string) =>
+      str ? str.split(",").map((s) => s.trim()).filter((s) => s.length > 0) : [];
+
+    const techArray = parseList(technologies);
+    const tagsArray = parseList(tags);
+
     const nextSourceJson: Record<string, unknown> = {
       ...(currentProject.source_json as Record<string, unknown>),
       workflow_status: workflowStatus,
       title,
+      slug: slug || currentProject.slug,
       year,
       description,
       overview,
       cover_image: coverImage,
       gallery: galleryUrls,
-      technologies,
-      tags,
+      technologies: techArray,
+      tags: tagsArray,
+      challenges,
+      implementation,
+      outcomes: outcomes ? outcomes.split("\n").map(l => l.replace(/^[-*]\s*/, "").trim()).filter(l => l.length > 0) : [],
+      futureImprovements,
+      githubUrl,
+      liveUrl,
+      domain,
       cover_media_id: (currentProject.source_json as Record<string, unknown>)?.cover_media_id || null,
     };
 
@@ -78,11 +101,16 @@ export async function updateProjectAction(projectId: string, formData: FormData)
       .from("projects")
       .update({
         title,
+        slug: slug || currentProject.slug,
         year,
         description,
         overview,
         status: dbStatus,
         scheduled_at: scheduledAt,
+        challenges,
+        implementation,
+        outcomes,
+        future_improvements: futureImprovements,
         source_json: nextSourceJson,
       })
       .eq("id", projectId)
@@ -179,6 +207,8 @@ export async function updateProjectAction(projectId: string, formData: FormData)
 
     revalidatePath("/admin");
     revalidatePath(`/projects/${currentProject.slug}`);
+    revalidateTag("projects", "default");
+    revalidateTag(`project-${currentProject.slug}`, "default");
     return { success: true };
   } catch (err: unknown) {
     console.error("Update project error:", err);
@@ -271,6 +301,8 @@ export async function rollbackProjectAction(projectId: string, versionId: string
 
     revalidatePath("/admin");
     revalidatePath(`/projects/${rolledBackProject.slug}`);
+    revalidateTag("projects", "default");
+    revalidateTag(`project-${rolledBackProject.slug}`, "default");
     return { success: true };
   } catch (err: unknown) {
     console.error("Rollback error:", err);
@@ -292,5 +324,92 @@ export async function getProjectVersionsAction(projectId: string) {
     return { versions: data };
   } catch (err: unknown) {
     return { error: err instanceof Error ? err.message : "Failed to load versions." };
+  }
+}
+
+export async function deleteProjectAction(projectId: string, adminPassword: string) {
+  const supabase = await createSupabaseServerClient();
+  
+  // Get current user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user || !user.email) {
+    return { error: "Authentication failed. Could not determine current admin user." };
+  }
+
+  // Verify password
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: adminPassword,
+  });
+
+  if (signInError) {
+    return { error: "Incorrect admin password. Deletion denied." };
+  }
+
+  try {
+    const adminDb = createSupabaseAdminClient();
+    const actorId = await getActorProfileId(supabase);
+
+    // Fetch the project for logging and cover image tracking
+    const { data: project } = await adminDb
+      .from("projects")
+      .select("title, source_json")
+      .eq("id", projectId)
+      .single();
+
+    // Fetch all associated media assets before deleting
+    const { data: projectMedia } = await adminDb
+      .from("project_media")
+      .select("media_asset_id")
+      .eq("project_id", projectId);
+
+    const mediaAssetIdsToMaybeClean = new Set<string>();
+    
+    if (projectMedia) {
+      projectMedia.forEach(row => mediaAssetIdsToMaybeClean.add(row.media_asset_id));
+    }
+    const coverMediaId = (project?.source_json as Record<string, unknown>)?.cover_media_id as string | undefined;
+    if (coverMediaId) {
+      mediaAssetIdsToMaybeClean.add(coverMediaId);
+    }
+
+    // Delete the project
+    const { error: deleteError } = await adminDb
+      .from("projects")
+      .delete()
+      .eq("id", projectId);
+
+    if (deleteError) throw deleteError;
+
+    // Check for and clean up completely orphaned media
+    if (mediaAssetIdsToMaybeClean.size > 0) {
+      const { getMediaUsageAction, deleteMediaAssetAction } = await import("./media-actions");
+      for (const assetId of mediaAssetIdsToMaybeClean) {
+        const { usage } = await getMediaUsageAction(assetId);
+        if (usage && usage.length === 0) {
+          console.log(`Media asset ${assetId} is now orphaned. Cleaning it up.`);
+          await deleteMediaAssetAction(assetId);
+        }
+      }
+    }
+
+    // Log the deletion
+    await adminDb.from("activity_log").insert({
+      actor_user_id: actorId,
+      actor_label: "Admin",
+      action: `Deleted project: ${project?.title || projectId}`,
+      target_type: "project",
+      target_id: projectId,
+    });
+
+    revalidatePath("/admin");
+    revalidatePath("/projects");
+    revalidateTag("projects", "default");
+    
+    return { success: true };
+  } catch (err: unknown) {
+    const e = err as Error;
+    console.error("Delete project error:", e);
+    return { error: e.message };
   }
 }

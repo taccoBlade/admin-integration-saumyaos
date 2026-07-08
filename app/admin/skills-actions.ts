@@ -2,7 +2,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 async function getActorProfileId(supabase: SupabaseClient) {
@@ -126,6 +126,7 @@ export async function createSkillAction(formData: FormData) {
     });
 
     revalidatePath("/");
+    revalidateTag("skills", "default");
     return { success: true, id: data.id };
   } catch (err: unknown) {
     const e = err as Error;
@@ -202,6 +203,7 @@ export async function updateSkillAction(id: string, formData: FormData) {
     });
 
     revalidatePath("/");
+    revalidateTag("skills", "default");
     return { success: true };
   } catch (err: unknown) {
     const e = err as Error;
@@ -235,6 +237,7 @@ export async function deleteSkillAction(id: string) {
     });
 
     revalidatePath("/");
+    revalidateTag("skills", "default");
     return { success: true };
   } catch (err: unknown) {
     const e = err as Error;

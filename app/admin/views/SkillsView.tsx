@@ -153,7 +153,7 @@ export default function SkillsView() {
 
   return (
     <div className="space-y-8 font-mono select-none text-xs">
-      <div className="flex flex-col gap-4 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-4 border-b border-purple-500/20 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1">
           <p className="admin-section-title">Workspace registry</p>
           <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Skills</h1>
@@ -175,24 +175,24 @@ export default function SkillsView() {
       )}
 
       <div className="admin-card overflow-hidden">
-        <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
+        <div className="flex items-center justify-between border-b border-purple-500/20 px-5 py-4">
           <div className="flex items-center gap-2">
             <Wrench className="h-4 w-4 text-cyan-300" />
             <span className="admin-section-title">Skills inventory</span>
           </div>
-          <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-slate-500">
+          <span className="rounded-full border border-purple-500/20 bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
             {skills.length} total
           </span>
         </div>
 
         {isLoading ? (
-          <div className="py-20 text-center text-slate-500">Loading skills registry...</div>
+          <div className="py-20 text-center text-purple-400/80">Loading skills registry...</div>
         ) : skills.length === 0 ? (
           <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-dashed border-white/[0.12] bg-white/[0.025]">
-              <Wrench className="h-5 w-5 text-slate-500" />
+              <Wrench className="h-5 w-5 text-purple-400/80" />
             </div>
-            <p className="max-w-sm text-xs leading-relaxed text-slate-500">
+            <p className="max-w-sm text-xs leading-relaxed text-purple-400/80">
               No skills found in the database. Add technical or engineering skills using the button above.
             </p>
           </div>
@@ -200,7 +200,7 @@ export default function SkillsView() {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-white/[0.01] text-[10px] uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-purple-500/20 bg-white/[0.01] text-[10px] uppercase tracking-wider text-purple-400/80">
                   <th className="px-6 py-3 font-semibold">Name</th>
                   <th className="px-6 py-3 font-semibold">Category</th>
                   <th className="px-6 py-3 font-semibold text-center">Strength</th>
@@ -213,7 +213,7 @@ export default function SkillsView() {
                 {skills.map((skill) => (
                   <tr key={skill.id} className="hover:bg-white/[0.015] transition-all">
                     <td className="px-6 py-4 font-semibold text-white">{skill.name}</td>
-                    <td className="px-6 py-4 text-slate-400">{skill.taxonomy_terms?.name || "Core Engineering"}</td>
+                    <td className="px-6 py-4 text-purple-300">{skill.taxonomy_terms?.name || "Core Engineering"}</td>
                     <td className="px-6 py-4 text-center">
                       <div className="flex items-center justify-center gap-1">
                         <span className="text-cyan-300 font-bold">{skill.base_strength}</span>
@@ -234,7 +234,7 @@ export default function SkillsView() {
                         skill.status === "published"
                           ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                           : skill.status === "archived"
-                          ? "bg-slate-500/10 text-slate-400 border-slate-500/20"
+                          ? "bg-slate-500/10 text-purple-300 border-slate-500/20"
                           : "bg-amber-500/10 text-amber-400 border-amber-500/20"
                       }`}>
                         {skill.status.toUpperCase()}
@@ -244,13 +244,13 @@ export default function SkillsView() {
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => openEditModal(skill)}
-                          className="p-1.5 hover:bg-white/5 rounded text-slate-400 hover:text-white transition-all"
+                          className="p-1.5 hover:bg-white/5 rounded text-purple-300 hover:text-white transition-all"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDelete(skill.id, skill.name)}
-                          className="p-1.5 hover:bg-red-500/10 rounded text-slate-500 hover:text-red-400 transition-all"
+                          className="p-1.5 hover:bg-red-500/10 rounded text-purple-400/80 hover:text-red-400 transition-all"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -267,14 +267,14 @@ export default function SkillsView() {
       {/* Editor Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md border border-white/5 bg-[#0c0d12] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+          <div className="w-full max-w-md border border-purple-500/15 bg-[#130a2a] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl">
+            <div className="flex items-center justify-between border-b border-purple-500/15 pb-4 mb-4">
               <h3 className="text-sm font-bold text-white uppercase">
                 {editingSkill ? "Edit Skill" : "Add New Skill"}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1 hover:bg-white/5 rounded text-slate-400 hover:text-white"
+                className="p-1 hover:bg-white/5 rounded text-purple-300 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -310,7 +310,7 @@ export default function SkillsView() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500 mb-1.5">
+                  <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-purple-400/80 mb-1.5">
                     Strength: <span className="text-cyan-300 font-bold">{formStrength}/10</span>
                   </label>
                   <input
@@ -319,7 +319,7 @@ export default function SkillsView() {
                     max="10"
                     value={formStrength}
                     onChange={(e) => setFormStrength(e.target.value)}
-                    className="w-full h-1.5 bg-white/5 border border-white/5 rounded-lg appearance-none cursor-pointer accent-cyan-300"
+                    className="w-full h-1.5 bg-white/5 border border-purple-500/15 rounded-lg appearance-none cursor-pointer accent-cyan-300"
                   />
                 </div>
                 <FormField
@@ -352,11 +352,11 @@ export default function SkillsView() {
                 onChange={(e) => setFormStatus(e.target.value)}
               />
 
-              <div className="flex justify-end gap-2 pt-4 border-t border-white/5">
+              <div className="flex justify-end gap-2 pt-4 border-t border-purple-500/15">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
+                  className="px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
                 >
                   Cancel
                 </button>

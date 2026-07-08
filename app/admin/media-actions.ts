@@ -83,6 +83,15 @@ export async function saveMediaAssetAction(data: {
       .single();
 
     if (error) throw error;
+
+    await adminDb.from("activity_log").insert({
+      actor_user_id: actorId,
+      actor_label: "Admin",
+      action: `Uploaded media: ${data.fileName}`,
+      target_type: "media_asset",
+      target_id: inserted.id
+    });
+
     revalidatePath("/admin");
     return { success: true, asset: inserted };
   } catch (err: unknown) {
@@ -183,6 +192,8 @@ export async function getMediaUsageAction(id: string) {
 
 export async function deleteMediaAssetAction(id: string) {
   try {
+    const supabase = await createSupabaseServerClient();
+    const actorId = await getActorProfileId(supabase);
     const adminDb = createSupabaseAdminClient();
 
     // 1. Check if used
@@ -195,13 +206,21 @@ export async function deleteMediaAssetAction(id: string) {
     // 2. Fetch asset path & bucket
     const { data: asset, error: getErr } = await adminDb
       .from("media_assets")
-      .select("bucket, path, metadata_json")
+      .select("bucket, path, file_name, metadata_json")
       .eq("id", id)
       .single();
 
     if (getErr || !asset) throw new Error("Media asset not found.");
 
-    // Delete files from storage
+    // 3. Delete DB record FIRST (Transactional Safety)
+    const { error: deleteErr } = await adminDb
+      .from("media_assets")
+      .delete()
+      .eq("id", id);
+
+    if (deleteErr) throw deleteErr;
+
+    // 4. Delete files from storage
     const storagePaths = [asset.path];
     const sizes = ((asset.metadata_json as Record<string, unknown>)?.sizes || {}) as Record<string, unknown>;
     Object.values(sizes).forEach((sizeUrl: unknown) => {
@@ -218,15 +237,20 @@ export async function deleteMediaAssetAction(id: string) {
       .from(asset.bucket)
       .remove(storagePaths);
 
-    if (storageErr) throw storageErr;
+    if (storageErr) {
+      console.warn("Storage deletion failed, but DB record was removed:", storageErr);
+      // We do not throw here, as the DB record is already deleted. The storage is effectively orphaned, 
+      // but the app state remains consistent.
+    }
 
-    // Delete DB record
-    const { error: deleteErr } = await adminDb
-      .from("media_assets")
-      .delete()
-      .eq("id", id);
-
-    if (deleteErr) throw deleteErr;
+    // 5. Activity Log
+    await adminDb.from("activity_log").insert({
+      actor_user_id: actorId,
+      actor_label: "Admin",
+      action: `Deleted media: ${asset.file_name}`,
+      target_type: "media_asset",
+      target_id: id
+    });
 
     revalidatePath("/admin");
     return { success: true };

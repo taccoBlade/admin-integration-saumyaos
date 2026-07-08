@@ -96,7 +96,7 @@ export default function AboutEditorView({
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              className="p-2 rounded-xl text-[var(--muted)] hover:text-white hover:bg-white/5 border border-white/5 transition-all"
+              className="p-2 rounded-xl text-[var(--muted)] hover:text-white hover:bg-white/5 border border-purple-500/15 transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
@@ -111,7 +111,7 @@ export default function AboutEditorView({
             className={`py-2 px-3 rounded-xl border transition-all flex items-center gap-1.5 ${
               aiOpen
                 ? "bg-purple-500/10 border-purple-500/30 text-purple-400 font-bold"
-                : "border-white/5 text-[var(--muted)] hover:text-white hover:bg-white/5"
+                : "border-purple-500/15 text-[var(--muted)] hover:text-white hover:bg-white/5"
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -119,7 +119,7 @@ export default function AboutEditorView({
           </button>
         </div>
 
-        <form onSubmit={(e) => e.preventDefault()} className="border border-white/5 bg-[#0c0d12]/50 p-6 rounded-2xl space-y-5">
+        <form onSubmit={(e) => e.preventDefault()} className="border border-purple-500/15 bg-[#130a2a]/50 p-6 rounded-2xl space-y-5">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-[10px] uppercase text-[var(--muted)] mb-1.5">Section Title</label>
@@ -128,7 +128,7 @@ export default function AboutEditorView({
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+                className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
               />
             </div>
             <div>
@@ -137,7 +137,7 @@ export default function AboutEditorView({
                 type="text"
                 value={eyebrow}
                 onChange={(e) => setEyebrow(e.target.value)}
-                className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
+                className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none"
               />
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function AboutEditorView({
             </div>
 
             {focusCards.map((card, idx) => (
-              <div key={idx} className="p-4 bg-black/35 border border-white/5 rounded-xl space-y-3 relative group">
+              <div key={idx} className="p-4 bg-black/35 border border-purple-500/15 rounded-xl space-y-3 relative group">
                 <button
                   type="button"
                   onClick={() => removeCard(idx)}
@@ -170,7 +170,7 @@ export default function AboutEditorView({
                     placeholder="Focus Title (e.g. Geotechnical)"
                     value={card.title}
                     onChange={(e) => handleCardChange(idx, "title", e.target.value)}
-                    className="block w-full py-1.5 px-2 bg-[#0c0d12] border border-white/5 rounded-lg text-xs text-white focus:outline-none font-bold"
+                    className="block w-full py-1.5 px-2 bg-[#130a2a] border border-purple-500/15 rounded-lg text-xs text-white focus:outline-none font-bold"
                   />
                 </div>
                 <div>
@@ -179,7 +179,7 @@ export default function AboutEditorView({
                     placeholder="Focus Description paragraph..."
                     value={card.description}
                     onChange={(e) => handleCardChange(idx, "description", e.target.value)}
-                    className="block w-full py-1.5 px-2 bg-[#0c0d12] border border-white/5 rounded-lg text-xs text-white focus:outline-none"
+                    className="block w-full py-1.5 px-2 bg-[#130a2a] border border-purple-500/15 rounded-lg text-xs text-white focus:outline-none"
                   />
                 </div>
               </div>
@@ -192,7 +192,7 @@ export default function AboutEditorView({
               rows={4}
               value={obsessionsText}
               onChange={(e) => setObsessionsText(e.target.value)}
-              className="block w-full py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none leading-relaxed"
+              className="block w-full py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-xs text-white placeholder-slate-600 focus:outline-none leading-relaxed"
               placeholder="Deep Excavation Engineering&#10;Infrastructure Automation&#10;Portfolio Construction"
             />
           </div>
@@ -202,7 +202,7 @@ export default function AboutEditorView({
               type="button"
               onClick={() => handleSubmit(false)}
               disabled={isPending}
-              className="flex-1 py-3 px-4 bg-white/5 border border-white/5 hover:bg-white/10 text-white font-semibold rounded-xl text-xs disabled:opacity-50 transition-all"
+              className="flex-1 py-3 px-4 bg-white/5 border border-purple-500/15 hover:bg-white/10 text-white font-semibold rounded-xl text-xs disabled:opacity-50 transition-all"
             >
               Save Draft
             </button>

@@ -39,7 +39,7 @@ export default function AIView({ projects = [] }: AIViewProps) {
           <select
             value={selectedId}
             onChange={(e) => setSelectedId(e.target.value)}
-            className="w-full sm:w-64 py-2.5 px-3 bg-[#0c0d12] border border-white/5 rounded-xl text-white outline-none focus:ring-1 focus:ring-purple-500/50"
+            className="w-full sm:w-64 py-2.5 px-3 bg-[#130a2a] border border-purple-500/15 rounded-xl text-white outline-none focus:ring-1 focus:ring-purple-500/50"
           >
             <option value="">-- SELECT A PROJECT --</option>
             {projects.map((p) => (
@@ -52,7 +52,7 @@ export default function AIView({ projects = [] }: AIViewProps) {
       </div>
 
       {!selectedProject ? (
-        <div className="border border-white/5 bg-[#0c0d12]/20 p-12 rounded-3xl flex flex-col items-center justify-center text-center space-y-4">
+        <div className="border border-purple-500/15 bg-[#130a2a]/20 p-12 rounded-3xl flex flex-col items-center justify-center text-center space-y-4">
           <div className="p-4 bg-purple-500/10 border border-purple-500/20 rounded-2xl">
             <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
           </div>
@@ -67,8 +67,8 @@ export default function AIView({ projects = [] }: AIViewProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Project Details Panel */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="border border-white/5 bg-[#0c0d12]/50 p-6 rounded-2xl space-y-4">
-              <div className="flex items-center gap-2 text-white font-bold border-b border-white/5 pb-2">
+            <div className="border border-purple-500/15 bg-[#130a2a]/50 p-6 rounded-2xl space-y-4">
+              <div className="flex items-center gap-2 text-white font-bold border-b border-purple-500/15 pb-2">
                 <FileText className="w-4 h-4 text-[var(--accent-blue)]" />
                 <span className="uppercase text-[10px]">Project Context</span>
               </div>
@@ -92,12 +92,12 @@ export default function AIView({ projects = [] }: AIViewProps) {
               </div>
             </div>
 
-            <div className="border border-white/5 bg-[#0c0d12]/30 p-6 rounded-2xl space-y-2">
+            <div className="border border-purple-500/15 bg-[#130a2a]/30 p-6 rounded-2xl space-y-2">
               <div className="flex items-center gap-2 text-white font-bold pb-2">
                 <BarChart className="w-4 h-4 text-purple-400" />
                 <span className="uppercase text-[10px]">Audit Checklist</span>
               </div>
-              <p className="text-slate-400 text-[10px] leading-relaxed">
+              <p className="text-purple-300 text-[10px] leading-relaxed">
                 The AI Reviewer will evaluate your project against completeness, technical methodology rigor, validation techniques, alt text coverage, and SEO optimizations.
               </p>
             </div>

@@ -16,12 +16,12 @@ export default function ProjectQualityCard({ overall, engineering, seo, media }:
   ];
 
   return (
-    <div className="border border-white/5 bg-[#0a0b0f] p-4 rounded-2xl space-y-3 font-mono text-xs select-none">
-      <h4 className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Audit Metrics</h4>
+    <div className="border border-purple-500/15 bg-[#100824] p-4 rounded-2xl space-y-3 font-mono text-xs select-none">
+      <h4 className="text-[10px] text-purple-400/80 uppercase font-bold tracking-wider">Audit Metrics</h4>
       <div className="grid grid-cols-2 gap-3">
         {scores.map((s) => (
-          <div key={s.label} className="bg-white/[0.01] border border-white/5 p-3 rounded-xl flex flex-col justify-between">
-            <span className="text-[9px] text-slate-400 truncate">{s.label}</span>
+          <div key={s.label} className="bg-white/[0.01] border border-purple-500/15 p-3 rounded-xl flex flex-col justify-between">
+            <span className="text-[9px] text-purple-300 truncate">{s.label}</span>
             <div className="flex items-baseline gap-1 mt-2">
               <span className={`text-lg font-bold ${s.color}`}>{s.val}</span>
               <span className="text-[9px] text-slate-600">/100</span>

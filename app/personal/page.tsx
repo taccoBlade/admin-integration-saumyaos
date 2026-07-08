@@ -2,8 +2,6 @@ import { EditorialLayout } from "@/components/personal/EditorialLayout"
 import { ParticleBackground } from "@/components/personal/ParticleBackground"
 import { getPhotoSpreads } from "@/lib/content"
 
-export const dynamic = 'force-dynamic';
-
 export default async function PersonalPage() {
   const spreads = await getPhotoSpreads();
 

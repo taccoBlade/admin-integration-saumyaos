@@ -154,7 +154,7 @@ export default function ResearchView() {
 
   return (
     <div className="space-y-8 font-mono select-none text-xs">
-      <div className="flex flex-col gap-4 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-4 border-b border-purple-500/20 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1">
           <p className="admin-section-title">Workspace registry</p>
           <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Research</h1>
@@ -176,24 +176,24 @@ export default function ResearchView() {
       )}
 
       <div className="admin-card overflow-hidden">
-        <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
+        <div className="flex items-center justify-between border-b border-purple-500/20 px-5 py-4">
           <div className="flex items-center gap-2">
             <BookOpen className="h-4 w-4 text-cyan-300" />
             <span className="admin-section-title">Research Publications</span>
           </div>
-          <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-slate-500">
+          <span className="rounded-full border border-purple-500/20 bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
             {entries.length} total
           </span>
         </div>
 
         {isLoading ? (
-          <div className="py-20 text-center text-slate-500">Loading research publications...</div>
+          <div className="py-20 text-center text-purple-400/80">Loading research publications...</div>
         ) : entries.length === 0 ? (
           <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-dashed border-white/[0.12] bg-white/[0.025]">
-              <BookOpen className="h-5 w-5 text-slate-500" />
+              <BookOpen className="h-5 w-5 text-purple-400/80" />
             </div>
-            <p className="max-w-sm text-xs leading-relaxed text-slate-500">
+            <p className="max-w-sm text-xs leading-relaxed text-purple-400/80">
               No research entries found in the database. Add your publications or journal articles above.
             </p>
           </div>
@@ -201,7 +201,7 @@ export default function ResearchView() {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-white/[0.01] text-[10px] uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-purple-500/20 bg-white/[0.01] text-[10px] uppercase tracking-wider text-purple-400/80">
                   <th className="px-6 py-3 font-semibold w-32">Date</th>
                   <th className="px-6 py-3 font-semibold">Publication Details</th>
                   <th className="px-6 py-3 font-semibold w-48">Journal / Conference</th>
@@ -212,16 +212,16 @@ export default function ResearchView() {
               <tbody className="divide-y divide-white/[0.06]">
                 {entries.map((entry) => (
                   <tr key={entry.id} className="hover:bg-white/[0.015] transition-all">
-                    <td className="px-6 py-4 font-semibold text-slate-400">
+                    <td className="px-6 py-4 font-semibold text-purple-300">
                       <div className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                        <Calendar className="w-3.5 h-3.5 text-purple-400/80" />
                         <span>{entry.publication_date || "Undated"}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-white">
                       <div className="space-y-1">
-                        <p className="font-semibold text-slate-200">{entry.title}</p>
-                        <p className="text-[10px] text-slate-500">
+                        <p className="font-semibold text-purple-50">{entry.title}</p>
+                        <p className="text-[10px] text-purple-400/80">
                           Authors: {(entry.authors || []).join(", ")}
                         </p>
                         {entry.abstract && (
@@ -237,7 +237,7 @@ export default function ResearchView() {
                         entry.status === "published"
                           ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                           : entry.status === "archived"
-                          ? "bg-slate-500/10 text-slate-400 border-slate-500/20"
+                          ? "bg-slate-500/10 text-purple-300 border-slate-500/20"
                           : "bg-amber-500/10 text-amber-400 border-amber-500/20"
                       }`}>
                         {entry.status.toUpperCase()}
@@ -250,7 +250,7 @@ export default function ResearchView() {
                             href={entry.media_assets.public_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1.5 hover:bg-white/5 rounded text-slate-400 hover:text-white transition-all"
+                            className="p-1.5 hover:bg-white/5 rounded text-purple-300 hover:text-white transition-all"
                             title="Download PDF"
                           >
                             <FileDown className="w-3.5 h-3.5 text-cyan-300" />
@@ -258,7 +258,7 @@ export default function ResearchView() {
                         )}
                         <button
                           onClick={() => openEditModal(entry)}
-                          className="p-1.5 hover:bg-white/5 rounded text-slate-400 hover:text-white transition-all"
+                          className="p-1.5 hover:bg-white/5 rounded text-purple-300 hover:text-white transition-all"
                         >
                           <svg
                             className="w-3.5 h-3.5"
@@ -276,7 +276,7 @@ export default function ResearchView() {
                         </button>
                         <button
                           onClick={() => handleDelete(entry.id, entry.title)}
-                          className="p-1.5 hover:bg-red-500/10 rounded text-slate-500 hover:text-red-400 transition-all"
+                          className="p-1.5 hover:bg-red-500/10 rounded text-purple-400/80 hover:text-red-400 transition-all"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -293,14 +293,14 @@ export default function ResearchView() {
       {/* Editor Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md border border-white/5 bg-[#0c0d12] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+          <div className="w-full max-w-md border border-purple-500/15 bg-[#130a2a] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl">
+            <div className="flex items-center justify-between border-b border-purple-500/15 pb-4 mb-4">
               <h3 className="text-sm font-bold text-white uppercase">
                 {editingEntry ? "Edit Publication" : "Add New Publication"}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1 hover:bg-white/5 rounded text-slate-400 hover:text-white"
+                className="p-1 hover:bg-white/5 rounded text-purple-300 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -362,11 +362,11 @@ export default function ResearchView() {
 
               {/* PDF Document Picker */}
               <div className="space-y-1.5">
-                <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
+                <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
                   Research PDF File
                 </label>
                 {selectedMedia ? (
-                  <div className="flex items-center justify-between p-3 border border-white/5 bg-white/[0.015] rounded-xl">
+                  <div className="flex items-center justify-between p-3 border border-purple-500/15 bg-white/[0.015] rounded-xl">
                     <span className="truncate text-white font-semibold max-w-[200px]">
                       {selectedMedia.file_name}
                     </span>
@@ -382,7 +382,7 @@ export default function ResearchView() {
                   <button
                     type="button"
                     onClick={() => setPickerOpen(true)}
-                    className="w-full text-center border border-dashed border-white/10 hover:border-white/20 bg-white/[0.01] hover:bg-white/[0.025] py-3 rounded-xl text-slate-400 font-bold transition-all"
+                    className="w-full text-center border border-dashed border-white/10 hover:border-white/20 bg-white/[0.01] hover:bg-white/[0.025] py-3 rounded-xl text-purple-300 font-bold transition-all"
                   >
                     Select PDF Document
                   </button>
@@ -397,11 +397,11 @@ export default function ResearchView() {
                 onChange={(e) => setFormStatus(e.target.value)}
               />
 
-              <div className="flex justify-end gap-2 pt-4 border-t border-white/5">
+              <div className="flex justify-end gap-2 pt-4 border-t border-purple-500/15">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
+                  className="px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
                 >
                   Cancel
                 </button>

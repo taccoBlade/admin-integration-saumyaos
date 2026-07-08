@@ -2,7 +2,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 async function getActorProfileId(supabase: SupabaseClient) {
@@ -126,6 +126,7 @@ export async function createPhotoSpreadAction(
     });
 
     revalidatePath("/personal");
+    revalidateTag("photography", "default");
     return { success: true, id: spread.id };
   } catch (err: unknown) {
     const e = err as Error;
@@ -213,6 +214,7 @@ export async function updatePhotoSpreadAction(
     });
 
     revalidatePath("/personal");
+    revalidateTag("photography", "default");
     return { success: true };
   } catch (err: unknown) {
     const e = err as Error;
@@ -249,6 +251,7 @@ export async function deletePhotoSpreadAction(id: string) {
     });
 
     revalidatePath("/personal");
+    revalidateTag("photography", "default");
     return { success: true };
   } catch (err: unknown) {
     const e = err as Error;

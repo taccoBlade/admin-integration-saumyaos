@@ -14,6 +14,8 @@ import ResearchView from "../views/ResearchView";
 import PhotographyView from "../views/PhotographyView";
 import ResumeView from "../views/ResumeView";
 import SkillsView from "../views/SkillsView";
+import GrowthView from "../views/GrowthView";
+import VaultView from "../views/VaultView";
 
 interface ProjectItem {
   id: string;
@@ -59,6 +61,10 @@ export default function Workspace({ activeTab, profile, projects }: WorkspacePro
         return <MediaView />;
       case "ai":
         return <AIView projects={projects} />;
+      case "vault":
+        return <VaultView />;
+      case "growth":
+        return <GrowthView projects={projects} />;
       case "settings":
         return <SettingsView displayName={profile.display_name} email={profile.email} />;
       default:

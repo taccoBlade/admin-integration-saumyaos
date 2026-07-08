@@ -2,7 +2,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 async function getActorProfileId(supabase: SupabaseClient) {
@@ -162,6 +162,7 @@ export async function updateHeroAction(heroId: string, formData: FormData) {
 
     revalidatePath("/admin");
     revalidatePath("/");
+    revalidateTag("hero", "default");
     return { success: true };
   } catch (err: unknown) {
     console.error("Update hero error:", err);
@@ -257,6 +258,7 @@ export async function rollbackHeroAction(heroId: string, versionId: string) {
 
     revalidatePath("/admin");
     revalidatePath("/");
+    revalidateTag("hero", "default");
     return { success: true };
   } catch (err: unknown) {
     console.error("Rollback hero error:", err);

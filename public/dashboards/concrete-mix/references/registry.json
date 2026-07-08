@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-07-07T23:00:00+05:30",
+  "references": [
+    {
+      "id": "ref-is10262-2019-annex-a",
+      "title": "IS 10262:2019 Concrete Mix Proportioning - Guidelines",
+      "type": "standard",
+      "author": "Bureau of Indian Standards",
+      "year": 2019,
+      "authority_weight": 1.00,
+      "files": [
+        "standards/is10262_annex_a.json"
+      ]
+    }
+  ]
+}

@@ -25,6 +25,16 @@ export interface Project {
   keyOutcomes?: string[];
   lessonsLearned?: string[];
   architectureTree?: unknown;
+  identity?: {
+    accent: string;
+    background: string;
+    surface: string;
+    typography: 'sans' | 'serif' | 'mono';
+    noiseIntensity: number;
+    glowIntensity: number;
+    radius: string;
+    motionPersonality: 'smooth' | 'mechanical' | 'snappy';
+  };
   // New fields for Project Case Study redesign
   role?: string;
   duration?: string;

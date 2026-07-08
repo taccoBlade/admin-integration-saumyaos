@@ -10,7 +10,7 @@ import {
 } from "lucide-react"
 import { DashboardEmbed } from "@/components/projects/dashboard-embed"
 import { Contact } from "@/components/layout/contact"
-import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background"
+import { ClientParticleBackground } from "@/components/personal/ClientParticleBackground";
 
 interface DashboardInfo {
   id: string
@@ -121,7 +121,7 @@ function TerminalVaultContent() {
 
   return (
     <div className="min-h-screen bg-[#08090b] text-neutral-100 font-sans selection:bg-attention-500/30 selection:text-attention-200 relative">
-      <InteractiveParticleBackground 
+      <ClientParticleBackground 
         showConstellations={false}
         disableLines={true}
         className="fixed inset-0 w-full h-full pointer-events-none z-[20] opacity-75"

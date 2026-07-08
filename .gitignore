@@ -35,3 +35,24 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Playwright
+/playwright-report/
+/test-results/
+
+# Scratch & Tmp folders
+/scratch/
+/tmp/
+
+# Nested node_modules
+**/node_modules/
+
+# Temporary test scripts
+test-latex.js
+test.pdf
+test.py
+test_db.py
+test_insert.py
+test_mock.js
+run_tests.js
+.FullName

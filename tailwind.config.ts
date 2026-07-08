@@ -9,10 +9,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      screens: {
-        tablet: '768px',
-        desktop: '1024px',
-      },
       spacing: {
         gutter: "1.5rem",
       },
@@ -23,19 +19,19 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         attention: {
-          50: '#fbf9eb',
-          100: '#f6f2ce',
-          200: '#efe39d',
-          300: '#e5ce63',
-          400: '#dbb634',
-          500: '#d4af37', // Gold
-          600: '#b08422',
-          700: '#8c611f',
-          800: '#754f1e',
-          900: '#64411d',
-          950: '#39210e',
-          DEFAULT: "#d4af37",
-          hover: "#f3ca3e",
+          50: 'rgb(var(--theme-accent) / 0.1)',
+          100: 'rgb(var(--theme-accent) / 0.2)',
+          200: 'rgb(var(--theme-accent) / 0.3)',
+          300: 'rgb(var(--theme-accent) / 0.4)',
+          400: 'rgb(var(--theme-accent) / 0.8)',
+          500: 'rgb(var(--theme-accent) / 1)',
+          600: 'rgb(var(--theme-accent) / 1)',
+          700: 'rgb(var(--theme-accent) / 1)',
+          800: 'rgb(var(--theme-accent) / 1)',
+          900: 'rgb(var(--theme-accent) / 1)',
+          950: 'rgb(var(--theme-accent) / 1)',
+          DEFAULT: "rgb(var(--theme-accent) / <alpha-value>)",
+          hover: "rgb(var(--theme-accent) / 0.8)",
         },
         archive: {
           50: "#f8f9fa",

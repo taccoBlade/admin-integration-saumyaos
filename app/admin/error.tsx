@@ -11,7 +11,7 @@ interface AdminErrorProps {
 
 export default function AdminError({ error, reset }: AdminErrorProps) {
   return (
-    <div className="admin-os min-h-screen w-full bg-[#050608] text-slate-200 flex items-center justify-center p-6">
+    <div className="admin-os min-h-screen w-full bg-[#0a0514] text-purple-50 flex items-center justify-center p-6">
       <div className="pointer-events-none fixed inset-0 admin-grid" />
       <motion.div
         initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
@@ -36,8 +36,8 @@ export default function AdminError({ error, reset }: AdminErrorProps) {
           </div>
 
           {/* Error message */}
-          <div className="rounded-xl border border-white/5 bg-black/30 p-4 font-mono text-xs text-red-300 leading-relaxed">
-            <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-2">
+          <div className="rounded-xl border border-purple-500/15 bg-black/30 p-4 font-mono text-xs text-red-300 leading-relaxed">
+            <p className="text-[10px] text-purple-400/80 uppercase tracking-widest mb-2">
               Error Details
             </p>
             <p className="break-all">{error.message || "An unexpected error occurred."}</p>

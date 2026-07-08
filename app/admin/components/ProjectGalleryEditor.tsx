@@ -61,10 +61,10 @@ export default function ProjectGalleryEditor({
   return (
     <div className="space-y-6 font-mono text-xs text-slate-300">
       {/* Cover Image Selector */}
-      <div className="border border-white/5 bg-[#0a0b0d] p-5 rounded-2xl space-y-3">
+      <div className="border border-purple-500/15 bg-[#0a0b0d] p-5 rounded-2xl space-y-3">
         <h4 className="text-white font-bold uppercase text-[10px]">Project Cover Image</h4>
         <div className="flex items-center gap-4">
-          <div className="w-24 h-24 bg-[#121318] border border-white/5 rounded-xl overflow-hidden flex items-center justify-center shrink-0">
+          <div className="w-24 h-24 bg-[#121318] border border-purple-500/15 rounded-xl overflow-hidden flex items-center justify-center shrink-0">
             {coverUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={coverUrl} alt="Cover Preview" className="w-full h-full object-cover" />
@@ -76,18 +76,18 @@ export default function ProjectGalleryEditor({
             <button
               type="button"
               onClick={() => handleOpenPicker("cover")}
-              className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/5 text-white font-semibold rounded-xl transition-all"
+              className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-purple-500/15 text-white font-semibold rounded-xl transition-all"
             >
               Choose Cover Image
             </button>
-            <p className="text-[9px] text-slate-500">Visible on cards and headers</p>
+            <p className="text-[9px] text-purple-400/80">Visible on cards and headers</p>
           </div>
         </div>
       </div>
 
       {/* Gallery Selector */}
-      <div className="border border-white/5 bg-[#0a0b0d] p-5 rounded-2xl space-y-4">
-        <div className="flex justify-between items-center border-b border-white/5 pb-2">
+      <div className="border border-purple-500/15 bg-[#0a0b0d] p-5 rounded-2xl space-y-4">
+        <div className="flex justify-between items-center border-b border-purple-500/15 pb-2">
           <h4 className="text-white font-bold uppercase text-[10px]">Project Image Gallery</h4>
           <button
             type="button"
@@ -100,7 +100,7 @@ export default function ProjectGalleryEditor({
         </div>
 
         {galleryUrls.length === 0 ? (
-          <div className="text-center py-8 text-slate-500 border border-dashed border-white/5 rounded-xl">
+          <div className="text-center py-8 text-purple-400/80 border border-dashed border-purple-500/15 rounded-xl">
             No gallery images selected. Click Add Images above.
           </div>
         ) : (
@@ -110,14 +110,14 @@ export default function ProjectGalleryEditor({
               return (
                 <div
                   key={index}
-                  className="flex items-center justify-between bg-[#121318]/40 border border-white/5 p-2 rounded-xl"
+                  className="flex items-center justify-between bg-[#121318]/40 border border-purple-500/15 p-2 rounded-xl"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-black border border-white/5 rounded-lg overflow-hidden shrink-0">
+                    <div className="w-12 h-12 bg-black border border-purple-500/15 rounded-lg overflow-hidden shrink-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={url} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
                     </div>
-                    <span className="text-[10px] text-slate-400 truncate max-w-[150px]">{url.split("/").pop()}</span>
+                    <span className="text-[10px] text-purple-300 truncate max-w-[150px]">{url.split("/").pop()}</span>
                   </div>
 
                   <div className="flex items-center gap-1">
@@ -128,7 +128,7 @@ export default function ProjectGalleryEditor({
                       className={`px-2 py-1 rounded text-[9px] font-bold ${
                         isCover
                           ? "bg-[var(--accent-blue)] text-black cursor-default"
-                          : "bg-white/5 text-slate-400 hover:text-white"
+                          : "bg-white/5 text-purple-300 hover:text-white"
                       }`}
                     >
                       {isCover ? "Cover Image" : "Make Cover"}
@@ -137,7 +137,7 @@ export default function ProjectGalleryEditor({
                       type="button"
                       onClick={() => handleMove(index, "up")}
                       disabled={index === 0}
-                      className="p-1.5 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white disabled:opacity-30"
+                      className="p-1.5 hover:bg-white/5 rounded-lg text-purple-300 hover:text-white disabled:opacity-30"
                     >
                       <ArrowUp className="w-3.5 h-3.5" />
                     </button>
@@ -145,7 +145,7 @@ export default function ProjectGalleryEditor({
                       type="button"
                       onClick={() => handleMove(index, "down")}
                       disabled={index === galleryUrls.length - 1}
-                      className="p-1.5 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white disabled:opacity-30"
+                      className="p-1.5 hover:bg-white/5 rounded-lg text-purple-300 hover:text-white disabled:opacity-30"
                     >
                       <ArrowDown className="w-3.5 h-3.5" />
                     </button>

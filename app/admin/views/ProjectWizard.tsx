@@ -3,6 +3,7 @@
 import React, { useState, useTransition } from "react";
 import { ArrowLeft, ArrowRight, Save, Send, X, Sparkles } from "lucide-react";
 import { createProjectAction } from "../project-create-action";
+import { generateProjectCaseStudyAction } from "../ai-audit-actions";
 import { FormField, FormTextarea, FormSelect } from "../components/FormFields";
 import ProjectGalleryEditor from "../components/ProjectGalleryEditor";
 import AIAssistantPanel from "../components/AIAssistantPanel";
@@ -39,6 +40,42 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
   });
 
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
+  const [isGeneratingCaseStudy, setIsGeneratingCaseStudy] = useState(false);
+
+  const handleAutoCaseStudy = async () => {
+    if (!formData.title) {
+      alert("Please provide a Project Title first (Step 1).");
+      return;
+    }
+    setIsGeneratingCaseStudy(true);
+    try {
+      const techList = formData.technologies
+        ? formData.technologies.split(",").map((t) => t.trim())
+        : [];
+      const res = await generateProjectCaseStudyAction(
+        formData.title,
+        formData.overview || formData.description || "A professional portfolio project.",
+        techList
+      );
+      if (res.error) {
+        alert(res.error);
+      } else if (res.caseStudy) {
+        const cs = res.caseStudy;
+        const compiledOverview = `${cs.detailedOverview}\n\n### Key Engineering Challenges\n${cs.challenges}\n\n### Technical Solution & Implementation\n${cs.solution}\n\n### Key Outcomes\n${cs.keyOutcomes.map((o) => `- ${o}`).join("\n")}\n\n### Future Roadmap\n${cs.futureImprovements}`;
+        
+        setFormData((prev) => ({
+          ...prev,
+          overview: compiledOverview,
+          description: cs.detailedOverview.split(".")[0] + "."
+        }));
+        alert("Case study generated successfully!");
+      }
+    } catch (err: any) {
+      alert(err.message || "Failed to generate case study.");
+    } finally {
+      setIsGeneratingCaseStudy(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -123,7 +160,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              className="p-2 rounded-xl text-[var(--muted)] hover:text-white hover:bg-white/5 border border-white/5 transition-all"
+              className="p-2 rounded-xl text-[var(--muted)] hover:text-white hover:bg-white/5 border border-purple-500/15 transition-all"
             >
               <X className="w-4 h-4" />
             </button>
@@ -139,7 +176,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
               className={`py-2 px-3 rounded-xl border transition-all flex items-center gap-1.5 ${
                 aiOpen
                   ? "bg-purple-500/10 border-purple-500/30 text-purple-400 font-bold"
-                  : "border-white/5 text-[var(--muted)] hover:text-white hover:bg-white/5"
+                  : "border-purple-500/15 text-[var(--muted)] hover:text-white hover:bg-white/5"
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -148,7 +185,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
           )}
         </div>
 
-        <div className="border border-white/5 bg-[#0c0d12]/50 p-6 rounded-2xl space-y-6">
+        <div className="border border-purple-500/15 bg-[#130a2a]/50 p-6 rounded-2xl space-y-6">
           <div className="w-full bg-white/5 h-1 rounded-full overflow-hidden">
             <div
               className="bg-[var(--accent-blue)] h-full transition-all duration-300"
@@ -158,7 +195,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
 
           {step === 1 && (
             <div className="space-y-4">
-              <h3 className="text-xs font-bold text-white uppercase border-b border-white/5 pb-2">Step 1 — Basic Information</h3>
+              <h3 className="text-xs font-bold text-white uppercase border-b border-purple-500/15 pb-2">Step 1 — Basic Information</h3>
               <FormField label="Project Title" name="title" required value={formData.title} onChange={handleInputChange} />
               <FormField label="Slug" name="slug" required value={formData.slug} onChange={handleSlugChange} />
               <div className="grid grid-cols-2 gap-4">
@@ -171,7 +208,18 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
 
           {step === 2 && (
             <div className="space-y-4">
-              <h3 className="text-xs font-bold text-white uppercase border-b border-white/5 pb-2">Step 2 — Description</h3>
+              <div className="flex justify-between items-center border-b border-purple-500/15 pb-2">
+                <h3 className="text-xs font-bold text-white uppercase">Step 2 — Description</h3>
+                <button
+                  type="button"
+                  onClick={handleAutoCaseStudy}
+                  disabled={isGeneratingCaseStudy}
+                  className="flex items-center gap-1.5 py-1 px-2.5 rounded-lg border border-purple-500/20 bg-purple-500/10 text-purple-400 font-bold hover:bg-purple-500/20 transition-all text-[10px]"
+                >
+                  <Sparkles className="w-3 h-3" />
+                  {isGeneratingCaseStudy ? "Compiling..." : "AI Auto-Case Study"}
+                </button>
+              </div>
               <FormTextarea label="Short Description" name="description" value={formData.description} placeholder="A short description..." onChange={handleInputChange} />
               <FormTextarea label="Detailed Overview" name="overview" required value={formData.overview} placeholder="A detailed overview..." rows={5} onChange={handleInputChange} />
             </div>
@@ -179,7 +227,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
 
           {step === 3 && (
             <div className="space-y-4">
-              <h3 className="text-xs font-bold text-white uppercase border-b border-white/5 pb-2">Step 3 — Technical Details</h3>
+              <h3 className="text-xs font-bold text-white uppercase border-b border-purple-500/15 pb-2">Step 3 — Technical Details</h3>
               <FormField label="Technologies" name="technologies" value={formData.technologies} placeholder="React, ESP32, Python" onChange={handleInputChange} />
               <FormField label="Concepts" name="concepts" value={formData.concepts} placeholder="Soil Mechanics, IoT Telemetry" onChange={handleInputChange} />
               <FormField label="Research" name="research" value={formData.research} placeholder="Machine Learning" onChange={handleInputChange} />
@@ -192,7 +240,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
 
           {step === 4 && (
             <div className="space-y-4">
-              <h3 className="text-xs font-bold text-white uppercase border-b border-white/5 pb-2">Step 4 — Images</h3>
+              <h3 className="text-xs font-bold text-white uppercase border-b border-purple-500/15 pb-2">Step 4 — Images</h3>
               <ProjectGalleryEditor
                 coverUrl={formData.coverImage}
                 onCoverUrlChange={(url) => setFormData((prev) => ({ ...prev, coverImage: url }))}
@@ -204,7 +252,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
 
           {step === 5 && (
             <div className="space-y-4">
-              <h3 className="text-xs font-bold text-white uppercase border-b border-white/5 pb-2">Step 5 — Links</h3>
+              <h3 className="text-xs font-bold text-white uppercase border-b border-purple-500/15 pb-2">Step 5 — Links</h3>
               <FormField label="GitHub Repository" name="githubUrl" value={formData.githubUrl} onChange={handleInputChange} />
               <FormField label="Live Demo URL" name="liveUrl" value={formData.liveUrl} onChange={handleInputChange} />
               <FormField label="Research Paper URL" name="researchPaperUrl" value={formData.researchPaperUrl} onChange={handleInputChange} />
@@ -214,8 +262,8 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
 
           {step === 6 && (
             <div className="space-y-4">
-              <h3 className="text-xs font-bold text-white uppercase border-b border-white/5 pb-2">Step 6 — Review</h3>
-              <div className="bg-white/[0.01] border border-white/5 p-4 rounded-xl space-y-3 text-[10px] text-slate-300">
+              <h3 className="text-xs font-bold text-white uppercase border-b border-purple-500/15 pb-2">Step 6 — Review</h3>
+              <div className="bg-white/[0.01] border border-purple-500/15 p-4 rounded-xl space-y-3 text-[10px] text-slate-300">
                 <p><strong className="text-white">Title:</strong> {formData.title}</p>
                 <p><strong className="text-white">Slug:</strong> {formData.slug}</p>
                 <p><strong className="text-white">Year:</strong> {formData.year} · <strong className="text-white">Domain:</strong> {formData.domain}</p>
@@ -227,18 +275,18 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
             </div>
           )}
 
-          <div className="flex justify-between items-center pt-4 border-t border-white/5">
+          <div className="flex justify-between items-center pt-4 border-t border-purple-500/15">
             {step > 1 ? (
               <button
                 onClick={handlePrev}
-                className="flex items-center gap-1.5 px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-slate-300 transition-all font-mono"
+                className="flex items-center gap-1.5 px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-slate-300 transition-all font-mono"
               >
                 <ArrowLeft className="w-3.5 h-3.5" /> Back
               </button>
             ) : (
               <button
                 onClick={onBack}
-                className="flex items-center gap-1.5 px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-red-400 transition-all font-mono"
+                className="flex items-center gap-1.5 px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-red-400 transition-all font-mono"
               >
                 Cancel
               </button>
@@ -247,7 +295,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
             {step < 6 ? (
               <button
                 onClick={handleNext}
-                className="flex items-center gap-1.5 px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-white transition-all font-mono ml-auto"
+                className="flex items-center gap-1.5 px-4 py-2 bg-white/5 hover:bg-white/10 border border-purple-500/15 rounded-xl text-white transition-all font-mono ml-auto"
               >
                 Next <ArrowRight className="w-3.5 h-3.5" />
               </button>
@@ -256,7 +304,7 @@ export default function ProjectWizard({ onBack }: ProjectWizardProps) {
                 <button
                   onClick={() => handleSubmitAction(false)}
                   disabled={isPending}
-                  className="flex items-center gap-1.5 px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-slate-200 transition-all font-mono disabled:opacity-50"
+                  className="flex items-center gap-1.5 px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-purple-50 transition-all font-mono disabled:opacity-50"
                 >
                   <Save className="w-3.5 h-3.5" /> Save Draft
                 </button>

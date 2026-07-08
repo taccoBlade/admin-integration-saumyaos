@@ -1,0 +1,102 @@
+{
+  "source_metadata": {
+    "title": "IS 10262:2019 Concrete Mix Proportioning - Guidelines",
+    "edition": "2019",
+    "year": 2019,
+    "authority_weight": 1.00,
+    "extraction_confidence": 1.0,
+    "pointer": "is10262_2019.pdf#page=12"
+  },
+  "design_standard": {
+    "family": "IS",
+    "code": "10262",
+    "edition": "2019",
+    "method": "Absolute Volume Method"
+  },
+  "examples": [
+    {
+      "id": "is10262-annex-a-m40",
+      "inputs": {
+        "grade": "M40",
+        "cement_type": "OPC 43",
+        "binder_system": "OPC",
+        "max_aggregate_size": 20,
+        "target_slump": 50,
+        "exposure": "Severe",
+        "fine_zone": "I",
+        "is_pumped": false,
+        "specific_gravity": {
+          "cement": 3.15,
+          "coarse_aggregate": 2.74,
+          "fine_aggregate": 2.74,
+          "admixture": 1.145
+        },
+        "water_absorption": {
+          "coarse_aggregate": 0.5,
+          "fine_aggregate": 1.0
+        },
+        "free_moisture": {
+          "coarse_aggregate": 0.0,
+          "fine_aggregate": 0.0
+        }
+      },
+      "intermediate": {
+        "target_strength": {
+          "value": 48.25,
+          "derived_from": "IS10262 Section 4.2",
+          "equation": "fck + 1.65 * S (S=5.0 for M40)",
+          "pointer": "is10262_2019.pdf#page=12"
+        },
+        "selected_wc": {
+          "value": 0.36,
+          "acceptable_range": { "min": 0.35, "max": 0.40 },
+          "derived_from": "IS10262 Fig 1 & Table 5 IS 456",
+          "pointer": "is10262_2019.pdf#page=13"
+        },
+        "water_content": {
+          "value": 140,
+          "derived_from": "IS10262 Table 6",
+          "equation": "186 * (1 - 0.23)",
+          "note": "23% reduction due to superplasticizer",
+          "pointer": "is10262_2019.pdf#page=13"
+        },
+        "coarse_fraction": {
+          "value": 0.627,
+          "derived_from": "IS10262 Table 5",
+          "equation": "0.60 (for W/C 0.5) adjusted by +0.028 for W/C 0.36",
+          "pointer": "is10262_2019.pdf#page=13"
+        }
+      },
+      "outputs": {
+        "cement_kg": {
+          "value": 389,
+          "acceptable_range": { "min": 388, "max": 395 },
+          "derived_from": "IS10262 Section 4.4",
+          "equation": "water_content / selected_wc"
+        },
+        "water_kg": {
+          "value": 140,
+          "acceptable_range": { "min": 140, "max": 140 }
+        },
+        "fine_aggregate_kg": {
+          "value": 711,
+          "acceptable_range": { "min": 705, "max": 715 },
+          "derived_from": "IS10262 Absolute Volume Calculation"
+        },
+        "coarse_aggregate_kg": {
+          "value": 1195,
+          "acceptable_range": { "min": 1190, "max": 1205 },
+          "derived_from": "IS10262 Absolute Volume Calculation"
+        },
+        "admixture_kg": {
+          "value": 7.78,
+          "acceptable_range": { "min": 7.7, "max": 7.8 }
+        },
+        "air_content": {
+          "value": 0.01,
+          "derived_from": "IS10262 Table 3"
+        }
+      }
+    }
+  ]
+}

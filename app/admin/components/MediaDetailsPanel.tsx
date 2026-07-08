@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { X, Trash2, Archive, RefreshCw } from "lucide-react";
+import { X, Trash2, Archive, RefreshCw, Sparkles } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
@@ -9,6 +9,7 @@ import {
   deleteMediaAssetAction,
   getMediaUsageAction,
 } from "../media-actions";
+import { generateVisionMetadataAction } from "../ai-audit-actions";
 
 interface MediaAsset {
   id: string;
@@ -41,6 +42,34 @@ export default function MediaDetailsPanel({
   const [usages, setUsages] = useState<{ type: string; name: string }[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isReplacing, setIsReplacing] = useState(false);
+  const [isGeneratingVision, setIsGeneratingVision] = useState(false);
+
+  const handleAiVisionGenerate = async () => {
+    setIsGeneratingVision(true);
+    try {
+      const res = await generateVisionMetadataAction(selectedAsset.public_url, selectedAsset.mime_type);
+      if (res.error) {
+        alert(res.error);
+      } else if (res.metadata) {
+        const meta = res.metadata;
+        if (meta.altText) setEditAlt(meta.altText);
+        if (meta.caption) setEditCaption(meta.caption);
+        if (meta.category) {
+          const options = ["Projects", "Research", "Photography", "Hero", "Timeline", "About", "Resume"];
+          const matched = options.find(o => o.toLowerCase() === meta.category.toLowerCase());
+          if (matched) setEditCategory(matched);
+        }
+        if (meta.tags && meta.tags.length > 0) {
+          setEditTags(meta.tags.join(", "));
+        }
+        alert("AI suggestions populated successfully!");
+      }
+    } catch (err: any) {
+      alert(err.message || "Failed to generate AI vision suggestions.");
+    } finally {
+      setIsGeneratingVision(false);
+    }
+  };
 
   const [editTitle, setEditTitle] = useState("");
   const [editAlt, setEditAlt] = useState("");
@@ -223,55 +252,66 @@ export default function MediaDetailsPanel({
   };
 
   return (
-    <div className="w-80 bg-[#07080b] border border-white/5 rounded-3xl p-6 flex flex-col justify-between overflow-y-auto">
+    <div className="w-80 bg-[#0e0721] border border-purple-500/15 rounded-3xl p-6 flex flex-col justify-between overflow-y-auto">
       <div className="space-y-4">
-        <div className="flex items-center justify-between border-b border-white/5 pb-2">
+        <div className="flex items-center justify-between border-b border-purple-500/15 pb-2">
           <h3 className="text-xs font-bold text-white uppercase">Asset Details</h3>
-          <button onClick={onClose} className="p-1 hover:bg-white/5 rounded text-slate-400 hover:text-white">
+          <button onClick={onClose} className="p-1 hover:bg-white/5 rounded text-purple-300 hover:text-white">
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="aspect-video bg-[#0c0d12] rounded-xl overflow-hidden border border-white/5">
+        <div className="aspect-video bg-[#130a2a] rounded-xl overflow-hidden border border-purple-500/15">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={selectedAsset.public_url} alt="Selected" className="w-full h-full object-contain" />
         </div>
 
         <div className="space-y-3">
           <div>
-            <label className="block text-[10px] text-slate-500 uppercase mb-1">Title</label>
+            <label className="block text-[10px] text-purple-400/80 uppercase mb-1">Title</label>
             <input
               type="text"
               value={editTitle}
               onChange={(e) => setEditTitle(e.target.value)}
-              className="w-full bg-[#0c0d12] border border-white/5 p-2 rounded-xl text-xs text-white"
+              className="w-full bg-[#130a2a] border border-purple-500/15 p-2 rounded-xl text-xs text-white"
             />
           </div>
           <div>
-            <label className="block text-[10px] text-slate-500 uppercase mb-1">Alt Text</label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-[10px] text-purple-400/80 uppercase">Alt Text</label>
+              <button
+                type="button"
+                onClick={handleAiVisionGenerate}
+                disabled={isGeneratingVision}
+                className="flex items-center gap-1.5 py-0.5 px-1.5 rounded border border-purple-500/20 bg-purple-500/10 text-purple-400 font-bold hover:bg-purple-500/20 transition-all text-[8px]"
+              >
+                <Sparkles className="w-2 h-2" />
+                {isGeneratingVision ? "Analyzing..." : "AI Alt/Tags"}
+              </button>
+            </div>
             <input
               type="text"
               value={editAlt}
               onChange={(e) => setEditAlt(e.target.value)}
-              className="w-full bg-[#0c0d12] border border-white/5 p-2 rounded-xl text-xs text-white"
+              className="w-full bg-[#130a2a] border border-purple-500/15 p-2 rounded-xl text-xs text-white"
             />
           </div>
           <div>
-            <label className="block text-[10px] text-slate-500 uppercase mb-1">Caption</label>
+            <label className="block text-[10px] text-purple-400/80 uppercase mb-1">Caption</label>
             <textarea
               value={editCaption}
               onChange={(e) => setEditCaption(e.target.value)}
-              className="w-full bg-[#0c0d12] border border-white/5 p-2 rounded-xl text-xs text-white"
+              className="w-full bg-[#130a2a] border border-purple-500/15 p-2 rounded-xl text-xs text-white"
               rows={2}
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block text-[10px] text-slate-500 uppercase mb-1">Category</label>
+              <label className="block text-[10px] text-purple-400/80 uppercase mb-1">Category</label>
               <select
                 value={editCategory}
                 onChange={(e) => setEditCategory(e.target.value)}
-                className="w-full bg-[#0c0d12] border border-white/5 p-2 rounded-xl text-xs text-white"
+                className="w-full bg-[#130a2a] border border-purple-500/15 p-2 rounded-xl text-xs text-white"
               >
                 <option value="Projects">Projects</option>
                 <option value="Research">Research</option>
@@ -283,13 +323,13 @@ export default function MediaDetailsPanel({
               </select>
             </div>
             <div>
-              <label className="block text-[10px] text-slate-500 uppercase mb-1">Tags</label>
+              <label className="block text-[10px] text-purple-400/80 uppercase mb-1">Tags</label>
               <input
                 type="text"
                 value={editTags}
                 onChange={(e) => setEditTags(e.target.value)}
                 placeholder="Featured, iot"
-                className="w-full bg-[#0c0d12] border border-white/5 p-2 rounded-xl text-xs text-white"
+                className="w-full bg-[#130a2a] border border-purple-500/15 p-2 rounded-xl text-xs text-white"
               />
             </div>
           </div>
@@ -297,40 +337,40 @@ export default function MediaDetailsPanel({
           <button
             onClick={handleSaveMetadata}
             disabled={isSaving}
-            className="w-full py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl font-semibold border border-white/5 transition-all"
+            className="w-full py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl font-semibold border border-purple-500/15 transition-all"
           >
             Save Details
           </button>
         </div>
 
-        <div className="border-t border-white/5 pt-3 space-y-1.5 text-[10px] text-slate-400">
-          <p><span className="text-slate-500">MIME Type:</span> {selectedAsset.mime_type}</p>
+        <div className="border-t border-purple-500/15 pt-3 space-y-1.5 text-[10px] text-purple-300">
+          <p><span className="text-purple-400/80">MIME Type:</span> {selectedAsset.mime_type}</p>
           <p>
-            <span className="text-slate-500">Dimensions:</span>{" "}
+            <span className="text-purple-400/80">Dimensions:</span>{" "}
             {selectedAsset.width && selectedAsset.height
               ? `${selectedAsset.width} × ${selectedAsset.height} px`
               : "N/A"}
           </p>
           <p>
-            <span className="text-slate-500">File Size:</span>{" "}
+            <span className="text-purple-400/80">File Size:</span>{" "}
             {(selectedAsset.file_size_bytes / 1024).toFixed(1)} KB
           </p>
           <p>
-            <span className="text-slate-500">Uploaded:</span>{" "}
+            <span className="text-purple-400/80">Uploaded:</span>{" "}
             {new Date(selectedAsset.created_at).toLocaleDateString()}
           </p>
         </div>
 
-        <div className="border-t border-white/5 pt-3 space-y-2">
+        <div className="border-t border-purple-500/15 pt-3 space-y-2">
           <h4 className="text-[10px] font-bold text-white uppercase">Usage Panel</h4>
           {usages.length === 0 ? (
-            <p className="text-[10px] text-slate-500">Not used in any project/hero/timeline.</p>
+            <p className="text-[10px] text-purple-400/80">Not used in any project/hero/timeline.</p>
           ) : (
             <div className="space-y-1 max-h-24 overflow-y-auto">
               {usages.map((u, index) => (
-                <div key={index} className="flex justify-between items-center text-[10px] bg-white/[0.01] border border-white/5 px-2 py-1 rounded-lg">
+                <div key={index} className="flex justify-between items-center text-[10px] bg-white/[0.01] border border-purple-500/15 px-2 py-1 rounded-lg">
                   <span className="text-[var(--accent-blue)] truncate max-w-[120px]">{u.name}</span>
-                  <span className="text-[9px] text-slate-500">{u.type}</span>
+                  <span className="text-[9px] text-purple-400/80">{u.type}</span>
                 </div>
               ))}
             </div>
@@ -338,7 +378,7 @@ export default function MediaDetailsPanel({
         </div>
       </div>
 
-      <div className="space-y-2 pt-4 border-t border-white/5">
+      <div className="space-y-2 pt-4 border-t border-purple-500/15">
         <button
           onClick={() => replaceInputRef.current?.click()}
           disabled={isReplacing}

@@ -23,7 +23,7 @@ export function FormField({
 }: FormFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
+      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
         {label} {required && <span className="text-red-400">*</span>}
       </label>
       <input
@@ -34,7 +34,7 @@ export function FormField({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-        className="block w-full rounded-lg border border-white/[0.08] bg-white/[0.035] px-3 py-2.5 font-mono text-xs text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-slate-600 focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
+        className="block w-full rounded-lg border border-purple-500/20 bg-white/[0.035] px-3 py-2.5 font-mono text-xs text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-slate-600 focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
       />
     </div>
   );
@@ -63,7 +63,7 @@ export function FormTextarea({
 }: FormTextareaProps) {
   return (
     <div className="space-y-1.5">
-      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
+      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
         {label} {required && <span className="text-red-400">*</span>}
       </label>
       <textarea
@@ -74,7 +74,7 @@ export function FormTextarea({
         placeholder={placeholder}
         rows={rows}
         onChange={onChange}
-        className="block w-full rounded-lg border border-white/[0.08] bg-white/[0.035] px-3 py-2.5 font-mono text-xs leading-relaxed text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-slate-600 focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
+        className="block w-full rounded-lg border border-purple-500/20 bg-white/[0.035] px-3 py-2.5 font-mono text-xs leading-relaxed text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition placeholder:text-slate-600 focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
       />
     </div>
   );
@@ -101,7 +101,7 @@ export function FormSelect({
 }: FormSelectProps) {
   return (
     <div className="space-y-1.5">
-      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
+      <label className="block font-mono text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
         {label} {required && <span className="text-red-400">*</span>}
       </label>
       <select
@@ -110,7 +110,7 @@ export function FormSelect({
         defaultValue={defaultValue}
         value={value}
         onChange={onChange}
-        className="block w-full rounded-lg border border-white/[0.08] bg-white/[0.035] px-3 py-2.5 font-mono text-xs text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
+        className="block w-full rounded-lg border border-purple-500/20 bg-white/[0.035] px-3 py-2.5 font-mono text-xs text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] outline-none transition focus:border-violet-300/40 focus:bg-white/[0.055] focus:ring-2 focus:ring-violet-300/10"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

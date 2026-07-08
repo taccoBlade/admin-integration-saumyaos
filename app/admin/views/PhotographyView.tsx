@@ -228,7 +228,7 @@ export default function PhotographyView() {
 
   return (
     <div className="space-y-8 font-mono select-none text-xs">
-      <div className="flex flex-col gap-4 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-4 border-b border-purple-500/20 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-1">
           <p className="admin-section-title">Workspace registry</p>
           <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Photography</h1>
@@ -250,24 +250,24 @@ export default function PhotographyView() {
       )}
 
       <div className="admin-card overflow-hidden">
-        <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
+        <div className="flex items-center justify-between border-b border-purple-500/20 px-5 py-4">
           <div className="flex items-center gap-2">
             <Camera className="h-4 w-4 text-cyan-300" />
             <span className="admin-section-title">Photography lookbook spreads</span>
           </div>
-          <span className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-slate-500">
+          <span className="rounded-full border border-purple-500/20 bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
             {spreads.length} total
           </span>
         </div>
 
         {isLoading ? (
-          <div className="py-20 text-center text-slate-500">Loading lookbook spreads...</div>
+          <div className="py-20 text-center text-purple-400/80">Loading lookbook spreads...</div>
         ) : spreads.length === 0 ? (
           <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-dashed border-white/[0.12] bg-white/[0.025]">
-              <Camera className="h-5 w-5 text-slate-500" />
+              <Camera className="h-5 w-5 text-purple-400/80" />
             </div>
-            <p className="max-w-sm text-xs leading-relaxed text-slate-500">
+            <p className="max-w-sm text-xs leading-relaxed text-purple-400/80">
               No photography spreads found in the database. Add photographic entries to your travel or creative journal above.
             </p>
           </div>
@@ -275,7 +275,7 @@ export default function PhotographyView() {
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="border-b border-white/[0.08] bg-white/[0.01] text-[10px] uppercase tracking-wider text-slate-500">
+                <tr className="border-b border-purple-500/20 bg-white/[0.01] text-[10px] uppercase tracking-wider text-purple-400/80">
                   <th className="px-6 py-3 font-semibold w-64">Cover / Title</th>
                   <th className="px-6 py-3 font-semibold">Template Layout</th>
                   <th className="px-6 py-3 font-semibold text-center w-24">Photos</th>
@@ -297,16 +297,16 @@ export default function PhotographyView() {
                               className="h-10 w-10 rounded-lg object-cover border border-white/10 shrink-0"
                             />
                           ) : (
-                            <div className="h-10 w-10 rounded-lg border border-white/10 bg-white/[0.02] flex items-center justify-center text-slate-500 shrink-0">
+                            <div className="h-10 w-10 rounded-lg border border-white/10 bg-white/[0.02] flex items-center justify-center text-purple-400/80 shrink-0">
                               <ImageIcon className="w-4 h-4" />
                             </div>
                           )}
                           <div>
-                            <span className="font-semibold text-slate-200 block truncate max-w-xs">
+                            <span className="font-semibold text-purple-50 block truncate max-w-xs">
                               {spread.title || "Untitled Diary Spreads"}
                             </span>
                             {spread.diary_entry && (
-                              <span className="text-[10px] text-slate-500 block truncate max-w-xs italic">
+                              <span className="text-[10px] text-purple-400/80 block truncate max-w-xs italic">
                                 {spread.diary_entry}
                               </span>
                             )}
@@ -329,7 +329,7 @@ export default function PhotographyView() {
                           spread.status === "published"
                             ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                             : spread.status === "archived"
-                            ? "bg-slate-500/10 text-slate-400 border-slate-500/20"
+                            ? "bg-slate-500/10 text-purple-300 border-slate-500/20"
                             : "bg-amber-500/10 text-amber-400 border-amber-500/20"
                         }`}>
                           {spread.status.toUpperCase()}
@@ -339,13 +339,13 @@ export default function PhotographyView() {
                         <div className="flex justify-end gap-2">
                           <button
                             onClick={() => openEditModal(spread)}
-                            className="p-1.5 hover:bg-white/5 rounded text-slate-400 hover:text-white transition-all"
+                            className="p-1.5 hover:bg-white/5 rounded text-purple-300 hover:text-white transition-all"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => handleDelete(spread.id, spread.title || spread.template_type)}
-                            className="p-1.5 hover:bg-red-500/10 rounded text-slate-500 hover:text-red-400 transition-all"
+                            className="p-1.5 hover:bg-red-500/10 rounded text-purple-400/80 hover:text-red-400 transition-all"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -363,14 +363,14 @@ export default function PhotographyView() {
       {/* Editor Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="w-full max-w-2xl border border-white/5 bg-[#0c0d12] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl my-8">
-            <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+          <div className="w-full max-w-2xl border border-purple-500/15 bg-[#130a2a] rounded-3xl p-6 flex flex-col justify-between font-mono text-xs text-slate-350 select-none shadow-2xl my-8">
+            <div className="flex items-center justify-between border-b border-purple-500/15 pb-4 mb-4">
               <h3 className="text-sm font-bold text-white uppercase">
                 {editingSpread ? "Edit Photo Spread" : "Add Photo Spread"}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
-                className="p-1 hover:bg-white/5 rounded text-slate-400 hover:text-white"
+                className="p-1 hover:bg-white/5 rounded text-purple-300 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -412,7 +412,7 @@ export default function PhotographyView() {
                   onChange={(e) => setFormSortOrder(e.target.value)}
                 />
                 <div className="col-span-2 space-y-1.5 pt-2">
-                  <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">Flags</span>
+                  <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-purple-400/80">Flags</span>
                   <div className="flex items-center gap-2 py-2">
                     <input
                       type="checkbox"
@@ -430,21 +430,21 @@ export default function PhotographyView() {
 
               {/* Photo spread item list */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between border-t border-white/5 pt-4">
-                  <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500">
+                <div className="flex items-center justify-between border-t border-purple-500/15 pt-4">
+                  <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-purple-400/80">
                     Photos in Spread ({selectedPhotos.length})
                   </span>
                   <button
                     type="button"
                     onClick={() => setPickerOpen(true)}
-                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/5 hover:bg-white/5 text-cyan-300 font-bold transition-all"
+                    className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border border-purple-500/15 hover:bg-white/5 text-cyan-300 font-bold transition-all"
                   >
                     <Plus className="w-3.5 h-3.5" /> Select Photos
                   </button>
                 </div>
 
                 {selectedPhotos.length === 0 ? (
-                  <div className="text-center py-6 border border-dashed border-white/5 rounded-xl text-slate-500">
+                  <div className="text-center py-6 border border-dashed border-purple-500/15 rounded-xl text-purple-400/80">
                     No photos added to this spread. Click select photos to attach images.
                   </div>
                 ) : (
@@ -452,7 +452,7 @@ export default function PhotographyView() {
                     {selectedPhotos.map((photo, index) => (
                       <div
                         key={photo.mediaAssetId + "-" + index}
-                        className="flex items-center gap-4 p-2 rounded-xl border border-white/5 bg-white/[0.015]"
+                        className="flex items-center gap-4 p-2 rounded-xl border border-purple-500/15 bg-white/[0.015]"
                       >
                         <img
                           src={photo.publicUrl}
@@ -463,7 +463,7 @@ export default function PhotographyView() {
                           <span className="text-[10px] font-bold text-white block truncate max-w-[150px]">
                             {photo.fileName}
                           </span>
-                          <span className="text-[9px] text-slate-500 block">Position {index + 1}</span>
+                          <span className="text-[9px] text-purple-400/80 block">Position {index + 1}</span>
                         </div>
 
                         {/* Image Role Selector */}
@@ -483,7 +483,7 @@ export default function PhotographyView() {
                             type="button"
                             disabled={index === 0}
                             onClick={() => handleMovePhoto(index, "up")}
-                            className="p-1 hover:bg-white/5 rounded text-slate-400 disabled:opacity-20"
+                            className="p-1 hover:bg-white/5 rounded text-purple-300 disabled:opacity-20"
                           >
                             <MoveUp className="w-3.5 h-3.5" />
                           </button>
@@ -491,7 +491,7 @@ export default function PhotographyView() {
                             type="button"
                             disabled={index === selectedPhotos.length - 1}
                             onClick={() => handleMovePhoto(index, "down")}
-                            className="p-1 hover:bg-white/5 rounded text-slate-400 disabled:opacity-20"
+                            className="p-1 hover:bg-white/5 rounded text-purple-300 disabled:opacity-20"
                           >
                             <MoveDown className="w-3.5 h-3.5" />
                           </button>
@@ -517,11 +517,11 @@ export default function PhotographyView() {
                 onChange={(e) => setFormStatus(e.target.value)}
               />
 
-              <div className="flex justify-end gap-2 pt-4 border-t border-white/5">
+              <div className="flex justify-end gap-2 pt-4 border-t border-purple-500/15">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 border border-white/5 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
+                  className="px-4 py-2 border border-purple-500/15 hover:bg-white/5 rounded-xl text-slate-300 font-semibold"
                 >
                   Cancel
                 </button>

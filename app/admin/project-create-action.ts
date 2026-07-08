@@ -2,7 +2,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { SupabaseClient } from "@supabase/supabase-js";
 
@@ -187,6 +187,7 @@ export async function createProjectAction(formData: FormData) {
     });
 
     revalidatePath("/admin");
+    revalidateTag("projects", "default");
     return { success: true };
   } catch (err: unknown) {
     console.error("Create project error:", err);

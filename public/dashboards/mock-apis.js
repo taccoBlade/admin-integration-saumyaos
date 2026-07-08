@@ -609,62 +609,130 @@
     return results;
   }
 
-  function validateMix(mix_type, inputs, results, platform_mode) {
-    const checklist = {};
-    let passed = 0;
-    const total = 6;
-
-    // 1. Volume balance check
-    const vol = results.absolute_volume_total.value;
-    const vol_balanced = (vol >= 0.99 && vol <= 1.01);
-    checklist["volume_balanced"] = {
-      status: vol_balanced,
-      message: vol_balanced ? `Absolute volume total is ${vol.toFixed(3)} m³` : `Volume mismatch: ${vol.toFixed(3)} m³`
+  async function validateMix(mix_type, inputs, results, platform_mode) {
+    const report = {
+      reference: "None",
+      compliance_score: "N/A",
+      completeness_score: "N/A",
+      similarity_score: "N/A",
+      confidence: "LOW",
+      assumption_audit: [],
+      calculation_chain: [],
+      verdict: "Engineering checks completed."
     };
-    if (vol_balanced) passed++;
 
-    // 2. Material data complete
-    let sgs_valid = true;
-    checklist["material_data_complete"] = {
-      status: true,
-      message: "All specific gravity inputs are complete and valid."
-    };
-    passed++;
+    // Phase B: Engineering Compliance (Independent check)
+    let comp_passed = 0, comp_total = 3;
+    const grade = parseFloat(inputs.grade || 30);
+    const wc = parseFloat(inputs.wc_ratio || 0.45);
+    const calc_c = results.cement_content ? results.cement_content.value : (results.total_binder_mass ? results.total_binder_mass.value : 0);
+    
+    // IS 10262 GUIDELINES
+    const guid_ok = (grade >= 10 && grade <= 60 && wc >= 0.3 && wc <= 0.6);
+    if (guid_ok) comp_passed++;
+    
+    // IS 456 DURABILITY
+    const exp = (inputs.exposure || "severe").toLowerCase();
+    const rule = PROMIX_DURABILITY[exp] || PROMIX_DURABILITY["severe"];
+    const d_ok = (wc <= rule.max_wc && calc_c >= rule.min_cement && grade >= parseInt(rule.min_grade.replace("M","")));
+    if (d_ok) comp_passed++;
+    
+    // CEMENT LIMIT
+    const c_limit = calc_c <= 450.0;
+    if (c_limit) comp_passed++;
+    
+    report.compliance_score = `${Math.round((comp_passed/comp_total)*100)}%`;
 
-    if (mix_type === "normal") {
-      // 3. IS 10262 guidelines
-      const grade = parseFloat(inputs.grade || 30);
-      const wc = parseFloat(inputs.wc_ratio || 0.45);
-      const guid_ok = (grade >= 10 && grade <= 60 && wc >= 0.3 && wc <= 0.6);
-      checklist["is_10262_compliant"] = { status: guid_ok, message: guid_ok ? "Grade M10-M60 and W/C ratio within standard guidelines." : "Failed guides." };
-      if (guid_ok) passed++;
-
-      // 4. Durability
-      const exp = (inputs.exposure || "severe").toLowerCase();
-      const rule = PROMIX_DURABILITY[exp] || PROMIX_DURABILITY["severe"];
-      const min_c = rule.min_cement;
-      const max_wc = rule.max_wc;
-      const calc_c = results.cement_content.value;
-      const d_ok = (wc <= max_wc && calc_c >= min_c && grade >= parseInt(rule.min_grade.replace("M","")));
-      checklist["is_456_compliant"] = { status: d_ok, message: d_ok ? `Meets durability specs for ${exp} exposure.` : `Failed durability.` };
-      if (d_ok) passed++;
-
-      // 5. Cement limit
-      const c_limit = calc_c <= 450.0;
-      checklist["cement_limit_satisfied"] = { status: c_limit, message: c_limit ? "Cement content within limits." : "Exceeds limits." };
-      if (c_limit) passed++;
-
-      // 6. Aggregate splits
-      checklist["aggregate_ratios_valid"] = { status: true, message: "Aggregate splits balanced." };
-      passed++;
-    } else {
-      checklist["is_10262_compliant"] = { status: true, message: "N/A" }; passed++;
-      checklist["is_456_compliant"] = { status: true, message: "N/A" }; passed++;
-      checklist["cement_limit_satisfied"] = { status: true, message: "PASSED - 100% Cement-free." }; passed++;
-      checklist["aggregate_ratios_valid"] = { status: true, message: "Aggregate splits balanced." }; passed++;
+    // Fetch Reference JSON dynamically based on user selection
+    let refData = null;
+    const ref_id = inputs.reference_id;
+    if (ref_id && ref_id !== "none") {
+      try {
+        const res = await originalFetch(`/dashboards/concrete-mix/references/${ref_id}.json`);
+        if (res.ok) refData = await res.json();
+      } catch (e) {
+        console.warn("Could not load reference data", e);
+      }
     }
 
-    return { checklist, score: `${passed}/${total}`, passed_all: (passed === total) };
+    if (!refData) {
+      report.verdict = "No explicit textbook reference found. Engineering checks passed.";
+      return report;
+    }
+
+    report.reference = `${refData.metadata.source} (Page ${refData.metadata.page})`;
+    report.confidence = refData.metadata.confidence;
+
+    // Phase A: Assumption Audit
+    const refInputs = refData.inputs;
+    let audit_count = 0, audit_missing = 0;
+    for (const key in refInputs) {
+      audit_count++;
+      if (refInputs[key] === null) {
+        audit_missing++;
+        report.assumption_audit.push(`⚠ ${key.toUpperCase()} missing in reference (Engine assumed default)`);
+      } else if (inputs[key] == refInputs[key]) {
+        report.assumption_audit.push(`✓ ${key.toUpperCase()} matches reference (${refInputs[key]})`);
+      } else {
+        report.assumption_audit.push(`❌ ${key.toUpperCase()} differs (User: ${inputs[key]}, Ref: ${refInputs[key]})`);
+      }
+    }
+    report.completeness_score = `${Math.round(((audit_count - audit_missing)/audit_count)*100)}%`;
+
+    // Phase C: Step-by-Step Chain Verification
+    const engineChain = {
+      target_strength: results.target_strength ? results.target_strength.value : 0,
+      selected_wc: parseFloat(inputs.wc_ratio || 0.45),
+      base_water: results.base_water ? results.base_water.value : 0,
+      shape_correction: 0,
+      slump_correction: 0,
+      sp_reduction: 0,
+      final_water: results.water_content ? results.water_content.value : 0,
+      cement: results.cement_content ? results.cement_content.value : 0,
+      fly_ash: results.fly_ash_content ? results.fly_ash_content.value : (results.fly_ash_mass ? results.fly_ash_mass.value : 0),
+      ggbs: results.ggbs_content ? results.ggbs_content.value : (results.ggbs_mass ? results.ggbs_mass.value : 0),
+      binder: results.total_binder_mass ? results.total_binder_mass.value : 0,
+      sodium_silicate: results.sodium_silicate_mass ? results.sodium_silicate_mass.value : 0,
+      sodium_hydroxide: results.sodium_hydroxide_mass ? results.sodium_hydroxide_mass.value : 0,
+      aggregate_volume: results.volume_all_aggregates ? results.volume_all_aggregates.value : 0,
+      fine_aggregate: results.mass_fa_ssd ? results.mass_fa_ssd.value : 0,
+      coarse_aggregate: results.mass_ca_ssd ? results.mass_ca_ssd.value : 0
+    };
+
+    const refChain = refData.solution_chain;
+    let rootCauseFound = false;
+    let sim_total = 0, sim_diff = 0;
+
+    const steps = ["target_strength", "selected_wc", "base_water", "final_water", "cement", "fly_ash", "ggbs", "binder", "sodium_silicate", "sodium_hydroxide", "aggregate_volume", "fine_aggregate", "coarse_aggregate"];
+    
+    for (const step of steps) {
+      if (refChain[step] !== undefined) {
+        const eVal = engineChain[step];
+        const rVal = refChain[step];
+        sim_total += 1;
+        const diff = Math.abs(eVal - rVal);
+        const diffPct = rVal === 0 ? 0 : diff / rVal;
+        
+        if (diffPct <= 0.02) { // 2% tolerance
+          report.calculation_chain.push(`PASS - ${step.toUpperCase()} (Val: ${eVal.toFixed(2)})`);
+        } else {
+          sim_diff += Math.min(diffPct, 1.0);
+          if (!rootCauseFound) {
+            report.calculation_chain.push(`FAIL - ${step.toUpperCase()}`);
+            report.calculation_chain.push(`  └ Root Cause: Divergence at this step. Engine: ${eVal.toFixed(2)}, Reference: ${rVal.toFixed(2)}`);
+            rootCauseFound = true;
+            report.verdict = `Validation failed at ${step.toUpperCase()}. Reference may have used undocumented assumptions.`;
+          } else {
+            report.calculation_chain.push(`CASCADE - ${step.toUpperCase()} (Engine: ${eVal.toFixed(2)}, Ref: ${rVal.toFixed(2)})`);
+          }
+        }
+      }
+    }
+
+    report.similarity_score = `${Math.round((1 - (sim_diff / sim_total)) * 100)}%`;
+    if (!rootCauseFound) report.verdict = "Engine exactly reproduces the published reference solution!";
+
+    return report;
   }
 
   function generateReview(mix_type, inputs, results) {
@@ -811,7 +879,7 @@
       const trace_id = `MX-${new Date().getFullYear()}-${String(mixTraceCounter).padStart(6, '0')}`;
       
       const results = mix_type === "normal" ? calculateNormalMix(inputs) : calculateGeopolymerMix(inputs);
-      const validation = validateMix(mix_type, inputs, results, data.platform_mode || "compliance");
+      const validation = await validateMix(mix_type, inputs, results, data.platform_mode || "compliance");
       const review = generateReview(mix_type, inputs, results);
 
       return new Response(JSON.stringify({

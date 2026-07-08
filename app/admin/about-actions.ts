@@ -2,7 +2,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 async function getActorProfileId(supabase: SupabaseClient) {
@@ -114,6 +114,7 @@ export async function updateAboutAction(aboutId: string, formData: FormData) {
     });
 
     revalidatePath("/");
+    revalidateTag("about", "default");
     return { success: true, id: resultId };
   } catch (err: unknown) {
     console.error("Error updating About:", err);
@@ -186,6 +187,7 @@ export async function rollbackAboutAction(aboutId: string, versionId: string) {
     });
 
     revalidatePath("/");
+    revalidateTag("about", "default");
     return { success: true };
   } catch (err: unknown) {
     console.error("Error rolling back About:", err);

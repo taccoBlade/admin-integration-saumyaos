@@ -1,6 +1,7 @@
 'use client';
 
-import { InteractiveParticleBackground } from '@/components/ui/interactive-particle-background';
+import nextDynamic from 'next/dynamic';
+const InteractiveParticleBackground = nextDynamic(() => import("@/components/ui/interactive-particle-background").then(mod => mod.InteractiveParticleBackground), { ssr: false });
 
 export function ParticleBackground() {
   return (

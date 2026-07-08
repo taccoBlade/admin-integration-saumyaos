@@ -129,6 +129,24 @@ async function main() {
         event_type: "Experience",
         status: "published",
         sort_order: 3
+      },
+      {
+        slug: "exp-geotech",
+        year: 2026,
+        title: "Geotechnical Studies",
+        description: "Deep excavation engineering and ground behavior analysis.",
+        event_type: "Experience",
+        status: "published",
+        sort_order: 4
+      },
+      {
+        slug: "exp-markets",
+        year: 2026,
+        title: "Markets & Investing",
+        description: "Portfolio construction and equity analysis.",
+        event_type: "Experience",
+        status: "published",
+        sort_order: 5
       }
     ];
 

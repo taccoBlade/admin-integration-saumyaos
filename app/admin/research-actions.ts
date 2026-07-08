@@ -2,7 +2,7 @@
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 async function getActorProfileId(supabase: SupabaseClient) {
@@ -22,10 +22,24 @@ export async function getResearchEntriesAction() {
     const { data, error } = await supabase
       .from("research_entries")
       .select("*, media_assets!download_media_id(id, public_url, file_name)")
-      .order("publication_date", { ascending: false });
+      .order("published_date", { ascending: false });
 
     if (error) throw error;
-    return { entries: data };
+
+    const mapped = (data || []).map(item => ({
+      id: item.id,
+      slug: item.slug,
+      title: item.title,
+      authors: item.author ? [item.author] : [],
+      abstract: item.abstract,
+      publication_journal: item.date_label,
+      publication_date: item.published_date,
+      download_media_id: item.download_media_id,
+      status: item.status,
+      media_assets: item.media_assets
+    }));
+
+    return { entries: mapped };
   } catch (err: unknown) {
     const e = err as Error;
     return { error: e.message };
@@ -49,20 +63,16 @@ export async function createResearchEntryAction(formData: FormData) {
     return { error: "Title and Slug are required." };
   }
 
-  const authors = authorsRaw
-    ? authorsRaw.split(",").map((s) => s.trim()).filter((s) => s.length > 0)
-    : [];
-
   try {
     const adminDb = createSupabaseAdminClient();
 
     const insertData = {
       title,
       slug,
-      authors,
+      author: authorsRaw,
       abstract,
-      publication_journal: journal,
-      publication_date: pubDate ? pubDate : null,
+      date_label: journal,
+      published_date: pubDate ? pubDate : null,
       download_media_id: downloadMediaId ? downloadMediaId : null,
       status,
       version: 1,
@@ -98,6 +108,7 @@ export async function createResearchEntryAction(formData: FormData) {
     });
 
     revalidatePath("/");
+    revalidateTag("research", "default");
     return { success: true, id: data.id };
   } catch (err: unknown) {
     const e = err as Error;
@@ -122,10 +133,6 @@ export async function updateResearchEntryAction(id: string, formData: FormData) 
     return { error: "Title and Slug are required." };
   }
 
-  const authors = authorsRaw
-    ? authorsRaw.split(",").map((s) => s.trim()).filter((s) => s.length > 0)
-    : [];
-
   try {
     const adminDb = createSupabaseAdminClient();
 
@@ -137,10 +144,10 @@ export async function updateResearchEntryAction(id: string, formData: FormData) 
     const updateData = {
       title,
       slug,
-      authors,
+      author: authorsRaw,
       abstract,
-      publication_journal: journal,
-      publication_date: pubDate ? pubDate : null,
+      date_label: journal,
+      published_date: pubDate ? pubDate : null,
       download_media_id: downloadMediaId ? downloadMediaId : null,
       status,
       version: currentVersion,
@@ -175,6 +182,7 @@ export async function updateResearchEntryAction(id: string, formData: FormData) 
     });
 
     revalidatePath("/");
+    revalidateTag("research", "default");
     return { success: true };
   } catch (err: unknown) {
     const e = err as Error;
@@ -208,6 +216,7 @@ export async function deleteResearchEntryAction(id: string) {
     });
 
     revalidatePath("/");
+    revalidateTag("research", "default");
     return { success: true };
   } catch (err: unknown) {
     const e = err as Error;

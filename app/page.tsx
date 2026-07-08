@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import nextDynamic from 'next/dynamic';
 import { InteractiveHero } from "@/components/home/interactive-hero";
 import { Contact } from "@/components/layout/contact";
@@ -13,7 +11,7 @@ import { CurrentFocus } from "@/components/home/current-focus";
 import Link from "next/link";
 import { BookOpen, Cpu, ArrowRight, HardHat, Code2, Plane, Eye, Wrench, Leaf } from "lucide-react";
 
-import { InteractiveParticleBackground } from "@/components/ui/interactive-particle-background";
+import { ClientParticleBackground } from "@/components/personal/ClientParticleBackground";
 
 export default async function Home() {
   const [projects, timelineEvents, skills, heroData, aboutData] = await Promise.all([
@@ -26,14 +24,11 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-transparent text-slate-200 selection:bg-attention-500/30 overflow-x-hidden relative">
-      <InteractiveParticleBackground 
+      <ClientParticleBackground 
         showConstellations={false}
         disableLines={true}
         className="fixed inset-0 w-full h-full pointer-events-none z-[20] opacity-75"
       />
-
-
-
 
       {/* ── FOREGROUND CONTENT ── */}
       <div className="relative z-10">

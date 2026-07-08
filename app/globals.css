@@ -229,59 +229,6 @@ body {
   transform: rotate(3deg) translate(0px, -4px);
 }
 
-/* Admin OS polish */
-.admin-os {
-  --admin-panel: rgba(255, 255, 255, 0.035);
-  --admin-panel-strong: rgba(255, 255, 255, 0.06);
-  --admin-border: rgba(255, 255, 255, 0.08);
-  --admin-muted: #8b8f99;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(34, 211, 238, 0.08), transparent 26rem),
-    radial-gradient(circle at 88% 8%, rgba(167, 139, 250, 0.08), transparent 24rem),
-    #050608;
-}
-
-.admin-grid {
-  opacity: 0.45;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: linear-gradient(to bottom, black, transparent 78%);
-}
-
-.admin-card {
-  border: 1px solid var(--admin-border);
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.026));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055), 0 24px 80px rgba(0, 0, 0, 0.24);
-}
-
-.admin-section-title {
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #8b8f99;
-}
-
-.admin-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  border-radius: 999px;
-  border: 1px solid rgba(52, 211, 153, 0.18);
-  background: rgba(52, 211, 153, 0.08);
-  padding: 0.25rem 0.55rem;
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #86efac;
-}
-
 
 /* Gallery layout standards */
 .editorial-gallery-grid {

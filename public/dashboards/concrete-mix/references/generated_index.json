@@ -1,0 +1,22 @@
+{
+  "last_indexed": "2026-07-07T23:00:00+05:30",
+  "index": [
+    {
+      "id": "is10262-annex-a-m40",
+      "source_pointer": "standards/is10262_annex_a.json",
+      "authority_weight": 1.00,
+      "metadata": {
+        "grade": "M40",
+        "binder": "OPC",
+        "slump": 50,
+        "aggregate": 20,
+        "method": "IS10262",
+        "keywords": [
+          "Severe",
+          "Zone I",
+          "OPC 43"
+        ]
+      }
+    }
+  ]
+}
