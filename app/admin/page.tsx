@@ -1,6 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import AdminShell from "./components/AdminShell";
+import packageJson from "../../package.json";
 
 export const dynamic = "force-dynamic";
 
@@ -48,6 +49,7 @@ export default async function AdminPage() {
     <AdminShell
       profile={resolvedProfile}
       projects={resolvedProjects}
+      releaseVersion={packageJson.version}
     />
   );
 }

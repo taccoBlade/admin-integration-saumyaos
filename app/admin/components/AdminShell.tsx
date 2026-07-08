@@ -6,7 +6,6 @@ import { Terminal as TerminalIcon } from "lucide-react";
 import Sidebar from "./Sidebar";
 import Workspace from "./Workspace";
 import Terminal from "./Terminal";
-import packageJson from "../../../package.json";
 
 interface ProjectItem {
   id: string;
@@ -24,9 +23,10 @@ interface AdminShellProps {
     email: string;
   };
   projects: ProjectItem[];
+  releaseVersion?: string;
 }
 
-export function AdminShell({ profile, projects }: AdminShellProps) {
+export function AdminShell({ profile, projects, releaseVersion }: AdminShellProps) {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [terminalOpen, setTerminalOpen] = useState(false);
 
@@ -39,6 +39,7 @@ export function AdminShell({ profile, projects }: AdminShellProps) {
         displayName={profile.display_name}
         terminalOpen={terminalOpen}
         setTerminalOpen={setTerminalOpen}
+        releaseVersion={releaseVersion}
       />
 
       <div className="relative z-10 flex h-screen flex-col lg:pl-[17rem]">
@@ -53,7 +54,7 @@ export function AdminShell({ profile, projects }: AdminShellProps) {
               <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 uppercase tracking-[0.18em] text-purple-400/80">
                 Release
               </span>
-              <span className="font-semibold tracking-wide text-purple-50">SAUMYA.OS_BUILD_{packageJson.version}</span>
+              <span className="font-semibold tracking-wide text-purple-50">SAUMYA.OS_BUILD_{releaseVersion || "0.1.0"}</span>
             </div>
             <div className="flex items-center gap-3 font-mono text-[11px] text-purple-400/80">
               <span className="hidden h-px w-10 bg-white/10 sm:block" />

@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { logoutAction } from "../../auth/actions";
-import packageJson from "../../../package.json";
 
 interface SidebarProps {
   activeTab: string;
@@ -26,6 +25,7 @@ interface SidebarProps {
   displayName: string;
   terminalOpen: boolean;
   setTerminalOpen: (open: boolean) => void;
+  releaseVersion?: string;
 }
 
 export default function Sidebar({
@@ -34,6 +34,7 @@ export default function Sidebar({
   displayName,
   terminalOpen,
   setTerminalOpen,
+  releaseVersion,
 }: SidebarProps) {
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -59,7 +60,7 @@ export default function Sidebar({
           <div>
             <h1 className="text-sm font-semibold tracking-[0.18em] text-white">SAUMYA.OS</h1>
             <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-300">
-              v{packageJson.version} / Online
+              v{releaseVersion || "0.1.0"} / Online
             </span>
           </div>
           <div className="hidden h-9 w-px bg-gradient-to-b from-emerald-300 via-cyan-300 to-violet-300 lg:block" />
