@@ -11,6 +11,8 @@ import {
 import { DashboardEmbed } from "@/components/projects/dashboard-embed"
 import { Contact } from "@/components/layout/contact"
 import { ClientParticleBackground } from "@/components/personal/ClientParticleBackground";
+import { FeaturedProjects } from "@/components/home/featured-projects"
+import { Project } from "@/lib/types"
 
 interface DashboardInfo {
   id: string
@@ -101,7 +103,7 @@ const DASHBOARDS: DashboardInfo[] = [
   }
 ]
 
-function TerminalVaultContent() {
+export function ProjectsContent({ projects }: { projects: Project[] }) {
   const searchParams = useSearchParams()
   const initialProject = searchParams.get("project")
 
@@ -137,7 +139,7 @@ function TerminalVaultContent() {
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-attention-400 transition-colors group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Back to System Terminal
+            Back to Home
           </Link>
         </div>
 
@@ -146,10 +148,10 @@ function TerminalVaultContent() {
           <div className="space-y-4 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-attention-950/50 border border-attention-800/30 text-attention-400 text-xs font-mono">
               <Terminal className="w-3.5 h-3.5" />
-              INTEGRATED TERMINAL VAULT
+              PROJECT DASHBOARD
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-200 to-neutral-400">
-              Terminal Vault
+              Projects
             </h1>
             <p className="text-base md:text-lg text-neutral-400 leading-relaxed">
               Consolidated workspace containing live computational sandbox consoles and static geotechnical, structural, and material research records.
@@ -166,6 +168,8 @@ function TerminalVaultContent() {
           transition={{ duration: 0.3 }}
           className="space-y-12"
         >
+              <FeaturedProjects projects={projects} showConsoles={false} />
+
               {/* Bento Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {DASHBOARDS.map((db) => {
@@ -273,13 +277,5 @@ function TerminalVaultContent() {
       </main>
       <Contact />
     </div>
-  )
-}
-
-export default function TerminalVaultPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-[#08090b]" />}>
-      <TerminalVaultContent />
-    </Suspense>
   )
 }

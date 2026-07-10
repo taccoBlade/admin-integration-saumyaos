@@ -125,24 +125,39 @@ export default function SettingsView({ displayName, email }: SettingsViewProps) 
           <p className="text-[10px] text-[var(--muted)]">SET THE ACCENT COLOR FOR THE ENTIRE OPERATING SYSTEM</p>
         </div>
 
-        <div className="flex items-center gap-4 p-4 bg-white/[0.02] border border-purple-500/15 rounded-xl">
-          <input 
-            type="color" 
-            value={themeHex} 
-            onChange={(e) => setThemeHex(e.target.value)}
-            className="w-12 h-12 rounded cursor-pointer border-0 p-0 bg-transparent"
-          />
+        <div className="flex flex-col gap-4 p-4 bg-white/[0.02] border border-purple-500/15 rounded-xl">
           <div className="flex flex-col flex-1">
-            <span className="text-[var(--muted)]">Primary Accent Color</span>
-            <span className="text-purple-50 font-bold uppercase">{themeHex}</span>
+            <span className="text-[var(--muted)] mb-3">Primary Accent Color</span>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { name: "Gold (Default)", hex: "#d4af37" },
+                { name: "Emerald", hex: "#10b981" },
+                { name: "Cyan", hex: "#06b6d4" },
+                { name: "Purple", hex: "#a855f7" },
+                { name: "Rose", hex: "#f43f5e" },
+                { name: "Blue", hex: "#3b82f6" }
+              ].map((color) => (
+                <button
+                  key={color.hex}
+                  onClick={() => setThemeHex(color.hex)}
+                  className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${themeHex === color.hex ? 'border-white scale-110 shadow-[0_0_10px_rgba(255,255,255,0.5)]' : 'border-transparent opacity-80'}`}
+                  style={{ backgroundColor: color.hex }}
+                  title={color.name}
+                  aria-label={`Select ${color.name} color`}
+                />
+              ))}
+            </div>
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-purple-50 font-bold uppercase">{themeHex}</span>
+              <button
+                onClick={handleSaveTheme}
+                disabled={themeSaving}
+                className="px-4 py-2 bg-[var(--accent-amber)] hover:bg-[var(--accent-amber)]/90 text-black rounded-lg transition-all font-semibold disabled:opacity-50"
+              >
+                {themeSaving ? "Saving..." : "Save Theme"}
+              </button>
+            </div>
           </div>
-          <button
-            onClick={handleSaveTheme}
-            disabled={themeSaving}
-            className="px-4 py-2 bg-[var(--accent-amber)] hover:bg-[var(--accent-amber)]/90 text-black rounded-lg transition-all font-semibold disabled:opacity-50"
-          >
-            {themeSaving ? "Saving..." : "Save Theme"}
-          </button>
         </div>
       </div>
 

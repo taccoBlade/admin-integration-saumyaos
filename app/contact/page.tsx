@@ -24,6 +24,8 @@ function GithubIcon({ className }: { className?: string }) {
   );
 }
 
+import { ContactForm } from "./ContactForm";
+
 export default function ContactPage() {
   return (
     <ContactPageContent />
@@ -90,18 +92,15 @@ function ContactPageContent() {
           Whether it&apos;s infrastructure telemetry, market velocity modeling, or creative storytelling — I&apos;m always scanning for new challenges.
         </motion.p>
 
-        {/* Animated CTA Button */}
-        <motion.a
-          href="mailto:saumyaparekh937@gmail.com"
+        {/* Contact Form */}
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-
-          className="relative px-8 py-3.5 rounded-xl border border-white/10 bg-white/[0.02] text-white hover:text-[#08090b] hover:bg-white hover:border-white transition-all duration-350 font-bold font-mono text-xs overflow-hidden flex items-center justify-center gap-2 group mb-12 cursor-pointer active:scale-95"
+          className="w-full"
         >
-          <span>WRITE A LETTER</span>
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </motion.a>
+          <ContactForm />
+        </motion.div>
 
         {/* Glassmorphic Info Cards */}
         <motion.div

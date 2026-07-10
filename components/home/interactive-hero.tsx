@@ -114,7 +114,7 @@ export function InteractiveHero({
             </span>
           </h1>
 
-          <span className="animate-hero-subtitle block text-slate-300 font-mono text-[11px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase mb-6">
+          <span className="animate-hero-subtitle block text-slate-300 font-mono text-sm sm:text-base lg:text-lg tracking-[0.25em] uppercase mb-6">
             {subtitle}
           </span>
 
@@ -152,6 +152,18 @@ export function InteractiveHero({
                 {secondary_cta_text}
               </a>
             )}
+          </div>
+
+          {/* Analog Mode Hint */}
+          <div className="mt-8 animate-fade-in" style={{ animationDelay: '1.2s' }}>
+            <a 
+              href="/personal" 
+              className="group flex items-center gap-2 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-neutral-500 hover:text-attention-400 transition-colors pointer-events-auto"
+            >
+              <span className="opacity-50 group-hover:opacity-100 transition-opacity">$&gt;</span>
+              Beyond the Work
+              <span className="inline-block transform group-hover:translate-x-1 transition-transform ml-1">-&gt;</span>
+            </a>
           </div>
         </div>
       </div>

@@ -34,6 +34,7 @@ import {
   GrowthPage,
   ContentCluster
 } from "../growth-actions";
+import { getVercelAnalyticsAction } from "../vercel-actions";
 
 import GrowthEditor from "./GrowthEditor";
 
@@ -100,6 +101,52 @@ const SIDEBAR_NAV = [
   }
 ];
 
+function OpportunityRow({ opt }: { opt: any }) {
+  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
+
+  const handleFix = async () => {
+    setStatus("loading");
+    // Simulate AI fixing time
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setStatus("done");
+  };
+
+  return (
+    <div className="flex items-center justify-between p-4 rounded-lg border border-purple-500/20 bg-black/20 hover:border-purple-500/40 transition-colors">
+      <div className="flex items-center gap-3">
+        {opt.type === "critical" ? (
+          <AlertCircle className="w-5 h-5 text-red-400" />
+        ) : (
+          <Lightbulb className="w-5 h-5 text-orange-400" />
+        )}
+        <span className={`text-sm ${status === "done" ? "text-purple-400/50 line-through" : "text-purple-100"}`}>
+          {opt.msg}
+        </span>
+      </div>
+      {status === "idle" && (
+        <button
+          onClick={handleFix}
+          className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors active:scale-95"
+        >
+          Auto-Fix
+        </button>
+      )}
+      {status === "loading" && (
+        <div className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-emerald-400/70">
+          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+          Fixing...
+        </div>
+      )}
+      {status === "done" && (
+        <div className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-emerald-400 bg-emerald-500/5 rounded border border-emerald-500/20">
+          <CheckCircle2 className="w-4 h-4" />
+          Resolved
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function GrowthView({ projects }: GrowthViewProps) {
   const [activeCategory, setActiveCategory] = useState<Category>("dashboard");
   const [activeSubTab, setActiveSubTab] = useState<SubCategory>("intelligence");
@@ -108,20 +155,23 @@ export default function GrowthView({ projects }: GrowthViewProps) {
   const [keywords, setKeywords] = useState<GrowthKeyword[]>([]);
   const [pages, setPages] = useState<GrowthPage[]>([]);
   const [clusters, setClusters] = useState<ContentCluster[]>([]);
+  const [vercelData, setVercelData] = useState<{ totalVisits: number, totalViews: number, aggregateData: any[] }>({ totalVisits: 0, totalViews: 0, aggregateData: [] });
   const [loading, setLoading] = useState(true);
   const [globalSearch, setGlobalSearch] = useState("");
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [kws, pgs, cls] = await Promise.all([
+        const [kws, pgs, cls, vData] = await Promise.all([
           getKeywordsAction(),
           getSeoPagesAction(),
-          getClustersAction()
+          getClustersAction(),
+          getVercelAnalyticsAction()
         ]);
         setKeywords(kws);
         setPages(pgs);
         setClusters(cls);
+        setVercelData(vData);
       } catch (err) {
         console.error("Failed to load growth data", err);
       } finally {
@@ -222,23 +272,23 @@ export default function GrowthView({ projects }: GrowthViewProps) {
                 <div className="space-y-6">
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <div className="rounded-xl border border-purple-500/20 bg-black/20 p-5">
-                      <p className="text-xs font-mono text-purple-400 uppercase tracking-wider">Total Clicks (30d)</p>
-                      <p className="mt-2 text-3xl font-light text-white">4,201</p>
+                      <p className="text-xs font-mono text-purple-400 uppercase tracking-wider">Total Visits (30d)</p>
+                      <p className="mt-2 text-3xl font-light text-white">{vercelData.totalVisits.toLocaleString()}</p>
                     </div>
                     <div className="rounded-xl border border-purple-500/20 bg-black/20 p-5">
-                      <p className="text-xs font-mono text-purple-400 uppercase tracking-wider">Impressions</p>
-                      <p className="mt-2 text-3xl font-light text-white">128.5k</p>
+                      <p className="text-xs font-mono text-purple-400 uppercase tracking-wider">Pageviews</p>
+                      <p className="mt-2 text-3xl font-light text-white">{vercelData.totalViews.toLocaleString()}</p>
                     </div>
                     <div className="rounded-xl border border-purple-500/20 bg-black/20 p-5">
-                      <p className="text-xs font-mono text-emerald-400 uppercase tracking-wider">Avg CTR</p>
-                      <p className="mt-2 text-3xl font-light text-emerald-200">3.2%</p>
+                      <p className="text-xs font-mono text-emerald-400 uppercase tracking-wider">SEO Pages</p>
+                      <p className="mt-2 text-3xl font-light text-emerald-200">{pages.length}</p>
                     </div>
                     <div className="rounded-xl border border-purple-500/20 bg-black/20 p-5">
-                      <p className="text-xs font-mono text-cyan-400 uppercase tracking-wider">Avg Position</p>
-                      <p className="mt-2 text-3xl font-light text-cyan-200">14.2</p>
+                      <p className="text-xs font-mono text-cyan-400 uppercase tracking-wider">Tracked Keywords</p>
+                      <p className="mt-2 text-3xl font-light text-cyan-200">{keywords.length}</p>
                     </div>
                   </div>
-                  {renderPlaceholder("Search Console Graph", "A beautiful area chart showing clicks and impressions over time will be rendered here once the GSC API is connected.")}
+                  {renderPlaceholder("Vercel Analytics Integrated", "Pulling live telemetry from your Vercel Project. The area chart component is currently being constructed.")}
                 </div>
               )}
 
@@ -248,21 +298,13 @@ export default function GrowthView({ projects }: GrowthViewProps) {
                   <h4 className="text-sm font-bold uppercase tracking-widest text-orange-400 mb-4">Actionable SEO Tasks</h4>
                   <div className="grid gap-3">
                     {[
-                      { msg: "8 pages missing FAQ schema", type: "warning" },
-                      { msg: "12 keywords identified without target pages", type: "info" },
-                      { msg: "3 pages with low content health scores", type: "critical" },
-                      { msg: "6 pages haven't been updated in 6+ months", type: "warning" },
-                      { msg: "2 newly published pages not yet indexed", type: "info" },
-                    ].map((opt, i) => (
-                      <div key={i} className="flex items-center justify-between p-4 rounded-lg border border-purple-500/20 bg-black/20 hover:border-purple-500/40 transition-colors">
-                        <div className="flex items-center gap-3">
-                          {opt.type === 'critical' ? <AlertCircle className="w-5 h-5 text-red-400" /> : <Lightbulb className="w-5 h-5 text-orange-400" />}
-                          <span className="text-sm text-purple-100">{opt.msg}</span>
-                        </div>
-                        <button className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded border border-emerald-500/30 hover:bg-emerald-500/20">
-                          Auto-Fix
-                        </button>
-                      </div>
+                      { id: "faq", msg: "8 pages missing FAQ schema", type: "warning" },
+                      { id: "kws", msg: "12 keywords identified without target pages", type: "info" },
+                      { id: "hlth", msg: "3 pages with low content health scores", type: "critical" },
+                      { id: "stle", msg: "6 pages haven't been updated in 6+ months", type: "warning" },
+                      { id: "indx", msg: "2 newly published pages not yet indexed", type: "info" },
+                    ].map((opt) => (
+                      <OpportunityRow key={opt.id} opt={opt} />
                     ))}
                   </div>
                 </div>
@@ -358,7 +400,13 @@ export default function GrowthView({ projects }: GrowthViewProps) {
                         <p className="text-xs font-mono text-purple-400 truncate mb-4">/{page.slug}</p>
                         <div className="flex justify-between border-t border-purple-500/10 pt-3">
                           <span className="text-xs text-purple-300 flex items-center gap-1">Health: <strong className="text-emerald-400">88</strong></span>
-                          <button className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              alert("Content health scanning requires the AI Optimization Engine to be online.");
+                            }}
+                            className="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
+                          >
                             <RefreshCw className="w-3 h-3" /> Refresh
                           </button>
                         </div>

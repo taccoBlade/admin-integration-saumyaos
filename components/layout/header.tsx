@@ -9,8 +9,8 @@ import { Menu, X, Play, Pause, SkipForward, SkipBack, Shuffle, Music, Volume2, V
 
 
 const navItems = [
-  { label: "Professional", href: "/" },
-  { label: "Terminal Vault", href: "/projects/terminal-vault" },
+  { label: "Overview", href: "/" },
+  { label: "Projects", href: "/projects" },
   { label: "Personal", href: "/personal" },
   { label: "Contact", href: "/contact" },
 ];

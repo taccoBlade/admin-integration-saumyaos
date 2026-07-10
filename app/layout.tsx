@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     template: "%s | Saumya Parekh",
   },
   description:
-    "Civil Engineering student specializing in geotechnical systems, infrastructure innovation, portfolio management, and digital storytelling.",
+    "Civil Engineering student specializing in geotechnical systems, infrastructure innovation, project execution, and digital storytelling.",
   keywords: [
     "Saumya Parekh",
     "Civil Engineering",
@@ -102,7 +102,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Saumya Parekh | Civil Engineering & Infrastructure",
     description:
-      "Civil Engineering student specializing in geotechnical systems, infrastructure innovation, portfolio management, and digital storytelling.",
+      "Civil Engineering student specializing in geotechnical systems, infrastructure innovation, project execution, and digital storytelling.",
     url: "https://saumya.space",
     siteName: "Saumya Parekh",
     locale: "en_US",
@@ -112,7 +112,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Saumya Parekh | Civil Engineering & Infrastructure",
     description:
-      "Civil Engineering student specializing in geotechnical systems, infrastructure innovation, portfolio management, and digital storytelling.",
+      "Civil Engineering student specializing in geotechnical systems, infrastructure innovation, project execution, and digital storytelling.",
     creator: "@saumyaparekh",
   },
   verification: {

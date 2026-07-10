@@ -50,8 +50,8 @@ const getRelatedSkills = (targetSkill: Skill, allSkills: Skill[]) => {
 export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects: Project[] }) {
   const [hoveredSkill, setHoveredSkill] = useState<Skill | null>(null);
 
-  // Group skills by category
-  const categories = ["Core Engineering", "Technical Tools", "Programming", "Creative"];
+  // Dynamically extract categories from the skills array
+  const categories = Array.from(new Set(skills.map(s => s.category)));
 
   return (
     <section id="research" className="relative w-full max-w-7xl mx-auto px-5 py-24 sm:px-8 lg:px-12 overflow-hidden">
@@ -91,6 +91,7 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
                         key={skill.id}
                         onMouseEnter={() => setHoveredSkill(skill)}
                         onMouseLeave={() => setHoveredSkill(null)}
+                        onClick={() => setHoveredSkill(skill)}
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: isSelected ? 1 : 0.2, scale: isHovered ? 1.05 : (isSelected ? 1 : 0.95) }}
                         animate={{ opacity: isSelected ? 1 : 0.2, scale: isHovered ? 1.05 : (isSelected ? 1 : 0.95) }}
@@ -121,10 +122,25 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 15 }}
               transition={{ duration: 0.2 }}
-              className="absolute bottom-4 left-4 right-4 md:left-6 md:right-6 bg-neutral-950/90 backdrop-blur-md border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 z-30 shadow-2xl"
+              className="fixed bottom-4 left-4 right-4 md:absolute md:left-6 md:right-6 bg-neutral-950/95 md:bg-neutral-950/90 backdrop-blur-xl border border-white/15 md:border-white/10 rounded-2xl p-5 md:p-5 flex flex-col md:flex-row md:items-center justify-between gap-5 md:gap-4 z-[100] md:z-30 shadow-2xl"
             >
+              {/* Mobile Close Button */}
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setHoveredSkill(null);
+                }}
+                className="md:hidden absolute top-3 right-3 p-2 bg-white/5 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Close details"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+
               {/* Left Side: Skill Name and Category */}
-              <div className="space-y-1 shrink-0 md:max-w-[200px]">
+              <div className="space-y-1 shrink-0 md:max-w-[200px] pr-8 md:pr-0">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-attention-400" />
                   <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">{hoveredSkill.category}</span>
@@ -162,9 +178,12 @@ export function SkillsNetwork({ skills, projects }: { skills: Skill[]; projects:
               </div>
             </motion.div>
           ) : (
-            <div className="absolute bottom-6 left-6 right-6 flex justify-between items-center text-xs text-slate-500 font-mono pointer-events-none">
+            <div className="hidden md:flex absolute bottom-6 left-6 right-6 justify-between items-center text-xs text-slate-500 font-mono pointer-events-none">
               <span>{skills.length} Nodes</span>
-              <span>Hover or tap a node to inspect system evidence</span>
+              <span className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-attention-500 animate-pulse" />
+                Hover or tap a node to inspect system evidence
+              </span>
             </div>
           )}
         </AnimatePresence>

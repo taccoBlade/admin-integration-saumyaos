@@ -12,6 +12,7 @@ import {
   Image,
   LayoutDashboard,
   LogOut,
+  Mail,
   Settings,
   Terminal as TerminalIcon,
   TrendingUp,
@@ -36,21 +37,41 @@ export default function Sidebar({
   setTerminalOpen,
   releaseVersion,
 }: SidebarProps) {
-  const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "hero", label: "Hero Section", icon: Home },
-    { id: "about", label: "About Section", icon: FileText },
-    { id: "projects", label: "Projects", icon: FolderGit2 },
-    { id: "vault", label: "Code Vault", icon: TerminalIcon },
-    { id: "timeline", label: "Timeline", icon: Calendar },
-    { id: "research", label: "Research Archive", icon: BookOpen },
-    { id: "photography", label: "Photo Spreads", icon: Camera },
-    { id: "resume", label: "Resume", icon: Award },
-    { id: "skills", label: "Skills Network", icon: Cpu },
-    { id: "media", label: "Media Library", icon: Image },
-    { id: "ai", label: "AI Workspace", icon: Cpu },
-    { id: "growth", label: "Growth Engine", icon: TrendingUp },
-    { id: "settings", label: "Settings", icon: Settings },
+  const menuGroups = [
+    {
+      label: "SYSTEM",
+      items: [
+        { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+        { id: "messages", label: "Messages", icon: Mail },
+        { id: "settings", label: "Settings", icon: Settings },
+      ],
+    },
+    {
+      label: "PAGES",
+      items: [
+        { id: "hero", label: "Hero Section", icon: Home },
+        { id: "about", label: "About Section", icon: FileText },
+        { id: "timeline", label: "Timeline", icon: Calendar },
+        { id: "skills", label: "Skills Network", icon: Cpu },
+        { id: "resume", label: "Resume", icon: Award },
+      ],
+    },
+    {
+      label: "DATABASES",
+      items: [
+        { id: "projects", label: "Projects", icon: FolderGit2 },
+        { id: "photography", label: "Photo Spreads", icon: Camera },
+        { id: "media", label: "Media Library", icon: Image },
+        { id: "vault", label: "Code Vault", icon: TerminalIcon },
+      ],
+    },
+    {
+      label: "INTELLIGENCE",
+      items: [
+        { id: "ai", label: "AI Workspace", icon: Cpu },
+        { id: "growth", label: "Growth Engine", icon: TrendingUp },
+      ],
+    },
   ];
 
   return (
@@ -67,37 +88,42 @@ export default function Sidebar({
         </div>
       </div>
 
-      <div className="flex-1 overflow-x-auto px-4 pb-3 lg:overflow-y-auto lg:px-5">
-        <nav className="flex gap-2 lg:flex-col lg:gap-1.5">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
+      <div className="flex-1 overflow-x-auto px-4 pb-3 lg:overflow-y-auto lg:px-5 lg:pt-2 flex flex-col gap-6">
+        {menuGroups.map((group) => (
+          <div key={group.label} className="flex gap-2 lg:flex-col lg:gap-1.5">
+            <span className="hidden lg:block text-[9px] font-semibold text-purple-400/50 uppercase tracking-widest px-2 pb-1">
+              {group.label}
+            </span>
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
 
-            return (
-              <motion.button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                whileHover={{ x: isActive ? 0 : 2 }}
-                whileTap={{ scale: 0.98 }}
-                className={`relative flex min-w-max items-center gap-3 rounded-lg border px-3.5 py-2.5 text-[11px] transition-all duration-200 lg:w-full lg:min-w-0 ${
-                  isActive
-                    ? "border-white/10 bg-white/[0.07] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                    : "border-transparent text-purple-400/80 hover:border-white/[0.06] hover:bg-white/[0.035] hover:text-purple-50"
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="admin-active-rail"
-                    className="absolute left-0 top-1/2 hidden h-5 w-0.5 -translate-y-1/2 rounded-full bg-cyan-300 lg:block"
-                  />
-                )}
-                <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-cyan-300" : ""}`} />
-                <span className="truncate">{item.label}</span>
-                {isActive && <ChevronRight className="ml-auto hidden h-3.5 w-3.5 text-purple-400/80 lg:block" />}
-              </motion.button>
-            );
-          })}
-        </nav>
+              return (
+                <motion.button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  whileHover={{ x: isActive ? 0 : 2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`relative flex min-w-max items-center gap-3 rounded-lg border px-3.5 py-2.5 text-[11px] transition-all duration-200 lg:w-full lg:min-w-0 ${
+                    isActive
+                      ? "border-white/10 bg-white/[0.07] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                      : "border-transparent text-purple-400/80 hover:border-white/[0.06] hover:bg-white/[0.035] hover:text-purple-50"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="admin-active-rail"
+                      className="absolute left-0 top-1/2 hidden h-5 w-0.5 -translate-y-1/2 rounded-full bg-cyan-300 lg:block"
+                    />
+                  )}
+                  <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-cyan-300" : ""}`} />
+                  <span className="truncate">{item.label}</span>
+                  {isActive && <ChevronRight className="ml-auto hidden h-3.5 w-3.5 text-purple-400/80 lg:block" />}
+                </motion.button>
+              );
+            })}
+          </div>
+        ))}
       </div>
 
       <div className="hidden border-t border-purple-500/20 p-5 lg:block">

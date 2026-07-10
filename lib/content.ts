@@ -388,7 +388,7 @@ export const getHero = unstable_cache(
       title: "Saumya Parekh",
       tagline: "Civil Engineering & Infrastructure Systems",
       subtitle: "Computational Infrastructure Engineer",
-      description: "Building intelligent infrastructure systems through civil engineering, data analysis, automation, and computational design. Specializing in concrete mix proportioning compliance and geotechnical site telemetry.",
+      description: "3rd year Civil Engineering student building the future of smart infrastructure — from IoT soil sensors to AI-guided compaction rollers to concrete mix compliance engines.",
       cta_text: "View Projects",
       cta_url: "#projects",
       secondary_cta_text: "Resume",

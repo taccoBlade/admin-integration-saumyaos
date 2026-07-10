@@ -10,7 +10,8 @@ import SettingsView from "../views/SettingsView";
 import HeroView from "../views/HeroView";
 import AboutView from "../views/AboutView";
 import TimelineView from "../views/TimelineView";
-import ResearchView from "../views/ResearchView";
+import MessagesView from "../views/MessagesView";
+
 import PhotographyView from "../views/PhotographyView";
 import ResumeView from "../views/ResumeView";
 import SkillsView from "../views/SkillsView";
@@ -41,6 +42,8 @@ export default function Workspace({ activeTab, profile, projects }: WorkspacePro
     switch (activeTab) {
       case "dashboard":
         return <DashboardView displayName={profile.display_name} />;
+      case "messages":
+        return <MessagesView />;
       case "hero":
         return <HeroView />;
       case "about":
@@ -49,8 +52,7 @@ export default function Workspace({ activeTab, profile, projects }: WorkspacePro
         return <ProjectsView projects={projects} />;
       case "timeline":
         return <TimelineView projects={projects} />;
-      case "research":
-        return <ResearchView />;
+
       case "photography":
         return <PhotographyView />;
       case "resume":

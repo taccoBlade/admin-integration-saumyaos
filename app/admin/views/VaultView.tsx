@@ -121,7 +121,7 @@ export default function VaultView() {
             Code Vault
           </h2>
           <p className="mt-2 text-sm text-cyan-300/70">
-            Version control for static mockups and Terminal Vault dashboards.
+            Version control for static mockups and Project dashboards.
           </p>
         </div>
         
