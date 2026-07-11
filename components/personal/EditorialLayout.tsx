@@ -2,6 +2,8 @@
 
 import { SpreadData } from "@/data/photos";
 import { PhotoRenderer } from "./PhotoRenderer";
+import { ProtocolReceipt } from "./ProtocolReceipt";
+import { AviationWidget } from "./AviationWidget";
 
 // Bolder Vector outlines for Animals section
 const PawPrintSVG = () => (
@@ -195,6 +197,9 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
       // Clean masonry column layout for Fitness photos, preserving natural aspect ratios and removing bars
       layoutContent = (
         <div className="w-full relative py-12">
+          {/* Protocol Receipt Widget */}
+          <ProtocolReceipt />
+          
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative space-y-6">
             {photos.map((p, i) => {
               const rotation = i % 3 === 0 ? "rotate-[-0.8deg]" : i % 3 === 1 ? "rotate-[0.8deg]" : "rotate-[0.4deg]";
@@ -239,24 +244,39 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
       break;
 
     case "Comic Strip":
-      // Animals: Kept full color
+      // Animals: Kept full color, rendered as asymmetric photographic prints
       layoutContent = (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 w-full max-w-6xl mx-auto px-6 pb-24 z-10 relative items-start">
            {photos.map((p, i) => {
-              const colSpan = i === 0 ? "col-span-1 sm:col-span-2 md:col-span-4" : i % 3 === 0 ? "col-span-1 sm:col-span-2" : "col-span-1 sm:col-span-2 md:col-span-2";
+              // Scrapbook offsets and rotations - uniform col-span-1 to keep grid balanced
+              const styles = [
+                "rotate-[-1.5deg] translate-y-2",
+                "rotate-[2deg] -translate-y-2",
+                "rotate-[-2deg] translate-y-3",
+                "rotate-[1.5deg] -translate-y-1",
+                "rotate-[-1.8deg] translate-y-2"
+              ];
+              
+              const dynamicStyle = styles[i % styles.length];
+
               return (
-                <div key={i} className={`${colSpan} border border-[#2A2A2A] bg-[#121212] p-4 flex flex-col justify-between group rounded-lg shadow-xl max-w-xs mx-auto w-full md:max-w-none relative`}>
-                   {/* Absolute vector animal corner badge decorators - floating outside of image box */}
-                   <div className="absolute -top-3.5 -right-3.5 z-30 bg-[#121212] p-1.5 rounded-full border border-[#2A2A2A] shadow-xl group-hover:border-[#d4af37]/60 group-hover:scale-110 transition-all duration-500">
+                <div 
+                  key={i} 
+                  className={`relative group overflow-hidden rounded bg-black/60 border border-white/5 shadow-[0_15px_35px_rgba(0,0,0,0.8)] hover:shadow-[0_20px_50px_rgba(255,255,255,0.03)] hover:scale-105 hover:rotate-0 hover:z-30 transition-all duration-500 ease-out cursor-pointer p-2 w-full max-w-xs mx-auto ${dynamicStyle}`}
+                >
+                   {/* Watermark silhouette signature - embossed inside bottom-right */}
+                   <div className="absolute bottom-4 right-4 z-30 opacity-20 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700 pointer-events-none scale-75 origin-bottom-right">
                      {i % 2 === 0 ? <PawPrintSVG /> : <CatSilhouetteSVG />}
                    </div>
                    
-                   <div className="relative w-full aspect-[4/3] overflow-hidden rounded bg-black">
+                   {/* Photo Render - contained inside h-56 box to prevent vertical stretching and cropping */}
+                   <div className="relative w-full h-56 overflow-hidden rounded bg-black/40">
                      <PhotoRenderer 
                        photo={p} 
                        fill={true}
+                       objectFit="contain"
                        className="w-full h-full" 
-                       filterClass="w-full h-full object-cover saturate-[0.85] hover:saturate-100 transition-all duration-700 ease-out" 
+                       filterClass="w-full h-full object-contain saturate-[0.85] group-hover:saturate-100 transition-all duration-700 ease-out" 
                      />
                    </div>
                 </div>
@@ -270,6 +290,9 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
       // Aeroplanes: wings fully visible. Overlapping scattered deck on the right, large main photo on the left.
       layoutContent = (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full max-w-7xl mx-auto px-6 pb-24 z-10 relative">
+          
+          <AviationWidget />
+
           {/* Main photo: Me watching plane landing */}
           <div className="lg:col-span-7 border border-[#2A2A2A] bg-[#0E0E0E] p-3 rounded-lg shadow-2xl max-w-md mx-auto w-full lg:max-w-none">
              <div className="relative w-full aspect-[16/9] overflow-hidden rounded bg-black">
@@ -335,7 +358,7 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
   }
 
   return (
-    <section className="relative w-full overflow-hidden border-b border-[#1A1A1A]/30">
+    <section className="relative w-full border-b border-[#1A1A1A]/30">
       {renderHeader()}
       {layoutContent}
     </section>
