@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { PhotoData } from "@/data/photos";
 import Image from "next/image";
+import { ExifBadge } from "./ExifBadge";
 
 const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -42,7 +43,7 @@ export function PhotoRenderer({
   if (fill) {
     return (
       <motion.div 
-        className={`relative w-full select-none overflow-hidden h-full ${className}`}
+        className={`relative w-full select-none overflow-hidden h-full group ${className}`}
         initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
@@ -61,13 +62,14 @@ export function PhotoRenderer({
           draggable={false}
           priority={photo.role === "Hero"}
         />
+        <ExifBadge exif={photo.exif} />
       </motion.div>
     );
   }
 
   return (
     <motion.div 
-      className={`relative w-full select-none overflow-hidden ${className}`}
+      className={`relative w-full select-none overflow-hidden group ${className}`}
       initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -91,6 +93,7 @@ export function PhotoRenderer({
         draggable={false}
         priority={photo.role === "Hero"}
       />
+      <ExifBadge exif={photo.exif} />
     </motion.div>
   );
 }
