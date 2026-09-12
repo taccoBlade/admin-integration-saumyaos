@@ -216,7 +216,7 @@ export function Header() {
     }
   }, [isPersonal, isPlaying, togglePlay]);
 
-  if (pathname === "/lithos") return null;
+  if (pathname === "/lithos" || pathname.startsWith("/admin") || pathname.startsWith("/auth")) return null;
   const accentColor   = isPersonal ? "text-[#d4af37]"        : "text-attention-400";
   const headerBg      = isPersonal ? "bg-[#050505]/45"        : "bg-[#08090b]/45";
   const mobileMenuBg  = isPersonal ? "bg-[#050505]/98"        : "bg-[#08090b]/98";

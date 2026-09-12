@@ -20,11 +20,11 @@ export const spotifyTracks = [
   {
     "title": "we can't be friends (wait for your love)",
     "artist": "Ariana Grande",
-    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/da/cc/e4/dacce408-c300-212d-9ee2-c22596b1c0f3/mzaf_613322460263209545.plus.aac.p.m4a",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/63/f1/45/63f1452d-5087-18b1-4426-52cd1f10bc06/mzaf_5211000209678891014.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.0024,
-    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b2/98/70/b2987058-9d73-3cee-0280-41af5b72587d/24UMGIM29536.rgb.jpg/300x300bb.jpg"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/2e/88/88/2e8888ad-a0cf-eece-70a7-1ff81377a3ab/24UMGIM00198.rgb.jpg/300x300bb.jpg"
   },
   {
     "title": "Company",
@@ -45,7 +45,7 @@ export const spotifyTracks = [
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/f1/3b/99/f13b99e6-84f7-a5d8-1be7-e82ebcc6354f/3616408758275.jpg/300x300bb.jpg"
   },
   {
-    "title": "Tum Se (From \\\"Teri Baaton Mein Aisa Uljha Jiya\\\")",
+    "title": "Tum Se (From \\\\\\\"Teri Baaton Mein Aisa Uljha Jiya\\\\\\\")",
     "artist": "Sachin-Jigar, Raghav Chaitanya, Varun Jain & Indraneel",
     "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/90/aa/0e/90aa0e33-91bb-b675-0e7f-7e22635d1cd4/mzaf_15937930615478855786.plus.aac.p.m4a",
     "glow": "rgba(255, 255, 255, 0.1)",
@@ -54,7 +54,7 @@ export const spotifyTracks = [
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/eb/25/68/eb256897-d444-504e-b64f-977206d3bf40/8903431982186_cover.jpg/300x300bb.jpg"
   },
   {
-    "title": "Bekhayali (From \\\"Kabir Singh\\\")",
+    "title": "Bekhayali (From \\\\\\\"Kabir Singh\\\\\\\")",
     "artist": "Sachet Tandon",
     "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/35/79/7c/35797c01-2d44-ea2b-ca3e-ee560db195f1/mzaf_1513516329823261658.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
@@ -74,11 +74,11 @@ export const spotifyTracks = [
   {
     "title": "Main Tera Main Tera",
     "artist": "Pritam & Arijit Singh",
-    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f3/ce/0c/f3ce0ca2-b26e-0d92-7f00-704aaa7ccf13/mzaf_15447773406255656085.plus.aac.p.m4a",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/f1/51/97/f15197c7-0113-f995-a5b4-3a2375f0b1a2/mzaf_18326612882411756290.plus.aac.p.m4a",
     "glow": "rgba(161, 98, 7, 0.2)",
     "rainColor": "rgba(255, 255, 255, 0.1)",
     "flashRate": 0.0047,
-    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6a/b8/b4/6ab8b445-021b-5f7c-0fe7-be8f5ddec139/8909024114835.png/300x300bb.jpg"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/a7/dd/e6/a7dde62b-2dc6-72ad-17ff-1e13a316cb5b/840214495540.png/300x300bb.jpg"
   },
   {
     "title": "Ishq Wala Love",
@@ -162,7 +162,7 @@ export const spotifyTracks = [
     "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/64/9c/75/649c75a3-0a3b-3c21-53ea-096036de40a0/56995.jpg/300x300bb.jpg"
   },
   {
-    "title": "I Knew It, I Knew You - From \\\"Toy Story 5\\\"",
+    "title": "I Knew It, I Knew You - From \\\\\\\"Toy Story 5\\\\\\\"",
     "artist": "Taylor Swift",
     "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/73/76/42/737642e6-c478-bed7-f11f-efee96072450/mzaf_5163950318414409594.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
@@ -263,20 +263,20 @@ export const spotifyTracks = [
   {
     "title": "Into You",
     "artist": "Ariana Grande",
-    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/53/90/dc/5390dca0-dfa3-7a9b-0450-9854c607612f/mzaf_10971889029807386037.plus.aac.p.m4a",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e5/f4/8f/e5f48f1b-ddc9-0c4c-5e15-94da4bef0d3f/mzaf_9147219823908813446.plus.aac.p.m4a",
     "glow": "rgba(255, 255, 255, 0.1)",
     "rainColor": "rgba(239, 68, 68, 0.2)",
     "flashRate": 0.0032,
-    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/09/45/65/094565e7-28ca-72af-59c4-88c48feb89e8/16UMGIM12432.rgb.jpg/300x300bb.jpg"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/3f/70/0f/3f700f55-1c91-c890-8cb7-b8886f87b7f6/16UMGIM30042.rgb.jpg/300x300bb.jpg"
   },
   {
     "title": "Golddigger",
     "artist": "Mckayla Twiggs",
-    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/09/ae/da/09aeda77-d58c-5fba-a694-093c8a8e02f3/mzaf_16135090649731631790.plus.aac.p.m4a",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c8/ce/ec/c8ceece5-5ee5-1c6f-7efb-9277b13ae467/mzaf_15208354704314319647.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.0037,
-    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/da/06/48/da06480b-1ce0-6abf-3ce1-9cd00c22eec5/198704994869_Cover.jpg/300x300bb.jpg"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e1/0e/7a/e10e7a34-e43f-f161-34a4-5ae438b2fa7a/198704994906_Cover.jpg/300x300bb.jpg"
   },
   {
     "title": "Flashing Lights",
@@ -326,11 +326,11 @@ export const spotifyTracks = [
   {
     "title": "Moth To A Flame (with The Weeknd)",
     "artist": "Swedish House Mafia & The Weeknd",
-    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/26/33/d2/2633d2b9-58f1-f9c0-7b43-b9d5ab1e5005/mzaf_15573204222455676396.plus.aac.p.m4a",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/bb/45/a2/bb45a2bb-fb94-4d7d-2f0a-4b02e9d75ec7/mzaf_1247501333942913268.plus.aac.p.m4a",
     "glow": "rgba(161, 98, 7, 0.2)",
     "rainColor": "rgba(255, 255, 255, 0.1)",
     "flashRate": 0.0047,
-    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/2f/56/e7/2f56e79c-fdaa-c0d5-545e-9942e54301c3/21UM1IM29516.rgb.jpg/300x300bb.jpg"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/52/a2/b7/52a2b75c-3073-4a91-92a7-1abce9eb8853/22UMGIM03887.rgb.jpg/300x300bb.jpg"
   },
   {
     "title": "Sprinter",
@@ -352,12 +352,12 @@ export const spotifyTracks = [
   },
   {
     "title": "La La La",
-    "artist": "Naughty Boy",
-    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/87/bb/27/87bb27d3-d71b-eb77-7a03-72caabdd765c/mzaf_12663131178819310116.plus.aac.p.m4a",
+    "artist": "Shakira",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/94/22/4794229e-5b15-463d-b56b-b542e2139a97/mzaf_14246639115630982961.plus.aac.p.m4a",
     "glow": "rgba(59, 130, 246, 0.2)",
     "rainColor": "rgba(161, 98, 7, 0.2)",
     "flashRate": 0.0043,
-    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/1f/2b/32/1f2b32ec-5978-44ad-2358-fd724d2e4038/00602537742790.rgb.jpg/300x300bb.jpg"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/f1/0c/c3/f10cc366-059c-6676-0d25-0220677175fd/886444584371.jpg/300x300bb.jpg"
   },
   {
     "title": "Strawberries & Cigarettes",
@@ -415,30 +415,30 @@ export const spotifyTracks = [
   },
   {
     "title": "Something About You",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    "artist": "Eyedress & Dent May",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/88/f2/74/88f27464-49a5-6e87-dc17-e2453fcc7935/mzaf_5446281856339930510.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.0004,
-    "coverUrl": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e024641ca89cd79b552d77145dd"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/46/f3/75/46f37584-aa81-3277-4565-24b1557acf89/0878390007394_cover.jpg/300x300bb.jpg"
   },
   {
     "title": "Sunsetz",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "artist": "Cigarettes After Sex",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/44/a4/4a/44a44a75-0576-12fa-6002-2f464c091102/mzaf_17923299166743083363.plus.aac.p.m4a",
     "glow": "rgba(59, 130, 246, 0.2)",
     "rainColor": "rgba(161, 98, 7, 0.2)",
     "flashRate": 0.0041,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02030234caa8b2d0e92e69db78"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/b3/5e/0f/b35e0fbe-2370-fc48-0f0c-977525e93bf2/720841214601_Cover.jpg/300x300bb.jpg"
   },
   {
     "title": "Paint The Town Red",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "artist": "Doja Cat",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/2b/09/d0/2b09d002-eb39-20e8-6516-241c940aac8d/mzaf_2681231828238645518.plus.aac.p.m4a",
     "glow": "rgba(161, 98, 7, 0.2)",
     "rainColor": "rgba(255, 255, 255, 0.1)",
     "flashRate": 0.0024,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a54499d7ba4e9afeea91df86"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/05/a1/62/05a162ca-d0f8-462a-a033-474a019e506f/196871274111.jpg/300x300bb.jpg"
   },
   {
     "title": "Without Me",
@@ -450,22 +450,22 @@ export const spotifyTracks = [
     "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e026ca5c90113b30c3c43ffb8f4"
   },
   {
-    "title": "Kaise Hua (From \\\"Kabir Singh\\\")",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "title": "Kaise Hua (From \\\\\\\"Kabir Singh\\\\\\\")",
+    "artist": "Vishal Mishra",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/6b/38/e5/6b38e52f-864e-da12-f2ab-7c68aea226a5/mzaf_9024088467121996907.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.0001,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02ce1f4349305971b5beb75fcd"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/7e/fd/68/7efd6872-703e-c305-e146-67c96130d8b6/8903431769565_cover.jpg/300x300bb.jpg"
   },
   {
     "title": "Tu Hi Mera",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "artist": "Shafqat Amanat Ali & Pritam",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2e/f2/0a/2ef20af3-8330-1012-c89c-f6bb2c102199/mzaf_3120849142517643408.plus.aac.p.m4a",
     "glow": "rgba(59, 130, 246, 0.2)",
     "rainColor": "rgba(161, 98, 7, 0.2)",
     "flashRate": 0.0015,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0271da5e89467bd75d2ed9f1fa"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d7/5c/d0/d75cd0e6-93c6-9219-cfcd-9436c6b85ba7/886443444584.jpg/300x300bb.jpg"
   },
   {
     "title": "Sutli Baaje",
@@ -478,30 +478,30 @@ export const spotifyTracks = [
   },
   {
     "title": "Maahi Ve",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "artist": "Shankar Ehsaan Loy, Shankar Mahadevan, Sadhana Sargam, Sujata Bhattacharya, Udit Narayan & Sonu Nigam",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/35/38/75/3538750b-7a10-f07c-e100-01190a54ddb4/mzaf_2130822837600874432.plus.aac.p.m4a",
     "glow": "rgba(255, 255, 255, 0.1)",
     "rainColor": "rgba(239, 68, 68, 0.2)",
     "flashRate": 0.0048,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e021f4e9ecaf6913e207810093f"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/fb/82/da/fb82dab1-d0cd-714c-000c-6450774fd5d4/888880945587.jpg/300x300bb.jpg"
   },
   {
     "title": "Iktara",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "artist": "Amit Trivedi, Kavita Seth & Amitabh Bhattacharya",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/f8/00/9c/f8009ce1-c649-b84f-e091-53172b83ef91/mzaf_3024731672455939718.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.0049,
-    "coverUrl": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02051d9cc7db941e7ba051b9af"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/5c/c8/f8/5cc8f804-a9d6-7a11-57f6-840e1e2c9419/884977322910.jpg/300x300bb.jpg"
   },
   {
     "title": "Aye Khuda",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    "artist": "Kshitij Tarey, Saim Bhat & Mithoon",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/31/6b/94/316b941d-18de-4dd2-f0a4-fcff78649227/mzaf_10298749725782807766.plus.aac.p.m4a",
     "glow": "rgba(59, 130, 246, 0.2)",
     "rainColor": "rgba(161, 98, 7, 0.2)",
     "flashRate": 0.0026,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0205ab1baaa49d516762821a20"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/bb/cc/4b/bbcc4bd9-b705-8cff-d637-6379ac87b9a6/8902894695916_cover.jpg/300x300bb.jpg"
   },
   {
     "title": "Surili Akhiyon Wale",
@@ -513,7 +513,7 @@ export const spotifyTracks = [
     "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e020284f7095cb5f94acfcce08d"
   },
   {
-    "title": "Mast Magan (From \\\"2 States)",
+    "title": "Mast Magan (From \\\\\\\"2 States)",
     "artist": "Arijit Singh & Chinmayi Sripada",
     "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/3d/b9/32/3db932f4-9695-8c68-82d2-236385df8abf/mzaf_6167028027372152994.plus.aac.p.m4a",
     "glow": "rgba(255, 255, 255, 0.1)",
@@ -523,15 +523,15 @@ export const spotifyTracks = [
   },
   {
     "title": "Soniyo",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    "artist": "Raju Singh, Sonu Nigam, Shreya Ghoshal & Neeraj Shridhar",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/19/51/ac/1951ac5b-81c8-72ea-ffe5-31e1a3369d9b/mzaf_17405745395809731793.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.0021,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02d0ffff6dad0804bec787fe57"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/77/4d/9f/774d9f5c-830a-c140-f1ae-6e637dc9af14/888880931542.jpg/300x300bb.jpg"
   },
   {
-    "title": "Humsafar (From \\\"Badrinath Ki Dulhania\\\")",
+    "title": "Humsafar (From \\\\\\\"Badrinath Ki Dulhania\\\\\\\")",
     "artist": "Various Artists",
     "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
     "glow": "rgba(59, 130, 246, 0.2)",
@@ -542,29 +542,29 @@ export const spotifyTracks = [
   {
     "title": "MELTDOWN (feat. Drake)",
     "artist": "Travis Scott",
-    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/81/7d/2e/817d2ee4-06db-e564-7b6e-005a574ef037/mzaf_6759404072151198664.plus.aac.p.m4a",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/98/d0/20/98d0205f-9faf-003a-0de4-8c86df2c31a1/mzaf_4945058545119311258.plus.aac.p.m4a",
     "glow": "rgba(161, 98, 7, 0.2)",
     "rainColor": "rgba(255, 255, 255, 0.1)",
     "flashRate": 0.0018,
-    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9f/d5/12/9fd51237-a640-7c7f-8329-01e0fa1061e5/196871362191.jpg/300x300bb.jpg"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/7d/4f/94/7d4f9468-56e1-3a2d-7186-c8088170ef58/196871341899.jpg/300x300bb.jpg"
   },
   {
     "title": "Into It",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    "artist": "Camila Cabello",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/8e/12/ba/8e12ba2c-e985-3c2b-0506-976af91d712a/mzaf_8118349790125337413.plus.aac.p.m4a",
     "glow": "rgba(255, 255, 255, 0.1)",
     "rainColor": "rgba(239, 68, 68, 0.2)",
     "flashRate": 0.0008,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e025a0c2870f4f309e382d1fad6"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/85/28/70/85287029-19b9-cbe3-d1ab-300781875bf4/886446870298.jpg/300x300bb.jpg"
   },
   {
     "title": "Tu Hai Ki Nahi",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "artist": "Ankit Tiwari",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/78/e2/b2/78e2b2f4-140e-d9aa-95b6-51870980ab63/mzaf_11256922944369571960.plus.aac.p.m4a",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.002,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f6371011af4c82fb31d54820"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/e7/fb/65/e7fb6545-17e3-bb5f-ae1a-02895f26a0c5/8902894356688_cover.jpg/300x300bb.jpg"
   },
   {
     "title": "Dooriyan (feat. Kaprila)",
@@ -586,12 +586,12 @@ export const spotifyTracks = [
   },
   {
     "title": "Scary Love",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "artist": "The Neighbourhood",
+    "src": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/80/bf/30/80bf309b-4e79-3134-bcc4-9bfd45781773/mzaf_667234570031613282.plus.aac.p.m4a",
     "glow": "rgba(255, 255, 255, 0.1)",
     "rainColor": "rgba(239, 68, 68, 0.2)",
     "flashRate": 0.0008,
-    "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e029b6ac98a52f62d5cb473da40"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/fc/d0/89/fcd0899c-2236-a726-9ce2-ebb110e2204d/886447414545.jpg/300x300bb.jpg"
   },
   {
     "title": "Ghost",
@@ -630,13 +630,13 @@ export const spotifyTracks = [
     "coverUrl": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02d2be316742edcc853ea55141"
   },
   {
-    "title": "Humsafar (From \\\"Saiyaara\\\")",
-    "artist": "Various Artists",
-    "src": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    "title": "Humsafar (From \\\\\\\"Saiyaara\\\\\\\")",
+    "artist": "Sachet-Parampara, Sachet Tandon & Parampara Tandon",
+    "src": "https://video-ssl.itunes.apple.com/itunes-assets/Video221/v4/fb/8b/de/fb8bde98-58f1-37c1-8044-b896c16d9bdc/mzvf_4070065140983828323.1920w.h264lc.U.p.m4v",
     "glow": "rgba(239, 68, 68, 0.2)",
     "rainColor": "rgba(59, 130, 246, 0.2)",
     "flashRate": 0.0019,
-    "coverUrl": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02dfc5ea836092ec71ca7a5dcb"
+    "coverUrl": "https://is1-ssl.mzstatic.com/image/thumb/Video221/v4/3b/aa/d7/3baad7d1-4be3-7109-4d0a-0a99e43736fa/videoart.jpg/300x300bb.jpg"
   },
   {
     "title": "Please",

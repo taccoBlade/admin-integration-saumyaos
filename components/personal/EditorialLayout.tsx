@@ -4,6 +4,7 @@ import { SpreadData } from "@/data/photos";
 import { PhotoRenderer } from "./PhotoRenderer";
 import { ProtocolReceipt } from "./ProtocolReceipt";
 import { AviationWidget } from "./AviationWidget";
+import { CinemaAudio } from "./CinemaAudio";
 
 // Bolder Vector outlines for Animals section
 const PawPrintSVG = () => (
@@ -100,30 +101,57 @@ export function EditorialLayout({ spread }: { spread: SpreadData }) {
   switch (template) {
     case "Hero Intro":
       layoutContent = (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center w-full max-w-6xl mx-auto px-6 py-16 md:py-24 z-10 relative">
-          {/* Smaller Hero Image (Book-cover style) */}
-          <div className="md:col-span-5 flex justify-center">
-            <div className="w-[85%] md:w-full max-w-sm border border-[#2A2A2A] p-2 bg-[#0E0E0E] shadow-2xl rounded">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full max-w-5xl mx-auto px-6 py-12 md:py-20 z-10 relative">
+          {/* Main Hero Photograph */}
+          <div className="lg:col-span-6 flex flex-col gap-4">
+            <div className="relative w-full border border-white/5 p-2.5 bg-[#0a0a0a]/65 shadow-2xl rounded-sm backdrop-blur-sm group transition-all duration-700 hover:border-white/15">
+              
+              {/* Photo Renderer inside dynamic frame */}
               <PhotoRenderer 
                 photo={hero} 
                 fill={true}
-                className="aspect-[3/4]"
-                filterClass="saturate-[0.8] contrast-[1.1] brightness-[0.9] hover:saturate-100 hover:brightness-100 transition-all duration-1000 ease-out" 
+                className="aspect-[3/4] rounded-sm"
+                filterClass="saturate-[0.8] contrast-[1.1] brightness-[0.85] hover:saturate-100 hover:brightness-100 transition-all duration-1000 ease-out" 
               />
+              
+              {/* Monospace coordinates badge floating inside photo top-left */}
+              <div className="absolute top-5 left-5 z-20 pointer-events-none bg-black/60 backdrop-blur-md border border-white/10 px-2 py-1 rounded text-[8px] font-mono tracking-widest text-slate-400 uppercase select-none">
+                LOC: 27.7215° N // 85.3240° E
+              </div>
+            </div>
+            
+            {/* Inline metadata under the photo */}
+            <div className="flex justify-between items-center px-1 text-[8px] font-mono text-slate-500 uppercase tracking-widest">
+              <span>ROLL_INDEX // VOL. I</span>
+              <span>INDEX: 01_COVER_GRID</span>
             </div>
           </div>
           
-          {/* Introduction Diary Entry on the other half of the screen */}
-          <div className="md:col-span-7 flex flex-col justify-center gap-6">
-            <span className="text-[#8C8C8C] text-xs font-mono tracking-[0.4em] uppercase">
-              THE PRIVATE ARCHIVE // VOL. I
-            </span>
-            <h1 className="font-serif italic text-3xl md:text-4xl lg:text-5xl text-white leading-tight">
-              A record of quiet observations.
-            </h1>
-            <p className="text-[#8C8C8C] font-serif text-sm md:text-base leading-relaxed max-w-md">
+          {/* Editorial Content on the right */}
+          <div className="lg:col-span-6 flex flex-col justify-center gap-6 lg:pl-4">
+            <div className="flex flex-col">
+              <span className="text-[#d4af37] text-[9px] font-mono tracking-[0.4em] uppercase font-bold mb-2">
+                THE PRIVATE ARCHIVES
+              </span>
+              <h2 className="font-sans font-black text-4xl md:text-6xl text-white uppercase tracking-[0.1em] leading-tight select-none">
+                SAUMYA<br/>PAREKH
+              </h2>
+            </div>
+            
+            <div className="h-[1px] w-12 bg-[#d4af37]/45" />
+
+            <p className="text-[#C5C5C7] font-serif italic text-base md:text-[17px] leading-relaxed max-w-md">
+              "I build systems in the light, but I capture the texture of life in the spaces between. An archive of mechanical noise, high-altitude skies, and empty roads."
+            </p>
+            
+            <p className="text-[#8C8C8C] font-mono text-[9px] leading-relaxed max-w-sm uppercase tracking-wider">
               This is a personal repository of unedited film frames, silent streets, and mechanical solitude. A digital diary capturing moments that exist entirely outside the margins of work.
             </p>
+
+            <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+              {/* Synthesizer Player integrated right next to the intro details */}
+              <CinemaAudio />
+            </div>
           </div>
         </div>
       );

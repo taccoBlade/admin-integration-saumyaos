@@ -81,6 +81,7 @@ export const createResumeVersionAction = actionClient
 
     revalidatePath("/");
     revalidateTag("resume", "default");
+    revalidateTag("hero", "default");
     return { success: true, id: data.id };
   });
 
@@ -126,6 +127,7 @@ export const updateResumeVersionAction = actionClient
 
     revalidatePath("/");
     revalidateTag("resume", "default");
+    revalidateTag("hero", "default");
     return { success: true };
   });
 
@@ -160,6 +162,7 @@ export const setCurrentResumeVersionAction = actionClient
 
     revalidatePath("/");
     revalidateTag("resume", "default");
+    revalidateTag("hero", "default");
     return { success: true };
   });
 
@@ -210,6 +213,7 @@ export const deleteResumeVersionAction = actionClient
 
     revalidatePath("/");
     revalidateTag("resume", "default");
+    revalidateTag("hero", "default");
     return { success: true };
   });
 
@@ -321,5 +325,6 @@ export const compileLatexAndSaveAction = actionClient
 
     revalidatePath("/");
     revalidateTag("resume", "default");
+    revalidateTag("hero", "default");
     return { success: true, id: data.id };
   });

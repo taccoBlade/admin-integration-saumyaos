@@ -31,7 +31,7 @@ export function InteractiveHero({
   cta_text = "View Projects",
   cta_url = "#projects",
   secondary_cta_text = "Resume",
-  secondary_cta_url = "/saumya-resume.pdf",
+  secondary_cta_url = "/resume",
 }: InteractiveHeroProps) {
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -145,7 +145,7 @@ export function InteractiveHero({
             {secondary_cta_text && secondary_cta_url && (
               <a
                 href={secondary_cta_url}
-                target={secondary_cta_url.startsWith("http") || secondary_cta_url.endsWith(".pdf") ? "_blank" : undefined}
+                target={secondary_cta_url.startsWith("http") || secondary_cta_url.endsWith(".pdf") || secondary_cta_url === "/resume" ? "_blank" : undefined}
                 rel="noopener noreferrer"
                 className="flex items-center justify-center bg-transparent border border-white/20 text-white text-xs sm:text-sm font-semibold px-6 py-2.5 sm:px-8 sm:py-3 rounded-full hover:bg-white/10 hover:border-white/40 hover:scale-[1.03] active:scale-95 transition-all shadow-lg cursor-pointer"
               >

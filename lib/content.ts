@@ -410,10 +410,26 @@ export const getHero = unstable_cache(
 
       if (error) throw error;
       if (!data) return { ...fallbackHero, secondary_cta_url: resumeUrl };
+
+      // If the secondary CTA is Resume/CV or points to a resume path,
+      // route through the clean /resume endpoint which dynamically serves/redirects to the active CV.
+      const isResumeCta =
+        !data.secondary_cta_url ||
+        data.secondary_cta_url === "#" ||
+        data.secondary_cta_url === "/saumya-resume.pdf" ||
+        data.secondary_cta_url === "/resume.pdf" ||
+        data.secondary_cta_url === "/resume" ||
+        data.secondary_cta_text?.toLowerCase().includes("resume") ||
+        data.secondary_cta_text?.toLowerCase().includes("cv");
+
+      const resolvedSecondaryCtaUrl = isResumeCta
+        ? "/resume"
+        : (data.secondary_cta_url || "/resume");
+
       return {
         ...data,
         cover_image: (data.media_assets as Record<string, unknown> | null)?.public_url || "",
-        secondary_cta_url: data.secondary_cta_url || resumeUrl
+        secondary_cta_url: resolvedSecondaryCtaUrl
       } as HeroData;
     } catch (error) {
       console.error("Error reading hero from Supabase:", error);
@@ -421,7 +437,7 @@ export const getHero = unstable_cache(
     }
   },
   ["hero-data"],
-  { tags: ["hero"] }
+  { tags: ["hero", "resume"] }
 );
 
 export const getResumeUrl = unstable_cache(

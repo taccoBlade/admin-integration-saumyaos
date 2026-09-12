@@ -12,28 +12,24 @@ export default async function PersonalPage() {
   const spreads = await getPhotoSpreads();
 
   return (
-    <div className="bg-[#0A0A0A] text-[#F0F0F0] min-h-screen overflow-x-hidden selection:bg-[#1A1A1A] selection:text-[#F0F0F0] relative">
+    <div className="bg-[#050505] text-[#F5F5F7] min-h-screen overflow-x-hidden selection:bg-white/[0.08] selection:text-[#d4af37] relative">
       
       {/* Particle Background: Film Dust Motes */}
       <ParticleBackground />
 
-      {/* Texture: Fine film grain */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.15] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      {/* Texture: Fine film grain (100% offline SVG fractal noise) */}
+      <div 
+        className="fixed inset-0 z-0 pointer-events-none opacity-[0.09] mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
+        }}
+      />
       
-      {/* Texture: Soft Vignette */}
-      <div className="fixed inset-0 z-50 pointer-events-none shadow-[inset_0_0_200px_rgba(0,0,0,0.8)]" />
+      {/* Texture: Deep Cinematic Vignette */}
+      <div className="fixed inset-0 z-50 pointer-events-none shadow-[inset_0_0_160px_rgba(0,0,0,0.92)]" />
       
-      <main className="relative z-10 flex flex-col pt-24 pb-32 max-w-7xl mx-auto px-4 md:px-8">
-        <header className="mb-20 max-w-2xl hidden">
-          <h1 className="text-4xl md:text-5xl font-light tracking-tight text-white/90 font-serif">
-            Analog Explorations
-          </h1>
-          <p className="text-sm md:text-base text-white/50 leading-relaxed font-mono">
-            A collection of visual stories, raw captures, and moments documented outside the terminal. Curated into editorial photo spreads.
-          </p>
-        </header>
-        
-        <div className="flex flex-col gap-32">
+      <main className="relative z-10 flex flex-col pt-12 pb-32 max-w-6xl mx-auto px-6 md:px-8">
+        <div className="flex flex-col gap-24">
           {spreads.map((spread) => (
             <EditorialLayout key={spread.id} spread={spread} />
           ))}
